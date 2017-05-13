@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+        <title>Snapgram.net</title>
+        <link rel="stylesheet" href="bundle.css">
+    </head>
+<body>
+    <script id="excercise-area-template" type="text/template">
+        <div class="row">
+            <div class="col-12">
+                <div class="input-group popup-wrapper">
+                    <div id="popup" class="popup hidden"></div>
+                    <div id="icon" class="icon hidden"></div>
+                    <input id="input" type="text" class="form-control form-control-sm mb-1" data-walkable-field/>
+                </div>
+            </div>
+        </div>
+    </script>
+    <nav class="navbar navbar-expand-md navbar-inverse bg-inverse fixed-top mb-4">
+        <a class="navbar-brand" href="#">
+            Snapgram.net
+        </a>
+        <button class="navbar-toggler" type="button">
+            <span class="fa fa-navicon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" data-translate="navigation-link-verbs"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-translate="navigation-link-numerals"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-translate="navigation-link-countries"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-translate="navigation-link-words"></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-3 text-center">
+                <img src="images/ad1.png"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-muted">
+                <h1>
+                    <i class="fa fa-book text-success"></i>
+                    <span id="verb-name"></span>
+                    <span id="verb-mode"></span>
+                </h1>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-4 mt-2 mt-md-0">
+                <h5 class="d-none d-md-block" data-translate="verbs-toolbar-header-search"></h5>
+                <div class="input-group popup-wrapper">
+                    <div id="search-result" class="search-result hidden"></div>
+                    <input type="text" class="form-control form-control-sm" data-verb-search/>
+                </div>
+            </div>
+            <div class="col-md-2 mt-2 mt-md-0">
+                <h5 class="d-none d-md-block">&nbsp;</h5>
+                <button data-hide-button class="btn btn-outline-primary btn-sm btn-block">
+                    <span class="fa fa-ban"></span>
+                    <span data-translate="verbs-toolbar-button-hide"></span>
+                </button>
+            </div>
+            <div class="col-md-2 mt-2 mt-md-0">
+                <h5 class="d-none d-md-block">&nbsp;</h5>
+                <button data-show-button class="btn btn-outline-primary btn-sm btn-block">
+                    <span class="fa fa-search"></span>
+                    <span data-translate="verbs-toolbar-button-show"></span>
+                </button>
+            </div>
+            <div class="col-md-2 mt-2 mt-md-0">
+                <h5>Gerundio</h5>
+                <div id="presentparticiple"></div>
+            </div>
+            <div class="col-md-2 mt-2 mt-md-0">
+                <h5>Participio</h5>
+                <div id="pastparticiple"></div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12 text-muted">
+                <h3>Indicativo</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 d-none d-md-block">
+                <h5>Persona</h5>
+                <div class="row"><div class="col-12 mt-1 person"><div>Yo</div><input/></div></div>
+                <div class="row"><div class="col-12 mt-1 person"><div>Tú</div><input/></div></div>
+                <div class="row"><div class="col-12 mt-1 person"><div>Él, ella, Ud.</div><input/></div></div>
+                <div class="row"><div class="col-12 mt-1 person"><div>Nosotros</div><input/></div></div>
+                <div class="row"><div class="col-12 mt-1 person"><div>Vosotros</div><input/></div></div>
+                <div class="row"><div class="col-12 mt-1 person"><div>Ellos, ellas, Uds.</div><input/></div></div>
+                <div class="row"><div class="col-12 mt-1 person"><div>Vos</div><input/></div></div>
+            </div>
+            <div class="col-md-2">
+                <h5>Presente</h5>
+                <div id="indicative-present"></div>
+            </div>
+            <div class="col-md-2 mt-2 mt-md-0">
+                <h5>Imperfecto</h5>
+                <div id="indicative-imperfect"></div>
+            </div>
+            <div class="col-md-2 mt-2 mt-md-0">
+                <h5>Indefinido</h5>
+                <div id="indicative-preterite"></div>
+            </div>
+            <div class="col-md-2 mt-2 mt-md-0">
+                <h5>Futuro</h5>
+                <div id="indicative-future"></div>
+            </div>
+            <div class="col-md-2 mt-2 mt-md-0">
+                <h5>Condicional</h5>
+                <div id="indicative-conditional"></div>
+            </div>
+        </div>
+        <div class="row mt-3 mb-4">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12 text-muted">
+                        <h3>Subjuntivo</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 d-none d-md-block">
+                        <h5>Persona</h5>
+                        <div class="row"><div class="col-12 mt-1 person"><div>Yo</div><input/></div></div>
+                        <div class="row"><div class="col-12 mt-1 person"><div>Tú</div><input/></div></div>
+                        <div class="row"><div class="col-12 mt-1 person"><div>Él, ella, Ud.</div><input/></div></div>
+                        <div class="row"><div class="col-12 mt-1 person"><div>Nosotros</div><input/></div></div>
+                        <div class="row"><div class="col-12 mt-1 person"><div>Vosotros</div><input/></div></div>
+                        <div class="row"><div class="col-12 mt-1 person"><div>Ellos, ellas, Uds.</div><input/></div></div>
+                        <div class="row"><div class="col-12 mt-1 person"><div>Vos</div><input/></div></div>
+                    </div>
+                    <div class="col-md-3">
+                        <h5>Presente</h5>
+                        <div id="subjunctive-present"></div>
+                    </div>
+                    <div class="col-md-3 mt-2 mt-md-0">
+                        <h5>Imperfecto</h5>
+                        <div id="subjunctive-imperfect"></div>
+                    </div>
+                    <div class="col-md-3 mt-2 mt-md-0 rarely-used-tense">
+                        <h5>(Futuro)</h5>
+                        <div id="subjunctive-future"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mt-2 mt-md-0">
+                <div class="row">
+                    <div class="col-md-12 text-muted">
+                        <h3>Imperativo</h3>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Afirmativo</h5>
+                        <div id="imperative-affirmative"></div>
+                    </div>
+                    <div class="col-md-6 mt-2 mt-md-0">
+                        <h5>Negativo</h5>
+                        <div id="imperative-negative"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div class="row mb-6">
+            <div class="col-md-4">
+                <h3>
+                    <span class="fa fa-folder-open text-info"></span>
+                    <span data-translate="verbs-footer-select-header"></span>
+                </h3>
+                <p data-translate="verbs-footer-select-body-1"></p>
+                <p data-translate="verbs-footer-select-body-2"></p>
+            </div>
+            <div class="col-md-4">
+                <h3>
+                    <span class="fa fa-graduation-cap text-info"></span>
+                    <span data-translate="verbs-footer-study-header"></span>
+                </h3>
+                <p data-translate="verbs-footer-study-body-1"></p>
+                <p data-translate="verbs-footer-study-body-2"></p>
+                <p data-translate="verbs-footer-study-body-3"></p>
+            </div>
+            <div class="col-md-4">
+                <h3>
+                    <span class="fa fa-pencil text-info"></span>
+                    <span data-translate="verbs-footer-practice-header"></span>
+                </h3>
+                <p data-translate="verbs-footer-practice-body-1"></p>
+                <p data-translate="verbs-footer-practice-body-2"></p>
+                <p data-translate="verbs-footer-practice-body-3"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-3 text-center">
+                <img src="images/ad4.png"/>
+            </div>
+        </div>
+    </div>
+    <footer class="footer bg-inverse">
+        <div class="row">
+            <div class="col-sm-12 col-md-4 text-md-right push-md-8" style="cursor: pointer;">
+                <img src="images/gosquared/flags-iso/flat/24/ES.png" data-language="es-ES" />
+                <img src="images/gosquared/flags-iso/flat/24/US.png" data-language="en-US" />
+                <img src="images/gosquared/flags-iso/flat/24/SE.png" data-language="sv-SE" />
+                <img src="images/gosquared/flags-iso/flat/24/RU.png" data-language="ru-RU" />
+            </div>
+            <div class="col-sm-12 col-md-4 text-md-center mt-2 mt-md-0" style="padding-top: 2px;">
+                <a href="https://github.com/erikbarke/snapgram" class="text-muted">
+                    <span class="fa fa-github"></span>
+                    Fork on GitHub
+                </a>
+            </div>
+            <div class="col-sm-12 col-md-4 text-muted mt-2 mt-md-0 pull-md-8" style="padding-top: 2px;">
+                <span class="fa fa-copyright"></span>
+                2013-2017 Erik Barke
+            </div>
+        </div>
+    </footer>
+    <script src="bundle.js"></script>
+</body>
+</html>

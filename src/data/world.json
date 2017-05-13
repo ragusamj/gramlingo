@@ -1,0 +1,19 @@
+[
+    ["Todo el mundo",["AD","AE","AF","AG","AI","AL","AM","AN","AO","AR","AS","AT","AU","AW","AZ","BA","BB","BD","BE","BF","BG","BH","BI","BJ","BL","BM","BN","BO","BR","BS","BT","BW","BY","BZ","CA","CC","CD","CF","CG","CH","CI","CK","CL","CM","CN","CO","CR","CU","CV","CW","CY","CZ","DE","DJ","DK","DM","DO","DZ","EC","EE","EG","EH","ER","ES","ET","FI","FJ","FK","FM","FO","FR","GA","GB","GD","GE","GH","GI","GL","GM","GN","GQ","GR","GT","GU","GW","GY","HK","HN","HR","HT","HU","ID","IE","IL","IM","IN","IQ","IR","IS","IT","JM","JO","JP","KE","KG","KH","KI","KM","KN","KP","KR","KW","KY","KZ","LA","LB","LC","LI","LK","LR","LS","LT","LU","LV","LY","MA","MC","MD","ME","MF","MG","MH","MK","ML","MM","MN","MO","MP","MQ","MR","MS","MT","MU","MV","MW","MX","MY","MZ","NA","NC","NE","NF","NG","NI","NL","NO","NP","NR","NU","NZ","OM","PA","PE","PF","PG","PH","PK","PL","PN","PR","PS","PT","PW","PY","QA","RO","RS","RU","RW","SA","SB","SC","SD","SE","SG","SH","SI","SK","SL","SM","SN","SO","SR","SS","ST","SV","SY","SZ","TC","TD","TF","TG","TH","TJ","TK","TL","TM","TN","TO","TR","TT","TV","TW","TZ","UA","UG","US","UY","UZ","VA","VC","VE","VG","VI","VN","VU","WF","WS","YE","YT","ZA","ZM","ZW"]],
+    ["África del Central",["AO","BI","CD","CF","CG","CM","GA","GQ","RW","ST","TD","ZM"]],
+    ["África del Este",["BI","DJ","EG","ER","ET","KE","KM","MG","MU","MW","MZ","RW","SC","SD","SO","SS","TZ","UG","YT","ZM","ZW"]],
+    ["África del Norte",["DZ","EG","EH","LY","MA","ML","MR","NE","SD","SS","TD","TN"]],
+    ["África del Sur",["AO","BW","KM","LS","MG","MU","MW","MZ","NA","SH","SZ","YT","ZA","ZM","ZW"]],
+    ["África Occidental",["BF","BJ","CI","CV","GH","GM","GN","GW","LR","ML","NE","NG","SL","SN","TG"]],
+    ["América Central",["AI","BB","BZ","CR","DO","GD","GT","HN","HT","JM","MQ","NI","PA","PR","SV","VG"]],
+    ["América del Norte",["BM","BS","CA","CU","GL","KY","MX","US"]],
+    ["Asia Central y Asia Oriental",["CN","HK","JP","KG","KP","KR","KZ","MN","TJ","TM","TW","UZ"]],
+    ["Asia Occidental",["AE","AM","AZ","BH","CY","GE","IL","IQ","JO","KW","LB","OM","PS","QA","SA","SY","TR","YE"]],
+    ["Asia del Sur",["AF","BD","BT","IN","IR","LK","MV","NP","PK"]],
+    ["Europa Occidental",["AD","AN","AT","BE","CH","DE","DK","ES","FI","FO","FR","GB","GI","GR","IE","IM","IS","IT","LI","LU","MC","MT","NL","NO","PT","SE","SM","VA"]],
+    ["Oceanía",["AU","CK","FJ","FM","GU","ID","KI","MH","MP","NC","NF","NR","NZ","PG","PW","SB","TL","TO","TV","WS"]],
+    ["Sudeste Asiático",["BN","ID","KH","LA","MM","MY","PH","SG","TH","TL","VN"]],
+    ["Más gente",["BD","BR","CD","CL","CN","DE","EG","ES","ET","FR","GB","ID","IN","IR","IT","JP","KR","MM","MX","NG","PH","PK","RU","TH","TR","TZ","UA","US","VN","ZA"]],
+    ["América del Sur",["AR","AW","AW","BO","BR","CL","CO","CW","CW","EC","FK","GY","PE","PY","SR","TT","UY","VE"]],
+    ["Europa Oriental",["AL","BA","BG","BY","CZ","EE","HR","HU","LT","LV","MD","ME","MK","PL","RO","RS","RU","SI","SK","UA"]]
+]

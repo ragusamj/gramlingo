@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <div id="container"></div>
+    <script>
+        var container = document.getElementById("container");
+        for(var i = 0; i < 100; i++) {
+            var input = document.createElement("input");
+            input.value = i;
+            input.style.border = "1px solid #ddd"; /* paint time goes from +20ms to ~1ms */
+            input.style.color = "#333"; /* doesn't affect paint time */
+            container.appendChild(input);
+        }
+    </script>
+</body>
+</html>

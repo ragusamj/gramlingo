@@ -1,0 +1,51 @@
+{
+  "name": "snapgram",
+  "version": "1.0.0",
+  "description": "Learn spanish by typing",
+  "main": "dist/index.html",
+  "scripts": {
+    "build": "npm run build:html && npm run build:scss && npm run build:fonts && npm run build:js && npm run build:json",
+    "build:watch": "npm run httpserver & concurrently -p \"{time} {name}\" --names \"HTML,SCSS,JS,JSON,SERVER\" -c \"magenta.bgBlack,green.bgBlack,yellow.bgBlack,cyan.bgBlack\" \"npm run build:html:watch\" \"npm run build:scss:watch\" \"npm run build:js:watch\" \"npm run build:json:watch\"",
+    "build:html": "html-minifier --collapse-whitespace --file-ext html --input-dir src --output-dir dist",
+    "build:html:watch": "onchange 'src/**/*.html' -- npm run build:html",
+    "build:scss": "node-sass src/styles/snapgram.scss --output-style compressed --source-map-embed true --source-map-contents true | postcss --use autoprefixer --map -o dist/bundle.css",
+    "build:scss:watch": "onchange 'src/**/*.scss' -- npm run build:scss",
+    "build:fonts": "ncp node_modules/font-awesome/fonts/ dist/fonts/",
+    "build:js": "browserify src/app/index.js -t [ babelify --presets [es2015] ] -d | uglifyjs -c -m --source-map content=inline,url=inline | exorcist dist/bundle.js.map > dist/bundle.js",
+    "build:js:watch": "onchange 'src/**/*.js' -- npm run build:js",
+    "build:json": "node json-minify.js 'src/data/*.json' dist/data/",
+    "build:json:watch": "onchange 'src/**/*.json' -- npm run build:json",
+    "httpserver": "http-server dist -g -c-1",
+    "postinstall": "npm run build"
+  },
+  "keywords": [
+    "español",
+    "spanish"
+  ],
+  "author": "Erik Barke",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/erikbarke/snapgram.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^6.7.7",
+    "babel-preset-es2015": "^6.24.1",
+    "babelify": "^7.3.0",
+    "bootstrap": "github:twbs/bootstrap#v4-dev",
+    "browserify": "^14.3.0",
+    "concurrently": "^3.4.0",
+    "eslint": "^3.19.0",
+    "exorcist": "^0.4.0",
+    "font-awesome": "^4.7.0",
+    "glob": "^7.1.1",
+    "html-minifier": "^3.4.3",
+    "http-server": "^0.10.0",
+    "lodash.debounce": "^4.0.8",
+    "ncp": "^2.0.0",
+    "node-sass": "^4.5.2",
+    "onchange": "^3.2.1",
+    "postcss-cli": "^3.2.0",
+    "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git"
+  }
+}

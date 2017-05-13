@@ -4,6 +4,8 @@ import FieldBuilder from "../../exercise-area/field-builder";
 import Http from "../../core/http";
 import I18n from "../../core/i18n";
 
+const defaultVerbIndex = 624;
+
 class VerbPage {
 
     constructor() {
@@ -19,9 +21,9 @@ class VerbPage {
         Http.loadJSON("/data/verbs.json", (verbs) => {
             this._verbs = verbs;
             this._verbSearch = new VerbSearch(verbs, this._buildPage.bind(this));
-            this._buildPage(0);
+            this._buildPage(defaultVerbIndex);
         }, (event) => {
-                // console.log("loading verbs, recieved", event.loaded, "bytes of", event.total);
+            // console.log("loading verbs, recieved", event.loaded, "bytes of", event.total);
             return event;
         });
     }

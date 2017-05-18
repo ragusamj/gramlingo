@@ -1,13 +1,13 @@
-import EventBroker from "../core/event-broker";
+import BrowserEvent from "../../core/browser-event";
 
-class FieldChecker {
+class Checker {
 
     constructor() {
         this._fieldsByIconId = {};
         this._fieldsByInputId = {};
-        this._removeOnBlur = EventBroker.add("blur", this._onBlur.bind(this));
-        this._removeOnMouseover = EventBroker.add("mouseover", this._onMouseover.bind(this));
-        this._removeOnMouseout = EventBroker.add("mouseout", this._onMouseout.bind(this));
+        this._removeOnBlur = BrowserEvent.on("blur", this._onBlur.bind(this));
+        this._removeOnMouseover = BrowserEvent.on("mouseover", this._onMouseover.bind(this));
+        this._removeOnMouseout = BrowserEvent.on("mouseout", this._onMouseout.bind(this));
         this.reset();
     }
 
@@ -86,4 +86,4 @@ class FieldChecker {
     }
 }
 
-export default FieldChecker;
+export default Checker;

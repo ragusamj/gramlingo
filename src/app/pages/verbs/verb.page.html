@@ -1,0 +1,158 @@
+<script id="search-result-template" type="text/template">
+    <ul class="search-result" id="search-result-list">
+    </ul>
+</script>
+<div class="row">
+    <div class="col-md-12 text-muted">
+        <h1>
+            <i class="fa fa-book text-success"></i>
+            <span data-show-button id="verb-name"></span>
+            <span data-hide-button id="verb-mode"></span>
+        </h1>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-4 mt-2 mt-md-0">
+        <h5 class="d-none d-md-block" data-translate="verbs-toolbar-header-search"></h5>
+        <div class="popup-wrapper">
+            <input type="text" class="form-control form-control-sm" data-verb-search/>
+            <div id="search-result-container"></div>
+        </div>
+    </div>
+    <div class="col-md-2 mt-2 mt-md-0">
+        <h5 class="d-none d-md-block">&nbsp;</h5>
+        <button data-hide-button class="btn btn-outline-primary btn-sm btn-block">
+            <span class="fa fa-ban"></span>
+            <span data-translate="verbs-toolbar-button-hide"></span>
+        </button>
+    </div>
+    <div class="col-md-2 mt-2 mt-md-0">
+        <h5 class="d-none d-md-block">&nbsp;</h5>
+        <button data-show-button class="btn btn-outline-primary btn-sm btn-block">
+            <span class="fa fa-search"></span>
+            <span data-translate="verbs-toolbar-button-show"></span>
+        </button>
+    </div>
+    <div class="col-md-2 mt-2 mt-md-0">
+        <h5>Gerundio</h5>
+        <div data-field-path="presentparticiple"></div>
+    </div>
+    <div class="col-md-2 mt-2 mt-md-0">
+        <h5>Participio</h5>
+        <div data-field-path="pastparticiple"></div>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-12 text-muted">
+        <h3>Indicativo</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2 d-none d-md-block">
+        <h5>Persona</h5>
+        <div class="row"><div class="col-12 mt-1 person"><div>Yo</div><input/></div></div>
+        <div class="row"><div class="col-12 mt-1 person"><div>Tú</div><input/></div></div>
+        <div class="row"><div class="col-12 mt-1 person"><div>Él, ella, Ud.</div><input/></div></div>
+        <div class="row"><div class="col-12 mt-1 person"><div>Nosotros</div><input/></div></div>
+        <div class="row"><div class="col-12 mt-1 person"><div>Vosotros</div><input/></div></div>
+        <div class="row"><div class="col-12 mt-1 person"><div>Ellos, ellas, Uds.</div><input/></div></div>
+        <div class="row"><div class="col-12 mt-1 person"><div>Vos</div><input/></div></div>
+    </div>
+    <div class="col-md-2">
+        <h5>Presente</h5>
+        <div data-field-path="indicative.present"></div>
+    </div>
+    <div class="col-md-2 mt-2 mt-md-0">
+        <h5>Imperfecto</h5>
+        <div data-field-path="indicative.imperfect"></div>
+    </div>
+    <div class="col-md-2 mt-2 mt-md-0">
+        <h5>Indefinido</h5>
+        <div data-field-path="indicative.preterite"></div>
+    </div>
+    <div class="col-md-2 mt-2 mt-md-0">
+        <h5>Futuro</h5>
+        <div data-field-path="indicative.future"></div>
+    </div>
+    <div class="col-md-2 mt-2 mt-md-0">
+        <h5>Condicional</h5>
+        <div data-field-path="indicative.conditional"></div>
+    </div>
+</div>
+<div class="row mt-3 mb-4">
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-12 text-muted">
+                <h3>Subjuntivo</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 d-none d-md-block">
+                <h5>Persona</h5>
+                <div class="row"><div class="col-12 mt-1 person"><div>Yo</div><input/></div></div>
+                <div class="row"><div class="col-12 mt-1 person"><div>Tú</div><input/></div></div>
+                <div class="row"><div class="col-12 mt-1 person"><div>Él, ella, Ud.</div><input/></div></div>
+                <div class="row"><div class="col-12 mt-1 person"><div>Nosotros</div><input/></div></div>
+                <div class="row"><div class="col-12 mt-1 person"><div>Vosotros</div><input/></div></div>
+                <div class="row"><div class="col-12 mt-1 person"><div>Ellos, ellas, Uds.</div><input/></div></div>
+                <div class="row"><div class="col-12 mt-1 person"><div>Vos</div><input/></div></div>
+            </div>
+            <div class="col-md-3">
+                <h5>Presente</h5>
+                <div data-field-path="subjunctive.present"></div>
+            </div>
+            <div class="col-md-3 mt-2 mt-md-0">
+                <h5>Imperfecto</h5>
+                <div data-field-path="subjunctive.imperfect"></div>
+            </div>
+            <div class="col-md-3 mt-2 mt-md-0 rarely-used-tense">
+                <h5>(Futuro)</h5>
+                <div data-field-path="subjunctive.future"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mt-2 mt-md-0">
+        <div class="row">
+            <div class="col-md-12 text-muted">
+                <h3>Imperativo</h3>
+            </div>
+            <div class="col-md-6">
+                <h5>Afirmativo</h5>
+                <div data-field-path="imperative.affirmative"></div>
+            </div>
+            <div class="col-md-6 mt-2 mt-md-0">
+                <h5>Negativo</h5>
+                <div data-field-path="imperative.negative"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr/>
+<div class="row mb-6">
+    <div class="col-md-4">
+        <h3>
+            <span class="fa fa-folder-open text-info"></span>
+            <span data-translate="verbs-footer-select-header"></span>
+        </h3>
+        <p data-translate="verbs-footer-select-body-1"></p>
+        <p data-translate="verbs-footer-select-body-2"></p>
+    </div>
+    <div class="col-md-4">
+        <h3>
+            <span class="fa fa-graduation-cap text-info"></span>
+            <span data-translate="verbs-footer-study-header"></span>
+        </h3>
+        <p data-translate="verbs-footer-study-body-1"></p>
+        <p data-translate="verbs-footer-study-body-2"></p>
+        <p data-translate="verbs-footer-study-body-3"></p>
+    </div>
+    <div class="col-md-4">
+        <h3>
+            <span class="fa fa-pencil text-info"></span>
+            <span data-translate="verbs-footer-practice-header"></span>
+        </h3>
+        <p data-translate="verbs-footer-practice-body-1"></p>
+        <p data-translate="verbs-footer-practice-body-2"></p>
+        <p data-translate="verbs-footer-practice-body-3"></p>
+    </div>
+</div>

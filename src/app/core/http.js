@@ -1,6 +1,6 @@
 class Http {
 
-    static getHTML(url, onComplete, onProgress) {
+    getHTML(url, onComplete, onProgress) {
         let xhr = new XMLHttpRequest();
         xhr.addEventListener("progress", onProgress);
         xhr.open("GET", url);
@@ -12,7 +12,7 @@ class Http {
         xhr.send();
     }
 
-    static getJSON(url, onComplete, onProgress) {
+    getJSON(url, onComplete, onProgress) {
         let xhr = new XMLHttpRequest();
         xhr.addEventListener("progress", onProgress);
         xhr.overrideMimeType("application/json");

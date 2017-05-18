@@ -1,7 +1,6 @@
 import debounce from "lodash.debounce";
 import get from "lodash.get";
 
-import Http from "../../core/http";
 import I18n from "../../core/i18n";
 import Template from "../../core/template";
 
@@ -11,13 +10,14 @@ const searchTypingDelay = 300;
 
 class VerbPage {
 
-    constructor(applicationEvent, browserEvent) {
+    constructor(applicationEvent, browserEvent, http) {
         this._applicationEvent = applicationEvent;
         this._browserEvent = browserEvent;
+        this._http = http;
     }
 
     load(pageTemplate, onDOMChanged) {
-        Http.getJSON("/data/verbs.json", (verbs) => {
+        this._http.getJSON("/data/verbs.json", (verbs) => {
             this._inflate(verbs);
             this._initSearchListeners();
             this._applyPageTemplate(pageTemplate, onDOMChanged);

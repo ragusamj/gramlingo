@@ -1,5 +1,6 @@
 import ApplicationEvent from "./core/application-event";
 import BrowserEvent from "./core/browser-event";
+import Http from "./core/http";
 import I18n from "./core/i18n";
 import Router from "./core/router";
 
@@ -15,6 +16,7 @@ import NumeralsPage from "./pages/numerals/numerals.page";
 
 const applicationEvent = new ApplicationEvent();
 const browserEvent = new BrowserEvent();
+const http = new Http();
 
 class Index {
 
@@ -29,7 +31,7 @@ class Index {
 
         let routes = {
             "/verbs": {
-                page: new VerbPage(applicationEvent, browserEvent),
+                page: new VerbPage(applicationEvent, browserEvent, http),
                 template: "/app/pages/verbs/verb.page.html",
                 isDefault: true
             },
@@ -39,7 +41,7 @@ class Index {
             }
         };
 
-        new Router(applicationEvent, routes, "page-placeholder");
+        new Router(applicationEvent, http, routes, "page-placeholder");
     }
 
     _onLanguageChanged(e) {

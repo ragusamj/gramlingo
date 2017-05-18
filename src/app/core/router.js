@@ -22,7 +22,6 @@ class Router {
     }
 
     _initialize() {
-        this._placeholderElement = document.getElementById(this._placeholderElementId);
         let route = this._getRouteFromAddressBar() || this._getDefaultRoute();
         if (route) {
             this._setRoute(route.key, route.data);
@@ -55,7 +54,7 @@ class Router {
         Http.getHTML(routeData.template, (html) => {
             let pageTemplate = new Template(html);
             let onDOMChanged = () => {
-                pageTemplate.replaceContent("page-placeholder");
+                pageTemplate.replaceContent(this._placeholderElementId);
                 I18n.translateApplication();
                 ApplicationEvent.emit("route-change-success", routeData.routeKey);
                 window.location.hash = routeKey;

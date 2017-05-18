@@ -1,5 +1,6 @@
 var fs = require("fs");
 var glob = require("glob");
+var mkdirp = require("mkdirp");
 var path = require("path");
 var zlib = require("zlib");
 
@@ -12,12 +13,19 @@ glob(process.argv[2], {}, function (error, files) {
             var minified = JSON.stringify(JSON.parse(json));
             var filename = path.basename(file);
             var out = path.join(outputDirectory, filename);
-            fs.writeFile(out, minified, function() {
-                zlib.gzip(minified, { level: compressionLevel }, function(error, buffer) {
-                    fs.writeFile(out + ".gz", buffer, function() {
-                        //
+            mkdirp(outputDirectory, function (error) {
+                if (error) {
+                    process.stderr.write(error.message);
+                }
+                else {
+                    fs.writeFile(out, minified, function() {
+                        zlib.gzip(minified, { level: compressionLevel }, function(error, buffer) {
+                            fs.writeFile(out + ".gz", buffer, function() {
+                                //
+                            });
+                        });
                     });
-                });
+                }
             });
         });
     });

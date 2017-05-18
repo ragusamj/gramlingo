@@ -4,25 +4,25 @@ let translationsMap = {};
 
 class I18n {
 
-    static addTranslation(language, translations) {
+    addTranslation(language, translations) {
         translationsMap[language] = translations;
     }
 
-    static setLanguage(language) {
+    setLanguage(language) {
         currentLanguage = language;
         window.localStorage.setItem("language", language);
-        I18n.translateApplication();
+        this.translateApplication();
     }
 
-    static translate(element) {
+    translate(element) {
         let key = element.getAttribute("data-translate");
         element.innerHTML = translationsMap[currentLanguage][key] || key;
     }
 
-    static translateApplication() {
+    translateApplication() {
         let elements = document.querySelectorAll("[data-translate]");
         elements.forEach((element) => {
-            I18n.translate(element);
+            this.translate(element);
         });
     }
 }

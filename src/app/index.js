@@ -17,6 +17,7 @@ import NumeralsPage from "./pages/numerals/numerals.page";
 const applicationEvent = new ApplicationEvent();
 const browserEvent = new BrowserEvent();
 const http = new Http();
+const i18n = new I18n();
 
 class Index {
 
@@ -24,14 +25,14 @@ class Index {
 
         browserEvent.on("click", this._onLanguageChanged.bind(this));
 
-        I18n.addTranslation("en-US", enUS);
-        I18n.addTranslation("es-ES", esES);
-        I18n.addTranslation("sv-SE", svSE);
-        I18n.addTranslation("ru-RU", ruRU);
+        i18n.addTranslation("en-US", enUS);
+        i18n.addTranslation("es-ES", esES);
+        i18n.addTranslation("sv-SE", svSE);
+        i18n.addTranslation("ru-RU", ruRU);
 
         let routes = {
             "/verbs": {
-                page: new VerbPage(applicationEvent, browserEvent, http),
+                page: new VerbPage(applicationEvent, browserEvent, http, i18n),
                 template: "/app/pages/verbs/verb.page.html",
                 isDefault: true
             },
@@ -41,13 +42,13 @@ class Index {
             }
         };
 
-        new Router(applicationEvent, http, routes, "page-placeholder");
+        new Router(applicationEvent, http, i18n, routes, "page-placeholder");
     }
 
     _onLanguageChanged(e) {
         if(e.target && e.target.hasAttribute("data-language")) {
             let language = e.target.getAttribute("data-language");
-            I18n.setLanguage(language);
+            i18n.setLanguage(language);
         }
     }
 }

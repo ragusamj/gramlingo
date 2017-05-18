@@ -1,19 +1,17 @@
 import debounce from "lodash.debounce";
 import get from "lodash.get";
-
-import I18n from "../../core/i18n";
 import Template from "../../core/template";
-
 import VerbSearchService from "./verb-search.service";
 
 const searchTypingDelay = 300;
 
 class VerbPage {
 
-    constructor(applicationEvent, browserEvent, http) {
+    constructor(applicationEvent, browserEvent, http, i18n) {
         this._applicationEvent = applicationEvent;
         this._browserEvent = browserEvent;
         this._http = http;
+        this._i18n = i18n;
     }
 
     load(pageTemplate, onDOMChanged) {
@@ -150,7 +148,7 @@ class VerbPage {
         document.getElementById("verb-name").innerHTML = verb.name;
         let mode = document.getElementById("verb-mode");
         mode.setAttribute("data-translate", (verb.regular ? "verbs-header-regular" : "verbs-header-irregular"));
-        I18n.translate(mode);
+        this._i18n.translate(mode);
     }
 }
 

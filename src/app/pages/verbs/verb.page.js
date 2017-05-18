@@ -1,6 +1,6 @@
 import debounce from "lodash.debounce";
-import get from "lodash.get";
 import Template from "../../core/template";
+import Builder from "../common/builder";
 import VerbSearchService from "./verb-search.service";
 
 const searchTypingDelay = 300;
@@ -77,31 +77,11 @@ class VerbPage {
     }
 
     _applyPageTemplate(pageTemplate, onDOMChanged) {
-
         // TODO: this function does many things
         this._searchService = new VerbSearchService(this._verbs);
         let index = this._getDefaultVerbIndex();
         let pageData = this._verbs[index];
-
-        // TODO: Move to common class for all pages
-        /********************************************************/
-        this._fields = {};
-        let fieldTemplate = Template.fromElementId("excercise-area-template");
-        let fieldContainers = pageTemplate.querySelectorAll("[data-field-path]");
-        fieldContainers.forEach((fieldContainer) => {
-            let fieldPath = fieldContainer.getAttribute("data-field-path");
-            let fieldData = get(pageData, fieldPath);
-            fieldData.forEach((variants, i) => {
-                let dataPath = fieldPath + "[" + i + "]";
-                let field = fieldTemplate.clone();
-                let input = field.getElementById("input");
-                input.id = dataPath + "_input";
-                fieldContainer.appendChild(field.fragment());
-                this._fields[input.id] = { dataPath: dataPath };
-            });
-        });
-        /********************************************************/
-
+        this._fields = new Builder().apply(pageTemplate, pageData);
         onDOMChanged();
         this._applicationEvent.emit("page-field-list-updated", this._fields);
         this._onPageDataChanged(index);

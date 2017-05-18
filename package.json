@@ -43,6 +43,7 @@
     "http-server": "^0.10.0",
     "lodash.debounce": "^4.0.8",
     "lodash.get": "^4.4.2",
+    "mkdirp": "^0.5.1",
     "ncp": "^2.0.0",
     "node-sass": "^4.5.2",
     "onchange": "^3.2.1",

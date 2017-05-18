@@ -9,9 +9,9 @@ class Router {
         this._routes = routes;
         this._placeholderElementId = placeholderElementId;
         window.onhashchange = () => {
-            let href = this._getCurrentHref();
+            let newRouteKey = this._getRouteKeyFromAddressBar();
             Object.keys(routes).forEach((key) => {
-                if (href === key && href !== this._currentRoute) {
+                if (newRouteKey === key && newRouteKey !== this._currentRouteKey) {
                     this._setRoute(key, this._routes[key]);
                 }
             });
@@ -25,41 +25,43 @@ class Router {
         this._placeholderElement = document.getElementById(this._placeholderElementId);
         let route = this._getRouteFromAddressBar() || this._getDefaultRoute();
         if (route) {
-            this._setRoute(route.href, route.route);
+            this._setRoute(route.key, route.data);
         }
     }
 
     _getRouteFromAddressBar() {
-        let href = this._getCurrentHref();
-        return this._routes[href] ? { href: href, route: this._routes[href] } : undefined;
+        let routeKey = this._getRouteKeyFromAddressBar();
+        return this._routes[routeKey] ?
+            { key: routeKey, data: this._routes[routeKey] } :
+            undefined;
     }
 
     _getDefaultRoute() {
         let route;
         Object.keys(this._routes).forEach((key) => {
             if(this._routes[key].isDefault) {
-                route = { href: key, route: this._routes[key] };
+                route = { key: key, data: this._routes[key] };
             }
         });
         return route;
     }
 
-    _getCurrentHref() {
+    _getRouteKeyFromAddressBar() {
         return window.location.hash.substring(1);
     }
 
-    _setRoute(href, route) {
-        ApplicationEvent.emit("route-change-start", route.page);
-        Http.getHTML(route.template, (html) => {
+    _setRoute(routeKey, routeData) {
+        ApplicationEvent.emit("route-change-start", routeData.routeKey);
+        Http.getHTML(routeData.template, (html) => {
             let pageTemplate = new Template(html);
             let onDOMChanged = () => {
                 pageTemplate.replaceContent("page-placeholder");
                 I18n.translateApplication();
-                ApplicationEvent.emit("route-change-success", route.page);
-                window.location.hash = href;
-                this._currentRoute = href;
+                ApplicationEvent.emit("route-change-success", routeData.routeKey);
+                window.location.hash = routeKey;
+                this._currentRouteKey = routeKey;
             };
-            route.page.load(pageTemplate, onDOMChanged);
+            routeData.page.load(pageTemplate, onDOMChanged);
         });
     }
 }

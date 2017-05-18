@@ -2,7 +2,6 @@ import debounce from "lodash.debounce";
 import get from "lodash.get";
 
 import VerbSearchService from "./verb-search.service";
-import ApplicationEvent from "../../core/application-event";
 import BrowserEvent from "../../core/browser-event";
 import Http from "../../core/http";
 import I18n from "../../core/i18n";
@@ -11,6 +10,10 @@ import Template from "../../core/template";
 const searchTypingDelay = 300;
 
 class VerbPage {
+
+    constructor(applicationEvent) {
+        this._applicationEvent = applicationEvent;
+    }
 
     load(pageTemplate, onDOMChanged) {
         Http.getJSON("/data/verbs.json", (verbs) => {
@@ -101,7 +104,7 @@ class VerbPage {
         /********************************************************/
 
         onDOMChanged();
-        ApplicationEvent.emit("page-field-list-updated", this._fields);
+        this._applicationEvent.emit("page-field-list-updated", this._fields);
         this._onPageDataChanged(index);
     }
 
@@ -138,8 +141,8 @@ class VerbPage {
 
     _onPageDataChanged(index){
         this._setHeader(this._verbs[index]);
-        ApplicationEvent.emit("page-data-updated", this._verbs[index]);
-        ApplicationEvent.emit("page-field-list-updated", this._fields);   
+        this._applicationEvent.emit("page-data-updated", this._verbs[index]);
+        this._applicationEvent.emit("page-field-list-updated", this._fields);   
     }
 
     _setHeader(verb) {

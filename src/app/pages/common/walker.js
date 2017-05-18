@@ -1,4 +1,3 @@
-import ApplicationEvent from "../../core/application-event";
 import BrowserEvent from "../../core/browser-event";
 
 const keyCode = {
@@ -9,8 +8,8 @@ const keyCode = {
 
 class Walker {
 
-    constructor() {
-        ApplicationEvent.on("page-field-list-updated", this.link.bind(this));
+    constructor(applicationEvent) {
+        applicationEvent.on("page-field-list-updated", this.link.bind(this));
         BrowserEvent.on("keydown", this.walk.bind(this));
     }
 

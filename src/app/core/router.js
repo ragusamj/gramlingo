@@ -1,11 +1,11 @@
-import ApplicationEvent from "./application-event";
 import Http from "./http";
 import I18n from "./i18n";
 import Template from "./template";
 
 class Router {
 
-    constructor(routes, placeholderElementId) {
+    constructor(applicationEvent, routes, placeholderElementId) {
+        this._applicationEvent = applicationEvent;
         this._routes = routes;
         this._placeholderElementId = placeholderElementId;
         window.onhashchange = () => {
@@ -50,13 +50,13 @@ class Router {
     }
 
     _setRoute(routeKey, routeData) {
-        ApplicationEvent.emit("route-change-start", routeData.routeKey);
+        this._applicationEvent.emit("route-change-start", routeData.routeKey);
         Http.getHTML(routeData.template, (html) => {
             let pageTemplate = new Template(html);
             let onDOMChanged = () => {
                 pageTemplate.replaceContent(this._placeholderElementId);
                 I18n.translateApplication();
-                ApplicationEvent.emit("route-change-success", routeData.routeKey);
+                this._applicationEvent.emit("route-change-success", routeData.routeKey);
                 window.location.hash = routeKey;
                 this._currentRouteKey = routeKey;
             };

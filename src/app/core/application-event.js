@@ -2,7 +2,7 @@ const listeners = {};
 
 class ApplicationEvent {
 
-    static on(eventName, callback) {
+    on(eventName, callback) {
         listeners[eventName] = listeners[eventName] || [];
         let listenerIndex = listeners[eventName].push(callback) -1;
         let removeListener = () => {
@@ -11,7 +11,7 @@ class ApplicationEvent {
         return removeListener;
     }
 
-    static emit(eventName, ...data) {
+    emit(eventName, ...data) {
         setTimeout(() => {
             let callbacks = listeners[eventName];
             if (callbacks) {

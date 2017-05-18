@@ -1,13 +1,12 @@
 import get from "lodash.get";
 
-import ApplicationEvent from "../../core/application-event";
 import BrowserEvent from "../../core/browser-event";
 
 class Visualizer {
 
-    constructor() {
-        ApplicationEvent.on("page-data-updated", this.setPageData.bind(this));
-        ApplicationEvent.on("page-field-list-updated", this.setFields.bind(this));
+    constructor(applicationEvent) {
+        applicationEvent.on("page-data-updated", this.setPageData.bind(this));
+        applicationEvent.on("page-field-list-updated", this.setFields.bind(this));
         BrowserEvent.on("click", this.onClick.bind(this));
     }
 

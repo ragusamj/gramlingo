@@ -1,3 +1,4 @@
+import ApplicationEvent from "./core/application-event";
 import BrowserEvent from "./core/browser-event";
 import I18n from "./core/i18n";
 import Router from "./core/router";
@@ -12,6 +13,8 @@ import Walker from "./pages/common/walker";
 import VerbPage from "./pages/verbs/verb.page";
 import NumeralsPage from "./pages/numerals/numerals.page";
 
+const applicationEvent = new ApplicationEvent();
+
 class Index {
 
     constructor() {
@@ -25,7 +28,7 @@ class Index {
 
         let routes = {
             "/verbs": {
-                page: new VerbPage(),
+                page: new VerbPage(applicationEvent),
                 template: "/app/pages/verbs/verb.page.html",
                 isDefault: true
             },
@@ -35,7 +38,7 @@ class Index {
             }
         };
 
-        new Router(routes, "page-placeholder");
+        new Router(applicationEvent, routes, "page-placeholder");
     }
 
     _onLanguageChanged(e) {
@@ -46,8 +49,8 @@ class Index {
     }
 }
 
-new Visualizer();
-new Walker();
+new Visualizer(applicationEvent);
+new Walker(applicationEvent);
 new Index();
 
 export default Index;

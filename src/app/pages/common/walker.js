@@ -1,4 +1,3 @@
-import BrowserEvent from "../../core/browser-event";
 
 const keyCode = {
     enter: 13,
@@ -8,9 +7,9 @@ const keyCode = {
 
 class Walker {
 
-    constructor(applicationEvent) {
+    constructor(applicationEvent, browserEvent) {
         applicationEvent.on("page-field-list-updated", this.link.bind(this));
-        BrowserEvent.on("keydown", this.walk.bind(this));
+        browserEvent.on("keydown", this.walk.bind(this));
     }
 
     link(fields) {

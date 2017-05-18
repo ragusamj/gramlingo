@@ -1,18 +1,19 @@
 import debounce from "lodash.debounce";
 import get from "lodash.get";
 
-import VerbSearchService from "./verb-search.service";
-import BrowserEvent from "../../core/browser-event";
 import Http from "../../core/http";
 import I18n from "../../core/i18n";
 import Template from "../../core/template";
+
+import VerbSearchService from "./verb-search.service";
 
 const searchTypingDelay = 300;
 
 class VerbPage {
 
-    constructor(applicationEvent) {
+    constructor(applicationEvent, browserEvent) {
         this._applicationEvent = applicationEvent;
+        this._browserEvent = browserEvent;
     }
 
     load(pageTemplate, onDOMChanged) {
@@ -68,8 +69,8 @@ class VerbPage {
                 this._showSearchResult(result);
             }
         }, searchTypingDelay);
-        this._destroyOnSearch = BrowserEvent.on("keyup", this._deferredSearch);
-        this._destroyOnSearchResultClick = BrowserEvent.on("click", this._onSearchResultClick.bind(this));
+        this._destroyOnSearch = this._browserEvent.on("keyup", this._deferredSearch);
+        this._destroyOnSearchResultClick = this._browserEvent.on("click", this._onSearchResultClick.bind(this));
     }
 
     _getDefaultVerbIndex() {

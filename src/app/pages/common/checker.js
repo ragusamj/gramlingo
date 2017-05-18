@@ -1,5 +1,3 @@
-import BrowserEvent from "../../core/browser-event";
-
 class Checker {
 
     constructor() {

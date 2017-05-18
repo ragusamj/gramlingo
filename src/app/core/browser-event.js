@@ -2,7 +2,7 @@ const listeners = {};
 
 class BrowserEvent {
 
-    static on(name, callback) {
+    on(name, callback) {
         if(!listeners[name]) {
             listeners[name] = [];
             document.body.addEventListener(name, (e) => {

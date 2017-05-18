@@ -14,12 +14,13 @@ import VerbPage from "./pages/verbs/verb.page";
 import NumeralsPage from "./pages/numerals/numerals.page";
 
 const applicationEvent = new ApplicationEvent();
+const browserEvent = new BrowserEvent();
 
 class Index {
 
     constructor() {
 
-        BrowserEvent.on("click", this._onLanguageChanged.bind(this));
+        browserEvent.on("click", this._onLanguageChanged.bind(this));
 
         I18n.addTranslation("en-US", enUS);
         I18n.addTranslation("es-ES", esES);
@@ -28,7 +29,7 @@ class Index {
 
         let routes = {
             "/verbs": {
-                page: new VerbPage(applicationEvent),
+                page: new VerbPage(applicationEvent, browserEvent),
                 template: "/app/pages/verbs/verb.page.html",
                 isDefault: true
             },
@@ -49,8 +50,8 @@ class Index {
     }
 }
 
-new Visualizer(applicationEvent);
-new Walker(applicationEvent);
+new Visualizer(applicationEvent, browserEvent);
+new Walker(applicationEvent, browserEvent);
 new Index();
 
 export default Index;

@@ -9,6 +9,7 @@ import esES from "./translations/es-ES";
 import ruRU from "./translations/ru-RU";
 import svSE from "./translations/sv-SE";
 
+import Checker from "./pages/common/checker";
 import Visualizer from "./pages/common/visualizer";
 import Walker from "./pages/common/walker";
 import VerbPage from "./pages/verbs/verb.page";
@@ -42,6 +43,9 @@ class Index {
             }
         };
 
+        new Checker(applicationEvent, browserEvent);
+        new Visualizer(applicationEvent, browserEvent);
+        new Walker(applicationEvent, browserEvent);
         new Router(applicationEvent, http, i18n, routes, "page-placeholder");
     }
 
@@ -53,8 +57,6 @@ class Index {
     }
 }
 
-new Visualizer(applicationEvent, browserEvent);
-new Walker(applicationEvent, browserEvent);
 new Index();
 
 export default Index;

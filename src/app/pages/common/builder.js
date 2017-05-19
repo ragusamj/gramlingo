@@ -12,10 +12,18 @@ class Builder {
             fieldData.forEach((variants, i) => {
                 let dataPath = fieldPath + "[" + i + "]";
                 let field = fieldTemplate.clone();
+                let icon = field.getElementById("icon");
+                icon.id = dataPath + "_icon";
                 let input = field.getElementById("input");
                 input.id = dataPath + "_input";
+                let popup = field.getElementById("popup");
+                popup.id = dataPath + "_popup";
                 fieldContainer.appendChild(field.fragment());
-                fields[input.id] = { dataPath: dataPath };
+                fields[input.id] = {
+                    dataPath: dataPath,
+                    iconId: icon.id,
+                    popupId: popup.id
+                };
             });
         });
         return fields;

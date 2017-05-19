@@ -14,17 +14,17 @@ sinon.spy(browserEvent, "on");
 
 const walker = new Walker(applicationEvent, browserEvent);
 
-test("walker should listen to the 'page-field-list-updated' application event", (t) => {
+test("Walker should listen to the 'page-field-list-updated' application event", (t) => {
     t.true(applicationEvent.on.calledWith("page-field-list-updated"));
     t.end();
 });
 
-test("walker should listen to the 'keydown' browser event", (t) => {
+test("Walker should listen to the 'keydown' browser event", (t) => {
     t.true(browserEvent.on.calledWith("keydown"));
     t.end();
 });
 
-test("walker should link", (t) => {
+test("Walker should link", (t) => {
 
     let elements = {
         "input-1": {},
@@ -41,7 +41,7 @@ test("walker should link", (t) => {
     t.end();
 });
 
-test("walker should not link disabled elements", (t) => {
+test("Walker should not link disabled elements", (t) => {
 
     let elements = {
         "input-1": {},

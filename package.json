@@ -17,6 +17,7 @@
     "build:json": "node json-minify.js 'src/data/*.json' dist/data/",
     "build:json:watch": "onchange 'src/**/*.json' -- npm run build:json",
     "httpserver": "http-server dist -g -c-1",
+    "lint": "eslint ./src",
     "postinstall": "npm run build",
     "test": "istanbul cover -x \"*.spec.js\" babel-tape-runner src/**/*.spec.js | faucet && istanbul report --root coverage text-summary"
   },

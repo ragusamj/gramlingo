@@ -19,6 +19,17 @@ test("ApplicationEvent should emit event with data", (t) => {
     applicationEvent.emit("test-event-with-data", { data: "data" });
 });
 
+test("ApplicationEvent should handle multiple listeners", (t) => {
+    t.plan(2);
+    applicationEvent.on("hey-everyone-event", () => {
+        t.assert(true);
+    });
+    applicationEvent.on("hey-everyone-event", () => {
+        t.assert(true);
+    });
+    applicationEvent.emit("hey-everyone-event");
+});
+
 test("ApplicationEvent should handle empty listener list", (t) => {
     applicationEvent.emit("is-anybody-there-event");
     t.end();

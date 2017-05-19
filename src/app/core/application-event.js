@@ -6,7 +6,7 @@ class ApplicationEvent {
         listeners[eventName] = listeners[eventName] || [];
         let listenerIndex = listeners[eventName].push(callback) -1;
         let removeListener = () => {
-            listeners[name].splice(listenerIndex, 1);
+            listeners[eventName].splice(listenerIndex, 1);
         };
         return removeListener;
     }
@@ -16,9 +16,7 @@ class ApplicationEvent {
             let callbacks = listeners[eventName];
             if (callbacks) {
                 callbacks.forEach((callback) => {
-                    if (callback) {
-                        callback(...data);
-                    }
+                    callback(...data);
                 });
             }
         }, 0);

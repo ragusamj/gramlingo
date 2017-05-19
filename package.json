@@ -12,7 +12,7 @@
     "build:scss:watch": "onchange 'src/**/*.scss' -- npm run build:scss",
     "build:fonts": "ncp node_modules/font-awesome/fonts/ dist/fonts/",
     "build:images": "ncp src/images/ dist/images/",
-    "build:js": "browserify src/app/index.js -t [ babelify --presets [es2015] ] -d | uglifyjs -c -m --source-map content=inline,url=inline | exorcist dist/bundle.js.map > dist/bundle.js",
+    "build:js": "browserify src/app/index.js -t [ babelify ] -d | uglifyjs -c -m --source-map content=inline,url=inline | exorcist dist/bundle.js.map > dist/bundle.js",
     "build:js:watch": "onchange 'src/**/*.js' -- npm run build:js",
     "build:json": "node json-minify.js 'src/data/*.json' dist/data/",
     "build:json:watch": "onchange 'src/**/*.json' -- npm run build:json",

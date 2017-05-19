@@ -18,7 +18,7 @@
     "build:json:watch": "onchange 'src/**/*.json' -- npm run build:json",
     "httpserver": "http-server dist -g -c-1",
     "postinstall": "npm run build",
-    "test": "babel-tape-runner src/**/*.spec.js | faucet"
+    "test": "istanbul cover -x \"*.spec.js\" babel-tape-runner src/**/*.spec.js | faucet && istanbul report --root coverage text-summary"
   },
   "keywords": [
     "español",
@@ -45,6 +45,7 @@
     "glob": "^7.1.1",
     "html-minifier": "^3.4.3",
     "http-server": "^0.10.0",
+    "istanbul": "^1.1.0-alpha.1",
     "lodash.debounce": "^4.0.8",
     "lodash.get": "^4.4.2",
     "mkdirp": "^0.5.1",

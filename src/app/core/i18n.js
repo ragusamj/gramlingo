@@ -1,22 +1,24 @@
 
-let currentLanguage = window.localStorage.getItem("language") || "es-ES";
-let translationsMap = {};
-
 class I18n {
 
+    constructor() {
+        this._currentLanguage = window.localStorage.getItem("language") || "es-ES";
+        this._translationsMap = {};
+    }
+
     addTranslation(language, translations) {
-        translationsMap[language] = translations;
+        this._translationsMap[language] = translations;
     }
 
     setLanguage(language) {
-        currentLanguage = language;
+        this._currentLanguage = language;
         window.localStorage.setItem("language", language);
         this.translateApplication();
     }
 
     translate(element) {
         let key = element.getAttribute("data-translate");
-        element.innerHTML = translationsMap[currentLanguage][key] || key;
+        element.innerHTML = this._translationsMap[this._currentLanguage][key] || key;
     }
 
     translateApplication() {

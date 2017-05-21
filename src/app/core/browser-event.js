@@ -5,7 +5,7 @@ class BrowserEvent {
     on(name, callback) {
         if(!listeners[name]) {
             listeners[name] = [];
-            document.body.addEventListener(name, (e) => {
+            document.addEventListener(name, (e) => {
                 listeners[name].forEach((callback) => {
                     callback(e);
                 });

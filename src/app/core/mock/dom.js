@@ -145,6 +145,7 @@ const properties = [
     "innerHeight",
     "innerWidth",
     "length",
+    "localStorage",
     "location",
     "moveBy",
     "moveTo",
@@ -175,6 +176,7 @@ const properties = [
     "scrollX",
     "scrollY",
     "self",
+    "sessionStorage",
     "stop",
     "top",
     "window"
@@ -184,6 +186,15 @@ class Dom {
     static sandbox(html, options, callback) {
 
         let dom = new jsdom.JSDOM(html, options);
+        dom.window.localStorage = dom.window.sessionStorage = {
+            getItem: function (key) {
+                return this[key];
+            },
+            setItem: function (key, value) {
+                this[key] = value;
+            }
+        };
+
         global.window = dom.window;
 
         properties.forEach((property) => {

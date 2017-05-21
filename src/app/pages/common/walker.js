@@ -7,15 +7,15 @@ const keyCode = {
 
 class Walker {
 
-    constructor(applicationEvent, browserEvent) {
-        applicationEvent.on("page-field-list-updated", this.link.bind(this));
+    constructor(browserEvent) {
+        browserEvent.on("page-field-list-updated", this.link.bind(this));
         browserEvent.on("keydown", this.walk.bind(this));
     }
 
-    link(fields) {
+    link(e) {
         this._linkedList = {};
         this._previous = undefined;
-        Object.keys(fields).forEach((id) => {
+        Object.keys(e.detail).forEach((id) => {
             let element = document.getElementById(id);
             if(!element.disabled) {
                 this._linkedList[id] = {

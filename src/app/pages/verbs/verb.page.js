@@ -7,8 +7,7 @@ const searchTypingDelay = 300;
 
 class VerbPage {
 
-    constructor(applicationEvent, browserEvent, http, i18n) {
-        this._applicationEvent = applicationEvent;
+    constructor(browserEvent, http, i18n) {
         this._browserEvent = browserEvent;
         this._http = http;
         this._i18n = i18n;
@@ -83,7 +82,7 @@ class VerbPage {
         let pageData = this._verbs[index];
         this._fields = new Builder().apply(pageTemplate, pageData);
         onDOMChanged();
-        this._applicationEvent.emit("page-field-list-updated", this._fields);
+        this._browserEvent.emit("page-field-list-updated", this._fields);
         this._onPageDataChanged(index);
     }
 
@@ -120,8 +119,8 @@ class VerbPage {
 
     _onPageDataChanged(index){
         this._setHeader(this._verbs[index]);
-        this._applicationEvent.emit("page-data-updated", this._verbs[index]);
-        this._applicationEvent.emit("page-field-list-updated", this._fields);   
+        this._browserEvent.emit("page-data-updated", this._verbs[index]);
+        this._browserEvent.emit("page-field-list-updated", this._fields);   
     }
 
     _setHeader(verb) {

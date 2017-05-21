@@ -2,22 +2,22 @@ import get from "lodash.get";
 
 class Checker {
 
-    constructor(applicationEvent, browserEvent) {
-        applicationEvent.on("page-data-updated", this.setPageData.bind(this));
-        applicationEvent.on("page-field-list-updated", this.setFields.bind(this));
-        applicationEvent.on("page-field-reset", this.reset.bind(this));
+    constructor(browserEvent) {
+        browserEvent.on("page-data-updated", this.setPageData.bind(this));
+        browserEvent.on("page-field-list-updated", this.setFields.bind(this));
+        browserEvent.on("page-field-reset", this.reset.bind(this));
         browserEvent.on("blur", this.onBlur.bind(this));
         browserEvent.on("mouseover", this.onMouseover.bind(this));
         browserEvent.on("mouseout", this.onMouseout.bind(this));
     }
 
-    setPageData(pageData) {
-        this._pageData = pageData;
+    setPageData(e) {
+        this._pageData = e.detail;
         this.reset();
     }
 
-    setFields(fields) {
-        this._fields = fields;
+    setFields(e) {
+        this._fields = e.detail;
         this._fieldsByIconId = {};
         Object.keys(this._fields).forEach((id) => {
             let field = this._fields[id];

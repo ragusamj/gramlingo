@@ -37,3 +37,24 @@ test("BrowserEvent should remove listener", (t) => {
         t.end();
     });
 });
+
+test("BrowserEvent should emit event using CustomEvent", (t) => {
+    Dom.sandbox("", {}, () => {
+        t.plan(1);
+        browserEvent.on("custom-event", () => {
+            t.assert(true);
+        });
+        browserEvent.emit("custom-event");
+    });
+});
+
+test("BrowserEvent should emit event using the old way", (t) => {
+    Dom.sandbox("", {}, () => {
+        t.plan(1);
+        delete window.CustomEvent;
+        browserEvent.on("custom-event-the-old-way", () => {
+            t.assert(true);
+        });
+        browserEvent.emit("custom-event-the-old-way");
+    });
+});

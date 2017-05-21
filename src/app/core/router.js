@@ -2,8 +2,8 @@ import Template from "./template";
 
 class Router {
 
-    constructor(applicationEvent, http, i18n, routes, placeholderElementId) {
-        this._applicationEvent = applicationEvent;
+    constructor(browserEvent, http, i18n, routes, placeholderElementId) {
+        this._browserEvent = browserEvent;
         this._http = http;
         this._i18n = i18n;
         this._routes = routes;
@@ -50,13 +50,13 @@ class Router {
     }
 
     _setRoute(routeKey, routeData) {
-        this._applicationEvent.emit("route-change-start", routeData.routeKey);
+        this._browserEvent.emit("route-change-start", routeKey);
         this._http.getHTML(routeData.template, (html) => {
             let pageTemplate = new Template(html);
             let onDOMChanged = () => {
                 pageTemplate.replaceContent(this._placeholderElementId);
                 this._i18n.translateApplication();
-                this._applicationEvent.emit("route-change-success", routeData.routeKey);
+                this._browserEvent.emit("route-change-success", routeKey);
                 window.location.hash = routeKey;
                 this._currentRouteKey = routeKey;
             };

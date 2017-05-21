@@ -2,20 +2,20 @@ import get from "lodash.get";
 
 class Visualizer {
 
-    constructor(applicationEvent, browserEvent) {
-        this._applicationEvent = applicationEvent;
-        applicationEvent.on("page-data-updated", this.setPageData.bind(this));
-        applicationEvent.on("page-field-list-updated", this.setFields.bind(this));
+    constructor(browserEvent) {
+        this._browserEvent = browserEvent;
+        browserEvent.on("page-data-updated", this.setPageData.bind(this));
+        browserEvent.on("page-field-list-updated", this.setFields.bind(this));
         browserEvent.on("click", this.onClick.bind(this));
     }
 
-    setPageData(pageData) {
-        this._pageData = pageData;
+    setPageData(e) {
+        this._pageData = e.detail;
         this.update();
     }
 
-    setFields(fields) {
-        this._fields = fields;
+    setFields(e) {
+        this._fields = e.detail;
     }
 
     update() {
@@ -37,7 +37,7 @@ class Visualizer {
         if(e.target) {
             if(e.target.hasAttribute("data-hide-button")) {
                 this._hidden = true;
-                this._applicationEvent.emit("page-field-reset");
+                this._browserEvent.emit("page-field-reset");
                 this.update();
 
             }

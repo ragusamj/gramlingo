@@ -2,57 +2,60 @@ import sinon from "sinon";
 import test from "tape";
 import ApplicationEvent from "../../core/application-event";
 import BrowserEvent from "../../core/browser-event";
-import Mocument from "../../core/mocks/mocument";
+import Dom from "../../core/mock/dom";
 import Walker from "./walker";
 
-const mocument = new Mocument();
 const applicationEvent = new ApplicationEvent();
 const browserEvent = new BrowserEvent();
 
 sinon.spy(applicationEvent, "on");
 sinon.spy(browserEvent, "on");
 
-const walker = new Walker(applicationEvent, browserEvent);
-
 test("Walker should listen to the 'page-field-list-updated' application event", (t) => {
-    t.true(applicationEvent.on.calledWith("page-field-list-updated"));
-    t.end();
+    Dom.sandbox("", {}, () => {
+        new Walker(applicationEvent, browserEvent);
+        t.true(applicationEvent.on.calledWith("page-field-list-updated"));
+        t.end();
+    });
 });
 
 test("Walker should listen to the 'keydown' browser event", (t) => {
-    t.true(browserEvent.on.calledWith("keydown"));
-    t.end();
+    Dom.sandbox("", {}, () => {
+        new Walker(applicationEvent, browserEvent);
+        t.true(browserEvent.on.calledWith("keydown"));
+        t.end();
+    });
 });
 
 test("Walker should link", (t) => {
+    Dom.sandbox("<input id='input-1'/><input id='input-2'/>", {}, () => {
 
-    let elements = {
-        "input-1": {},
-        "input-2": {}
-    };
+        let walker = new Walker(applicationEvent, browserEvent);
+        let elements = {
+            "input-1": {},
+            "input-2": {}
+        };
 
-    mocument
-        .mockElement("input-1", {})
-        .mockElement("input-2", {});
+        walker.link(elements);
 
-    walker.link(elements);
-
-    t.deepEqual(walker._linkedList, { "input-1": { next: "input-2", previous: undefined }, "input-2": { previous: "input-1" } });
-    t.end();
+        t.deepEqual(walker._linkedList, { "input-1": { next: "input-2", previous: undefined }, "input-2": { previous: "input-1" } });
+        t.end();
+    });
 });
 
 test("Walker should not link disabled elements", (t) => {
+    Dom.sandbox("<input id='input-1'/><input id='input-2' disabled/><input id='input-3'/>", {}, () => {
 
-    let elements = {
-        "input-1": {},
-        "input-2": { disabled: true },
-        "input-3": {}
-    };
+        let walker = new Walker(applicationEvent, browserEvent);
+        let elements = {
+            "input-1": {},
+            "input-2": {},
+            "input-3": {}
+        };
 
-    mocument.mockElements(elements);
+        walker.link(elements);
 
-    walker.link(elements);
-
-    t.deepEqual(walker._linkedList, { "input-1": { next: "input-3", previous: undefined }, "input-3": { previous: "input-1" } });
-    t.end();
+        t.deepEqual(walker._linkedList, { "input-1": { next: "input-3", previous: undefined }, "input-3": { previous: "input-1" } });
+        t.end();
+    });
 });

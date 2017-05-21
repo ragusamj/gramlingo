@@ -1,34 +1,39 @@
 import test from "tape";
-import Mocument from "./mocks/mocument";
+import Dom from "./mock/dom";
 import BrowserEvent from "./browser-event";
 
 const browserEvent = new BrowserEvent();
-const mocument = new Mocument();
 
 test("BrowserEvent should register event", (t) => {
-    t.plan(1);
-    browserEvent.on("mock-keydown", () => {
-        t.assert(true);
+    Dom.sandbox("", {}, () => {
+        t.plan(1);
+        browserEvent.on("keydown", () => {
+            t.assert(true);
+        });
+        document.dispatchEvent(new Event("keydown"));
     });
-    mocument.body.fireEvent("mock-keydown");
 });
 
 test("BrowserEvent should handle multiple listeners", (t) => {
-    t.plan(2);
-    browserEvent.on("mock-mouseover", () => {
-        t.assert(true);
+    Dom.sandbox("", {}, () => {
+        t.plan(2);
+        browserEvent.on("mouseover", () => {
+            t.assert(true);
+        });
+        browserEvent.on("mouseover", () => {
+            t.assert(true);
+        });
+        document.dispatchEvent(new Event("mouseover"));
     });
-    browserEvent.on("mock-mouseover", () => {
-        t.assert(true);
-    });
-    mocument.body.fireEvent("mock-mouseover");
 });
 
 test("BrowserEvent should remove listener", (t) => {
-    let removeListener = browserEvent.on("mock-mouseout", () => {
-        t.fail();
+    Dom.sandbox("", {}, () => {
+        let removeListener = browserEvent.on("mouseout", () => {
+            t.fail();
+        });
+        removeListener();
+        document.dispatchEvent(new Event("mouseout"));
+        t.end();
     });
-    removeListener();
-    mocument.body.fireEvent("mock-mouseout");
-    t.end();
 });

@@ -22,3 +22,23 @@ test("Menu should set active item", (t) => {
         t.end();
     });
 });
+
+test("Menu should toggle hamburger", (t) => {
+    Dom.sandbox("<button id='toggle-button' data-navbar-toggler='nav'></button><div id='nav'></div>", {}, () => {
+        new Menu(new BrowserEvent());
+        let button = document.getElementById("toggle-button"); 
+        button.dispatchEvent(new Event("click"));
+        t.equal(document.getElementById("nav").className, "navbar-hide");
+        t.end();
+    });
+});
+
+test("Menu should only toggle hamburger if element has data-navbar-toggler attribute", (t) => {
+    Dom.sandbox("<button id='toggle-button'></button><div id='nav'></div>", {}, () => {
+        new Menu(new BrowserEvent());
+        let button = document.getElementById("toggle-button"); 
+        button.dispatchEvent(new Event("click"));
+        t.equal(document.getElementById("nav").className, "");
+        t.end();
+    });
+});

@@ -38,6 +38,16 @@ button {
     }
 }
 
+.navbar-slider {
+    max-height: 200px;
+	overflow-y: hidden;
+	transition: $transition-base;
+}
+
+.navbar-hide {
+    max-height: 0;
+}
+
 .popup-wrapper {
     position: relative;
     .popup, .search-result {
@@ -119,6 +129,9 @@ button {
 @media (min-width: map-get($grid-breakpoints, "md")) {
     body {
         padding-bottom: 4rem;
+    }
+    .navbar-hide {
+	    max-height: 200px;
     }
     .footer {
         position: fixed;

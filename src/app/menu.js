@@ -7,6 +7,13 @@ class Menu {
                     "nav-link active" : "nav-link";
             });
         });
+        browserEvent.on("click", (e) => {
+            if(e.target.hasAttribute("data-navbar-toggler")) {
+                let id = e.target.getAttribute("data-navbar-toggler");
+                let popup = document.getElementById(id);
+                popup.classList.toggle("navbar-hide");
+            }
+        });
     }
 }
 

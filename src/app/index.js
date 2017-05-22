@@ -8,6 +8,7 @@ import esES from "./translations/es-ES";
 import ruRU from "./translations/ru-RU";
 import svSE from "./translations/sv-SE";
 
+import Menu from "./menu";
 import Checker from "./pages/common/checker";
 import Visualizer from "./pages/common/visualizer";
 import Walker from "./pages/common/walker";
@@ -41,6 +42,7 @@ class Index {
             }
         };
 
+        new Menu(browserEvent);
         new Checker(browserEvent);
         new Visualizer(browserEvent);
         new Walker(browserEvent);

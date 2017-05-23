@@ -89,30 +89,31 @@ class VerbPage {
     _showSearchResult(result) {
 
         let template = Template.fromElementId("search-result-template");
-
         let ul = template.getElementById("search-result-list");
-        ul.className = result.matches.length > 0 ? "search-result visible" : "search-result hidden";
 
-        result.matches.forEach((match) => {
-            let li = template.add(ul, "li");
-            template.add(li, "span", { innerHTML: match.pre });
-            template.add(li, "strong", { innerHTML: match.match });
-            template.add(li, "span", { innerHTML: match.post });
-            li.setAttribute("data-verb-index", match.index);
-        });
+        if(result.matches.length > 0) {
 
-        if(result.maxExceeded) {
-            template.add(ul, "li", { innerHTML: "..." });
+            result.matches.forEach((match) => {
+                let li = template.add(ul, "li");
+                template.add(li, "span", { innerHTML: match.pre });
+                template.add(li, "strong", { innerHTML: match.match });
+                template.add(li, "span", { innerHTML: match.post });
+                li.setAttribute("data-verb-index", match.index);
+            });
+
+            if(result.maxExceeded) {
+                template.add(ul, "li", { innerHTML: "..." });
+            }
+
+            template.replaceContent("search-result-container");
         }
-
-        template.replaceContent("search-result-container");
     }
 
     _onSearchResultClick(e) {
         if(e.target && e.target.hasAttribute("data-verb-index")) {
             let index = e.target.getAttribute("data-verb-index");
             let ul = document.getElementById("search-result-list");
-            ul.className = "search-result hidden";
+            ul.classList.add("hide");
             this._onPageDataChanged(index);
         }
     }

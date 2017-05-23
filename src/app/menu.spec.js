@@ -28,7 +28,7 @@ test("Menu should toggle hamburger", (t) => {
         new Menu(new BrowserEvent());
         let button = document.getElementById("toggle-button"); 
         button.dispatchEvent(new Event("click"));
-        t.equal(document.getElementById("nav").className, "navbar-hide");
+        t.equal(document.getElementById("nav").className, "hide");
         t.end();
     });
 });

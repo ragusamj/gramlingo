@@ -44,7 +44,7 @@ button {
 	transition: $transition-base;
 }
 
-.navbar-hide {
+.navbar-slider.hide {
     max-height: 0;
 }
 
@@ -90,15 +90,15 @@ button {
         width: 21px;
         transition: $transition-base;
     }
-    .hidden {
-        visibility: hidden;
-        opacity: 0;
-        z-index: -1;
-    }
-    .visible {
+    .icon.show, .popup.show, .search-result {
         visibility: visible;
         z-index: 999;
         opacity: 1;
+    }
+    .icon, .popup, .search-result.hide {
+        visibility: hidden;
+        opacity: 0;
+        z-index: -1;
     }
 }
 
@@ -130,7 +130,7 @@ button {
     body {
         padding-bottom: 4rem;
     }
-    .navbar-hide {
+    .navbar-slider.hide {
 	    max-height: 200px;
     }
     .footer {

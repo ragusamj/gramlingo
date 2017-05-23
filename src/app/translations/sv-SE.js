@@ -9,7 +9,7 @@ export default {
     "verbs-header-regular": "(regelbundet)",
     "verbs-header-irregular": "(oregelbundet)",
 
-    "verbs-toolbar-header-search": "Sök",
+    "verbs-toolbar-placeholder-search": "Sök",
     "verbs-toolbar-button-hide": "Göm",
     "verbs-toolbar-button-show": "Visa",
 

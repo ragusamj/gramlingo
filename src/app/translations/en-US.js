@@ -9,7 +9,7 @@ export default {
     "verbs-header-regular": "(regular)",
     "verbs-header-irregular": "(irregular)",
 
-    "verbs-toolbar-header-search": "Search",
+    "verbs-toolbar-placeholder-search": "Search",
     "verbs-toolbar-button-hide": "Hide",
     "verbs-toolbar-button-show": "Show",
 

@@ -124,6 +124,12 @@ button {
     @extend .fixed-bottom;
     position: relative;
     padding: 1rem;
+    img {
+        cursor: pointer;
+        height: 32px;
+        width: 32px;
+        margin: 0 12px;
+    }
 }
 
 @media (min-width: map-get($grid-breakpoints, "md")) {
@@ -135,5 +141,10 @@ button {
     }
     .footer {
         position: fixed;
+        img {
+            width: 24px;
+            height: 24px;
+            margin: inherit;
+        }
     }
 }

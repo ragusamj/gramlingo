@@ -1,3 +1,6 @@
+const attributes = ["innerHTML", "placeholder"];
+const defaultAttribute = "innerHTML";
+const defaultSelector = "data-translate";
 
 class I18n {
 
@@ -16,15 +19,20 @@ class I18n {
         this.translateApplication();
     }
 
-    translate(element) {
-        let key = element.getAttribute("data-translate");
-        element.innerHTML = this._translationsMap[this._currentLanguage][key] || key;
+    translate(element, attribute, selector) {
+        let key = element.getAttribute(selector || defaultSelector);
+        element[attribute || defaultAttribute] = this._translationsMap[this._currentLanguage][key] || key;
     }
 
     translateApplication() {
-        let elements = document.querySelectorAll("[data-translate]");
-        elements.forEach((element) => {
-            this.translate(element);
+        attributes.forEach((attribute) => {
+            let selector = attribute === defaultAttribute ?
+                defaultSelector :
+                defaultSelector + "-" + attribute;
+            let elements = document.querySelectorAll("[" + selector + "]");
+            elements.forEach((element) => {
+                this.translate(element, attribute, selector);
+            });
         });
     }
 }

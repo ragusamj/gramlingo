@@ -1,6 +1,6 @@
 import get from "lodash.get";
 
-class Checker {
+class ExerciseArea {
 
     constructor(browserEvent) {
         browserEvent.on("page-data-updated", this.setPageData.bind(this));
@@ -102,4 +102,4 @@ class Checker {
     }
 }
 
-export default Checker;
+export default ExerciseArea;

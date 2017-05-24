@@ -9,7 +9,7 @@ import ruRU from "./translations/ru-RU";
 import svSE from "./translations/sv-SE";
 
 import Menu from "./menu";
-import Checker from "./pages/common/checker";
+import ExerciseArea from "./pages/common/exercise-area";
 import Visualizer from "./pages/common/visualizer";
 import Walker from "./pages/common/walker";
 import VerbPage from "./pages/verbs/verb.page";
@@ -43,7 +43,7 @@ class Index {
         };
 
         new Menu(browserEvent);
-        new Checker(browserEvent);
+        new ExerciseArea(browserEvent);
         new Visualizer(browserEvent);
         new Walker(browserEvent);
         new Router(browserEvent, http, i18n, routes, "page-placeholder");

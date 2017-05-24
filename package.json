@@ -57,5 +57,8 @@
     "tap-nyan": "^1.1.0",
     "tape": "^4.6.3",
     "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git"
+  },
+  "dependencies": {
+    "fast-diff": "^1.1.1"
   }
 }

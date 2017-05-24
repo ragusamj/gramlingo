@@ -46,8 +46,6 @@
     "http-server": "^0.10.0",
     "istanbul": "^1.1.0-alpha.1",
     "jsdom": "^10.1.0",
-    "lodash.debounce": "^4.0.8",
-    "lodash.get": "^4.4.2",
     "mkdirp": "^0.5.1",
     "ncp": "^2.0.0",
     "node-sass": "^4.5.2",
@@ -59,6 +57,8 @@
     "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git"
   },
   "dependencies": {
-    "fast-diff": "^1.1.1"
+    "fast-diff": "^1.1.1",
+    "lodash.debounce": "^4.0.8",
+    "lodash.get": "^4.4.2"
   }
 }

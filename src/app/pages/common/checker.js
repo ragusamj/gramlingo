@@ -1,41 +1,53 @@
-import diff from "fast-diff";
+import fastdiff from "fast-diff";
 
 class Checker {
-    check(variants, answer) {
+    check(alternatives, answer) {
+
+        let result = {
+            accepted: false,
+            alternatives: []
+        };
 
         answer = this.sanitize(answer);
 
-        if(!answer) {
-            return undefined;
-        }
-
-        let result = {
-            diffs: [],
-            isCorrect: false
-        };
-
-        for(let variant of variants) {
-            let a = variant.toLocaleLowerCase();
-            let b = answer.toLocaleLowerCase();
-            if(a === b) {
-                result.isCorrect = true;
-            }
-            else {
-                result.diffs.push(diff(a, b));
-            }
-        }
-
-        if(result.diffs.length === 0) {
-            return undefined;
-        }
+        this.compareAlternativesWithAnswer(alternatives, answer, result);
+        this.diffMostSimilarAlternative(alternatives, answer, result);
 
         return result;
     }
 
+    compareAlternativesWithAnswer(alternatives, answer, result) {
+        if(!answer) {
+            result.accepted = true;
+        }
+        else {
+            for(let solution of alternatives) {
+                if(answer === solution) {
+                    result.accepted = true;
+                }
+                else if(alternatives.length > 1) {
+                    result.alternatives.push(solution);
+                }
+            }
+        }
+    }
+
+    diffMostSimilarAlternative(alternatives, answer, result) {
+        if(!result.accepted) {
+            for(let solution of alternatives) {
+                let diff = fastdiff(solution, answer);
+                result.diff = (result.diff && result.diff.length < diff.length) ?
+                    result.diff : diff;
+            }
+        }
+    }
+
     sanitize(s) {
-        // TODO:
-        // [^0-9a-z\u00E1-\u00FC]+$/i;
-        return s;
+        return s
+            .replace(/\s+/g, " ")
+            .replace(/[^0-9a-z\s\u00E1-\u00FC]/ig, "")
+            .trim()
+            .toLocaleLowerCase();
     }
 }
 

@@ -1,51 +1,76 @@
-import get from "lodash.get";
 
 class Visualizer {
 
-    constructor(browserEvent) {
-        this._browserEvent = browserEvent;
-        browserEvent.on("page-data-updated", this.setPageData.bind(this));
-        browserEvent.on("page-field-list-updated", this.setFields.bind(this));
-        browserEvent.on("click", this.onClick.bind(this));
+    constructor() {
+        this.hidden = false;
     }
 
-    setPageData(e) {
-        this._pageData = e.detail;
-        this.update();
+    updateField(field, variants) {
+        let input = document.getElementById(field.inputId);
+        input.disabled = !variants[0];
+        if(input.disabled) {
+            input.value = "-";
+        }
+        else {
+            input.value = this.hidden ? "" : variants[0];
+        }
+        this.hideIcon(field.iconId);
+        this.hidePopup(field.popupId);
     }
 
-    setFields(e) {
-        this._fields = e.detail;
-    }
+    showAnswer(field, result) {
+        if(result) {
 
-    update() {
-        Object.keys(this._fields).forEach((id) => {
-            let input = document.getElementById(id);
-            let field = this._fields[id];
-            let variants = get(this._pageData, field.dataPath);
-            input.disabled = !variants[0];
-            if(input.disabled) {
-                input.value = "-";
+            let icon = document.getElementById(field.iconId);
+            if(result.isCorrect) {
+                icon.classList.add("fa-circle-o");
+                icon.classList.add("text-success");
             }
             else {
-                input.value = this._hidden ? "" : variants[0];
+                icon.classList.add("fa-pencil");
+                icon.classList.add("text-danger"); 
             }
-        });
+            this.showIcon(field.iconId);
+
+            let popup = document.getElementById(field.popupId);
+            popup.innerHTML = "";
+            result.diffs.forEach((d) => {
+                popup.innerHTML += d + "</br>";
+            });
+
+            this.showPopup(field.popupId);
+            setTimeout(() => {
+                this.hidePopup(field.popupId);
+            }, 3000);
+        }
+        else {
+            this.hideIcon(field.iconId);
+            this.hidePopup(field.popupId);
+        }
     }
 
-    onClick(e) {
-        if(e.target) {
-            if(e.target.hasAttribute("data-hide-button")) {
-                this._hidden = true;
-                this._browserEvent.emit("page-field-reset");
-                this.update();
+    hideIcon(id) {
+        let icon = document.getElementById(id);
+        icon.classList.remove("show");
+    }
 
-            }
-            if(e.target.hasAttribute("data-show-button")) {
-                this._hidden = false;
-                this.update();
-            }
+    showIcon(id) {
+        let icon = document.getElementById(id);
+        icon.classList.add("show");
+    }
+
+    showPopup(id) {
+        if(this._lastPopup) {
+            this.hidePopup(this._lastPopup);
         }
+        this._lastPopup = id;
+        let popup = document.getElementById(id);
+        popup.classList.add("show");
+    }
+
+    hidePopup(id) {
+        let popup = document.getElementById(id);
+        popup.classList.remove("show");
     }
 }
 

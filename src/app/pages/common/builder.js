@@ -22,6 +22,7 @@ class Builder {
                 fields[input.id] = {
                     dataPath: dataPath,
                     iconId: icon.id,
+                    inputId: input.id,
                     popupId: popup.id
                 };
             });

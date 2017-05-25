@@ -7,15 +7,10 @@ const keyCode = {
 
 class Walker {
 
-    constructor(browserEvent) {
-        browserEvent.on("page-field-list-updated", this.link.bind(this));
-        browserEvent.on("keydown", this.walk.bind(this));
-    }
-
-    link(e) {
+    link(fields) {
         this._linkedList = {};
         this._previous = undefined;
-        Object.keys(e.detail).forEach((id) => {
+        Object.keys(fields).forEach((id) => {
             let element = document.getElementById(id);
             if(!element.disabled) {
                 this._linkedList[id] = {
@@ -29,17 +24,15 @@ class Walker {
         });
     }
 
-    walk(e) {
-        if(e.target && e.target.hasAttribute("data-walkable-field")) {
-            let item = this._linkedList[e.target.id];
-            if (e.keyCode === keyCode.upArrow && item.previous) {
-                let previous = document.getElementById(item.previous);
-                previous.select();
-            }
-            else if ((e.keyCode === keyCode.downArrow || e.keyCode === keyCode.enter) && item.next) {
-                let next = document.getElementById(item.next);
-                next.select();
-            }
+    walk(key, id) {
+        let item = this._linkedList[id];
+        if (key === keyCode.upArrow && item.previous) {
+            let previous = document.getElementById(item.previous);
+            previous.select();
+        }
+        else if ((key === keyCode.downArrow || key === keyCode.enter) && item.next) {
+            let next = document.getElementById(item.next);
+            next.select();
         }
     }
 }

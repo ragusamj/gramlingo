@@ -1,36 +1,119 @@
+import sinon from "sinon";
 import test from "tape";
-import Dom from "../../core/mock/dom";
 import Walker from "./walker";
 
-test("Walker should link", (t) => {
-    Dom.sandbox("<input id='input-1'/><input id='input-2'/>", {}, () => {
+// window.getSelection isn't implemented in jsdom yet :(
+// https://github.com/tmpvar/jsdom/issues/321
+let setup = (elements) => {
+    global.document = {
+        getElementById: (id) => {
+            return elements[id];
+        }
+    };
+};
 
-        let walker = new Walker();
-        let elements = {
-            "input-1": {},
-            "input-2": {}
-        };
+test("Walker should walk to previous element when up arrow is pressed", (t) => {
 
-        walker.link(elements);
+    let walker = new Walker();
+    let elements = {
+        "input-1": { select: sinon.stub() },
+        "input-2": {}
+    };
 
-        t.deepEqual(walker._linkedList, { "input-1": { next: "input-2", previous: undefined }, "input-2": { previous: "input-1" } });
-        t.end();
-    });
+    setup(elements);
+
+    walker.link(elements);
+    walker.walk(walker.KeyCode.upArrow, "input-2");
+
+    t.true(elements["input-1"].select.called);
+    t.end();
 });
 
-test("Walker should not link disabled elements", (t) => {
-    Dom.sandbox("<input id='input-1'/><input id='input-2' disabled/><input id='input-3'/>", {}, () => {
+test("Walker should walk to previous element and skip disabled elements", (t) => {
 
-        let walker = new Walker();
-        let elements = {
-            "input-1": {},
-            "input-2": {},
-            "input-3": {}
-        };
+    let walker = new Walker();
+    let elements = {
+        "input-1": { select: sinon.stub() },
+        "input-2": { disabled: true },
+        "input-3": {}
+    };
 
-        walker.link(elements);
+    setup(elements);
 
-        t.deepEqual(walker._linkedList, { "input-1": { next: "input-3", previous: undefined }, "input-3": { previous: "input-1" } });
-        t.end();
-    });
+    walker.link(elements);
+    walker.walk(walker.KeyCode.upArrow, "input-3");
+
+    t.true(elements["input-1"].select.called);
+    t.end();
+});
+
+test("Walker should walk to next element when down arrow is pressed", (t) => {
+
+    let walker = new Walker();
+    let elements = {
+        "input-1": {},
+        "input-2": { select: sinon.stub() }
+    };
+
+    setup(elements);
+
+    walker.link(elements);
+    walker.walk(walker.KeyCode.downArrow, "input-1");
+
+    t.true(elements["input-2"].select.called);
+    t.end();
+});
+
+test("Walker should walk to next element when enter key is pressed", (t) => {
+
+    let walker = new Walker();
+    let elements = {
+        "input-1": {},
+        "input-2": { select: sinon.stub() }
+    };
+
+    setup(elements);
+
+    walker.link(elements);
+    walker.walk(walker.KeyCode.enter, "input-1");
+
+    t.true(elements["input-2"].select.called);
+    t.end();
+});
+
+test("Walker should walk to next element and skip disabled elements", (t) => {
+
+    let walker = new Walker();
+    let elements = {
+        "input-1": { },
+        "input-2": { disabled: true },
+        "input-3": { select: sinon.stub() }
+    };
+
+    setup(elements);
+
+    walker.link(elements);
+    walker.walk(walker.KeyCode.downArrow, "input-1");
+
+    t.true(elements["input-3"].select.called);
+    t.end();
+});
+
+test("Walker should ignore unknown keys", (t) => {
+
+    let walker = new Walker();
+    let elements = {
+        "input-1": { select: sinon.stub() },
+        "input-2": { select: sinon.stub() }
+    };
+
+    setup(elements);
+
+    walker.link(elements);
+    walker.walk(15, "input-1");
+    walker.walk(15, "input-2");
+
+    t.false(elements["input-1"].select.called);
+    t.false(elements["input-2"].select.called);
+    t.end();
 });

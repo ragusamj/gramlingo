@@ -8,24 +8,24 @@ const keyCode = {
 class Walker {
 
     link(fields) {
-        this._linkedList = {};
-        this._previous = undefined;
+        this.linkedList = {};
+        this.previous = undefined;
         Object.keys(fields).forEach((id) => {
             let element = document.getElementById(id);
             if(!element.disabled) {
-                this._linkedList[id] = {
-                    previous: this._previous
+                this.linkedList[id] = {
+                    previous: this.previous
                 };
-                if(this._previous) {
-                    this._linkedList[this._previous].next = id;
+                if(this.previous) {
+                    this.linkedList[this.previous].next = id;
                 }
-                this._previous = id;
+                this.previous = id;
             }
         });
     }
 
     walk(key, id) {
-        let item = this._linkedList[id];
+        let item = this.linkedList[id];
         if (key === keyCode.upArrow && item.previous) {
             let previous = document.getElementById(item.previous);
             previous.select();
@@ -36,5 +36,7 @@ class Walker {
         }
     }
 }
+
+Walker.prototype.KeyCode = keyCode;
 
 export default Walker;

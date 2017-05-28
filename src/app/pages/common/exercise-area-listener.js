@@ -2,9 +2,9 @@ import get from "lodash.get";
 
 class ExerciseAreaListener {
 
-    constructor(browserEvent, checker, visualizer, walker) {
+    constructor(browserEvent, checker, exerciseArea, walker) {
         this.checker = checker;
-        this.visualizer = visualizer;
+        this.exerciseArea = exerciseArea;
         this.walker = walker;
         browserEvent.on("blur", this.onBlur.bind(this));
         browserEvent.on("click", this.onClick.bind(this));
@@ -20,18 +20,18 @@ class ExerciseAreaListener {
             let field = this.fields[e.target.id];
             let variants = get(this.pageData, field.dataPath);
             let result = this.checker.check(variants, e.target.value);
-            this.visualizer.showAnswer(field, result);
+            this.exerciseArea.showAnswer(field, result);
         }
     }
 
     onClick(e) {
         if(e.target.hasAttribute("data-hide-button")) {
-            this.visualizer.hidden = true;
+            this.exerciseArea.hidden = true;
             this.updateFields();
 
         }
         if(e.target.hasAttribute("data-show-button")) {
-            this.visualizer.hidden = false;
+            this.exerciseArea.hidden = false;
             this.updateFields();
         }
     }
@@ -45,14 +45,14 @@ class ExerciseAreaListener {
     onMouseover(e) {
         if(this.isKnownEvent(e, "DIV", this.fieldsByIconId)) {
             let field = this.fieldsByIconId[e.target.id];
-            this.visualizer.showPopup(field.popupId);
+            this.exerciseArea.showPopup(field.popupId);
         }
     }
 
     onMouseout(e) {
         if(this.isKnownEvent(e, "DIV", this.fieldsByIconId)) {
             let field = this.fieldsByIconId[e.target.id];
-            this.visualizer.hidePopup(field.popupId);
+            this.exerciseArea.hidePopup(field.popupId);
         }
     }
 
@@ -75,7 +75,7 @@ class ExerciseAreaListener {
         Object.keys(this.fields).forEach((id) => {
             let field = this.fields[id];
             let variants = get(this.pageData, field.dataPath);
-            this.visualizer.updateField(field, variants);
+            this.exerciseArea.updateField(field, variants);
         });
     }
 

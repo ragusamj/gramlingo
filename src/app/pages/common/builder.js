@@ -1,7 +1,7 @@
 import get from "lodash.get";
 import Template from "../../core/template";
 
-class Builder {
+class Page {
     apply(pageTemplate, pageData) {
         let fields = {};
         let fieldTemplate = Template.fromElementId("excercise-area-template");
@@ -10,25 +10,19 @@ class Builder {
             let fieldPath = fieldContainer.getAttribute("data-field-path");
             let fieldData = get(pageData, fieldPath);
             fieldData.forEach((variants, i) => {
-                let dataPath = fieldPath + "[" + i + "]";
                 let field = fieldTemplate.clone();
-                let icon = field.getElementById("icon");
-                icon.id = dataPath + "_icon";
-                let input = field.getElementById("input");
-                input.id = dataPath + "_input";
-                let popup = field.getElementById("popup");
-                popup.id = dataPath + "_popup";
-                fieldContainer.appendChild(field.fragment());
+                let input = field.set("input");
                 fields[input.id] = {
-                    dataPath: dataPath,
-                    iconId: icon.id,
+                    dataPath: fieldPath + "[" + i + "]",
+                    iconId: field.set("icon").id,
                     inputId: input.id,
-                    popupId: popup.id
+                    popupId: field.set("popup").id
                 };
+                fieldContainer.appendChild(field.fragment());
             });
         });
         return fields;
     }
 }
 
-export default Builder;
+export default Page;

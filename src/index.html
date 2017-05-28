@@ -10,6 +10,7 @@
         <link href="https://fonts.googleapis.com/css?family=Lobster|Montserrat:300,400" rel="stylesheet">
     </head>
 <body>
+
     <script id="excercise-area-template" type="text/template">
         <div class="row">
             <div class="col-12">
@@ -21,6 +22,44 @@
             </div>
         </div>
     </script>
+
+    <script id="popup-template" type="text/template">
+        <table>
+            <tbody>
+            </tbody>
+        </table>
+    </script>
+
+    <script id="popup-traffic-light-template" type="text/template">
+        <tr>
+            <td style="text-align: center; padding: 3.5px;">
+                <span class="fa fa-exclamation-circle text-danger"></span>
+            </td>
+            <td class="text-danger" id="answer"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 3.5px;">
+                <span class="fa fa-question-circle text-warning"></span>
+            </td>
+            <td id="diff"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 3.5px;">
+                <span class="fa fa-check-circle text-success"></span>
+            </td>
+            <td id="solution"></td>
+        </tr>
+    </script>
+
+    <script id="popup-alternatives-template" type="text/template">
+        <tr>
+            <td style='text-align: center; padding: 3.5px;'>
+                <span class="fa fa-plus-circle text-info"></span>
+            </td>
+            <td id="alternative"></td>
+        </tr>
+    </script>
+
     <nav class="navbar navbar-expand-md navbar-inverse bg-inverse fixed-top mb-4">
         <a class="navbar-brand" href="#/">
             Snapgram.net

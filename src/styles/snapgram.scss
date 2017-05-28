@@ -62,7 +62,13 @@ button {
     }
     .popup {
         bottom: 2em;
-        padding: 1em;
+        padding: 0.5em;
+        .missing-letter {
+            text-decoration: underline;
+        }
+        .alien-letter {
+            text-decoration: line-through;
+        }
     }
     .search-result {
         top: 2em;

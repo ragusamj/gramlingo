@@ -1,6 +1,6 @@
 import debounce from "lodash.debounce";
 import Template from "../../core/template";
-import Builder from "../common/builder";
+import Page from "../common/page";
 import VerbSearchService from "./verb-search.service";
 
 const searchTypingDelay = 300;
@@ -80,7 +80,7 @@ class VerbPage {
         this._searchService = new VerbSearchService(this._verbs);
         let index = this._getDefaultVerbIndex();
         let pageData = this._verbs[index];
-        this._fields = new Builder().apply(pageTemplate, pageData);
+        this._fields = new Page().apply(pageTemplate, pageData);
         onDOMChanged();
         this._browserEvent.emit("page-field-list-updated", this._fields);
         this._onPageDataChanged(index);

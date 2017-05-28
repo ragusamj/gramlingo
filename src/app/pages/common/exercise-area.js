@@ -6,7 +6,7 @@ const deleted = -1;
 const equal = 0;
 const insert = 1;
 
-class ExerciseInputField {
+class ExerciseArea {
 
     constructor() {
         this.popupTemplate = Template.fromElementId("popup-template");
@@ -130,4 +130,4 @@ class ExerciseInputField {
     }
 }
 
-export default ExerciseInputField;
+export default ExerciseArea;

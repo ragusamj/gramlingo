@@ -10,7 +10,7 @@ import svSE from "./translations/sv-SE";
 
 import Menu from "./menu";
 import Checker from "./pages/common/checker";
-import ExerciseArea from "./pages/common/exercise-area";
+import ExerciseAreaListener from "./pages/common/exercise-area-listener";
 import Visualizer from "./pages/common/visualizer";
 import Walker from "./pages/common/walker";
 import VerbPage from "./pages/verbs/verb.page";
@@ -43,8 +43,8 @@ class Index {
             }
         };
 
+        new ExerciseAreaListener(browserEvent, new Checker(), new Visualizer(), new Walker());
         new Menu(browserEvent);
-        new ExerciseArea(browserEvent, new Checker(), new Visualizer(), new Walker());
         new Router(browserEvent, http, i18n, routes, "page-placeholder");
     }
 

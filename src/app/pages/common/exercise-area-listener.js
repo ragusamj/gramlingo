@@ -1,6 +1,6 @@
 import get from "lodash.get";
 
-class ExerciseArea {
+class ExerciseAreaListener {
 
     constructor(browserEvent, checker, visualizer, walker) {
         this.checker = checker;
@@ -84,4 +84,4 @@ class ExerciseArea {
     }
 }
 
-export default ExerciseArea;
+export default ExerciseAreaListener;

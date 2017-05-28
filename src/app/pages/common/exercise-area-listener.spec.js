@@ -2,7 +2,7 @@ import sinon from "sinon";
 import test from "tape";
 import BrowserEvent from "../../core/browser-event";
 import Dom from "../../core/mock/dom";
-import ExerciseArea from "./exercise-area";
+import ExerciseAreaListener from "./exercise-area-listener";
 
 let checker = {
     check: sinon.stub().returns({ accepted: true })
@@ -21,7 +21,7 @@ let walker = {
 };
 
 let setup = () => {
-    let exerciseArea = new ExerciseArea(new BrowserEvent(), checker, visualizer, walker);
+    let exerciseArea = new ExerciseAreaListener(new BrowserEvent(), checker, visualizer, walker);
     exerciseArea.onPageFieldListUpdated({detail: { "id": { dataPath: "path", iconId: "icon-id", popupId: "popup-id" } }});
     exerciseArea.onPageDataUpdated({ detail: { "path": ["alternative"] }});
     return exerciseArea;
@@ -60,7 +60,7 @@ test("ExerciseArea should ignore unknown blur events", (t) => {
         setup();
 
         checker.check.reset();
-        new ExerciseArea(new BrowserEvent(), checker, visualizer, walker);
+        new ExerciseAreaListener(new BrowserEvent(), checker, visualizer, walker);
         document.dispatchEvent(new Event("blur"));
 
         t.false(checker.check.called);

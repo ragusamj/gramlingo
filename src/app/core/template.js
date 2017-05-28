@@ -1,15 +1,23 @@
+
+const wrappers = {
+    col: { selector: "colgroup", before: "<table><colgroup>", after: "</colgroup></table>" },
+    td: { selector: "tr", before: "<table><tr>", after: "</tr></table>" },
+    thead: { selector: "table", before: "<table>", after: "</table>" },
+    tr: { selector: "tbody", before: "<table><tbody>", after: "</tbody></table>" }
+};
+
 class Template {
 
     constructor(content) {
         if(content.getElementById) {
-            this._documentFragment = content;
+            this.documentFragment = content;
         }
         else if(content.querySelectorAll) {
-            this._documentFragment = document.createDocumentFragment();
-            this._documentFragment.appendChild(content);
+            this.documentFragment = document.createDocumentFragment();
+            this.documentFragment.appendChild(content);
         }
         else if(typeof content === "string"){
-            this._documentFragment = this._parse(content);
+            this.documentFragment = this.parse(content);
         }
         else {
             throw new Error("Invalid template content: " + typeof content);
@@ -23,13 +31,9 @@ class Template {
 
     add(parent, tagName, properties) {
         let element = document.createElement(tagName);
-        if(properties) {
-            Object.keys(properties).forEach((key) => {
-                element[key] = properties[key];
-            });
-        }
+        this.setProperties(element, properties);
         if(typeof parent === "string") {
-            parent = this._documentFragment.getElementById(parent);
+            parent = this.documentFragment.getElementById(parent);
         }
         parent.appendChild(element);
         return element;
@@ -40,15 +44,19 @@ class Template {
     }
 
     fragment() {
-        return this._documentFragment.cloneNode(true);
+        return this.documentFragment.cloneNode(true);
     }
 
     getElementById(elementId) {
-        return this._documentFragment.getElementById(elementId);
+        return this.documentFragment.getElementById(elementId);
+    }
+
+    getElementsByTagName(tagname) {
+        return this.documentFragment.firstChild.getElementsByTagName(tagname);
     }
 
     querySelectorAll(selectors) {
-        return this._documentFragment.querySelectorAll(selectors);
+        return this.documentFragment.querySelectorAll(selectors);
     }
 
     replaceContent(elementId) {
@@ -59,14 +67,50 @@ class Template {
         element.appendChild(this.fragment());
     }
 
-    _parse(html) {
-        let fragment = document.createDocumentFragment();
-        let parser = document.createElement("div");
-        parser.innerHTML = html;
-        parser.childNodes.forEach((node) => {
-            fragment.appendChild(node.cloneNode(true));    
-        });        
+    parse(html) {
+
+        let fragment;
+        let template = document.createElement("template");
+
+        if("content" in template) {
+            template.innerHTML = html;
+            fragment = template.content;
+        }
+        else {
+
+            let firstTagName = html.match(/^[\s]*<([a-z][^\/\s>]+)/i)[1];
+            let wrapper = wrappers[firstTagName];
+
+            if(wrapper) {
+                let parser = document.createElement("div");
+                parser.insertAdjacentHTML("afterbegin", wrapper.before + html + wrapper.after);
+                let query = parser.querySelector(wrapper.selector);
+                fragment = document.createDocumentFragment();
+                while (query.firstChild) {
+                    fragment.appendChild(query.firstChild);
+                }
+            }
+            else {
+                fragment = document.createRange().createContextualFragment(html);
+            }
+        }
+
         return fragment;
+    }
+
+    set(elementId, properties) {
+        let element = this.documentFragment.getElementById(elementId);
+        element.id = elementId + "_" + Math.random().toString(36).substr(2, 10);
+        this.setProperties(element, properties);
+        return element; 
+    }
+
+    setProperties(element, properties) {
+        if(properties) {
+            Object.keys(properties).forEach((key) => {
+                element[key] = properties[key];
+            });
+        }
     }
 }
 

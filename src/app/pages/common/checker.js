@@ -5,7 +5,8 @@ class Checker {
 
         let result = {
             accepted: false,
-            alternatives: []
+            alternatives: [],
+            answer: answer
         };
 
         answer = this.sanitize(answer);
@@ -23,6 +24,7 @@ class Checker {
         else {
             for(let solution of alternatives) {
                 if(answer === solution) {
+                    result.solution = solution;
                     result.accepted = true;
                 }
                 else if(alternatives.length > 1) {
@@ -36,8 +38,10 @@ class Checker {
         if(!result.accepted) {
             for(let solution of alternatives) {
                 let diff = fastdiff(solution, answer);
-                result.diff = (result.diff && result.diff.length < diff.length) ?
-                    result.diff : diff;
+                if(!(result.diff && result.diff.length < diff.length)) {
+                    result.diff = diff;
+                    result.solution = solution;
+                }
             }
         }
     }

@@ -7,7 +7,11 @@ const checker = new Checker();
 test("Checker should mark empty answer", (t) => {
     Dom.sandbox("", {}, () => {
         let result = checker.check([], "");
-        t.deepEqual(result, { accepted: true, alternatives: [] });
+        t.deepEqual(result, {
+            accepted: true,
+            alternatives: [],
+            answer: ""
+        });
         t.end();
     });
 });
@@ -15,7 +19,12 @@ test("Checker should mark empty answer", (t) => {
 test("Checker should accept correct answer with no alternatives", (t) => {
     Dom.sandbox("", {}, () => {
         let result = checker.check(["voy"], "voy");
-        t.deepEqual(result, { accepted: true, alternatives: [] });
+        t.deepEqual(result, {
+            accepted: true,
+            alternatives: [],
+            answer: "voy",
+            solution: "voy"
+        });
         t.end();
     });
 });
@@ -23,7 +32,12 @@ test("Checker should accept correct answer with no alternatives", (t) => {
 test("Checker should accept correct answer with alternatives", (t) => {
     Dom.sandbox("", {}, () => {
         let result = checker.check(["fuera", "fuese"], "fuera");
-        t.deepEqual(result, { accepted: true, alternatives: ["fuese"] });
+        t.deepEqual(result, {
+            accepted: true,
+            alternatives: ["fuese"],
+            answer: "fuera",
+            solution: "fuera"
+        });
         t.end();
     });
 });
@@ -31,7 +45,12 @@ test("Checker should accept correct answer with alternatives", (t) => {
 test("Checker should ignore case", (t) => {
     Dom.sandbox("", {}, () => {
         let result = checker.check(["voy"], "Voy");
-        t.deepEqual(result, { accepted: true, alternatives: [] });
+        t.deepEqual(result, {
+            accepted: true,
+            alternatives: [],
+            answer: "Voy",
+            solution: "voy"
+        });
         t.end();
     });
 });
@@ -39,7 +58,12 @@ test("Checker should ignore case", (t) => {
 test("Checker should accept correct answer with extra whitespace", (t) => {
     Dom.sandbox("", {}, () => {
         let result = checker.check(["cuarenta y cinco"], "  cuarenta  y  cinco   ");
-        t.deepEqual(result, { accepted: true, alternatives: [] });
+        t.deepEqual(result, {
+            accepted: true,
+            alternatives: [],
+            answer: "  cuarenta  y  cinco   ",
+            solution: "cuarenta y cinco"
+        });
         t.end();
     });
 });
@@ -47,7 +71,12 @@ test("Checker should accept correct answer with extra whitespace", (t) => {
 test("Checker should sanitize input and accept correct answer", (t) => {
     Dom.sandbox("", {}, () => {
         let result = checker.check(["bañé"], "#&ºbañé..,");
-        t.deepEqual(result, { accepted: true, alternatives: [] });
+        t.deepEqual(result, {
+            accepted: true,
+            alternatives: [],
+            answer: "#&ºbañé..,",
+            solution: "bañé"
+        });
         t.end();
     });
 });
@@ -58,7 +87,9 @@ test("Checker should reject incorrect answer", (t) => {
         t.deepEqual(result, {
             accepted: false,
             alternatives: [],
-            diff: [[ 0, "vamo" ], [-1, "s"]]
+            answer: "vamo",
+            diff: [[ 0, "vamo" ], [-1, "s"]],
+            solution: "vamos"
         });
         t.end();
     });
@@ -70,7 +101,9 @@ test("Checker should reject incorrect answer with alternatives", (t) => {
         t.deepEqual(result, {
             accepted: false,
             alternatives: ["vayamos", "vamos"],
-            diff: [[0, "vamo"], [-1, "s"]]
+            answer: "vamo",
+            diff: [[0, "vamo"], [-1, "s"]],
+            solution: "vamos"
         });
         t.end();
     });
@@ -82,7 +115,9 @@ test("Checker should reject incorrect answer with alternatives and choose most s
         t.deepEqual(result, {
             accepted: false,
             alternatives: ["fuese", "fuera"],
-            diff: [[0, "fuese"], [1, "s"]]
+            answer: "fueses",
+            diff: [[0, "fuese"], [1, "s"]],
+            solution: "fuese"
         });
         t.end();
     });

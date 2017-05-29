@@ -8,8 +8,28 @@ test("PhoneticIndexer should index ^A", (t) => {
     t.end();
 });
 
+test("PhoneticIndexer should index ^Á", (t) => {
+    t.equal(indexer.index("árbol"), "ARBL");
+    t.end();
+});
+
+test("PhoneticIndexer should index *Á", (t) => {
+    t.equal(indexer.index("fácil"), "FSL");
+    t.end();
+});
+
 test("PhoneticIndexer should index ^E'", (t) => {
     t.equal(indexer.index("estar"), "ASTR");
+    t.end();
+});
+
+test("PhoneticIndexer should index ^É'", (t) => {
+    t.equal(indexer.index("ébano"), "ABN");
+    t.end();
+});
+
+test("PhoneticIndexer should index *É'", (t) => {
+    t.equal(indexer.index("bebé"), "BB");
     t.end();
 });
 
@@ -18,12 +38,42 @@ test("PhoneticIndexer should index ^I", (t) => {
     t.end();
 });
 
+test("PhoneticIndexer should index ^Í", (t) => {
+    t.equal(indexer.index("ídolo"), "ATL");
+    t.end();
+});
+
+test("PhoneticIndexer should index *Í", (t) => {
+    t.equal(indexer.index("latín"), "LTN");
+    t.end();
+});
+
 test("PhoneticIndexer should index ^O", (t) => {
     t.equal(indexer.index("ofrecer"), "AFRSR");
     t.end();
 });
 
+test("PhoneticIndexer should index ^Ó", (t) => {
+    t.equal(indexer.index("óleo"), "AL");
+    t.end();
+});
+
+test("PhoneticIndexer should index *Ó", (t) => {
+    t.equal(indexer.index("región"), "RXN");
+    t.end();
+});
+
 test("PhoneticIndexer should index ^U", (t) => {
+    t.equal(indexer.index("unir"), "ANR");
+    t.end();
+});
+
+test("PhoneticIndexer should index ^Ú", (t) => {
+    t.equal(indexer.index("último"), "ALTM");
+    t.end();
+});
+
+test("PhoneticIndexer should index ^Ü", (t) => {
     t.equal(indexer.index("unir"), "ANR");
     t.end();
 });
@@ -113,6 +163,16 @@ test("PhoneticIndexer should index GI", (t) => {
     t.end();
 });
 
+test("PhoneticIndexer should index ^GÜ", (t) => {
+    t.equal(indexer.index("güisqui"), "ASK");
+    t.end();
+});
+
+test("PhoneticIndexer should index *GÜ", (t) => {
+    t.equal(indexer.index("pingüino"), "BNGN");
+    t.end();
+});
+
 test("PhoneticIndexer should index ^HA", (t) => {
     t.equal(indexer.index("haber"), "ABR");
     t.end();
@@ -125,6 +185,11 @@ test("PhoneticIndexer should index *HA", (t) => {
 
 test("PhoneticIndexer should index J", (t) => {
     t.equal(indexer.index("jugar"), "XGR");
+    t.end();
+});
+
+test("PhoneticIndexer should index K", (t) => {
+    t.equal(indexer.index("kiwi"), "KW");
     t.end();
 });
 

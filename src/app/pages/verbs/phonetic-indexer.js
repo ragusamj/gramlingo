@@ -7,7 +7,7 @@ class PhoneticIndexer {
 
         for(let i = 0; i < value.length; i++) {
 
-            if(["H","A","E","I","O","U"].indexOf(value[i]) > -1) {
+            if(["H","A","Á","E","É","I","Í","O","Ó","U","Ú","Ü"].indexOf(value[i]) > -1) {
                 result += i === 0 ? "A" : "";
                 continue;
             }
@@ -40,6 +40,9 @@ class PhoneticIndexer {
                 case "G":
                     if(["E", "I"].indexOf(value[i + 1]) > -1) {
                         result += "X";
+                    }
+                    else if(i === 0 && value[i + 1] === "Ü") {
+                        result += "A";
                     }
                     else {
                         result += "G";

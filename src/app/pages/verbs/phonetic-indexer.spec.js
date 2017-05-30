@@ -94,7 +94,7 @@ test("PhoneticIndexer should index ^CO", (t) => {
 });
 
 test("PhoneticIndexer should index ^CU", (t) => {
-    t.equal(indexer.index("cumplir"), "KMBLR");
+    t.equal(indexer.index("cumplir"), "KMPLR");
     t.end();
 });
 
@@ -169,7 +169,7 @@ test("PhoneticIndexer should index ^GÜ", (t) => {
 });
 
 test("PhoneticIndexer should index *GÜ", (t) => {
-    t.equal(indexer.index("pingüino"), "BNGN");
+    t.equal(indexer.index("pingüino"), "PNGN");
     t.end();
 });
 
@@ -214,7 +214,7 @@ test("PhoneticIndexer should index Ñ", (t) => {
 });
 
 test("PhoneticIndexer should index P", (t) => {
-    t.equal(indexer.index("parar"), "BRR");
+    t.equal(indexer.index("parar"), "PRR");
     t.end();
 });
 
@@ -274,13 +274,13 @@ test("PhoneticIndexer should index double consonants RR", (t) => {
 });
 
 test("PhoneticIndexer should index YA", (t) => {
-    t.equal(indexer.index("apoyar"), "ABLLR");
+    t.equal(indexer.index("apoyar"), "APLLR");
     t.end();
 });
 
 // common spelling mistake
 test("PhoneticIndexer should index LLA", (t) => {
-    t.equal(indexer.index("apollar"), "ABLLR");
+    t.equal(indexer.index("apollar"), "APLLR");
     t.end();
 });
 
@@ -307,13 +307,13 @@ test("PhoneticIndexer should index YO", (t) => {
 });
 
 test("PhoneticIndexer should index YU", (t) => {
-    t.equal(indexer.index("yuxtaponer"), "LLKSTBNR");
+    t.equal(indexer.index("yuxtaponer"), "LLKSTPNR");
     t.end();
 });
 
 // common spelling mistake
 test("PhoneticIndexer should index LLU", (t) => {
-    t.equal(indexer.index("lluxtaponer"), "LLKSTBNR");
+    t.equal(indexer.index("lluxtaponer"), "LLKSTPNR");
     t.end();
 });
 
@@ -325,25 +325,5 @@ test("PhoneticIndexer should index 'entender'", (t) => {
 
 test("PhoneticIndexer should index 'intentar'", (t) => {
     t.equal(indexer.index("intentar"), "ANTNTR");
-    t.end();
-});
-
-test("PhoneticIndexer should index 'pagar'", (t) => {
-    t.equal(indexer.index("pagar"), "BGR");
-    t.end();
-});
-
-test("PhoneticIndexer should index 'vagar'", (t) => {
-    t.equal(indexer.index("vagar"), "BGR");
-    t.end();
-});
-
-test("PhoneticIndexer should index 'besar'", (t) => {
-    t.equal(indexer.index("besar"), "BSR");
-    t.end();
-});
-
-test("PhoneticIndexer should index 'pasar'", (t) => {
-    t.equal(indexer.index("pasar"), "BSR");
     t.end();
 });

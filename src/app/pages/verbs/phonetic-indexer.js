@@ -19,7 +19,6 @@ class PhoneticIndexer {
 
             switch(value[i]) {
                 case "B":
-                case "P":
                 case "V":
                     result += "B";
                     break;

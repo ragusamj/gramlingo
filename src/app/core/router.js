@@ -60,7 +60,9 @@ class Router {
                 window.location.hash = routeKey;
                 this._currentRouteKey = routeKey;
             };
-            routeData.page.load(pageTemplate, onDOMChanged);
+            setTimeout(() => {
+                routeData.page.load(pageTemplate, onDOMChanged);
+            });
         });
     }
 }

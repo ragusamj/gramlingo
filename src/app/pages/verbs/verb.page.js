@@ -3,6 +3,7 @@ import Template from "../../core/template";
 import Page from "../common/page";
 import VerbSearchService from "./verb-search.service";
 
+const defaultVerbIndex = 624; // Ir
 const searchTypingDelay = 300;
 
 class VerbPage {
@@ -15,16 +16,16 @@ class VerbPage {
 
     load(pageTemplate, onDOMChanged) {
         this._http.getJSON("/data/verbs.json", (verbs) => {
-            this._inflate(verbs);
-            this._initSearchListeners();
-            this._applyPageTemplate(pageTemplate, onDOMChanged);
+            this.inflate(verbs);
+            this.initSearch();
+            this.applyPageTemplate(pageTemplate, onDOMChanged);
         }, (event) => {
             // console.log("loading verbs, recieved", event.loaded, "bytes of", event.total);
             return event;
         });
     }
 
-    _inflate(verbs) {
+    inflate(verbs) {
         this._verbs = verbs
         .map((verb) => {
             return {
@@ -59,34 +60,27 @@ class VerbPage {
         });
     }
 
-    _initSearchListeners() {
+    initSearch() {
+        this._searchService = new VerbSearchService(this._verbs);
         this._deferredSearch = debounce((e) => {
             if(e.target && e.target.hasAttribute("data-verb-search")) {
                 let result = this._searchService.search(e.target.value);
-                this._showSearchResult(result);
+                this.showSearchResult(result);
             }
         }, searchTypingDelay);
         this._destroyOnSearch = this._browserEvent.on("keyup", this._deferredSearch);
-        this._destroyOnSearchResultClick = this._browserEvent.on("click", this._onSearchResultClick.bind(this));
+        this._destroyOnSearchResultClick = this._browserEvent.on("click", this.onSearchResultClick.bind(this));
     }
 
-    _getDefaultVerbIndex() {
-        let result = this._searchService.search("ir");
-        return result.matches[0].index;
-    }
-
-    _applyPageTemplate(pageTemplate, onDOMChanged) {
-        // TODO: this function does many things
-        this._searchService = new VerbSearchService(this._verbs);
-        let index = this._getDefaultVerbIndex();
-        let pageData = this._verbs[index];
+    applyPageTemplate(pageTemplate, onDOMChanged) {
+        let pageData = this._verbs[defaultVerbIndex];
         this._fields = new Page().apply(pageTemplate, pageData);
         onDOMChanged();
         this._browserEvent.emit("page-field-list-updated", this._fields);
-        this._onPageDataChanged(index);
+        this.onPageDataChanged(defaultVerbIndex);
     }
 
-    _showSearchResult(result) {
+    showSearchResult(result) {
 
         let template = Template.fromElementId("search-result-template");
         let ul = template.getElementById("search-result-list");
@@ -98,6 +92,7 @@ class VerbPage {
                 template.add(li, "span", { innerHTML: match.pre });
                 template.add(li, "strong", { innerHTML: match.match });
                 template.add(li, "span", { innerHTML: match.post });
+                template.add(li, "span", { innerHTML: match.source, className: "pull-right" });
                 li.setAttribute("data-verb-index", match.index);
             });
 
@@ -109,22 +104,22 @@ class VerbPage {
         }
     }
 
-    _onSearchResultClick(e) {
+    onSearchResultClick(e) {
         if(e.target && e.target.hasAttribute("data-verb-index")) {
             let index = e.target.getAttribute("data-verb-index");
             let ul = document.getElementById("search-result-list");
             ul.classList.add("hide");
-            this._onPageDataChanged(index);
+            this.onPageDataChanged(index);
         }
     }
 
-    _onPageDataChanged(index){
-        this._setHeader(this._verbs[index]);
+    onPageDataChanged(index){
+        this.setHeader(this._verbs[index]);
         this._browserEvent.emit("page-data-updated", this._verbs[index]);
         this._browserEvent.emit("page-field-list-updated", this._fields);   
     }
 
-    _setHeader(verb) {
+    setHeader(verb) {
         document.getElementById("verb-name").innerHTML = verb.name;
         let mode = document.getElementById("verb-mode");
         mode.setAttribute("data-translate", (verb.regular ? "verbs-header-regular" : "verbs-header-irregular"));

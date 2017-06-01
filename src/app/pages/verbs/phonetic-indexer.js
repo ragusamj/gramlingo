@@ -43,7 +43,7 @@ class PhoneticIndexer {
                     break;
                 case "D":
                     primary += "T";
-                    if(!(["A", "I"].indexOf(value[i - 1]) > -1 && ["A", "O"].indexOf(value[i + 1]) > -1)) {
+                    if(!(i !== 1 && ["A", "I"].indexOf(value[i - 1]) > -1 && ["A", "O"].indexOf(value[i + 1]) > -1)) {
                         secondary += "T";
                     }
                     break;

@@ -339,6 +339,11 @@ test("PhoneticIndexer should index IDO without D", (t) => {
     t.end();
 });
 
+test("PhoneticIndexer should index leading ADO with D", (t) => {
+    t.deepEqual(indexer.index("adoro"), ["ATR"]);
+    t.end();
+});
+
 // omitting S
 test("PhoneticIndexer should index EST without S", (t) => {
     t.deepEqual(indexer.index("estado"), ["ASTT", "AT"]);

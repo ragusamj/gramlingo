@@ -45,17 +45,11 @@ class VerbSearchService {
 
     index(obj, verbIndex, type) {
         if(typeof obj === "string") {
-            let key = this.indexer.index(obj);
-            let values = this.phoneticIndex[key] = this.phoneticIndex[key] || [];
-            let isUnique = true;
-            for(let i = 0; i < values.length; i++) {
-                if(values[i].value === obj && values[i].verbIndex === verbIndex) {
-                    isUnique = false;
-                }
-            }
-            if(isUnique) {
-                values.push({verbIndex: verbIndex, value: obj, type: type});
-            }
+            let keys = this.indexer.index(obj);
+            keys.forEach((key, i) => {
+                let values = this.phoneticIndex[key] = this.phoneticIndex[key] || [];
+                values.push({type: type, verbIndex: verbIndex, value: obj, r: i});
+            });
         }
         else if (Array.isArray(obj)){
             obj.forEach((value) => {
@@ -126,20 +120,30 @@ class VerbSearchService {
 
     matchPhonetically(matches, term) {
         if(matches.length < maxSearchResults) {
-            let key = this.indexer.index(term);
-            let index = this.phoneticIndex[key];
-            if(index) {
-                for(let i = 0; i < index.length; i++) {
-                    let match = index[i];
-                    let weight = (match.value === term ? 60 : 50) - (match.type === "name" ? 0 : 1);
-                    matches.push({
-                        weight: weight,
-                        pre: "",
-                        match: match.value.toLowerCase(),
-                        post: "",
-                        source: this.verbs[match.verbIndex].name.toLowerCase(),
-                        index: match.verbIndex
-                    });
+            let dupecache = [];
+            let keys = this.indexer.index(term);
+            for(let i = 0; i < keys.length; i++) {
+                let key = keys[i];
+                let index = this.phoneticIndex[key];
+                if(index) {
+                    for(let j = 0; j < index.length; j++) {
+                        let match = index[j];
+                        let value = match.value.toLowerCase();
+                        let source = this.verbs[match.verbIndex].name.toLowerCase();
+                        let dupekey = value + "_" + source;
+                        if(dupecache.indexOf(dupekey) === -1) {
+                            dupecache.push(dupekey);
+                            let weight = (match.value === term ? 60 : 50) - (match.type === "name" ? 0 : 1);
+                            matches.push({
+                                weight: weight,
+                                pre: "",
+                                match: value,
+                                post: "",
+                                source: source,
+                                index: match.verbIndex
+                            });
+                        }
+                    }
                 }
             }
         }

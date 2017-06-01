@@ -2,79 +2,105 @@ class PhoneticIndexer {
 
     index(value) {
 
-        let result = "";
+        let primary = "";
+        let secondary = "";
         value = value.toUpperCase();
 
         for(let i = 0; i < value.length; i++) {
 
             if(["H","A","Á","E","É","I","Í","O","Ó","U","Ú","Ü"].indexOf(value[i]) > -1) {
-                result += i === 0 ? "A" : "";
+                let vowel = i === 0 ? "A" : "";
+                primary += vowel;
+                secondary += vowel;
                 continue;
             }
 
             if(value[i] === "Y" && ["A","E","O","U"].indexOf(value[i + 1]) > -1) {
-                result += "LL";
+                primary += "LL";
+                secondary += "LL";
                 continue;
             }
 
             switch(value[i]) {
                 case "B":
                 case "V":
-                    result += "B";
+                    primary += "B";
+                    secondary += "B";
                     break;
                 case "C":
                     if(["E", "I"].indexOf(value[i + 1]) > -1) {
-                        result += "S";
+                        primary += "S";
+                        secondary += "S";
                     }
                     else if(value[i + 1] === "H") {
-                        result += "X";
+                        primary += "X";
+                        secondary += "X";
                     }
                     else {
-                        result += "K";
+                        primary += "K";
+                        secondary += "K";
                     }
                     break;
                 case "D":
-                    result += "T";
+                    primary += "T";
+                    if(!(["A", "I"].indexOf(value[i - 1]) > -1 && ["A", "O"].indexOf(value[i + 1]) > -1)) {
+                        secondary += "T";
+                    }
                     break;
                 case "G":
                     if(["E", "I"].indexOf(value[i + 1]) > -1) {
-                        result += "X";
+                        primary += "X";
+                        secondary += "X";
                     }
                     else if(i === 0 && value[i + 1] === "Ü") {
-                        result += "A";
+                        primary += "A";
+                        secondary += "A";
                     }
                     else {
-                        result += "G";
+                        primary += "G";
+                        secondary += "G";
                     }
                     break;
                 case "J":
-                    result += "X";
+                    primary += "X";
+                    secondary += "X";
                     break;
                 case "Q":
-                    result += "K";
+                    primary += "K";
+                    secondary += "K";
                     break;
                 case "N":
                 case "R":
                     if(value[i + 1] !== value[i]) {
-                        result += value[i];
+                        primary += value[i];
+                        secondary += value[i];
                     }
                     break;
                 case "Ñ":
-                    result += "N";
+                    primary += "N";
+                    secondary += "N";
                     break;
                 case "S":
+                    primary += "S";
+                    if(value[i + 1] !== "T") {
+                        secondary += "S";
+                    }
+                    break;
                 case "Z":
-                    result += "S";
+                    primary += "S";
+                    secondary += "S";
                     break;
                 case "X":
-                    result += "KS";
+                    primary += "KS";
+                    secondary += "KS";
                     break;
                 default:
-                    result += value[i];
+                    primary += value[i];
+                    secondary += value[i];
             }
         }
 
-        return result;
+        return primary === secondary ? [primary] : [primary, secondary];
     }
 }
 

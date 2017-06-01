@@ -30,6 +30,7 @@ class Index {
         i18n.addTranslation("es-ES", esES);
         i18n.addTranslation("sv-SE", svSE);
         i18n.addTranslation("ru-RU", ruRU);
+        i18n.translateApplication();
 
         let routes = {
             "/verbs": {

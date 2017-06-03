@@ -33,7 +33,7 @@ class Template {
         let element = document.createElement(tagName);
         this.setProperties(element, properties);
         if(typeof parent === "string") {
-            parent = this.documentFragment.getElementById(parent);
+            parent = this.documentFragment.querySelector("#" + parent);
         }
         parent.appendChild(element);
         return element;
@@ -45,26 +45,6 @@ class Template {
 
     fragment() {
         return this.documentFragment.cloneNode(true);
-    }
-
-    getElementById(elementId) {
-        return this.documentFragment.getElementById(elementId);
-    }
-
-    getElementsByTagName(tagname) {
-        return this.documentFragment.firstChild.getElementsByTagName(tagname);
-    }
-
-    querySelectorAll(selectors) {
-        return this.documentFragment.querySelectorAll(selectors);
-    }
-
-    replaceContent(elementId) {
-        let element = document.getElementById(elementId);
-        while (element.firstChild) {
-            element.removeChild(element.firstChild);
-        }
-        element.appendChild(this.fragment());
     }
 
     parse(html) {
@@ -98,8 +78,24 @@ class Template {
         return fragment;
     }
 
+    querySelector(selector) {
+        return this.documentFragment.querySelector(selector);
+    }
+
+    querySelectorAll(selector) {
+        return this.documentFragment.querySelectorAll(selector);
+    }
+
+    replaceContent(elementId) {
+        let element = document.getElementById(elementId);
+        while (element.firstChild) {
+            element.removeChild(element.firstChild);
+        }
+        element.appendChild(this.fragment());
+    }
+
     set(elementId, properties) {
-        let element = this.documentFragment.getElementById(elementId);
+        let element = this.documentFragment.querySelector("#" + elementId);
         element.id = elementId + "_" + Math.random().toString(36).substr(2, 10);
         this.setProperties(element, properties);
         return element; 

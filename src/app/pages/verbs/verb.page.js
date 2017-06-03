@@ -83,7 +83,7 @@ class VerbPage {
     showSearchResult(result) {
 
         let template = Template.fromElementId("search-result-template");
-        let ul = template.getElementById("search-result-list");
+        let ul = template.querySelector("#search-result-list");
 
         if(result.matches.length > 0) {
 

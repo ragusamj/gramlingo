@@ -62,7 +62,7 @@ class ExerciseArea {
 
     createMessage(field, result) {
         let template = this.popupTemplate.clone();
-        let tbody = template.getElementsByTagName("tbody")[0];
+        let tbody = template.querySelector("tbody");
         this.createTrafficLight(result, tbody);
         this.addAlternatives(result, tbody);
         template.replaceContent(field.popupId);

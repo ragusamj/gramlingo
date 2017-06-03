@@ -5,26 +5,26 @@ const defaultSelector = "data-translate";
 class I18n {
 
     constructor() {
-        this._currentLanguage = window.localStorage.getItem("language") || "es-ES";
-        this._translationsMap = {};
+        this.translationsMap = {};
     }
 
     addTranslation(language, translations) {
-        this._translationsMap[language] = translations;
+        this.translationsMap[language] = translations;
     }
 
     setLanguage(language) {
-        this._currentLanguage = language;
+        this.currentLanguage = language;
         window.localStorage.setItem("language", language);
         this.translateApplication();
     }
 
     translate(element, attribute, selector) {
         let key = element.getAttribute(selector || defaultSelector);
-        element[attribute || defaultAttribute] = this._translationsMap[this._currentLanguage][key] || key;
+        element[attribute || defaultAttribute] = this.translationsMap[this.currentLanguage][key] || key;
     }
 
     translateApplication() {
+        this.currentLanguage = window.localStorage.getItem("language") || "es-ES";
         attributes.forEach((attribute) => {
             let selector = attribute === defaultAttribute ?
                 defaultSelector :

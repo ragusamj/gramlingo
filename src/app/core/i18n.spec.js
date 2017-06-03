@@ -2,11 +2,12 @@ import test from "tape";
 import Dom from "./mock/dom";
 import I18n from "./i18n";
 
+const i18n = new I18n();
+i18n.addTranslation("en-US", { "translation-key": "translated value" });
+
 test("I18n should translate elements with 'data-translate' attribute", (t) => {
     Dom.sandbox("<span id='test-element' data-translate='translation-key'></span>", {}, () => {
 
-        let i18n = new I18n();
-        i18n.addTranslation("en-US", { "translation-key": "translated value" });
         i18n.setLanguage("en-US");
 
         let element = document.getElementById("test-element");
@@ -19,8 +20,6 @@ test("I18n should translate elements with 'data-translate' attribute", (t) => {
 test("I18n should translate elements with 'data-translate-*' attribute", (t) => {
     Dom.sandbox("<span id='test-element' data-translate-placeholder='translation-key'></span>", {}, () => {
 
-        let i18n = new I18n();
-        i18n.addTranslation("en-US", { "translation-key": "translated value" });
         i18n.setLanguage("en-US");
 
         let element = document.getElementById("test-element");
@@ -33,8 +32,6 @@ test("I18n should translate elements with 'data-translate-*' attribute", (t) => 
 test("I18n should fallback to translation key if no translation exists", (t) => {
     Dom.sandbox("<span id='test-element' data-translate='translation-does-not-exist'></span>", {}, () => {
 
-        let i18n = new I18n();
-        i18n.addTranslation("en-US", { "translation-key": "translated value" });
         i18n.setLanguage("en-US");
 
         let element = document.getElementById("test-element");
@@ -47,8 +44,6 @@ test("I18n should fallback to translation key if no translation exists", (t) => 
 test("I18n should translate single elements with default selector and default attribute", (t) => {
     Dom.sandbox("", {}, () => {
 
-        let i18n = new I18n();
-        i18n.addTranslation("en-US", { "translation-key": "translated value" });
         i18n.setLanguage("en-US");
 
         let element = document.createElement("div");

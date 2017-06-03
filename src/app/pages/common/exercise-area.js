@@ -116,17 +116,19 @@ class ExerciseArea {
     }
 
     showPopup(id) {
-        if(this._lastPopup) {
-            this.hidePopup(this._lastPopup);
+        if(this.lastPopup) {
+            this.hidePopup(this.lastPopup);
         }
-        this._lastPopup = id;
+        this.lastPopup = id;
         let popup = document.getElementById(id);
         popup.classList.add("show");
     }
 
     hidePopup(id) {
         let popup = document.getElementById(id);
-        popup.classList.remove("show");
+        if(popup) {
+            popup.classList.remove("show");
+        }
     }
 }
 

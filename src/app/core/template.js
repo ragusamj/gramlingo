@@ -9,7 +9,8 @@ const wrappers = {
 class Template {
 
     constructor(content) {
-        if(content.getElementById) {
+        let type = Object.prototype.toString.call(content);
+        if(type === "[object DocumentFragment]") {
             this.documentFragment = content;
         }
         else if(content.querySelectorAll) {
@@ -20,7 +21,7 @@ class Template {
             this.documentFragment = this.parse(content);
         }
         else {
-            throw new Error("Invalid template content: " + typeof content);
+            throw new Error("Invalid template content: " + type);
         }
     }
 

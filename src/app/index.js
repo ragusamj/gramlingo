@@ -2,6 +2,7 @@ import BrowserEvent from "./core/browser-event";
 import Http from "./core/http";
 import I18n from "./core/i18n";
 import Router from "./core/router";
+import timeout from "./core/timeout";
 
 import enUS from "./translations/en-US";
 import esES from "./translations/es-ES";
@@ -46,7 +47,7 @@ class Index {
 
         new ExerciseAreaListener(browserEvent, new Checker(), new ExerciseArea(), new Walker());
         new Menu(browserEvent);
-        new Router(browserEvent, http, i18n, routes, "page-placeholder");
+        new Router(browserEvent, http, i18n, routes, "page-placeholder", timeout);
     }
 
     _onLanguageChanged(e) {

@@ -25,21 +25,21 @@ class ExerciseArea {
         else {
             input.value = this.hidden ? "" : alternatives[0];
         }
-        this.hideIcon(field.iconId);
-        this.hidePopup(field.popupId);
+        this.hide(field.iconId);
+        this.hide(field.popupId);
     }
 
     showAnswer(field, result) {
         if(result.accepted && result.alternatives.length === 0) {
-            this.hideIcon(field.iconId);
-            this.hidePopup(field.popupId);
+            this.hide(field.iconId);
+            this.hide(field.popupId);
         }
         else {
             this.createIcon(field, result);
             this.createMessage(field, result);
             this.showPopup(field.popupId);
             this.timeout(() => {
-                this.hidePopup(field.popupId);
+                this.hide(field.popupId);
             }, 3000);
         }
     }
@@ -58,7 +58,7 @@ class ExerciseArea {
             icon.classList.add("fa-exclamation-circle");
             icon.classList.add("text-danger");
         }
-        this.showIcon(field.iconId);
+        this.show(field.iconId);
     }
 
     createMessage(field, result) {
@@ -106,30 +106,24 @@ class ExerciseArea {
         });
     }
 
-    hideIcon(id) {
-        let icon = document.getElementById(id);
-        icon.classList.remove("show");
+    hide(id) {
+        let element = document.getElementById(id);
+        if(element) {
+            element.classList.remove("show");
+        }
     }
 
-    showIcon(id) {
-        let icon = document.getElementById(id);
-        icon.classList.add("show");
+    show(id) {
+        let element = document.getElementById(id);
+        element.classList.add("show");
     }
 
     showPopup(id) {
         if(this.lastPopup) {
-            this.hidePopup(this.lastPopup);
+            this.hide(this.lastPopup);
         }
         this.lastPopup = id;
-        let popup = document.getElementById(id);
-        popup.classList.add("show");
-    }
-
-    hidePopup(id) {
-        let popup = document.getElementById(id);
-        if(popup) {
-            popup.classList.remove("show");
-        }
+        this.show(id);
     }
 }
 

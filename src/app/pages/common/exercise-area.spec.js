@@ -73,7 +73,7 @@ test("ExerciseArea should update field and set input value to '-' if there are n
 test("ExerciseArea should update field and hide icon", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea(timeout);
-        exerciseArea.showIcon("icon-1");
+        exerciseArea.show("icon-1");
         exerciseArea.updateField(field, alternatives);
         t.equal(document.getElementById("icon-1").className, "");
         t.end();
@@ -93,7 +93,7 @@ test("ExerciseArea should update field and hide popup", (t) => {
 test("ExerciseArea should show accepted answer and hide icon if there are no alternatives", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea(timeout);
-        exerciseArea.showIcon("icon-1");
+        exerciseArea.show("icon-1");
         exerciseArea.showAnswer(field, { accepted: true, alternatives: [] });
         t.equal(document.getElementById("icon-1").className, "");
         t.end();
@@ -113,7 +113,7 @@ test("ExerciseArea should show accepted answer and hide popup if there are no al
 test("ExerciseArea should show accepted answer and show icon if there are alternatives", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea(timeout);
-        exerciseArea.hideIcon("icon-1");
+        exerciseArea.hide("icon-1");
         exerciseArea.showAnswer(field, { accepted: true, alternatives: ["alternative 2"], diff: [] });
         t.equal(document.getElementById("icon-1").className, "fa-plus-circle text-info show");
         t.end();
@@ -123,7 +123,7 @@ test("ExerciseArea should show accepted answer and show icon if there are altern
 test("ExerciseArea should show rejected answer and show icon", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea(timeout);
-        exerciseArea.hideIcon("icon-1");
+        exerciseArea.hide("icon-1");
         exerciseArea.showAnswer(field, { accepted: false, alternatives: [], diff: [] });
         t.equal(document.getElementById("icon-1").className, "fa-exclamation-circle text-danger show");
         t.end();
@@ -133,7 +133,7 @@ test("ExerciseArea should show rejected answer and show icon", (t) => {
 test("ExerciseArea should show rejected answer and show popup", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea(timeout);
-        exerciseArea.hidePopup("popup-1");
+        exerciseArea.hide("popup-1");
         exerciseArea.showAnswer(field, { accepted: false, alternatives: [], diff: [] });
         t.equal(document.getElementById("popup-1").className, "show");
         t.end();
@@ -200,25 +200,25 @@ test("ExerciseArea should show popup and display alternatives", (t) => {
 test("ExerciseArea should hide popup and handle non existing element", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea(timeout);
-        exerciseArea.hidePopup("does-not-exist");
+        exerciseArea.hide("does-not-exist");
         t.equal(document.getElementById("does-not-exist"), null);
         t.end();
     });
 });
 
-test("ExerciseArea should show icon", (t) => {
+test("ExerciseArea should show element", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea(timeout);
-        exerciseArea.showIcon("icon-1");
+        exerciseArea.show("icon-1");
         t.equal(document.getElementById("icon-1").className, "show");
         t.end();
     });
 });
 
-test("ExerciseArea should hide icon", (t) => {
+test("ExerciseArea should hide element", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea(timeout);
-        exerciseArea.hideIcon("icon-1");
+        exerciseArea.hide("icon-1");
         t.equal(document.getElementById("icon-1").className, "");
         t.end();
     });
@@ -227,17 +227,8 @@ test("ExerciseArea should hide icon", (t) => {
 test("ExerciseArea should show popup", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea(timeout);
-        exerciseArea.showIcon("popup-1");
+        exerciseArea.showPopup("popup-1");
         t.equal(document.getElementById("popup-1").className, "show");
-        t.end();
-    });
-});
-
-test("ExerciseArea should hide popup", (t) => {
-    Dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea(timeout);
-        exerciseArea.hideIcon("popup-1");
-        t.equal(document.getElementById("popup-1").className, "");
         t.end();
     });
 });

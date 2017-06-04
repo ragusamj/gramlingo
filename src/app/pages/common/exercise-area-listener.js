@@ -52,7 +52,7 @@ class ExerciseAreaListener {
     onMouseout(e) {
         if(this.isKnownEvent(e, "DIV", this.fieldsByIconId)) {
             let field = this.fieldsByIconId[e.target.id];
-            this.exerciseArea.hidePopup(field.popupId);
+            this.exerciseArea.hide(field.popupId);
         }
     }
 

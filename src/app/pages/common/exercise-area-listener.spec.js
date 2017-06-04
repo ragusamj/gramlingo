@@ -8,8 +8,8 @@ let checker = {
     check: sinon.stub().returns({ accepted: true })
 };
 
-let visualizer = {
-    hidePopup: sinon.spy(),
+let exerciseArea = {
+    hide: sinon.spy(),
     showAnswer: sinon.spy(),
     showPopup: sinon.spy(),
     updateField: sinon.spy()
@@ -21,10 +21,10 @@ let walker = {
 };
 
 let setup = () => {
-    let exerciseArea = new ExerciseAreaListener(new BrowserEvent(), checker, visualizer, walker);
-    exerciseArea.onPageFieldListUpdated({detail: { "id": { dataPath: "path", iconId: "icon-id", popupId: "popup-id" } }});
-    exerciseArea.onPageDataUpdated({ detail: { "path": ["alternative"] }});
-    return exerciseArea;
+    let exerciseAreaListener = new ExerciseAreaListener(new BrowserEvent(), checker, exerciseArea, walker);
+    exerciseAreaListener.onPageFieldListUpdated({detail: { "id": { dataPath: "path", iconId: "icon-id", popupId: "popup-id" } }});
+    exerciseAreaListener.onPageDataUpdated({ detail: { "path": ["alternative"] }});
+    return exerciseAreaListener;
 };
 
 test("ExerciseArea should check input value on 'blur' event", (t) => {
@@ -48,7 +48,7 @@ test("ExerciseArea should show answer on 'blur' event", (t) => {
         let input = document.getElementById("id");
         input.dispatchEvent(new Event("blur"));
 
-        t.deepEqual(visualizer.showAnswer.lastCall.args, [
+        t.deepEqual(exerciseArea.showAnswer.lastCall.args, [
             { dataPath: "path", iconId: "icon-id", popupId: "popup-id" }, { accepted: true }]);
         t.end();
     });
@@ -60,7 +60,7 @@ test("ExerciseArea should ignore unknown blur events", (t) => {
         setup();
 
         checker.check.reset();
-        new ExerciseAreaListener(new BrowserEvent(), checker, visualizer, walker);
+        new ExerciseAreaListener(new BrowserEvent(), checker, exerciseArea, walker);
         document.dispatchEvent(new Event("blur"));
 
         t.false(checker.check.called);
@@ -76,7 +76,7 @@ test("ExerciseArea should hide fields on 'click' event", (t) => {
         let button = document.getElementById("hide-button");
         button.dispatchEvent(new Event("click"));
 
-        t.true(visualizer.hidden);
+        t.true(exerciseArea.hidden);
         t.end();
     });
 });
@@ -89,7 +89,7 @@ test("ExerciseArea should hide fields on 'click' event and update fields", (t) =
         let button = document.getElementById("hide-button");
         button.dispatchEvent(new Event("click"));
 
-        t.deepEqual(visualizer.updateField.lastCall.args, [
+        t.deepEqual(exerciseArea.updateField.lastCall.args, [
             { dataPath: "path", iconId: "icon-id", popupId: "popup-id" }, ["alternative"]]);
         t.end();
     });
@@ -103,7 +103,7 @@ test("ExerciseArea should show fields on 'click' event", (t) => {
         let button = document.getElementById("show-button");
         button.dispatchEvent(new Event("click"));
 
-        t.false(visualizer.hidden);
+        t.false(exerciseArea.hidden);
         t.end();
     });
 });
@@ -116,7 +116,7 @@ test("ExerciseArea should show fields on 'click' event and update fields", (t) =
         let button = document.getElementById("show-button");
         button.dispatchEvent(new Event("click"));
 
-        t.deepEqual(visualizer.updateField.lastCall.args, [
+        t.deepEqual(exerciseArea.updateField.lastCall.args, [
             { dataPath: "path", iconId: "icon-id", popupId: "popup-id" }, ["alternative"]]);
         t.end();
     });
@@ -161,7 +161,7 @@ test("ExerciseArea should show popup on 'mouseover' event from icon", (t) => {
         let icon = document.getElementById("icon-id");
         icon.dispatchEvent(new Event("mouseover"));
 
-        t.deepEqual(visualizer.showPopup.lastCall.args, ["popup-id"]);
+        t.deepEqual(exerciseArea.showPopup.lastCall.args, ["popup-id"]);
         t.end();
     });
 });
@@ -170,12 +170,12 @@ test("ExerciseArea should ignore 'mouseover' events from unknown targets", (t) =
     Dom.sandbox("<div id='unknown-id' />", {}, () => {
 
         setup();
-        visualizer.showPopup.reset();
+        exerciseArea.showPopup.reset();
 
         let icon = document.getElementById("unknown-id");
         icon.dispatchEvent(new Event("mouseover"));
 
-        t.false(visualizer.showPopup.called);
+        t.false(exerciseArea.showPopup.called);
         t.end();
     });
 });
@@ -188,7 +188,7 @@ test("ExerciseArea should show popup on 'mouseout' event from icon", (t) => {
         let icon = document.getElementById("icon-id");
         icon.dispatchEvent(new Event("mouseout"));
 
-        t.deepEqual(visualizer.hidePopup.lastCall.args, ["popup-id"]);
+        t.deepEqual(exerciseArea.hide.lastCall.args, ["popup-id"]);
         t.end();
     });
 });
@@ -197,12 +197,12 @@ test("ExerciseArea should ignore 'mouseout' events from unknown targets", (t) =>
     Dom.sandbox("<div id='unknown-id' />", {}, () => {
 
         setup();
-        visualizer.hidePopup.reset();
+        exerciseArea.hide.reset();
 
         let icon = document.getElementById("unknown-id");
         icon.dispatchEvent(new Event("mouseout"));
 
-        t.false(visualizer.hidePopup.called);
+        t.false(exerciseArea.hide.called);
         t.end();
     });
 });

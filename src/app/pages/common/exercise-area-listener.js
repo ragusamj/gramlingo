@@ -18,8 +18,8 @@ class ExerciseAreaListener {
     onBlur(e) {
         if(this.isKnownEvent(e, "INPUT", this.fields)) {
             let field = this.fields[e.target.id];
-            let variants = get(this.pageData, field.dataPath);
-            let result = this.checker.check(variants, e.target.value);
+            let alternatives = get(this.pageData, field.dataPath);
+            let result = this.checker.check(alternatives, e.target.value);
             this.exerciseArea.showAnswer(field, result);
         }
     }
@@ -74,8 +74,8 @@ class ExerciseAreaListener {
     updateFields() {
         Object.keys(this.fields).forEach((id) => {
             let field = this.fields[id];
-            let variants = get(this.pageData, field.dataPath);
-            this.exerciseArea.updateField(field, variants);
+            let alternatives = get(this.pageData, field.dataPath);
+            this.exerciseArea.updateField(field, alternatives);
         });
     }
 

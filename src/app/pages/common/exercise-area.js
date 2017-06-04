@@ -8,21 +8,22 @@ const insert = 1;
 
 class ExerciseArea {
 
-    constructor() {
+    constructor(timeout) {
+        this.timeout = timeout;
         this.popupTemplate = Template.fromElementId("popup-template");
         this.trafficLightTemplate = Template.fromElementId("popup-traffic-light-template");
         this.alternativesTemplate = Template.fromElementId("popup-alternatives-template");
         this.hidden = false;
     }
 
-    updateField(field, variants) {
+    updateField(field, alternatives) {
         let input = document.getElementById(field.inputId);
-        input.disabled = !variants[0];
+        input.disabled = !alternatives[0];
         if(input.disabled) {
             input.value = "-";
         }
         else {
-            input.value = this.hidden ? "" : variants[0];
+            input.value = this.hidden ? "" : alternatives[0];
         }
         this.hideIcon(field.iconId);
         this.hidePopup(field.popupId);
@@ -37,7 +38,7 @@ class ExerciseArea {
             this.createIcon(field, result);
             this.createMessage(field, result);
             this.showPopup(field.popupId);
-            setTimeout(() => {
+            this.timeout(() => {
                 this.hidePopup(field.popupId);
             }, 3000);
         }
@@ -55,7 +56,7 @@ class ExerciseArea {
             icon.classList.remove("fa-plus-circle");
             icon.classList.remove("text-info");
             icon.classList.add("fa-exclamation-circle");
-            icon.classList.add("text-danger"); 
+            icon.classList.add("text-danger");
         }
         this.showIcon(field.iconId);
     }

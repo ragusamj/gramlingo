@@ -45,7 +45,7 @@ class Index {
             }
         };
 
-        new ExerciseAreaListener(browserEvent, new Checker(), new ExerciseArea(), new Walker());
+        new ExerciseAreaListener(browserEvent, new Checker(), new ExerciseArea(timeout), new Walker());
         new Menu(browserEvent);
         new Router(browserEvent, http, i18n, routes, "page-placeholder", timeout);
     }

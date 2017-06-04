@@ -136,6 +136,9 @@ button {
         width: 32px;
         margin: 0 12px;
     }
+    .image-height-adjust {
+        padding-top: 2px;
+    }
 }
 
 @media (min-width: map-get($grid-breakpoints, "md")) {

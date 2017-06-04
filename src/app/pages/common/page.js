@@ -9,7 +9,7 @@ class Page {
         fieldContainers.forEach((fieldContainer) => {
             let fieldPath = fieldContainer.getAttribute("data-field-path");
             let fieldData = get(pageData, fieldPath);
-            fieldData.forEach((variants, i) => {
+            for(let i = 0; i < fieldData.length; i++) {
                 let field = fieldTemplate.clone();
                 let input = field.set("input");
                 fields[input.id] = {
@@ -19,7 +19,7 @@ class Page {
                     popupId: field.set("popup").id
                 };
                 fieldContainer.appendChild(field.fragment());
-            });
+            }
         });
         return fields;
     }

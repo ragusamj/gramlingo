@@ -1,10 +1,10 @@
 class NumeralsPage {
 
     load(pageTemplate, onDOMChanged) {
-        this._applyPageTemplate(pageTemplate, onDOMChanged);
+        this.applyPageTemplate(pageTemplate, onDOMChanged);
     }
 
-    _applyPageTemplate(pageTemplate, onDOMChanged) {
+    applyPageTemplate(pageTemplate, onDOMChanged) {
         pageTemplate.add("xxx", "span", { innerHTML: "heyoo" });
         onDOMChanged();
     }

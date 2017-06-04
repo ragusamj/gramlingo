@@ -1,21 +1,21 @@
 class BrowserEvent {
 
     constructor() {
-        this._listeners = {};
+        this.listeners = {};
     }
 
     on(name, callback) {
-        if(!this._listeners[name]) {
-            this._listeners[name] = [];
+        if(!this.listeners[name]) {
+            this.listeners[name] = [];
             document.addEventListener(name, (e) => {
-                this._listeners[name].forEach((callback) => {
+                this.listeners[name].forEach((callback) => {
                     callback(e);
                 });
             }, true);
         }  
-        let listenerIndex = this._listeners[name].push(callback) -1;
+        let listenerIndex = this.listeners[name].push(callback) -1;
         let removeListener = () => {
-            this._listeners[name].splice(listenerIndex, 1);
+            this.listeners[name].splice(listenerIndex, 1);
         };
         return removeListener;
     }

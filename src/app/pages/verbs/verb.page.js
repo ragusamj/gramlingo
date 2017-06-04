@@ -9,13 +9,13 @@ const searchTypingDelay = 300;
 class VerbPage {
 
     constructor(browserEvent, http, i18n) {
-        this._browserEvent = browserEvent;
-        this._http = http;
-        this._i18n = i18n;
+        this.browserEvent = browserEvent;
+        this.http = http;
+        this.i18n = i18n;
     }
 
     load(pageTemplate, onDOMChanged) {
-        this._http.getJSON("/data/verbs.json", (verbs) => {
+        this.http.getJSON("/data/verbs.json", (verbs) => {
             this.inflate(verbs);
             this.initSearch();
             this.applyPageTemplate(pageTemplate, onDOMChanged);
@@ -26,7 +26,7 @@ class VerbPage {
     }
 
     inflate(verbs) {
-        this._verbs = verbs
+        this.verbs = verbs
         .map((verb) => {
             return {
                 name: verb[0],
@@ -61,22 +61,22 @@ class VerbPage {
     }
 
     initSearch() {
-        this._searchService = new VerbSearchService(this._verbs);
-        this._deferredSearch = debounce((e) => {
+        this.searchService = new VerbSearchService(this.verbs);
+        this.deferredSearch = debounce((e) => {
             if(e.target && e.target.hasAttribute("data-verb-search")) {
-                let result = this._searchService.search(e.target.value);
+                let result = this.searchService.search(e.target.value);
                 this.showSearchResult(result);
             }
         }, searchTypingDelay);
-        this._destroyOnSearch = this._browserEvent.on("keyup", this._deferredSearch);
-        this._destroyOnSearchResultClick = this._browserEvent.on("click", this.onSearchResultClick.bind(this));
+        this.destroyOnSearch = this.browserEvent.on("keyup", this.deferredSearch);
+        this.destroyOnSearchResultClick = this.browserEvent.on("click", this.onSearchResultClick.bind(this));
     }
 
     applyPageTemplate(pageTemplate, onDOMChanged) {
-        let pageData = this._verbs[defaultVerbIndex];
-        this._fields = new Page().apply(pageTemplate, pageData);
+        let pageData = this.verbs[defaultVerbIndex];
+        this.fields = new Page().apply(pageTemplate, pageData);
         onDOMChanged();
-        this._browserEvent.emit("page-field-list-updated", this._fields);
+        this.browserEvent.emit("page-field-list-updated", this.fields);
         this.onPageDataChanged(defaultVerbIndex);
     }
 
@@ -114,16 +114,16 @@ class VerbPage {
     }
 
     onPageDataChanged(index){
-        this.setHeader(this._verbs[index]);
-        this._browserEvent.emit("page-data-updated", this._verbs[index]);
-        this._browserEvent.emit("page-field-list-updated", this._fields);   
+        this.setHeader(this.verbs[index]);
+        this.browserEvent.emit("page-data-updated", this.verbs[index]);
+        this.browserEvent.emit("page-field-list-updated", this.fields);   
     }
 
     setHeader(verb) {
         document.getElementById("verb-name").innerHTML = verb.name;
         let mode = document.getElementById("verb-mode");
         mode.setAttribute("data-translate", (verb.regular ? "verbs-header-regular" : "verbs-header-irregular"));
-        this._i18n.translate(mode);
+        this.i18n.translate(mode);
     }
 }
 

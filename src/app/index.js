@@ -25,7 +25,7 @@ class Index {
 
     constructor() {
 
-        browserEvent.on("click", this._onLanguageChanged.bind(this));
+        browserEvent.on("click", this.onLanguageChanged.bind(this));
 
         i18n.addTranslation("en-US", enUS);
         i18n.addTranslation("es-ES", esES);
@@ -50,7 +50,7 @@ class Index {
         new Router(browserEvent, http, i18n, routes, "page-placeholder", timeout);
     }
 
-    _onLanguageChanged(e) {
+    onLanguageChanged(e) {
         if(e.target && e.target.hasAttribute("data-language")) {
             let language = e.target.getAttribute("data-language");
             i18n.setLanguage(language);

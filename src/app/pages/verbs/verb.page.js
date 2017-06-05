@@ -83,17 +83,19 @@ class VerbPage {
     showSearchResult(result) {
 
         let template = Template.fromElementId("search-result-template");
-        let ul = template.querySelector("#search-result-list");
+        let itemTemplate = Template.fromElementId("search-result-item-template");
+        let ul = template.querySelector("ul");
 
         if(result.matches.length > 0) {
 
             result.matches.forEach((match) => {
-                let li = template.add(ul, "li");
-                template.add(li, "span", { innerHTML: match.pre });
-                template.add(li, "strong", { innerHTML: match.match });
-                template.add(li, "span", { innerHTML: match.post });
-                template.add(li, "span", { innerHTML: match.source, className: "pull-right" });
-                li.setAttribute("data-verb-index", match.index);
+                let item = itemTemplate.clone();
+                item.set("pre", { innerHTML: match.pre });
+                item.set("match", { innerHTML: match.match });
+                item.set("post", { innerHTML: match.post });
+                item.set("source", { innerHTML: match.source });
+                item.querySelector("li").setAttribute("data-verb-index", match.index);
+                ul.appendChild(item.fragment());
             });
 
             if(result.maxExceeded) {

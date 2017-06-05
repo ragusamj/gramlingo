@@ -16,8 +16,8 @@ export default {
     "verbs-fields-header-indicative": "Indicative",
 
     "verbs-footer-select-header": "Choose",
-    "verbs-footer-select-body-1": "Choose a verb, there are 1001 verbs to choose from.",
-    "verbs-footer-select-body-2": "The verbs can be sorted by 'the 100 most common' or in alphabetical order.",
+    "verbs-footer-select-body-1": "Choose a verb using the search function, there are 1001 verbs to choose from.",
+    "verbs-footer-select-body-2": "You can search using the names or the forms of the verbs, for example <strong><em>ir</em></strong> or <strong><em>voy</em></strong>.",
 
     "verbs-footer-study-header": "Study",
     "verbs-footer-study-body-1": "If you want to practice by reading all the forms of the verb, click on the button 'Show'.",

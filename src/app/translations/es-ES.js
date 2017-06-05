@@ -16,12 +16,12 @@ export default {
     "verbs-fields-header-indicative": "Indicativo",
     
     "verbs-footer-select-header": "Elegir",
-    "verbs-footer-select-body-1": "Elige un verbo, hay 1001 verbos en esta pagina web.",
-    "verbs-footer-select-body-2": "Se puede ordenar los verbos por \"los 100 más comunes\" o en orden alfabético.",
+    "verbs-footer-select-body-1": "Elige un verbo usando la función de búsqueda, se puede elegir entre 1001 verbos.",
+    "verbs-footer-select-body-2": "Se puede buscar o los nombres de los verbos o las conjugaciones, por ejemplo <strong><em>ir</em></strong> o <strong><em>voy</em></strong>.",
 
     "verbs-footer-study-header": "Estudiar",
     "verbs-footer-study-body-1": "Si quieres ver todas las formas del verbo elegido, haz clic en el botón 'Mostrar'.",
-    "verbs-footer-study-body-2": "Si quieres escribir las formas para practicar, haz clic en el botón 'Limpiar' para vaciar el formulario.",
+    "verbs-footer-study-body-2": "Si quieres escribir las formas para practicar, pulsa el botón 'Limpiar' para vaciar el formulario.",
     "verbs-footer-study-body-3": "Puedes utilizar la tecla enter para moverte al siguiente campo y las flechas de dirección del teclado para moverte hacia arriba y abajo.",
     
     "verbs-footer-practice-header": "Practicar",

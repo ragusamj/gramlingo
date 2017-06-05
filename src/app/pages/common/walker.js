@@ -7,33 +7,29 @@ const keyCode = {
 
 class Walker {
 
-    link(fields) {
-        this.linkedList = {};
-        this.previous = undefined;
-        Object.keys(fields).forEach((id) => {
+    link(ids) {
+        this.ids = [];
+        ids.forEach((id) => {
             let element = document.getElementById(id);
             if(!element.disabled) {
-                this.linkedList[id] = {
-                    previous: this.previous
-                };
-                if(this.previous) {
-                    this.linkedList[this.previous].next = id;
-                }
-                this.previous = id;
+                this.ids.push(id);
             }
         });
     }
 
     walk(key, id) {
-        let item = this.linkedList[id];
-        if (key === keyCode.upArrow && item.previous) {
-            let previous = document.getElementById(item.previous);
-            previous.select();
+        let index = this.ids.indexOf(id);
+        if (key === keyCode.upArrow && index >= 1) {
+            this.select(this.ids[index - 1]);
         }
-        else if ((key === keyCode.downArrow || key === keyCode.enter) && item.next) {
-            let next = document.getElementById(item.next);
-            next.select();
+        else if ((key === keyCode.downArrow || key === keyCode.enter) && index < this.ids.length - 1) {
+            this.select(this.ids[index + 1]);
         }
+    }
+
+    select(id) {
+        let element = document.getElementById(id);
+        element.select();
     }
 }
 

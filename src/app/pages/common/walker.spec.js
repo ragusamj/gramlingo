@@ -22,7 +22,7 @@ test("Walker should walk to previous element when up arrow is pressed", (t) => {
 
     setup(elements);
 
-    walker.link(elements);
+    walker.link(Object.keys(elements));
     walker.walk(walker.KeyCode.upArrow, "input-2");
 
     t.true(elements["input-1"].select.called);
@@ -40,7 +40,7 @@ test("Walker should walk to previous element and skip disabled elements", (t) =>
 
     setup(elements);
 
-    walker.link(elements);
+    walker.link(Object.keys(elements));
     walker.walk(walker.KeyCode.upArrow, "input-3");
 
     t.true(elements["input-1"].select.called);
@@ -57,7 +57,7 @@ test("Walker should walk to next element when down arrow is pressed", (t) => {
 
     setup(elements);
 
-    walker.link(elements);
+    walker.link(Object.keys(elements));
     walker.walk(walker.KeyCode.downArrow, "input-1");
 
     t.true(elements["input-2"].select.called);
@@ -74,7 +74,7 @@ test("Walker should walk to next element when enter key is pressed", (t) => {
 
     setup(elements);
 
-    walker.link(elements);
+    walker.link(Object.keys(elements));
     walker.walk(walker.KeyCode.enter, "input-1");
 
     t.true(elements["input-2"].select.called);
@@ -92,7 +92,7 @@ test("Walker should walk to next element and skip disabled elements", (t) => {
 
     setup(elements);
 
-    walker.link(elements);
+    walker.link(Object.keys(elements));
     walker.walk(walker.KeyCode.downArrow, "input-1");
 
     t.true(elements["input-3"].select.called);
@@ -109,7 +109,7 @@ test("Walker should ignore unknown keys", (t) => {
 
     setup(elements);
 
-    walker.link(elements);
+    walker.link(Object.keys(elements));
     walker.walk(15, "input-1");
     walker.walk(15, "input-2");
 

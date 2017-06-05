@@ -59,11 +59,12 @@ class ExerciseAreaListener {
     onPageFieldListUpdated(e) {
         this.fields = e.detail;
         this.fieldsByIconId = {};
-        Object.keys(this.fields).forEach((id) => {
+        let ids = Object.keys(this.fields);
+        ids.forEach((id) => {
             let field = this.fields[id];
             this.fieldsByIconId[field.iconId] = field;
         });
-        this.walker.link(this.fields);
+        this.walker.link(ids);
     }
 
     onPageDataUpdated(e) {

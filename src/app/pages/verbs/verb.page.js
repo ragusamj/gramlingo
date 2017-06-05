@@ -107,10 +107,12 @@ class VerbPage {
     onSearchResultClick(e) {
         if(e.target && e.target.hasAttribute("data-verb-index")) {
             let index = e.target.getAttribute("data-verb-index");
-            let ul = document.getElementById("search-result-list");
-            ul.classList.add("hide");
             this.onPageDataChanged(index);
         }
+        let ul = document.getElementById("search-result-list");
+        if(ul) {
+            ul.classList.add("hide");
+        } 
     }
 
     onPageDataChanged(index){

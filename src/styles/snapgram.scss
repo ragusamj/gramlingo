@@ -55,10 +55,8 @@ button {
         background-clip: padding-box;
         border: 1px solid $dropdown-border-color;
         border-radius: $border-radius;
-        //box-shadow: 2px 2px 9px rgba(0, 0, 0, 0.2);
         position: absolute;
         width: 100%;
-        transition: $transition-base;
     }
     .popup {
         bottom: 2em;
@@ -97,17 +95,18 @@ button {
         right: 0;
         top: 0;
         width: 21px;
-        transition: $transition-base;
     }
     .icon.show, .popup.show, .search-result {
         visibility: visible;
         z-index: 999;
         opacity: 1;
+        transition: $transition-base;        
     }
     .icon, .popup, .search-result.hide {
         visibility: hidden;
         opacity: 0;
         z-index: -1;
+        transition: none;
     }
 }
 

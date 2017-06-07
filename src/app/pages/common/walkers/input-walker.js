@@ -1,9 +1,4 @@
-
-const keyCode = {
-    enter: 13,
-    upArrow: 38,
-    downArrow: 40
-};
+import KeyCode from "./key-code";
 
 class InputWalker {
 
@@ -19,10 +14,10 @@ class InputWalker {
 
     walk(key, id) {
         let index = this.ids.indexOf(id);
-        if (key === keyCode.upArrow) {
+        if (key === KeyCode.upArrow) {
             this.select(this.ids[index - 1]);
         }
-        else if (key === keyCode.downArrow || key === keyCode.enter) {
+        else if (key === KeyCode.downArrow || key === KeyCode.enter) {
             this.select(this.ids[index + 1]);
         }
     }
@@ -34,7 +29,5 @@ class InputWalker {
         }
     }
 }
-
-InputWalker.prototype.KeyCode = keyCode;
 
 export default InputWalker;

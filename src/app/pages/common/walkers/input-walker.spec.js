@@ -1,5 +1,6 @@
 import sinon from "sinon";
 import test from "tape";
+import KeyCode from "./key-code";
 import InputWalker from "./input-walker";
 
 // window.getSelection isn't implemented in jsdom yet :(
@@ -23,7 +24,7 @@ test("InputWalker should walk to previous element when up arrow is pressed", (t)
     setup(elements);
 
     walker.link(Object.keys(elements));
-    walker.walk(walker.KeyCode.upArrow, "input-2");
+    walker.walk(KeyCode.upArrow, "input-2");
 
     t.true(elements["input-1"].select.called);
     t.end();
@@ -41,7 +42,7 @@ test("InputWalker should walk to previous element and skip disabled elements", (
     setup(elements);
 
     walker.link(Object.keys(elements));
-    walker.walk(walker.KeyCode.upArrow, "input-3");
+    walker.walk(KeyCode.upArrow, "input-3");
 
     t.true(elements["input-1"].select.called);
     t.end();
@@ -58,7 +59,7 @@ test("InputWalker should walk to next element when down arrow is pressed", (t) =
     setup(elements);
 
     walker.link(Object.keys(elements));
-    walker.walk(walker.KeyCode.downArrow, "input-1");
+    walker.walk(KeyCode.downArrow, "input-1");
 
     t.true(elements["input-2"].select.called);
     t.end();
@@ -75,7 +76,7 @@ test("InputWalker should walk to next element when enter key is pressed", (t) =>
     setup(elements);
 
     walker.link(Object.keys(elements));
-    walker.walk(walker.KeyCode.enter, "input-1");
+    walker.walk(KeyCode.enter, "input-1");
 
     t.true(elements["input-2"].select.called);
     t.end();
@@ -93,7 +94,7 @@ test("InputWalker should walk to next element and skip disabled elements", (t) =
     setup(elements);
 
     walker.link(Object.keys(elements));
-    walker.walk(walker.KeyCode.downArrow, "input-1");
+    walker.walk(KeyCode.downArrow, "input-1");
 
     t.true(elements["input-3"].select.called);
     t.end();
@@ -129,8 +130,8 @@ test("InputWalker should stop at the end of the list", (t) => {
     setup(elements);
 
     walker.link(Object.keys(elements));
-    walker.walk(walker.KeyCode.downArrow, "input-1");
-    walker.walk(walker.KeyCode.downArrow, "input-2");
+    walker.walk(KeyCode.downArrow, "input-1");
+    walker.walk(KeyCode.downArrow, "input-2");
 
     t.true(elements["input-2"].select.called);
     t.end();

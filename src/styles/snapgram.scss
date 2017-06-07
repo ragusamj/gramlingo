@@ -82,6 +82,9 @@ button {
                 pointer-events: none;
             }
         }
+        li.selected {
+            background-color: $gray-lighter !important;
+        }
         li:nth-child(odd) {
             background-color: $gray-lightest;
         }

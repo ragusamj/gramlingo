@@ -1,6 +1,8 @@
 import debounce from "lodash.debounce";
 import Template from "../../core/template";
 import Page from "../common/page";
+import ElementWalker from "../common/walkers/element-walker";
+import KeyCode from "../common/walkers/key-code";
 import VerbSearchService from "./verb-search.service";
 
 const defaultVerbIndex = 624; // Ir
@@ -61,9 +63,22 @@ class VerbPage {
     }
 
     initSearch() {
+        this.walker = new ElementWalker();
+        this.destroyOnSearchKeydown = this.browserEvent.on("keydown", (e) => {
+            if(e.target.hasAttribute("data-verb-search")) {
+                if(this.walker.isWalkable(e.keyCode)) {
+                    this.walker.walk(e.keyCode);
+                }
+                if(e.keyCode === KeyCode.enter) {
+                    let element = document.getElementById(this.walker.currentElementId);
+                    this.changePageData(element);
+                    this.closeSearchResult();
+                }
+            }
+        });
         this.searchService = new VerbSearchService(this.verbs);
         this.deferredSearch = debounce((e) => {
-            if(e.target && e.target.hasAttribute("data-verb-search")) {
+            if(e.target.hasAttribute("data-verb-search") && !(this.walker.isWalkable(e.keyCode) || e.keyCode === KeyCode.enter)) {
                 let result = this.searchService.search(e.target.value);
                 this.showSearchResult(result);
             }
@@ -85,6 +100,7 @@ class VerbPage {
         let template = Template.fromElementId("search-result-template");
         let itemTemplate = Template.fromElementId("search-result-item-template");
         let ul = template.querySelector("ul");
+        this.ids = [];
 
         if(result.matches.length > 0) {
 
@@ -94,7 +110,9 @@ class VerbPage {
                 item.set("match", { innerHTML: match.match });
                 item.set("post", { innerHTML: match.post });
                 item.set("source", { innerHTML: match.source });
-                item.querySelector("li").setAttribute("data-verb-index", match.index);
+                let li = item.set("search-result-item");
+                li.setAttribute("data-verb-index", match.index);
+                this.ids.push(li.id);
                 ul.appendChild(item.fragment());
             });
 
@@ -103,14 +121,24 @@ class VerbPage {
             }
 
             template.replaceContent("search-result-container");
+
+            this.walker.link(this.ids);
         }
     }
 
     onSearchResultClick(e) {
-        if(e.target && e.target.hasAttribute("data-verb-index")) {
-            let index = e.target.getAttribute("data-verb-index");
+        this.changePageData(e.target);
+        this.closeSearchResult();
+    }
+
+    changePageData(element) {
+        if(element.hasAttribute("data-verb-index")) {
+            let index = element.getAttribute("data-verb-index");
             this.onPageDataChanged(index);
         }
+    }
+
+    closeSearchResult() {
         let ul = document.getElementById("search-result-list");
         if(ul) {
             ul.classList.add("hide");

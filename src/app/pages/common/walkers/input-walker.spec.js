@@ -12,7 +12,7 @@ let setup = (elements) => {
     };
 };
 
-test("Walker should walk to previous element when up arrow is pressed", (t) => {
+test("InputWalker should walk to previous element when up arrow is pressed", (t) => {
 
     let walker = new InputWalker();
     let elements = {
@@ -29,7 +29,7 @@ test("Walker should walk to previous element when up arrow is pressed", (t) => {
     t.end();
 });
 
-test("Walker should walk to previous element and skip disabled elements", (t) => {
+test("InputWalker should walk to previous element and skip disabled elements", (t) => {
 
     let walker = new InputWalker();
     let elements = {
@@ -47,7 +47,7 @@ test("Walker should walk to previous element and skip disabled elements", (t) =>
     t.end();
 });
 
-test("Walker should walk to next element when down arrow is pressed", (t) => {
+test("InputWalker should walk to next element when down arrow is pressed", (t) => {
 
     let walker = new InputWalker();
     let elements = {
@@ -64,7 +64,7 @@ test("Walker should walk to next element when down arrow is pressed", (t) => {
     t.end();
 });
 
-test("Walker should walk to next element when enter key is pressed", (t) => {
+test("InputWalker should walk to next element when enter key is pressed", (t) => {
 
     let walker = new InputWalker();
     let elements = {
@@ -81,7 +81,7 @@ test("Walker should walk to next element when enter key is pressed", (t) => {
     t.end();
 });
 
-test("Walker should walk to next element and skip disabled elements", (t) => {
+test("InputWalker should walk to next element and skip disabled elements", (t) => {
 
     let walker = new InputWalker();
     let elements = {
@@ -99,7 +99,7 @@ test("Walker should walk to next element and skip disabled elements", (t) => {
     t.end();
 });
 
-test("Walker should ignore unknown keys", (t) => {
+test("InputWalker should ignore unknown keys", (t) => {
 
     let walker = new InputWalker();
     let elements = {
@@ -118,7 +118,7 @@ test("Walker should ignore unknown keys", (t) => {
     t.end();
 });
 
-test("Walker should stop at the end of the list", (t) => {
+test("InputWalker should stop at the end of the list", (t) => {
 
     let walker = new InputWalker();
     let elements = {

@@ -5,7 +5,7 @@ const keyCode = {
     downArrow: 40
 };
 
-class Walker {
+class InputWalker {
 
     link(ids) {
         this.ids = [];
@@ -35,6 +35,6 @@ class Walker {
     }
 }
 
-Walker.prototype.KeyCode = keyCode;
+InputWalker.prototype.KeyCode = keyCode;
 
-export default Walker;
+export default InputWalker;

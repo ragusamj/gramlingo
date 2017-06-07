@@ -1,6 +1,6 @@
 import sinon from "sinon";
 import test from "tape";
-import Walker from "./walker";
+import InputWalker from "./input-walker";
 
 // window.getSelection isn't implemented in jsdom yet :(
 // https://github.com/tmpvar/jsdom/issues/321
@@ -14,7 +14,7 @@ let setup = (elements) => {
 
 test("Walker should walk to previous element when up arrow is pressed", (t) => {
 
-    let walker = new Walker();
+    let walker = new InputWalker();
     let elements = {
         "input-1": { select: sinon.stub() },
         "input-2": {}
@@ -31,7 +31,7 @@ test("Walker should walk to previous element when up arrow is pressed", (t) => {
 
 test("Walker should walk to previous element and skip disabled elements", (t) => {
 
-    let walker = new Walker();
+    let walker = new InputWalker();
     let elements = {
         "input-1": { select: sinon.stub() },
         "input-2": { disabled: true },
@@ -49,7 +49,7 @@ test("Walker should walk to previous element and skip disabled elements", (t) =>
 
 test("Walker should walk to next element when down arrow is pressed", (t) => {
 
-    let walker = new Walker();
+    let walker = new InputWalker();
     let elements = {
         "input-1": {},
         "input-2": { select: sinon.stub() }
@@ -66,7 +66,7 @@ test("Walker should walk to next element when down arrow is pressed", (t) => {
 
 test("Walker should walk to next element when enter key is pressed", (t) => {
 
-    let walker = new Walker();
+    let walker = new InputWalker();
     let elements = {
         "input-1": {},
         "input-2": { select: sinon.stub() }
@@ -83,7 +83,7 @@ test("Walker should walk to next element when enter key is pressed", (t) => {
 
 test("Walker should walk to next element and skip disabled elements", (t) => {
 
-    let walker = new Walker();
+    let walker = new InputWalker();
     let elements = {
         "input-1": { },
         "input-2": { disabled: true },
@@ -101,7 +101,7 @@ test("Walker should walk to next element and skip disabled elements", (t) => {
 
 test("Walker should ignore unknown keys", (t) => {
 
-    let walker = new Walker();
+    let walker = new InputWalker();
     let elements = {
         "input-1": { select: sinon.stub() },
         "input-2": { select: sinon.stub() }
@@ -120,7 +120,7 @@ test("Walker should ignore unknown keys", (t) => {
 
 test("Walker should stop at the end of the list", (t) => {
 
-    let walker = new Walker();
+    let walker = new InputWalker();
     let elements = {
         "input-1": { select: sinon.stub() },
         "input-2": { select: sinon.stub() }

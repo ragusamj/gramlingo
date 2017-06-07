@@ -13,7 +13,7 @@ import Menu from "./menu";
 import Checker from "./pages/common/checker";
 import ExerciseAreaListener from "./pages/common/exercise-area-listener";
 import ExerciseArea from "./pages/common/exercise-area";
-import Walker from "./pages/common/walkers/input-walker";
+import InputWalker from "./pages/common/walkers/input-walker";
 import VerbPage from "./pages/verbs/verb.page";
 import NumeralsPage from "./pages/numerals/numerals.page";
 
@@ -45,7 +45,7 @@ class Index {
             }
         };
 
-        new ExerciseAreaListener(browserEvent, new Checker(), new ExerciseArea(timeout), new Walker());
+        new ExerciseAreaListener(browserEvent, new Checker(), new ExerciseArea(timeout), new InputWalker());
         new Menu(browserEvent);
         new Router(browserEvent, http, i18n, routes, "page-placeholder", timeout);
     }

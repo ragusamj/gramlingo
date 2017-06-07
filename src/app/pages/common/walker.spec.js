@@ -117,3 +117,21 @@ test("Walker should ignore unknown keys", (t) => {
     t.false(elements["input-2"].select.called);
     t.end();
 });
+
+test("Walker should stop at the end of the list", (t) => {
+
+    let walker = new Walker();
+    let elements = {
+        "input-1": { select: sinon.stub() },
+        "input-2": { select: sinon.stub() }
+    };
+
+    setup(elements);
+
+    walker.link(Object.keys(elements));
+    walker.walk(walker.KeyCode.downArrow, "input-1");
+    walker.walk(walker.KeyCode.downArrow, "input-2");
+
+    t.true(elements["input-2"].select.called);
+    t.end();
+});

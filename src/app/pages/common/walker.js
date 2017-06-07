@@ -19,17 +19,19 @@ class Walker {
 
     walk(key, id) {
         let index = this.ids.indexOf(id);
-        if (key === keyCode.upArrow && index >= 1) {
+        if (key === keyCode.upArrow) {
             this.select(this.ids[index - 1]);
         }
-        else if ((key === keyCode.downArrow || key === keyCode.enter) && index < this.ids.length - 1) {
+        else if (key === keyCode.downArrow || key === keyCode.enter) {
             this.select(this.ids[index + 1]);
         }
     }
 
     select(id) {
-        let element = document.getElementById(id);
-        element.select();
+        if(id) {
+            let element = document.getElementById(id);
+            element.select();
+        }
     }
 }
 

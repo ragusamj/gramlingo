@@ -3,7 +3,7 @@ import Template from "../../core/template";
 import Page from "../common/page";
 import ElementWalker from "../common/walkers/element-walker";
 import KeyCode from "../common/walkers/key-code";
-import SearchEngine from "./search-engine";
+import SearchEngine from "../common/search/search-engine";
 
 const defaultVerbIndex = 624; // Ir
 const searchTypingDelay = 300;

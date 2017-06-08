@@ -13,10 +13,10 @@ class VerbSearchService {
 
     search(term) {
         let matches = [];
+        let maxExceeded = false;
         if(spanishLetters.test(term)) {
 
-            this.assertPhoneticIndex();
-            this.matchFromStart(term, matches);
+            this.matchBeginning(term, matches);
             this.matchInside(term, matches);
             this.matchPhonetically(matches, term);
 
@@ -24,11 +24,12 @@ class VerbSearchService {
                 return b.weight - a.weight;
             });
 
-            matches.length = maxSearchResults;
+            maxExceeded = matches.length >= maxSearchResults;
+            matches.length = maxExceeded ? maxSearchResults : matches.length;
         }
         return {
             matches: matches,
-            maxExceeded: matches.length >= maxSearchResults
+            maxExceeded: maxExceeded
         };
     }
 
@@ -63,7 +64,7 @@ class VerbSearchService {
         }
     }
 
-    matchFromStart(term, matches) {
+    matchBeginning(term, matches) {
         for(let i = 0; i < this.verbs.length; i++) {
             if(matches.length >= maxSearchResults) {
                 break;
@@ -96,30 +97,29 @@ class VerbSearchService {
     }
 
     matchInside(term, matches) {
-        if(matches.length < maxSearchResults) {
-            for(let i = 0; i < this.verbs.length; i++) {
-                if(matches.length >= maxSearchResults) {
-                    break;
-                }
-                let verb = this.verbs[i];
-                let name = verb.name.toLowerCase();
-                let index = name.indexOf(term);
-                if(index > 0) {
-                    matches.push({
-                        weight: 80 - index,
-                        pre: name.substring(0, index),
-                        match: term,
-                        post: name.substring(index + term.length),
-                        source: "",
-                        index: i
-                    });
-                }
+        for(let i = 0; i < this.verbs.length; i++) {
+            if(matches.length >= maxSearchResults) {
+                break;
+            }
+            let verb = this.verbs[i];
+            let name = verb.name.toLowerCase();
+            let index = name.indexOf(term);
+            if(index > 0) {
+                matches.push({
+                    weight: 80 - index,
+                    pre: name.substring(0, index),
+                    match: term,
+                    post: name.substring(index + term.length),
+                    source: "",
+                    index: i
+                });
             }
         }
     }
 
     matchPhonetically(matches, term) {
         if(matches.length < maxSearchResults) {
+            this.assertPhoneticIndex();
             let dupecache = [];
             let keys = this.indexer.index(term);
             for(let i = 0; i < keys.length; i++) {

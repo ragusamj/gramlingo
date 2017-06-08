@@ -38,7 +38,7 @@ class SearchEngine {
             this.phoneticIndex = {};
             this.data.forEach((item, index) => {
                 Object.keys(item).forEach((key) => {
-                    this.index(item[key], index, key === "name" ? "name" : "form");
+                    this.index(item[key], index, key);
                 });
             });
         }

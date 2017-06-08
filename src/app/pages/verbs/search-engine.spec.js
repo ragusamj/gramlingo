@@ -1,14 +1,14 @@
 import test from "tape";
-import VerbSearchService from "./verb-search.service";
+import SearchEngine from "./search-engine";
 
-test("Verb search service should skip searching if term contains non-spanish alphabetic chars", (t) => {
-    let service = new VerbSearchService([{ name: "Ir" }]);
+test("SearchEngine should skip searching if term contains non-spanish alphabetic chars", (t) => {
+    let service = new SearchEngine([{ name: "Ir" }]);
     t.deepEqual(service.search("ir++"), { matches: [], maxExceeded: false });
     t.end();
 });
 
-test("Verb search service should give exact matches the highest weight", (t) => {
-    let service = new VerbSearchService([{ name: "Haber" }]);
+test("SearchEngine should give exact matches the highest weight", (t) => {
+    let service = new SearchEngine([{ name: "Haber" }]);
     t.deepEqual(service.search("haber"), {
         matches: [
             { index: 0, match: "haber", post: "", pre: "", source: "", weight: 100 },
@@ -18,8 +18,8 @@ test("Verb search service should give exact matches the highest weight", (t) => 
     t.end();
 });
 
-test("Verb search service should give matches from the beginning of words the second highest weight", (t) => {
-    let service = new VerbSearchService([{ name: "Abrir" }]);
+test("SearchEngine should give matches from the beginning of words the second highest weight", (t) => {
+    let service = new SearchEngine([{ name: "Abrir" }]);
     t.deepEqual(service.search("ab"), {
         matches: [
             { index: 0, match: "ab", post: "rir", pre: "", source: "", weight: 90 }
@@ -28,8 +28,8 @@ test("Verb search service should give matches from the beginning of words the se
     t.end();
 });
 
-test("Verb search service should give matches inside of words a lower weight", (t) => {
-    let service = new VerbSearchService([{ name: "Abrir" }]);
+test("SearchEngine should give matches inside of words a lower weight", (t) => {
+    let service = new SearchEngine([{ name: "Abrir" }]);
     t.deepEqual(service.search("ir"), {
         matches: [
             { index: 0, match: "ir", post: "", pre: "abr", source: "", weight: 77 }
@@ -38,8 +38,8 @@ test("Verb search service should give matches inside of words a lower weight", (
     t.end();
 });
 
-test("Verb search service should give phonetic matches the lowest weight", (t) => {
-    let service = new VerbSearchService([{ name: "Haber" }]);
+test("SearchEngine should give phonetic matches the lowest weight", (t) => {
+    let service = new SearchEngine([{ name: "Haber" }]);
     t.deepEqual(service.search("aver"), {
         matches: [
             { index: 0, match: "haber", post: "", pre: "", source: "haber", weight: 50 }
@@ -48,8 +48,8 @@ test("Verb search service should give phonetic matches the lowest weight", (t) =
     t.end();
 });
 
-test("Verb search service should weed out duplicate phonetic matches", (t) => {
-    let service = new VerbSearchService([{
+test("SearchEngine should weed out duplicate phonetic matches", (t) => {
+    let service = new SearchEngine([{
         name: "Atar",
         indicative: { present: [["ato"],["atas"],["ata"]] },
         subjunctive: { present: [["ate"],["ates"],["ate"]] },
@@ -64,8 +64,8 @@ test("Verb search service should weed out duplicate phonetic matches", (t) => {
     t.end();
 });
 
-test("Verb search service should not exceed max search results when matching from beginning", (t) => {
-    let service = new VerbSearchService([
+test("SearchEngine should not exceed max search results when matching from beginning", (t) => {
+    let service = new SearchEngine([
         { name: "atestiguar" },
         { name: "atacar" },
         { name: "atender" },
@@ -83,8 +83,8 @@ test("Verb search service should not exceed max search results when matching fro
     t.end();
 });
 
-test("Verb search service should not exceed max search results when matching inside", (t) => {
-    let service = new VerbSearchService([
+test("SearchEngine should not exceed max search results when matching inside", (t) => {
+    let service = new SearchEngine([
         { name: "acostar" },
         { name: "ajustar" },
         { name: "apostar" },
@@ -102,8 +102,8 @@ test("Verb search service should not exceed max search results when matching ins
     t.end();
 });
 
-test("Verb search service should order descending by weight", (t) => {
-    let service = new VerbSearchService([
+test("SearchEngine should order descending by weight", (t) => {
+    let service = new SearchEngine([
         { name: "dormir" },
         { name: "gemir" },
         { name: "mirar" }
@@ -119,8 +119,8 @@ test("Verb search service should order descending by weight", (t) => {
     t.end();
 });
 
-test("Verb search service create phonetic index from data with objects and arrays", (t) => {
-    let service = new VerbSearchService([
+test("SearchEngine create phonetic index from data with objects and arrays", (t) => {
+    let service = new SearchEngine([
         { name: "ir", indicative: { present: [["voy"]] } }
     ]);
 
@@ -132,8 +132,8 @@ test("Verb search service create phonetic index from data with objects and array
     t.end();
 });
 
-test("Verb search service create phonetic index from data with objects and arrays and ignore unknown data types", (t) => {
-    let service = new VerbSearchService([
+test("SearchEngine create phonetic index from data with objects and arrays and ignore unknown data types", (t) => {
+    let service = new SearchEngine([
         { name: "ir", unknown: 123, indicative: { present: [["voy"]] } }
     ]);
 
@@ -145,8 +145,8 @@ test("Verb search service create phonetic index from data with objects and array
     t.end();
 });
 
-test("Verb search service create phonetic index lazily", (t) => {
-    let service = new VerbSearchService([
+test("SearchEngine create phonetic index lazily", (t) => {
+    let service = new SearchEngine([
         { name: "ir", indicative: { present: [["voy"]] } }
     ]);
 

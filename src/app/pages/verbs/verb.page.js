@@ -3,7 +3,7 @@ import Template from "../../core/template";
 import Page from "../common/page";
 import ElementWalker from "../common/walkers/element-walker";
 import KeyCode from "../common/walkers/key-code";
-import VerbSearchService from "./verb-search.service";
+import SearchEngine from "./search-engine";
 
 const defaultVerbIndex = 624; // Ir
 const searchTypingDelay = 300;
@@ -76,10 +76,10 @@ class VerbPage {
                 }
             }
         });
-        this.searchService = new VerbSearchService(this.verbs);
+        this.searchEngine = new SearchEngine(this.verbs);
         this.deferredSearch = debounce((e) => {
             if(e.target.hasAttribute("data-verb-search") && !(this.walker.isWalkable(e.keyCode) || e.keyCode === KeyCode.enter)) {
-                let result = this.searchService.search(e.target.value);
+                let result = this.searchEngine.search(e.target.value);
                 this.showSearchResult(result);
             }
         }, searchTypingDelay);

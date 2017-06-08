@@ -4,10 +4,10 @@ import PhoneticIndexer from "./phonetic-indexer";
 const spanishLetters = /^[a-z\u00E1-\u00FC]+$/i;
 const maxSearchResults = 10;
 
-class VerbSearchService {
+class SearchEngine {
 
-    constructor(verbs) {
-        this.verbs = verbs;
+    constructor(data) {
+        this.data = data;
         this.indexer = new PhoneticIndexer();
     }
 
@@ -36,41 +36,41 @@ class VerbSearchService {
     assertPhoneticIndex() {
         if(!this.phoneticIndex) {
             this.phoneticIndex = {};
-            this.verbs.forEach((verb, index) => {
-                Object.keys(verb).forEach((key) => {
-                    this.index(verb[key], index, key === "name" ? "name" : "form");
+            this.data.forEach((item, index) => {
+                Object.keys(item).forEach((key) => {
+                    this.index(item[key], index, key === "name" ? "name" : "form");
                 });
             });
         }
     }
 
-    index(obj, verbIndex, type) {
+    index(obj, dataIndex, type) {
         if(typeof obj === "string") {
             let keys = this.indexer.index(obj);
             keys.forEach((key, i) => {
                 let values = this.phoneticIndex[key] = this.phoneticIndex[key] || [];
-                values.push({type: type, verbIndex: verbIndex, value: obj, r: i});
+                values.push({type: type, dataIndex: dataIndex, value: obj, r: i});
             });
         }
         else if (Array.isArray(obj)){
             obj.forEach((value) => {
-                this.index(value, verbIndex, type);
+                this.index(value, dataIndex, type);
             });
         }
         else if (typeof obj === "object") {
             Object.keys(obj).forEach((key) => {
-                this.index(obj[key], verbIndex, type);
+                this.index(obj[key], dataIndex, type);
             });
         }
     }
 
     matchBeginning(term, matches) {
-        for(let i = 0; i < this.verbs.length; i++) {
+        for(let i = 0; i < this.data.length; i++) {
             if(matches.length >= maxSearchResults) {
                 break;
             }
-            let verb = this.verbs[i];
-            let name = verb.name.toLowerCase();
+            let item = this.data[i];
+            let name = item.name.toLowerCase();
             if(name === term) {
                 matches.push({
                     weight: 100,
@@ -97,12 +97,12 @@ class VerbSearchService {
     }
 
     matchInside(term, matches) {
-        for(let i = 0; i < this.verbs.length; i++) {
+        for(let i = 0; i < this.data.length; i++) {
             if(matches.length >= maxSearchResults) {
                 break;
             }
-            let verb = this.verbs[i];
-            let name = verb.name.toLowerCase();
+            let item = this.data[i];
+            let name = item.name.toLowerCase();
             let index = name.indexOf(term);
             if(index > 0) {
                 matches.push({
@@ -129,7 +129,7 @@ class VerbSearchService {
                     for(let j = 0; j < index.length; j++) {
                         let match = index[j];
                         let value = match.value.toLowerCase();
-                        let source = this.verbs[match.verbIndex].name.toLowerCase();
+                        let source = this.data[match.dataIndex].name.toLowerCase();
                         let dupekey = value + "_" + source;
                         if(dupecache.indexOf(dupekey) === -1) {
                             dupecache.push(dupekey);
@@ -140,7 +140,7 @@ class VerbSearchService {
                                 match: value,
                                 post: "",
                                 source: source,
-                                index: match.verbIndex
+                                index: match.dataIndex
                             });
                         }
                     }
@@ -154,4 +154,4 @@ class VerbSearchService {
     }
 }
 
-export default VerbSearchService;
+export default SearchEngine;

@@ -11,8 +11,7 @@ test("SearchEngine should give exact matches the highest weight", (t) => {
     let service = new SearchEngine([{ name: "Haber" }]);
     t.deepEqual(service.search("haber"), {
         matches: [
-            { index: 0, match: "haber", post: "", pre: "", source: "", weight: 100 },
-            { index: 0, match: "haber", post: "", pre: "", source: "haber", weight: 50 } // TODO: remove duplicates
+            { index: 0, match: "haber", post: "", pre: "", source: "", weight: 100 }
         ],
         maxExceeded: false });
     t.end();
@@ -28,21 +27,11 @@ test("SearchEngine should give matches from the beginning of words the second hi
     t.end();
 });
 
-test("SearchEngine should give matches inside of words a lower weight", (t) => {
-    let service = new SearchEngine([{ name: "Abrir" }]);
-    t.deepEqual(service.search("ir"), {
-        matches: [
-            { index: 0, match: "ir", post: "", pre: "abr", source: "", weight: 77 }
-        ],
-        maxExceeded: false });
-    t.end();
-});
-
 test("SearchEngine should give phonetic matches the lowest weight", (t) => {
     let service = new SearchEngine([{ name: "Haber" }]);
     t.deepEqual(service.search("aver"), {
         matches: [
-            { index: 0, match: "haber", post: "", pre: "", source: "haber", weight: 50 }
+            { index: 0, match: "haber", post: "", pre: "", source: "haber", weight: 70 }
         ],
         maxExceeded: false });
     t.end();
@@ -57,9 +46,9 @@ test("SearchEngine should weed out duplicate phonetic matches", (t) => {
     }]);
     t.deepEqual(service.search("ato"), {
         matches: [
-            { index: 0, match: "ato", post: "", pre: "", source: "atar", weight: 59 },
-            { index: 0, match: "ata", post: "", pre: "", source: "atar", weight: 49 },
-            { index: 0, match: "ate", post: "", pre: "", source: "atar", weight: 49 } ],
+            { index: 0, match: "ato", post: "", pre: "", source: "atar", weight: 79 },
+            { index: 0, match: "ata", post: "", pre: "", source: "atar", weight: 69 },
+            { index: 0, match: "ate", post: "", pre: "", source: "atar", weight: 69 } ],
         maxExceeded: false });
     t.end();
 });
@@ -83,38 +72,19 @@ test("SearchEngine should not exceed max search results when matching from begin
     t.end();
 });
 
-test("SearchEngine should not exceed max search results when matching inside", (t) => {
-    let service = new SearchEngine([
-        { name: "acostar" },
-        { name: "ajustar" },
-        { name: "apostar" },
-        { name: "asustar" },
-        { name: "arrestar" },
-        { name: "bastar" },
-        { name: "conquistar" },
-        { name: "contestar" },
-        { name: "costar" },
-        { name: "estar" },
-        { name: "detestar" }
-    ]);
-
-    t.deepEqual(service.search("star").matches.length, 10);
-    t.end();
-});
-
 test("SearchEngine should order descending by weight", (t) => {
     let service = new SearchEngine([
-        { name: "dormir" },
-        { name: "gemir" },
-        { name: "mirar" }
+        { name: "abrir", indicative: { present: [["abro"],["abres"],["abre"]] } },
+        { name: "averiguar" },
+        { name: "haber" }
     ]);
 
-    t.deepEqual(service.search("mir"), {
+    t.deepEqual(service.search("aver"), {
         matches: [
-            { index: 2, match: "mir", post: "ar", pre: "", source: "", weight: 90 },
-            { index: 1, match: "mir", post: "", pre: "ge", source: "", weight: 78 },
-            { index: 0, match: "mir", post: "", pre: "dor", source: "", weight: 77 }
-        ],
+            { index: 1, match: "aver", post: "iguar", pre: "", source: "", weight: 90 },
+            { index: 2, match: "haber", post: "", pre: "", source: "haber", weight: 70 },
+            { index: 0, match: "abro", post: "", pre: "", source: "abrir", weight: 69 },
+            { index: 0, match: "abre", post: "", pre: "", source: "abrir", weight: 69 } ],
         maxExceeded: false });
     t.end();
 });
@@ -126,7 +96,7 @@ test("SearchEngine create phonetic index from data with objects and arrays", (t)
 
     t.deepEqual(service.search("voy"), {
         matches: [
-            { index: 0, match: "voy", post: "", pre: "", source: "ir", weight: 59 }
+            { index: 0, match: "voy", post: "", pre: "", source: "ir", weight: 79 }
         ],
         maxExceeded: false });
     t.end();
@@ -139,7 +109,7 @@ test("SearchEngine create phonetic index from data with objects and arrays and i
 
     t.deepEqual(service.search("voy"), {
         matches: [
-            { index: 0, match: "voy", post: "", pre: "", source: "ir", weight: 59 }
+            { index: 0, match: "voy", post: "", pre: "", source: "ir", weight: 79 }
         ],
         maxExceeded: false });
     t.end();

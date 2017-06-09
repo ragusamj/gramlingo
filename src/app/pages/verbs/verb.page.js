@@ -1,12 +1,6 @@
-import debounce from "lodash.debounce";
-import Template from "../../core/template";
 import Page from "../common/page";
-import ElementWalker from "../common/walkers/element-walker";
-import KeyCode from "../common/walkers/key-code";
-import SearchEngine from "../common/search/search-engine";
 
 const defaultVerbIndex = 624; // Ir
-const searchTypingDelay = 300;
 
 class VerbPage {
 
@@ -14,12 +8,12 @@ class VerbPage {
         this.browserEvent = browserEvent;
         this.http = http;
         this.i18n = i18n;
+        this.browserEvent.on("search-result-index-updated", this.onSearchResulIndexUpdated.bind(this));
     }
 
     load(pageTemplate, onDOMChanged) {
-        this.http.getJSON("/data/verbs.json", (verbs) => {
-            this.inflate(verbs);
-            this.initSearch();
+        this.http.getJSON("/data/verbs.json", (data) => {
+            this.inflate(data);
             this.applyPageTemplate(pageTemplate, onDOMChanged);
         }, (event) => {
             // console.log("loading verbs, recieved", event.loaded, "bytes of", event.total);
@@ -27,8 +21,8 @@ class VerbPage {
         });
     }
 
-    inflate(verbs) {
-        this.verbs = verbs
+    inflate(data) {
+        this.verbs = data
         .map((verb) => {
             return {
                 name: verb[0],
@@ -60,31 +54,7 @@ class VerbPage {
         .sort((a, b) => {
             return a.name.localeCompare(b.name);
         });
-    }
-
-    initSearch() {
-        this.walker = new ElementWalker();
-        this.destroyOnSearchKeydown = this.browserEvent.on("keydown", (e) => {
-            if(e.target.hasAttribute("data-verb-search")) {
-                if(this.walker.isWalkable(e.keyCode)) {
-                    this.walker.walk(e.keyCode);
-                }
-                if(e.keyCode === KeyCode.enter) {
-                    let element = document.getElementById(this.walker.currentElementId);
-                    this.changePageData(element);
-                    this.closeSearchResult();
-                }
-            }
-        });
-        this.searchEngine = new SearchEngine(this.verbs);
-        this.deferredSearch = debounce((e) => {
-            if(e.target.hasAttribute("data-verb-search") && !(this.walker.isWalkable(e.keyCode) || e.keyCode === KeyCode.enter)) {
-                let result = this.searchEngine.search(e.target.value);
-                this.showSearchResult(result);
-            }
-        }, searchTypingDelay);
-        this.destroyOnSearch = this.browserEvent.on("keyup", this.deferredSearch);
-        this.destroyOnSearchResultClick = this.browserEvent.on("click", this.onSearchResultClick.bind(this));
+        this.browserEvent.emit("page-searchable-data-updated", this.verbs);
     }
 
     applyPageTemplate(pageTemplate, onDOMChanged) {
@@ -95,54 +65,8 @@ class VerbPage {
         this.onPageDataChanged(defaultVerbIndex);
     }
 
-    showSearchResult(result) {
-
-        let template = Template.fromElementId("search-result-template");
-        let itemTemplate = Template.fromElementId("search-result-item-template");
-        let ul = template.querySelector("ul");
-        this.ids = [];
-
-        if(result.matches.length > 0) {
-
-            result.matches.forEach((match) => {
-                let item = itemTemplate.clone();
-                item.set("pre", { innerHTML: match.pre });
-                item.set("match", { innerHTML: match.match });
-                item.set("post", { innerHTML: match.post });
-                item.set("source", { innerHTML: match.source });
-                let li = item.set("search-result-item");
-                li.setAttribute("data-verb-index", match.index);
-                this.ids.push(li.id);
-                ul.appendChild(item.fragment());
-            });
-
-            if(result.maxExceeded) {
-                template.add(ul, "li", { innerHTML: "..." });
-            }
-
-            template.replaceContent("search-result-container");
-
-            this.walker.link(this.ids);
-        }
-    }
-
-    onSearchResultClick(e) {
-        this.changePageData(e.target);
-        this.closeSearchResult();
-    }
-
-    changePageData(element) {
-        if(element.hasAttribute("data-verb-index")) {
-            let index = element.getAttribute("data-verb-index");
-            this.onPageDataChanged(index);
-        }
-    }
-
-    closeSearchResult() {
-        let ul = document.getElementById("search-result-list");
-        if(ul) {
-            ul.classList.add("hide");
-        } 
+    onSearchResulIndexUpdated(e) {
+        this.onPageDataChanged(e.detail);
     }
 
     onPageDataChanged(index){

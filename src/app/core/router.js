@@ -2,13 +2,12 @@ import Template from "./template";
 
 class Router {
 
-    constructor(browserEvent, http, i18n, routes, placeholderElementId, timeout) {
+    constructor(browserEvent, http, i18n, routes, placeholderElementId) {
         this.browserEvent = browserEvent;
         this.http = http;
         this.i18n = i18n;
         this.routes = routes;
         this.placeholderElementId = placeholderElementId;
-        this.timeout = timeout;
         window.onhashchange = () => {
             let newRouteKey = this.getRouteKeyFromAddressBar();
             Object.keys(routes).forEach((key) => {
@@ -61,7 +60,7 @@ class Router {
                 window.location.hash = routeKey;
                 this.currentRouteKey = routeKey;
             };
-            this.timeout(() => {
+            setTimeout(() => {
                 routeData.page.load(pageTemplate, onDOMChanged);
             });
         });

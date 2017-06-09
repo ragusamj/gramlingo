@@ -2,7 +2,6 @@ import BrowserEvent from "./core/browser-event";
 import Http from "./core/http";
 import I18n from "./core/i18n";
 import Router from "./core/router";
-import timeout from "./core/timeout";
 
 import enUS from "./translations/en-US";
 import esES from "./translations/es-ES";
@@ -46,9 +45,9 @@ class Index {
             }
         };
 
-        new ExerciseAreaListener(browserEvent, new Checker(), new ExerciseArea(timeout), new InputWalker());
+        new ExerciseAreaListener(browserEvent, new Checker(), new ExerciseArea(), new InputWalker());
         new Menu(browserEvent);
-        new Router(browserEvent, http, i18n, routes, "page-placeholder", timeout);
+        new Router(browserEvent, http, i18n, routes, "page-placeholder");
         new Search(browserEvent);
     }
 

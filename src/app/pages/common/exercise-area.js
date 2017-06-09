@@ -8,8 +8,7 @@ const insert = 1;
 
 class ExerciseArea {
 
-    constructor(timeout) {
-        this.timeout = timeout;
+    constructor() {
         this.popupTemplate = Template.fromElementId("popup-template");
         this.trafficLightTemplate = Template.fromElementId("popup-traffic-light-template");
         this.alternativesTemplate = Template.fromElementId("popup-alternatives-template");
@@ -38,7 +37,7 @@ class ExerciseArea {
             this.createIcon(field, result);
             this.createMessage(field, result);
             this.showPopup(field.popupId);
-            this.timeout(() => {
+            setTimeout(() => {
                 this.hide(field.popupId);
             }, 3000);
         }

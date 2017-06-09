@@ -23,6 +23,9 @@ class Search {
         this.browserEvent.on("keydown", this.onKeydown.bind(this));
         this.browserEvent.on("keyup", this.deferredSearch);
         this.browserEvent.on("page-searchable-data-updated", this.onSearchablePageDataUpdated.bind(this));
+
+        this.template = Template.fromElementId("search-result-template");
+        this.itemTemplate = Template.fromElementId("search-result-item-template");
     }
 
     onSearchablePageDataUpdated(e) {
@@ -44,16 +47,14 @@ class Search {
 
     showSearchResult(result) {
 
-        // TODO: cache templates!
-        let template = Template.fromElementId("search-result-template");
-        let itemTemplate = Template.fromElementId("search-result-item-template");
+        let template = this.template.clone();
         let ul = template.querySelector("ul");
         this.ids = [];
 
         if(result.matches.length > 0) {
 
             result.matches.forEach((match) => {
-                let item = itemTemplate.clone();
+                let item = this.itemTemplate.clone();
                 item.set("pre", { innerHTML: match.pre });
                 item.set("match", { innerHTML: match.match });
                 item.set("post", { innerHTML: match.post });

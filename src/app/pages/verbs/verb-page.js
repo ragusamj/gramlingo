@@ -8,13 +8,16 @@ class VerbPage {
         this.browserEvent = browserEvent;
         this.http = http;
         this.i18n = i18n;
-        this.browserEvent.on("search-result-index-updated", this.onSearchResulIndexUpdated.bind(this));
     }
 
-    load(pageTemplate, onPageLoaded) {
+    attach(pageTemplate, onPageAttached) {
         this.loadVerbs(() => {
-            this.applyPageTemplate(pageTemplate, onPageLoaded);
+            this.loadPage(pageTemplate, onPageAttached);
         });
+    }
+
+    detach() {
+        this.destroyListener();
     }
 
     loadVerbs(callback) {
@@ -65,28 +68,28 @@ class VerbPage {
         .sort((a, b) => {
             return a.name.localeCompare(b.name);
         });
-        this.browserEvent.emit("page-searchable-data-updated", this.verbs);
     }
 
-    applyPageTemplate(pageTemplate, onPageLoaded) {
+    loadPage(pageTemplate, onPageAttached) {
         let index = this.getStoredIndex() || defaultVerbIndex;
         let pageData = this.verbs[index];
         if(!this.fields) {
             this.fields = new Page().apply(pageTemplate, pageData);
         }
-        onPageLoaded();
+        onPageAttached();
+        this.destroyListener = this.browserEvent.on("search-result-selected", this.onSearchResultSelected.bind(this));
+        this.browserEvent.emit("page-searchable-data-updated", this.verbs);
         this.browserEvent.emit("page-field-list-updated", this.fields);
         this.onPageDataChanged(index);
     }
 
-    onSearchResulIndexUpdated(e) {
+    onSearchResultSelected(e) {
         this.onPageDataChanged(e.detail);
     }
 
     onPageDataChanged(index){
         this.setHeader(this.verbs[index]);
         this.browserEvent.emit("page-data-updated", this.verbs[index]);
-        this.browserEvent.emit("page-field-list-updated", this.fields);
         window.localStorage.setItem("verb", index);
     }
 

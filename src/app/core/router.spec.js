@@ -24,8 +24,8 @@ test("Router should initialize on event 'DOMContentLoaded' and use default route
         t.plan(1);
         let clock = sinon.useFakeTimers();
 
-        routes["/page"].page.load = (pageTemplate, onDOMChanged) => {
-            onDOMChanged();
+        routes["/page"].page.attach = (pageTemplate, onPageAttached) => {
+            onPageAttached();
             t.true(http.getHTML.calledWith("/page.html"));
         };
 
@@ -40,8 +40,8 @@ test("Router should initialize on event 'DOMContentLoaded' and set window.locati
         t.plan(1);
         let clock = sinon.useFakeTimers();
 
-        routes["/page"].page.load = (pageTemplate, onDOMChanged) => {
-            onDOMChanged();
+        routes["/page"].page.attach = (pageTemplate, onPageAttached) => {
+            onPageAttached();
             t.equal(window.location.hash, "#/page");
         };
 
@@ -56,8 +56,8 @@ test("Router should initialize on event 'DOMContentLoaded' and use route from ad
         t.plan(1);
         let clock = sinon.useFakeTimers();
 
-        routes["/another-page"].page.load = (pageTemplate, onDOMChanged) => {
-            onDOMChanged();
+        routes["/another-page"].page.attach = (pageTemplate, onPageAttached) => {
+            onPageAttached();
             t.true(http.getHTML.calledWith("/another-page.html"));
         };
 
@@ -74,7 +74,7 @@ test("Router should initialize on event 'DOMContentLoaded' and not load any page
         let clock = sinon.useFakeTimers();
 
         routes["/page"].isDefault = false;
-        routes["/page"].page.load = () => {
+        routes["/page"].page.attach = () => {
             t.fail();
         };
 
@@ -91,7 +91,7 @@ test("Router should fetch template on event 'hashchange'", (t) => {
         t.plan(1);
         let clock = sinon.useFakeTimers();
 
-        routes["/another-page"].page.load = sinon.stub();
+        routes["/another-page"].page.attach = sinon.stub();
 
         new Router(browserEvent, http, i18n, routes, "placeholder");
         document.location.hash = "#/another-page";
@@ -102,11 +102,11 @@ test("Router should fetch template on event 'hashchange'", (t) => {
     });
 });
 
-test("Router should emit event 'route-change-start' before loading page", (t) => {
+test("Router should emit event 'route-change-start' before attaching page", (t) => {
     Dom.sandbox("<div id='placeholder'></div>", {}, () => {
         t.plan(1);
  
-        routes["/another-page"].page.load = sinon.stub();
+        routes["/another-page"].page.attach = sinon.stub();
 
         browserEvent.on("route-change-start", (e) => {
             t.equal(e.detail, "/another-page");
@@ -118,13 +118,13 @@ test("Router should emit event 'route-change-start' before loading page", (t) =>
     });
 });
 
-test("Router should emit event 'route-change-success' after loading page", (t) => {
+test("Router should emit event 'route-change-success' after attaching page", (t) => {
     Dom.sandbox("<div id='placeholder'></div>", {}, () => {
         t.plan(1);
         let clock = sinon.useFakeTimers();
 
-        routes["/another-page"].page.load = (pageTemplate, onDOMChanged) => {
-            onDOMChanged();
+        routes["/another-page"].page.attach = (pageTemplate, onPageAttached) => {
+            onPageAttached();
         };
 
         browserEvent.on("route-change-success", (e) => {
@@ -143,8 +143,8 @@ test("Router should replace placeholder content with translated page template", 
         t.plan(1);
         let clock = sinon.useFakeTimers();
 
-        routes["/another-page"].page.load = (pageTemplate, onDOMChanged) => {
-            onDOMChanged();
+        routes["/another-page"].page.attach = (pageTemplate, onPageAttached) => {
+            onPageAttached();
             t.equal(document.getElementById("placeholder").innerHTML, "<div data-translate=\"message\">¡Hola!</div>");
         };
 
@@ -152,5 +152,31 @@ test("Router should replace placeholder content with translated page template", 
         document.location.hash = "#/another-page";
         window.dispatchEvent(new Event("hashchange"));
         clock.tick();
+    });
+});
+
+test("Router should detach current page", (t) => {
+    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+ 
+        let clock = sinon.useFakeTimers();
+        routes["/page"].page.attach = (pageTemplate, onPageAttached) => {
+            onPageAttached();
+        };
+        routes["/page"].page.detach = sinon.stub();
+        routes["/another-page"].page.attach = sinon.stub();
+
+        new Router(browserEvent, http, i18n, routes, "placeholder");
+
+        document.location.hash = "#/page";
+        window.dispatchEvent(new Event("hashchange"));
+        clock.tick();
+
+        document.location.hash = "#/another-page";
+        window.dispatchEvent(new Event("hashchange"));
+        clock.tick();
+
+        t.true(routes["/page"].page.detach.called);
+
+        t.end();
     });
 });

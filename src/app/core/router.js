@@ -53,7 +53,7 @@ class Router {
     setRoute(routeKey, routeData) {
         this.browserEvent.emit("route-change-start", routeKey);
         this.getPageTemplate(routeData, (pageTemplate) => {
-            let onPageLoaded = () => {
+            let onPageAttached = () => {
                 pageTemplate.replaceContent(this.placeholderElementId);
                 this.i18n.translateApplication();
                 this.browserEvent.emit("route-change-success", routeKey);
@@ -61,9 +61,17 @@ class Router {
                 this.currentRouteKey = routeKey;
             };
             setTimeout(() => {
-                routeData.page.load(pageTemplate, onPageLoaded);
+                this.detach();
+                routeData.page.attach(pageTemplate, onPageAttached);
             });
         });
+    }
+
+    detach() {
+        let current = this.routes[this.currentRouteKey];
+        if(current && current.page.detach) {
+            current.page.detach();
+        }
     }
 
     getPageTemplate(routeData, callback) {

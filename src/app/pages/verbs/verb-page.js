@@ -11,10 +11,10 @@ class VerbPage {
         this.browserEvent.on("search-result-index-updated", this.onSearchResulIndexUpdated.bind(this));
     }
 
-    load(pageTemplate, onDOMChanged) {
+    load(pageTemplate, onPageLoaded) {
         this.http.getJSON("/data/verbs.json", (data) => {
             this.inflate(data);
-            this.applyPageTemplate(pageTemplate, onDOMChanged);
+            this.applyPageTemplate(pageTemplate, onPageLoaded);
         }, (event) => {
             // console.log("loading verbs, recieved", event.loaded, "bytes of", event.total);
             return event;
@@ -57,10 +57,12 @@ class VerbPage {
         this.browserEvent.emit("page-searchable-data-updated", this.verbs);
     }
 
-    applyPageTemplate(pageTemplate, onDOMChanged) {
+    applyPageTemplate(pageTemplate, onPageLoaded) {
         let pageData = this.verbs[defaultVerbIndex];
-        this.fields = new Page().apply(pageTemplate, pageData);
-        onDOMChanged();
+        if(!this.fields) {
+            this.fields = new Page().apply(pageTemplate, pageData);
+        }
+        onPageLoaded();
         this.browserEvent.emit("page-field-list-updated", this.fields);
         this.onPageDataChanged(defaultVerbIndex);
     }

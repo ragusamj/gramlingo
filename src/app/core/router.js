@@ -8,6 +8,7 @@ class Router {
         this.i18n = i18n;
         this.routes = routes;
         this.placeholderElementId = placeholderElementId;
+        this.pageTemplateCache = {};
         window.onhashchange = () => {
             let newRouteKey = this.getRouteKeyFromAddressBar();
             Object.keys(routes).forEach((key) => {
@@ -51,9 +52,8 @@ class Router {
 
     setRoute(routeKey, routeData) {
         this.browserEvent.emit("route-change-start", routeKey);
-        this.http.getHTML(routeData.template, (html) => {
-            let pageTemplate = new Template(html);
-            let onDOMChanged = () => {
+        this.getPageTemplate(routeData, (pageTemplate) => {
+            let onPageLoaded = () => {
                 pageTemplate.replaceContent(this.placeholderElementId);
                 this.i18n.translateApplication();
                 this.browserEvent.emit("route-change-success", routeKey);
@@ -61,9 +61,21 @@ class Router {
                 this.currentRouteKey = routeKey;
             };
             setTimeout(() => {
-                routeData.page.load(pageTemplate, onDOMChanged);
+                routeData.page.load(pageTemplate, onPageLoaded);
             });
         });
+    }
+
+    getPageTemplate(routeData, callback) {
+        if(this.pageTemplateCache[routeData.template]) {
+            return callback(this.pageTemplateCache[routeData.template]);
+        }
+        else {
+            this.http.getHTML(routeData.template, (html) => {
+                this.pageTemplateCache[routeData.template] = new Template(html);
+                callback(this.pageTemplateCache[routeData.template]);
+            });
+        }
     }
 }
 

@@ -12,8 +12,10 @@ import Menu from "./menu";
 import Checker from "./pages/common/checker";
 import ExerciseAreaListener from "./pages/common/exercise-area-listener";
 import ExerciseArea from "./pages/common/exercise-area";
+import ElementWalker from "./pages/common/walkers/element-walker";
 import InputWalker from "./pages/common/walkers/input-walker";
-import Search from "./pages/common/search/search";
+import SearchListener from "./pages/common/search/search-listener";
+import SearchResult from "./pages/common/search/search-result";
 import VerbPage from "./pages/verbs/verb.page";
 import NumeralsPage from "./pages/numerals/numerals.page";
 
@@ -48,7 +50,7 @@ class Index {
         new ExerciseAreaListener(browserEvent, new Checker(), new ExerciseArea(), new InputWalker());
         new Menu(browserEvent);
         new Router(browserEvent, http, i18n, routes, "page-placeholder");
-        new Search(browserEvent);
+        new SearchListener(browserEvent, new SearchResult(browserEvent, new ElementWalker()));
     }
 
     onLanguageChanged(e) {

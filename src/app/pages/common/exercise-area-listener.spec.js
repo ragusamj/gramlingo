@@ -4,23 +4,23 @@ import BrowserEvent from "../../core/browser-event";
 import Dom from "../../core/mock/dom";
 import ExerciseAreaListener from "./exercise-area-listener";
 
-let checker = {
+const checker = {
     check: sinon.stub().returns({ accepted: true })
 };
 
-let exerciseArea = {
+const exerciseArea = {
     hide: sinon.spy(),
     showAnswer: sinon.spy(),
     showPopup: sinon.spy(),
     updateField: sinon.spy()
 };
 
-let walker = {
+const walker = {
     link: sinon.spy(),
     walk: sinon.spy()
 };
 
-let setup = () => {
+const setup = () => {
     let exerciseAreaListener = new ExerciseAreaListener(new BrowserEvent(), checker, exerciseArea, walker);
     exerciseAreaListener.onPageFieldListUpdated({detail: { "id": { dataPath: "path", iconId: "icon-id", popupId: "popup-id" } }});
     exerciseAreaListener.onPageDataUpdated({ detail: { "path": ["alternative"] }});

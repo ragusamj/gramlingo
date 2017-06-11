@@ -56,10 +56,8 @@ class SearchResult {
     }
 
     close() {
-        let ul = document.getElementById("search-result-list");
-        if(ul) {
-            ul.classList.add("hide");
-        } 
+        let container = document.getElementById("search-result-container");
+        Template.clear(container);
     }
 
     assertTemplates() {

@@ -16,7 +16,7 @@ import ElementWalker from "./pages/common/walkers/element-walker";
 import InputWalker from "./pages/common/walkers/input-walker";
 import SearchListener from "./pages/common/search/search-listener";
 import SearchResult from "./pages/common/search/search-result";
-import VerbPage from "./pages/verbs/verb.page";
+import VerbPage from "./pages/verbs/verb-page";
 import NumeralsPage from "./pages/numerals/numerals.page";
 
 const browserEvent = new BrowserEvent();
@@ -38,7 +38,7 @@ class Index {
         let routes = {
             "/verbs": {
                 page: new VerbPage(browserEvent, http, i18n),
-                template: "/app/pages/verbs/verb.page.html",
+                template: "/app/pages/verbs/verb-page.html",
                 isDefault: true
             },
             "/numerals": {

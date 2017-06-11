@@ -29,10 +29,6 @@ class ElementWalker {
             this.currentElementId = element.id;
         }
     }
-
-    isWalkable(key) {
-        return key === KeyCode.downArrow || key === KeyCode.upArrow;
-    }
 }
 
 export default ElementWalker;

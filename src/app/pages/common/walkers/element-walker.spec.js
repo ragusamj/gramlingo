@@ -81,27 +81,3 @@ test("ElementWalker should ignore last visited element if it no longer exists", 
         t.end();
     });
 });
-
-test("ElementWalker should consider down arrow a walkable key", (t) => {
-    Dom.sandbox("", {}, () => {
-        let walker = new ElementWalker();
-        t.true(walker.isWalkable(KeyCode.downArrow));
-        t.end();
-    });
-});
-
-test("ElementWalker should consider down arrow a walkable key", (t) => {
-    Dom.sandbox("", {}, () => {
-        let walker = new ElementWalker();
-        t.true(walker.isWalkable(KeyCode.upArrow));
-        t.end();
-    });
-});
-
-test("ElementWalker should not consider enter key a walkable key", (t) => {
-    Dom.sandbox("", {}, () => {
-        let walker = new ElementWalker();
-        t.false(walker.isWalkable(KeyCode.enter));
-        t.end();
-    });
-});

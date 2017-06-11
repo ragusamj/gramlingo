@@ -30,6 +30,14 @@ class Template {
         return new Template(element.innerHTML || element.cloneNode(true));
     }
 
+    static clear(element) {
+        if(element) {
+            while (element.firstChild) {
+                element.removeChild(element.firstChild);
+            }
+        }
+    }
+
     add(parent, tagName, properties) {
         let element = document.createElement(tagName);
         this.setProperties(element, properties);
@@ -89,9 +97,7 @@ class Template {
 
     replaceContent(elementId) {
         let element = document.getElementById(elementId);
-        while (element.firstChild) {
-            element.removeChild(element.firstChild);
-        }
+        Template.clear(element);
         element.appendChild(this.fragment());
     }
 

@@ -72,6 +72,24 @@ test("Template should create instance from element id with inner content", (t) =
     });
 });
 
+test("Template should clear element content", (t) => {
+    Dom.sandbox("<div id='id'><div id='inner'>inner content</div></div>", {}, () => {
+        let element = document.getElementById("id");
+        Template.clear(element);
+        t.equal(element.innerHTML, "");
+        t.end();
+    });
+});
+
+test("Template should clear element content and ignore undefined elements", (t) => {
+    Dom.sandbox("<div id='id'><div id='inner'>inner content</div></div>", {}, () => {
+        let element = undefined;
+        Template.clear(element);
+        t.equal(element, undefined);
+        t.end();
+    });
+});
+
 test("Template should create and add element to parent id", (t) => {
     Dom.sandbox("<div id='parent'></div>", {}, () => {
         let template = Template.fromElementId("parent");

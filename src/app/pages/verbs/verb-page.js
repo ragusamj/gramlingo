@@ -12,13 +12,24 @@ class VerbPage {
     }
 
     load(pageTemplate, onPageLoaded) {
-        this.http.getJSON("/data/verbs.json", (data) => {
-            this.inflate(data);
+        this.loadVerbs(() => {
             this.applyPageTemplate(pageTemplate, onPageLoaded);
-        }, (event) => {
-            // console.log("loading verbs, recieved", event.loaded, "bytes of", event.total);
-            return event;
         });
+    }
+
+    loadVerbs(callback) {
+        if(this.verbs) {
+            callback();
+        }
+        else {
+            this.http.getJSON("/data/verbs.json", (data) => {
+                this.inflate(data);
+                callback();
+            }, (event) => {
+                // console.log("loading verbs, recieved", event.loaded, "bytes of", event.total);
+                return event;
+            });
+        }
     }
 
     inflate(data) {

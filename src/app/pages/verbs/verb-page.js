@@ -69,13 +69,14 @@ class VerbPage {
     }
 
     applyPageTemplate(pageTemplate, onPageLoaded) {
-        let pageData = this.verbs[defaultVerbIndex];
+        let index = this.getStoredIndex() || defaultVerbIndex;
+        let pageData = this.verbs[index];
         if(!this.fields) {
             this.fields = new Page().apply(pageTemplate, pageData);
         }
         onPageLoaded();
         this.browserEvent.emit("page-field-list-updated", this.fields);
-        this.onPageDataChanged(defaultVerbIndex);
+        this.onPageDataChanged(index);
     }
 
     onSearchResulIndexUpdated(e) {
@@ -85,7 +86,8 @@ class VerbPage {
     onPageDataChanged(index){
         this.setHeader(this.verbs[index]);
         this.browserEvent.emit("page-data-updated", this.verbs[index]);
-        this.browserEvent.emit("page-field-list-updated", this.fields);   
+        this.browserEvent.emit("page-field-list-updated", this.fields);
+        window.localStorage.setItem("verb", index);
     }
 
     setHeader(verb) {
@@ -93,6 +95,11 @@ class VerbPage {
         let mode = document.getElementById("verb-mode");
         mode.setAttribute("data-translate", (verb.regular ? "verbs-header-regular" : "verbs-header-irregular"));
         this.i18n.translate(mode);
+    }
+
+    getStoredIndex() {
+        let index = window.localStorage.getItem("verb");
+        return index ? parseInt(index) : undefined;
     }
 }
 

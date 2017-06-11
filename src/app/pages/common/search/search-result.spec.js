@@ -124,7 +124,7 @@ test("SearchResult should select current walked item", (t) => {
         searchResult.show(result);
         searchResult.walk(KeyCode.downArrow);
         searchResult.selectCurrent();
-        t.true(browserEvent.emit.calledWith("search-result-index-updated"));
+        t.true(browserEvent.emit.calledWith("search-result-selected"));
         t.end();
     });
 });
@@ -136,7 +136,7 @@ test("SearchResult should select current walked item and ignore undefined elemen
         searchResult.show(result);
         searchResult.walk(KeyCode.downArrow);
         searchResult.select(undefined);
-        t.false(browserEvent.emit.calledWith("search-result-index-updated"));
+        t.false(browserEvent.emit.calledWith("search-result-selected"));
         t.end();
     });
 });

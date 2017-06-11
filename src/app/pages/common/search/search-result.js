@@ -51,7 +51,7 @@ class SearchResult {
     select(element) {
         if(element && element.hasAttribute("data-search-result-index")) {
             let index = element.getAttribute("data-search-result-index");
-            this.browserEvent.emit("search-result-index-updated", index);
+            this.browserEvent.emit("search-result-selected", index);
         }
     }
 

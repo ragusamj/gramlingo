@@ -68,6 +68,35 @@ test("ExerciseArea should update field and set input value to '-' if there are n
     });
 });
 
+test("ExerciseArea should update field and set input type to 'text' if the value is a string", (t) => {
+    Dom.sandbox(html, {}, () => {
+        let exerciseArea = new ExerciseArea();
+        exerciseArea.updateField(field, alternatives);
+        t.equal(document.getElementById("input-1").type, "text");
+        t.end();
+    });
+});
+
+test("ExerciseArea should update field and set input type to 'number' if the value is numeric", (t) => {
+    Dom.sandbox(html, {}, () => {
+        let exerciseArea = new ExerciseArea();
+        exerciseArea.hidden = false;
+        exerciseArea.updateField(field, [123]);
+        t.equal(document.getElementById("input-1").type, "number");
+        t.end();
+    });
+});
+
+test("ExerciseArea should update field and set hidden input type to 'number' if the value is numeric", (t) => {
+    Dom.sandbox(html, {}, () => {
+        let exerciseArea = new ExerciseArea();
+        exerciseArea.hidden = true;
+        exerciseArea.updateField(field, [123]);
+        t.equal(document.getElementById("input-1").type, "number");
+        t.end();
+    });
+});
+
 test("ExerciseArea should update field and hide icon", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();

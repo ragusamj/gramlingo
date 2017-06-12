@@ -24,6 +24,7 @@ class ExerciseArea {
         else {
             input.value = this.hidden ? "" : alternatives[0];
         }
+        input.type = this.isNumeric(alternatives[0]) ? "number" : "text";
         this.hide(field.iconId);
         this.hide(field.popupId);
     }
@@ -123,6 +124,10 @@ class ExerciseArea {
         }
         this.lastPopup = id;
         this.show(id);
+    }
+
+    isNumeric(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
     }
 }
 

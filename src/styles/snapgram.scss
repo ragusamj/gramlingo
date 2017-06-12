@@ -27,6 +27,15 @@ button {
     }
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 .navbar-brand {
     font-family: 'Lobster', $font-family-sans-serif;
 }

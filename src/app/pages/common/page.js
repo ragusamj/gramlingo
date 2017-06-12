@@ -11,7 +11,7 @@ class Page {
             let fieldData = get(pageData, fieldPath);
             for(let i = 0; i < fieldData.length; i++) {
                 let field = fieldTemplate.clone();
-                let input = field.set("input");
+                let input = this.createInput(field);
                 fields[input.id] = {
                     dataPath: fieldPath + "[" + i + "]",
                     iconId: field.set("icon").id,
@@ -22,6 +22,15 @@ class Page {
             }
         });
         return fields;
+    }
+
+    createInput(field) {
+        let input = field.set("input");
+        input.autocapitalize = "off";
+        input.autocomplete = "off";
+        input.autocorrect = "off";
+        input.spellcheck = false;
+        return input;
     }
 }
 

@@ -6,6 +6,21 @@ export default {
     "navigation-link-countries": "Países",
     "navigation-link-words": "Palabras",
 
+    "numerals-header-cardinals": "Мощность множества",
+
+    "numerals-footer-select-header": "Elegir",
+    "numerals-footer-select-body": "Elige el tipo de ejercicio, se puede practicar la ortografía de cardinales, ordinales, fracciones, siglos y tiempo.",
+
+    "numerals-footer-study-header": "Estudiar",
+    "numerals-footer-study-body-1": "Si quieres ver las ortografías de los numeros aleatorizados, haz clic en el botón 'Mostrar'.",
+    "numerals-footer-study-body-2": "Si quieres escribir las ortografías o los numeros para practicar, haz clic en el botón 'Limpiar' para vaciar el formulario.",
+    "numerals-footer-study-body-3": "Puedes utilizar la tecla enter para moverte al siguiente campo y las flechas de dirección del teclado para moverte hacia arriba y abajo.",
+
+    "numerals-footer-practice-header": "Practicar",
+    "numerals-footer-practice-body-1": "Si quieres elegir entre practicar la ortografía y escribir los números, haz cliq en el boton 'Alternar'.",
+    "numerals-footer-practice-body-2": "También puedes aleatorizar los números con el boton 'Aleatorizar'.",
+    "numerals-footer-practice-body-3": "Cuando escribes, la aplicación corrige cualquier error y sugiere formas alternativas.",
+
     "verbs-header-regular": "(regular)",
     "verbs-header-irregular": "(irregular)",
 

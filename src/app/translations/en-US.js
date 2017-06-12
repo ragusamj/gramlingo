@@ -6,6 +6,21 @@ export default {
     "navigation-link-countries": "Countries",
     "navigation-link-words": "Words",
 
+    "numerals-header-cardinals": "Integers",
+
+    "numerals-footer-select-header": "Choose",
+    "numerals-footer-select-body": "Choose a type of exercise, you can practice the spelling of integers, ordinals, fractions, centuries and time.",
+
+    "numerals-footer-study-header": "Study",
+    "numerals-footer-study-body-1": "If you want to practice by reading all the randomized numbers, click on the button 'Show'.",
+    "numerals-footer-study-body-2": "If you want to practice by typing, click on the button 'Hide'.",
+    "numerals-footer-study-body-3": "You can use the enter key to move to the next field, and the up and down arrows on the keyboard to move to the previous or the next field.",
+
+    "numerals-footer-practice-header": "Practice",
+    "numerals-footer-practice-body-1": "You can choose to practice by typing the spelling of the numbers or the integers of the numbers using the button 'Switch'.",
+    "numerals-footer-practice-body-2": "You can also randomize new numbers using the button 'Randomize'.",
+    "numerals-footer-practice-body-3": "The application will correct any errors and suggest alternative spellings as you type.",
+
     "verbs-header-regular": "(regular)",
     "verbs-header-irregular": "(irregular)",
 

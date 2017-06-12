@@ -6,6 +6,21 @@ export default {
     "navigation-link-countries": "Länder",
     "navigation-link-words": "Ord",
 
+    "numerals-header-cardinals": "Heltal",
+
+    "numerals-footer-select-header": "Välj",
+    "numerals-footer-select-body": "Välj en typ av övning, det går att öva på att stava heltal, ordningstal, bråktal, århundraden och hur mycket klockan är.",
+
+    "numerals-footer-study-header": "Studera",
+    "numerals-footer-study-body-1": "Om du vill öva genom att läsa hur man stavar de slumpade talen, klicka på knappen 'Visa'.",
+    "numerals-footer-study-body-2": "Om du vill öva genom att skriva, göm alla rätta svar genom att klicka på knappen 'Göm'.",
+    "numerals-footer-study-body-3": "Du kan flytta markören till nästa fält med enter-tangenten, och till föregående eller nästa fält med tangentbordets uppåt- och neråtpilar.",
+
+    "numerals-footer-practice-header": "Öva",
+    "numerals-footer-practice-body-1": "Du kan välja att öva på att stava talen eller öva på att skriva talens siffror genom att klicka på knappen 'Byt'.",
+    "numerals-footer-practice-body-2": "Det går också att slumpa fram nya tal med knappen 'Slumpa'.",
+    "numerals-footer-practice-body-3": "Applikationen kommer rätta och föreslå alternativa stavningar medan du skriver.",
+
     "verbs-header-regular": "(regelbundet)",
     "verbs-header-irregular": "(oregelbundet)",
 

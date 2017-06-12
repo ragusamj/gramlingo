@@ -9,6 +9,7 @@ import ruRU from "./translations/ru-RU";
 import svSE from "./translations/sv-SE";
 
 import Menu from "./menu";
+
 import Checker from "./pages/common/checker";
 import ExerciseAreaListener from "./pages/common/exercise-area-listener";
 import ExerciseArea from "./pages/common/exercise-area";
@@ -16,8 +17,9 @@ import ElementWalker from "./pages/common/walkers/element-walker";
 import InputWalker from "./pages/common/walkers/input-walker";
 import SearchListener from "./pages/common/search/search-listener";
 import SearchResult from "./pages/common/search/search-result";
+
 import VerbPage from "./pages/verbs/verb-page";
-import NumeralsPage from "./pages/numerals/numerals.page";
+import NumeralsPage from "./pages/numerals/numerals-page";
 
 const browserEvent = new BrowserEvent();
 const http = new Http();
@@ -43,7 +45,7 @@ class Index {
             },
             "/numerals": {
                 page: new NumeralsPage(),
-                template: "/app/pages/numerals/numerals.page.html"
+                template: "/app/pages/numerals/numerals-page.html"
             }
         };
 

@@ -2,7 +2,6 @@ import sinon from "sinon";
 import test from "tape";
 import Dom from "./mock/dom";
 import BrowserEvent from "./browser-event";
-import I18n from "./i18n";
 import Router from "./router";
 
 const browserEvent = new BrowserEvent();
@@ -11,8 +10,9 @@ const http = {
     getHTML: sinon.stub().yields("<div data-translate='message'></div>")
 };
 
-const i18n = new I18n();
-i18n.addTranslation("es-ES", { "message": "¡Hola!" });
+const i18n = {
+    translateApplication: sinon.stub()
+};
 
 const routes  = {
     "/page": { page: {}, template: "/page.html", isDefault: true },
@@ -138,14 +138,15 @@ test("Router should emit event 'route-change-success' after attaching page", (t)
     });
 });
 
-test("Router should replace placeholder content with translated page template", (t) => {
+test("Router should translate application", (t) => {
     Dom.sandbox("<div id='placeholder'></div>", {}, () => {
         t.plan(1);
+
         let clock = sinon.useFakeTimers();
 
         routes["/another-page"].page.attach = (pageTemplate, onPageAttached) => {
             onPageAttached();
-            t.equal(document.getElementById("placeholder").innerHTML, "<div data-translate=\"message\">¡Hola!</div>");
+            t.true(i18n.translateApplication.called);
         };
 
         new Router(browserEvent, http, i18n, routes, "placeholder");

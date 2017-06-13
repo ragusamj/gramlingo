@@ -2,10 +2,18 @@ const attributes = ["innerHTML", "placeholder"];
 const defaultAttribute = "innerHTML";
 const defaultSelector = "data-translate";
 
+const languageMap = {
+    en: "en-US",
+    es: "es-ES",
+    ru: "ru-RU",
+    sv: "sv-SE"
+};
+
 class I18n {
 
     constructor() {
         this.translationsMap = {};
+        this.currentLanguage = localStorage.getItem("language") || this.getUserLanguage();
     }
 
     addTranslation(language, translations) {
@@ -14,7 +22,7 @@ class I18n {
 
     setLanguage(language) {
         this.currentLanguage = language;
-        window.localStorage.setItem("language", language);
+        localStorage.setItem("language", language);
         this.translateApplication();
     }
 
@@ -24,7 +32,6 @@ class I18n {
     }
 
     translateApplication() {
-        this.currentLanguage = window.localStorage.getItem("language") || "es-ES";
         attributes.forEach((attribute) => {
             let selector = attribute === defaultAttribute ?
                 defaultSelector :
@@ -34,6 +41,17 @@ class I18n {
                 this.translate(element, attribute, selector);
             });
         });
+    }
+
+    getUserLanguage() {
+        let languages = navigator.languages || [navigator.language || navigator.userLanguage];
+        for (let language of languages) {
+            let isocode = language.substr(0, 2);
+            if(languageMap[isocode]) {
+                return languageMap[isocode];
+            }
+        }
+        return "es-ES";
     }
 }
 

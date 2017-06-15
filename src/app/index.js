@@ -1,7 +1,7 @@
 import BrowserEvent from "./core/browser-event";
 import Http from "./core/http";
 import I18n from "./core/i18n";
-import Router from "./core/router";
+import HashRouter from "./core/hash-router";
 
 import enUS from "./translations/en-US";
 import esES from "./translations/es-ES";
@@ -51,7 +51,7 @@ class Index {
 
         new ExerciseAreaListener(browserEvent, new Checker(), new ExerciseArea(), new InputWalker());
         new Menu(browserEvent);
-        new Router(browserEvent, http, i18n, routes, "page-placeholder");
+        new HashRouter(browserEvent, http, i18n, routes, "page-placeholder");
         new SearchListener(browserEvent, new SearchResult(browserEvent, new ElementWalker()));
     }
 

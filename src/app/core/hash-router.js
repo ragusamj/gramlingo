@@ -1,6 +1,6 @@
 import Template from "./template";
 
-class Router {
+class HashRouter {
 
     constructor(browserEvent, http, i18n, routes, placeholderElementId) {
         this.browserEvent = browserEvent;
@@ -87,4 +87,4 @@ class Router {
     }
 }
 
-export default Router;
+export default HashRouter;

@@ -1,10 +1,10 @@
 class Menu {
     constructor(browserEvent) {
 
-        browserEvent.on("route-change-success", (e) => {
+        browserEvent.on("page-change-success", (e) => {
             let navlinks = document.getElementById("navbar-nav").getElementsByClassName("nav-link");
             Array.prototype.forEach.call(navlinks, function(navlink) {
-                if("#" + e.detail === navlink.getAttribute("href")) {
+                if(e.detail.split("/")[1] === navlink.getAttribute("href").split("/")[1]) {
                     navlink.classList.add("active");
                 }
                 else {

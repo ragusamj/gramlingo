@@ -81,7 +81,7 @@ class ExerciseAreaListener {
     }
 
     isKnownEvent(e, name, fields) {
-        return e.target.nodeName === name && e.target.id && fields[e.target.id];
+        return e.target.nodeName === name && e.target.id && fields && fields[e.target.id];
     }
 }
 

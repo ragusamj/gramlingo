@@ -10,9 +10,9 @@ class VerbPage {
         this.i18n = i18n;
     }
 
-    attach(pageTemplate, onPageAttached) {
+    attach(pageTemplate, onPageChanged, parameters) {
         this.loadVerbs(() => {
-            this.loadPage(pageTemplate, onPageAttached);
+            this.loadPage(pageTemplate, onPageChanged, parameters);
         });
     }
 
@@ -70,27 +70,38 @@ class VerbPage {
         });
     }
 
-    loadPage(pageTemplate, onPageAttached) {
-        let index = this.getStoredIndex() || defaultVerbIndex;
+    loadPage(pageTemplate, onPageChanged, parameters) {
+        let index = this.getVerbIndex(parameters.name) || defaultVerbIndex; // TODO: this will fail for index 0 (falsy)
         let pageData = this.verbs[index];
         if(!this.fields) {
             this.fields = new Page().apply(pageTemplate, pageData);
         }
-        onPageAttached();
+        onPageChanged();
         this.destroyListener = this.browserEvent.on("search-result-selected", this.onSearchResultSelected.bind(this));
         this.browserEvent.emit("page-searchable-data-updated", this.verbs);
         this.browserEvent.emit("page-field-list-updated", this.fields);
         this.onPageDataChanged(index);
     }
 
+    getVerbIndex(name) {
+        if(name) {
+            for(let i = 0; i < this.verbs.length; i++) {
+                if(this.verbs[i].name.toLowerCase() === name.toLowerCase()) {
+                    return i;
+                }
+            }
+        }
+        return undefined;
+    }
+
     onSearchResultSelected(e) {
         this.onPageDataChanged(e.detail);
+        this.browserEvent.emit("url-change", "/verbs/" + this.verbs[e.detail].name.toLowerCase());
     }
 
     onPageDataChanged(index){
         this.setHeader(this.verbs[index]);
         this.browserEvent.emit("page-data-updated", this.verbs[index]);
-        window.localStorage.setItem("verb", index);
     }
 
     setHeader(verb) {
@@ -98,11 +109,6 @@ class VerbPage {
         let mode = document.getElementById("verb-mode");
         mode.setAttribute("data-translate", (verb.regular ? "verbs-header-regular" : "verbs-header-irregular"));
         this.i18n.translate(mode);
-    }
-
-    getStoredIndex() {
-        let index = window.localStorage.getItem("verb");
-        return index ? parseInt(index) : undefined;
     }
 }
 

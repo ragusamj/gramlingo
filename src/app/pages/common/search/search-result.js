@@ -1,4 +1,4 @@
-import Template from "../../../core/template";
+import Template from "../../../core/template/template";
 
 class SearchResult {
 

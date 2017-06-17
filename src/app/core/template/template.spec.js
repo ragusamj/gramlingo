@@ -1,6 +1,6 @@
 import sinon from "sinon";
 import test from "tape";
-import Dom from "./mock/dom";
+import Dom from "../mock/dom";
 import Template from "./template";
 
 // document.createRange isn't implemented in jsdom yet :(

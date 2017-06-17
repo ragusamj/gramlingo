@@ -29,7 +29,7 @@ const browserEvent = new BrowserEvent();
 const http = new Http();
 const i18n = new I18n();
 
-class Index {
+class App {
 
     constructor() {
 
@@ -82,6 +82,6 @@ class Index {
     }
 }
 
-new Index();
+new App();
 
-export default Index;
+export default App;

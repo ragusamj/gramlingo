@@ -8,7 +8,7 @@ const routes = [
         template: "/home-page.html"
     },
     {
-        paths: ["/page", "/page/:id", "/page/:id/sub"],
+        paths: ["/page", "/page/:id", "/page/:id/sub", "/page/:id/sub/:type"],
         page: {},
         template: "/page.html"
     },
@@ -46,5 +46,12 @@ test("PathFinder should find path ending with parameter", (t) => {
 test("PathFinder should find path with parameter inside", (t) => {
     let finder = new PathFinder(routes);
     t.deepEqual(finder.getRoute("/page/123/sub"), { page: {}, parameters: { id: "123" }, path: "/page/123/sub", template: "/page.html" });
+    t.end();
+});
+
+test("PathFinder should uri decode parameters", (t) => {
+    let finder = new PathFinder(routes);
+    t.deepEqual(finder.getRoute("/page/123/sub/white%20space"),
+        { page: {}, parameters: { id: "123", type: "white space" }, path: "/page/123/sub/white%20space", template: "/page.html" });
     t.end();
 });

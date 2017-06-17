@@ -1,5 +1,4 @@
 export default {
-    "popup-message": "Tu respuesta:",
 
     "navigation-link-verbs": "Verbos",
     "navigation-link-numerals": "Números",
@@ -42,5 +41,9 @@ export default {
     "verbs-footer-practice-header": "Practicar",
     "verbs-footer-practice-body-1": "Limpia el formulario y escribe las formas del verbo para practicar.",
     "verbs-footer-practice-body-2": "Puedes escribir todas las formas o, por ejemplo, solo las formas de indicativo presente.",
-    "verbs-footer-practice-body-3": "Cuando escribes, la aplicación corrige cualquier error y sugiere formas alternativas."
+    "verbs-footer-practice-body-3": "Cuando escribes, la aplicación corrige cualquier error y sugiere formas alternativas.",
+
+    "error-404-header": "Lo sentimos...",
+    "error-404-body": "404 - La página que intentas ver no existe.",
+    "error-404-contact": "Si piensas que es un error, por favor, <a href='https://github.com/erikbarke/snapgram/issues'>contactanos!</a>"
 };

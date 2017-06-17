@@ -7,7 +7,7 @@ class BrowserEvent {
     on(name, callback) {
         if(!this.listeners[name]) {
             this.listeners[name] = [];
-            document.addEventListener(name, (e) => {
+            window.addEventListener(name, (e) => {
                 this.listeners[name].forEach((callback) => {
                     callback(e);
                 });
@@ -31,7 +31,7 @@ class BrowserEvent {
             event = document.createEvent("CustomEvent");
             event.initCustomEvent(eventName, true, true, data);
         }
-        document.dispatchEvent(event);
+        window.dispatchEvent(event);
     }
 }
 

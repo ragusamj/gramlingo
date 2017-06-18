@@ -1,4 +1,4 @@
-import integers from "../dictionary/integers";
+import IntegerDictionary from "../dictionaries/integer-dictionary";
 
 class Integer {
 
@@ -10,9 +10,8 @@ class Integer {
         let spelling = "";
         let numberString = number.toString();
         let unit = this.calculateStartingUnit(numberString);
-        let i;
         let part;
-        for (i = 0; i < numberString.length - 1; i++) {
+        for (let i = 0; i < numberString.length - 1; i++) {
             part = parseInt(numberString.substr(i, unit === 10 ? 2 : 1), 10);
             spelling += this.visitTen(part, numberString, unit, i);
             spelling += this.visitHundred(part, number, unit);
@@ -66,25 +65,25 @@ class Integer {
         else {
             let one = part % 10;
             let ten = part - one;
-            spelling = integers[ten] + (one > 0 ? " y " + this.getTenGrammatically(one, isBeforeMillion) : ""); // 'treinta', 'noventa y nueve', 'treinta y un millones'
+            spelling = IntegerDictionary[ten] + (one > 0 ? " y " + this.getTenGrammatically(one, isBeforeMillion) : ""); // 'treinta', 'noventa y nueve', 'treinta y un millones'
         }
         return spelling;
     }
 
     static getTenGrammatically(part, isBeforeMillion) {
         return part === 1 || part === 21 ?
-            integers[part][isBeforeMillion ? 1 : 0] : // 'uno', 'veintiuno' o 'un millón' o 'veintiún millones'
-            integers[part]; // 'uno' a 'veintinueve'
+            IntegerDictionary[part][isBeforeMillion ? 1 : 0] : // 'uno', 'veintiuno' o 'un millón' o 'veintiún millones'
+            IntegerDictionary[part]; // 'uno' a 'veintinueve'
     }
 
     static getHundred(part, number) {
         let spelling = "";
         if (number === 100) {
-            spelling = integers[100][0]; // 'cien'
+            spelling = IntegerDictionary[100][0]; // 'cien'
         }
         else {
             let hundred = part * 100;
-            spelling = (hundred > 100 ? integers[hundred] : integers[hundred][1]); // 'ciento', 'doscientos', ... 'quinientos' ...
+            spelling = (hundred > 100 ? IntegerDictionary[hundred] : IntegerDictionary[hundred][1]); // 'ciento', 'doscientos', ... 'quinientos' ...
         }
         return spelling;
     }
@@ -94,7 +93,7 @@ class Integer {
         if (index === 0 && part > 1) {
             spelling += this.getTen(part, false) + " "; // 'dos (mil)', 'tres (mil)' ...
         }
-        return spelling + integers[1000]; // 'mil'
+        return spelling + IntegerDictionary[1000]; // 'mil'
     }
 
     static getMillions(part, number) {
@@ -102,11 +101,11 @@ class Integer {
         if (number < 10000000) {
             spelling = this.getTen(part, true) + " "; // 'uno (millón)', 'tres (millones)' ...
         }
-        return spelling + integers[1000000][number < 2000000 ? 0 : 1]; // 'millón', 'millones'
+        return spelling + IntegerDictionary[1000000][number < 2000000 ? 0 : 1]; // 'millón', 'millones'
     }
 
     static getBillions() {
-        return integers[1000000000]; // phew!
+        return IntegerDictionary[1000000000]; // phew!
     }
 }
 

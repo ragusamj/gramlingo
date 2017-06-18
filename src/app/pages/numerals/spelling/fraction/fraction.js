@@ -1,5 +1,5 @@
-import fractions from "../dictionary/fractions";
-import integers from "../dictionary/integers";
+import FractionDictionary from "../dictionaries/fraction-dictionary";
+import IntegerDictionary from "../dictionaries/integer-dictionary";
 import Integer from "../integer/integer";
 
 class Fraction {
@@ -9,8 +9,7 @@ class Fraction {
         let numeratorSpelling = this.getNumerator(numerator);
         let denominatorSpellings = this.getDenominator(denominator);
         let plural = numerator > 1 ? "s" : "";
-        let i;
-        for (i = 0; i < denominatorSpellings.length; i++) {
+        for (let i = 0; i < denominatorSpellings.length; i++) {
             spelling.push(numeratorSpelling + " " + denominatorSpellings[i] + plural);
         }
         return spelling;
@@ -18,7 +17,7 @@ class Fraction {
 
     static getNumerator(numerator) {
         return numerator === 1 || numerator === 21 ?
-            integers[numerator][1] : // un, not uno
+            IntegerDictionary[numerator][1] : // un, not uno
             Integer.spell(numerator);
     }
 
@@ -27,7 +26,7 @@ class Fraction {
         let spelling = [];
 
         if (denominator < 11 || denominator === 100) {
-            spelling.push(fractions[denominator]); // medio, tercio, centavo ...
+            spelling.push(FractionDictionary[denominator]); // medio, tercio, centavo ...
             return spelling;
         }
 

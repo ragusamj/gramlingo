@@ -1,6 +1,6 @@
 import FractionDictionary from "../dictionaries/fraction-dictionary";
 import IntegerDictionary from "../dictionaries/integer-dictionary";
-import Integer from "../integer/integer";
+import Integer from "../integers/integer";
 
 class Fraction {
 

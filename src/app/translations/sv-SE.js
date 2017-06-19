@@ -2,7 +2,7 @@ export default {
 
     "navigation-link-verbs": "Verb",
     "navigation-link-numerals": "Räkneord",
-    "navigation-link-countries": "Länder",
+    "navigation-link-world": "Länder",
     "navigation-link-words": "Ord",
 
     "numerals-header-cardinals": "Heltal",
@@ -42,6 +42,8 @@ export default {
     "verbs-footer-practice-body-1": "Göm de rätta svaren och öva genom att skriva verbets alla former.",
     "verbs-footer-practice-body-2": "Du kan skriva alla former eller, till exempel, bara formerna i presens indikativ.",
     "verbs-footer-practice-body-3": "Applikationen kommer rätta och föreslå alternativa verbformer medan du skriver.",
+
+    "world-header": "Länder i världen",
 
     "error-404-header": "Vi ber om ursäkt...",
     "error-404-body": "404 - Sidan du försöker nå finns inte.",

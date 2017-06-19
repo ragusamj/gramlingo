@@ -43,7 +43,7 @@ export default {
     "verbs-footer-practice-body-2": "Puedes escribir todas las formas o, por ejemplo, solo las formas de indicativo presente.",
     "verbs-footer-practice-body-3": "Cuando escribes, la aplicación corrige cualquier error y sugiere formas alternativas.",
 
-    "world-header": "Países",
+    "world-header": "Países del mundo",
 
     "error-404-header": "Lo sentimos...",
     "error-404-body": "404 - La página que intentas ver no existe.",

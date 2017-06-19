@@ -2,7 +2,7 @@ export default {
 
     "navigation-link-verbs": "Verb",
     "navigation-link-numerals": "Räkneord",
-    "navigation-link-world": "Länder",
+    "navigation-link-world": "Världen",
     "navigation-link-words": "Ord",
 
     "numerals-header-cardinals": "Heltal",

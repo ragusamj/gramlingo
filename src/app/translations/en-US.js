@@ -43,7 +43,7 @@ export default {
     "verbs-footer-practice-body-2": "You can type all the forms or, for example, just the forms of one tense.",
     "verbs-footer-practice-body-3": "The application will correct any errors and suggest alternative forms as you type.",
 
-    "world-header": "Countries",
+    "world-header": "Countries of the world",
 
     "error-404-header": "We're sorry...",
     "error-404-body": "404 - The page you're trying to reach doesn't exist.",

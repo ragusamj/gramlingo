@@ -43,7 +43,7 @@ export default {
     "verbs-footer-practice-body-2": "Du kan skriva alla former eller, till exempel, bara formerna i presens indikativ.",
     "verbs-footer-practice-body-3": "Applikationen kommer rätta och föreslå alternativa verbformer medan du skriver.",
 
-    "world-header": "Länder i världen",
+    "world-header": "Länder",
 
     "error-404-header": "Vi ber om ursäkt...",
     "error-404-body": "404 - Sidan du försöker nå finns inte.",

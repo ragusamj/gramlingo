@@ -1,12 +1,12 @@
 class NumeralsPage {
 
-    attach(pageTemplate, onPageAttached) {
-        this.applyPageTemplate(pageTemplate, onPageAttached);
+    attach(pageTemplate, onPageChanged) {
+        this.applyPageTemplate(pageTemplate, onPageChanged);
     }
 
-    applyPageTemplate(pageTemplate, onPageAttached) {
-        pageTemplate.add("xxx", "span", { innerHTML: "heyoo" });
-        onPageAttached();
+    applyPageTemplate(pageTemplate, onPageChanged) {
+        pageTemplate.clone();
+        onPageChanged();
     }
 }
 

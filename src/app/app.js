@@ -4,6 +4,7 @@ import I18n from "./core/i18n";
 import PageBroker from "./core/router/page-broker";
 import PathFinder from "./core/router/path-finder";
 import Router from "./core/router/router";
+import Toggler from "./core/widgets/toggler";
 
 import enUS from "./translations/en-US";
 import esES from "./translations/es-ES";
@@ -74,6 +75,7 @@ class App {
         new Menu(browserEvent);
         new Router(browserEvent, new PathFinder(routes), new PageBroker(browserEvent, http, "page-placeholder"));
         new SearchListener(browserEvent, new SearchResult(browserEvent, new ElementWalker()));
+        new Toggler(browserEvent);
     }
 
     onLanguageChanged(e) {

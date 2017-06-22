@@ -36,10 +36,10 @@ test("ExerciseArea should update field and set input value", (t) => {
     });
 });
 
-test("ExerciseArea should update field and set input value to empty string if area is hidden", (t) => {
+test("ExerciseArea should update field and set input value to empty string if inputs shouldn't be filled", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
-        exerciseArea.hidden = true;
+        exerciseArea.prefill = false;
         exerciseArea.updateField(field, alternatives);
         t.equal(document.getElementById("input-1").value, "");
         t.end();
@@ -50,7 +50,7 @@ test("ExerciseArea should update field and disable input if there are no alterna
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
         let noAlternatives = [];
-        exerciseArea.hidden = true;
+        exerciseArea.prefill = false;
         exerciseArea.updateField(field, noAlternatives);
         t.true(document.getElementById("input-1").disabled);
         t.end();
@@ -61,7 +61,7 @@ test("ExerciseArea should update field and set input value to '-' if there are n
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
         let noAlternatives = [];
-        exerciseArea.hidden = true;
+        exerciseArea.prefill = false;
         exerciseArea.updateField(field, noAlternatives);
         t.equal(document.getElementById("input-1").value, "-");
         t.end();
@@ -80,17 +80,17 @@ test("ExerciseArea should update field and set input type to 'text' if the value
 test("ExerciseArea should update field and set input type to 'number' if the value is numeric", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
-        exerciseArea.hidden = false;
+        exerciseArea.prefill = true;
         exerciseArea.updateField(field, [123]);
         t.equal(document.getElementById("input-1").type, "number");
         t.end();
     });
 });
 
-test("ExerciseArea should update field and set hidden input type to 'number' if the value is numeric", (t) => {
+test("ExerciseArea should update field and set input type to 'number' if the value is numeric and the input shouldn't be filled", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
-        exerciseArea.hidden = true;
+        exerciseArea.prefill = false;
         exerciseArea.updateField(field, [123]);
         t.equal(document.getElementById("input-1").type, "number");
         t.end();

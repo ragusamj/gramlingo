@@ -25,13 +25,8 @@ class ExerciseAreaListener {
     }
 
     onClick(e) {
-        if(e.target.hasAttribute("data-hide-button")) {
-            this.exerciseArea.hidden = true;
-            this.updateFields();
-
-        }
-        if(e.target.hasAttribute("data-show-button")) {
-            this.exerciseArea.hidden = false;
+        if(e.target.hasAttribute("data-toggle-inputs")) {
+            this.exerciseArea.prefill = !this.exerciseArea.prefill;
             this.updateFields();
         }
     }

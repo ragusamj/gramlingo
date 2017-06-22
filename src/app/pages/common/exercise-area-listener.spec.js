@@ -68,25 +68,29 @@ test("ExerciseArea should ignore unknown blur events", (t) => {
     });
 });
 
-test("ExerciseArea should hide fields on 'click' event", (t) => {
-    Dom.sandbox("<button id='hide-button' data-hide-button />", {}, () => {
+test("ExerciseArea should toggle inputs on 'click' event", (t) => {
+    Dom.sandbox("<button id='toggle-button' data-toggle-inputs />", {}, () => {
 
         setup();
+        let button = document.getElementById("toggle-button");
+        exerciseArea.prefill = true;
 
-        let button = document.getElementById("hide-button");
         button.dispatchEvent(new Event("click"));
+        t.false(exerciseArea.prefill);
 
-        t.true(exerciseArea.hidden);
+        button.dispatchEvent(new Event("click"));
+        t.true(exerciseArea.prefill);
+
         t.end();
     });
 });
 
-test("ExerciseArea should hide fields on 'click' event and update fields", (t) => {
-    Dom.sandbox("<button id='hide-button' data-hide-button />", {}, () => {
+test("ExerciseArea should toggle inputs on 'click' event and update fields", (t) => {
+    Dom.sandbox("<button id='toggle-button' data-toggle-inputs />", {}, () => {
 
         setup();
+        let button = document.getElementById("toggle-button");
 
-        let button = document.getElementById("hide-button");
         button.dispatchEvent(new Event("click"));
 
         t.deepEqual(exerciseArea.updateField.lastCall.args, [
@@ -95,29 +99,16 @@ test("ExerciseArea should hide fields on 'click' event and update fields", (t) =
     });
 });
 
-test("ExerciseArea should show fields on 'click' event", (t) => {
-    Dom.sandbox("<button id='show-button' data-show-button />", {}, () => {
+test("ExerciseArea should ignore 'click' event if element doesn't have the attribute 'data-toggle-inputs'", (t) => {
+    Dom.sandbox("<button id='toggle-button' />", {}, () => {
 
         setup();
+        let button = document.getElementById("toggle-button");
+        exerciseArea.prefill = true;
 
-        let button = document.getElementById("show-button");
         button.dispatchEvent(new Event("click"));
+        t.true(exerciseArea.prefill);
 
-        t.false(exerciseArea.hidden);
-        t.end();
-    });
-});
-
-test("ExerciseArea should show fields on 'click' event and update fields", (t) => {
-    Dom.sandbox("<button id='show-button' data-show-button />", {}, () => {
-
-        setup();
-
-        let button = document.getElementById("show-button");
-        button.dispatchEvent(new Event("click"));
-
-        t.deepEqual(exerciseArea.updateField.lastCall.args, [
-            { dataPath: "path", iconId: "icon-id", popupId: "popup-id" }, ["alternative"]]);
         t.end();
     });
 });
@@ -126,7 +117,6 @@ test("ExerciseArea should move to adjacent input on 'keydown'", (t) => {
     Dom.sandbox("<input id='input-id' data-walkable-field />", {}, () => {
 
         setup();
-
         let event = document.createEvent("Event");
         event.initEvent("keydown", true, true);
         event.keyCode = 38;

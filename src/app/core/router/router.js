@@ -10,11 +10,13 @@ class Router {
     }
 
     onClick(e) {
-        let route = this.finder.getRoute(e.target.pathname);
-        if(route) {
-            e.preventDefault();
-            this.onUrlChange(e.target.href);
-            this.broker.go(route);
+        if(e.target.hasAttribute("data-route-link")) {
+            let route = this.finder.getRoute(e.target.pathname);
+            if(route) {
+                e.preventDefault();
+                this.onUrlChange(e.target.href);
+                this.broker.go(route);
+            }
         }
     }
 

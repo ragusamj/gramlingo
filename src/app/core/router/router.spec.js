@@ -88,7 +88,7 @@ test("Router should go to the route that matches the address bar on event 'popst
 });
 
 test("Router should find the route that matches the address bar on event 'click'", (t) => {
-    Dom.sandbox("<a href='/page'></a>", { url: "http://example.com" }, () => {
+    Dom.sandbox("<a href='/page' data-route-link></a>", { url: "http://example.com" }, () => {
 
         finder.getRoute = sinon.stub().returns(route);
         broker.go = sinon.stub();
@@ -105,7 +105,7 @@ test("Router should find the route that matches the address bar on event 'click'
 });
 
 test("Router should go to the route that matches the address bar on event 'click'", (t) => {
-    Dom.sandbox("<a href='/page'></a>", { url: "http://example.com" }, () => {
+    Dom.sandbox("<a href='/page' data-route-link></a>", { url: "http://example.com" }, () => {
 
         finder.getRoute = sinon.stub().returns(route);
         broker.go = sinon.stub();
@@ -122,9 +122,24 @@ test("Router should go to the route that matches the address bar on event 'click
 });
 
 test("Router should ignore the event 'click' if route matches", (t) => {
-    Dom.sandbox("<a href='/page'></a>", { url: "http://example.com" }, () => {
+    Dom.sandbox("<a href='/page' data-route-link></a>", { url: "http://example.com" }, () => {
 
         finder.getRoute = sinon.stub().returns(undefined);
+        broker.go = sinon.stub();
+        let browserEvent = new BrowserEvent();
+        new Router(browserEvent, finder, broker);
+
+        let a = document.querySelector("a");
+        a.dispatchEvent(new Event("click"));
+
+        t.false(broker.go.called);
+        t.end();
+    });
+});
+
+test("Router should ignore the event 'click' from elements without the attribute 'data-route-link'", (t) => {
+    Dom.sandbox("<a href='/page'></a>", { url: "http://example.com" }, () => {
+
         broker.go = sinon.stub();
         let browserEvent = new BrowserEvent();
         new Router(browserEvent, finder, broker);

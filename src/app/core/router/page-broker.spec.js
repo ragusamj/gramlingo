@@ -93,10 +93,28 @@ test("PageBroker should emit event 'page-change-success'", (t) => {
         let route = { page: { attach: sinon.stub() }, path: "/page", template: "/page.html" };
 
         broker.go(route);
+        browserEvent.emit.reset();
         clock.tick();
         route.page.attach.yield();
 
-        t.deepEqual(browserEvent.emit.lastCall.args, ["page-change-success", "/page"]);
+        t.deepEqual(browserEvent.emit.firstCall.args, ["page-change-success", "/page"]);
+        t.end();
+    });
+});
+
+test("PageBroker should emit event 'dom-content-changed'", (t) => {
+    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+
+        let clock = sinon.useFakeTimers();
+        let broker = new PageBroker(browserEvent, http, "placeholder");
+        let route = { page: { attach: sinon.stub() }, path: "/page", template: "/page.html" };
+
+        broker.go(route);
+        browserEvent.emit.reset();
+        clock.tick();
+        route.page.attach.yield();
+
+        t.deepEqual(browserEvent.emit.lastCall.args, ["dom-content-changed"]);
         t.end();
     });
 });

@@ -15,6 +15,7 @@ class PageBroker {
             let onPageAttached = () => {
                 pageTemplate.replaceContent(this.placeholderElementId);
                 this.browserEvent.emit("page-change-success", route.path);
+                this.browserEvent.emit("dom-content-changed");
                 this.currentRoute = route;
             };
             setTimeout(() => {

@@ -3,7 +3,7 @@ export default {
     "navigation-link-verbs": "Verbs",
     "navigation-link-numerals": "Numerals",
     "navigation-link-world": "The world",
-    "navigation-link-words": "Words",
+    "navigation-link-help": "Help",
 
     "numerals-header-cardinals": "Integers",
 

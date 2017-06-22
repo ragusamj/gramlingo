@@ -3,7 +3,7 @@ export default {
     "navigation-link-verbs": "Verbos",
     "navigation-link-numerals": "Números",
     "navigation-link-world": "El mundo",
-    "navigation-link-words": "Palabras",
+    "navigation-link-help": "Ayuda",
 
     "numerals-header-cardinals": "Números enteros",
 

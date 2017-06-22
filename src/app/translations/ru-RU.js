@@ -3,7 +3,7 @@ export default {
     "navigation-link-verbs": "Глаголы",
     "navigation-link-numerals": "Números",
     "navigation-link-world": "El mundo",
-    "navigation-link-words": "Palabras",
+    "navigation-link-help": "Auyda",
 
     "numerals-header-cardinals": "Мощность множества",
 

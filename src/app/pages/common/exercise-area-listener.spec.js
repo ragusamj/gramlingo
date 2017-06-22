@@ -206,3 +206,15 @@ test("ExerciseArea should ignore 'mouseout' events from unknown targets", (t) =>
         t.end();
     });
 });
+
+test("ExerciseArea should link walker when page data is updated", (t) => {
+    Dom.sandbox("", {}, () => {
+
+        let exerciseAreaListener = setup();
+        walker.link.reset();
+        exerciseAreaListener.onPageDataUpdated({ detail: { "path": ["alternative"] }});
+
+        t.deepEqual(walker.link.firstCall.args, [["id"]]);
+        t.end();
+    });
+});

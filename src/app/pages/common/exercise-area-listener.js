@@ -59,25 +59,24 @@ class ExerciseAreaListener {
     onPageFieldListUpdated(e) {
         this.fields = e.detail;
         this.fieldsByIconId = {};
-        let ids = Object.keys(this.fields);
-        ids.forEach((id) => {
+        for(let id of Object.keys(this.fields)) {
             let field = this.fields[id];
             this.fieldsByIconId[field.iconId] = field;
-        });
-        this.walker.link(ids);
+        }
     }
 
     onPageDataUpdated(e) {
         this.pageData = e.detail;
         this.updateFields();
+        this.walker.link(Object.keys(this.fields));
     }
 
     updateFields() {
-        Object.keys(this.fields).forEach((id) => {
+        for(let id of Object.keys(this.fields)) {
             let field = this.fields[id];
             let alternatives = get(this.pageData, field.dataPath);
             this.exerciseArea.updateField(field, alternatives);
-        });
+        }
     }
 
     isKnownEvent(e, name, fields) {

@@ -4,9 +4,9 @@ import BrowserEvent from "../browser-event";
 import Toggler from "./toggler";
 
 const html =
-"<div data-toggler-on='a' data-toggler-off='b'>" +
-    "<button id='a' data-toggler></button>" +
-    "<button id='b' data-toggler></button>" +
+"<button data-toggler data-toggler-on='on' data-toggler-off='off'>" +
+    "<span id='on'>On</span>" +
+    "<span id='off'>Off</button>" +
 "</div>";
 
 test("Toggler should find all togglers on the event 'dom-content-changed'", (t) => {
@@ -16,7 +16,7 @@ test("Toggler should find all togglers on the event 'dom-content-changed'", (t) 
 
         browserEvent.emit("dom-content-changed");
 
-        let off = document.getElementById("b");
+        let off = document.getElementById("off");
         t.equal(off.style.display, "none");
         t.end();
     });
@@ -25,10 +25,11 @@ test("Toggler should find all togglers on the event 'dom-content-changed'", (t) 
 test("Toggler should toggle on the event 'click'", (t) => {
     Dom.sandbox(html, {}, () => {
         let browserEvent = new BrowserEvent();
-        let on = document.getElementById("a");
+        let button = document.querySelector("[data-toggler]");
+        let on = document.getElementById("on");
 
         new Toggler(browserEvent).onDomContentChanged();
-        on.dispatchEvent(new Event("click"));
+        button.dispatchEvent(new Event("click"));
 
         t.equal(on.style.display, "none");
         t.end();
@@ -38,11 +39,12 @@ test("Toggler should toggle on the event 'click'", (t) => {
 test("Toggler should ignore elements without the attribute 'data-toggler' on the event 'click'", (t) => {
     Dom.sandbox(html, {}, () => {
         let browserEvent = new BrowserEvent();
-        let on = document.getElementById("a");
-        on.removeAttribute("data-toggler");
+        let button = document.querySelector("[data-toggler]");
+        button.removeAttribute("data-toggler");
+        let on = document.getElementById("on");
 
         new Toggler(browserEvent).onDomContentChanged();
-        on.dispatchEvent(new Event("click"));
+        button.dispatchEvent(new Event("click"));
 
         t.equal(on.style.display, "");
         t.end();
@@ -52,16 +54,17 @@ test("Toggler should ignore elements without the attribute 'data-toggler' on the
 test("Toggler should toggle", (t) => {
     Dom.sandbox(html, {}, () => {
         let browserEvent = new BrowserEvent();
-        let on = document.getElementById("a");
-        let off = document.getElementById("b");
+        let button = document.querySelector("[data-toggler]");
+        let on = document.getElementById("on");
+        let off = document.getElementById("off");
 
         new Toggler(browserEvent).onDomContentChanged();
 
-        on.dispatchEvent(new Event("click"));
+        button.dispatchEvent(new Event("click"));
         t.equal(on.style.display, "none");
         t.equal(off.style.display, "");
 
-        off.dispatchEvent(new Event("click"));
+        button.dispatchEvent(new Event("click"));
         t.equal(on.style.display, "");
         t.equal(off.style.display, "none");
 
@@ -72,9 +75,10 @@ test("Toggler should toggle", (t) => {
 test("Toggler should use initial state if set", (t) => {
     Dom.sandbox(html, {}, () => {
         let browserEvent = new BrowserEvent();
-        let on = document.getElementById("a");
-        let off = document.getElementById("b");
-        on.parentElement.setAttribute("data-toggler-state", "off");
+        let button = document.querySelector("[data-toggler]");
+        button.setAttribute("data-toggler-state", "off");
+        let on = document.getElementById("on");
+        let off = document.getElementById("off");
 
         new Toggler(browserEvent).onDomContentChanged();
 

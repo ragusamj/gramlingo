@@ -6,14 +6,15 @@ class Toggler {
     }
 
     onClick(e) {
-        if(e.target.hasAttribute("data-toggler") && this.togglers[e.target.id]) {
-            this.toggle(this.togglers[e.target.id]);
+        if(e.target.hasAttribute("data-toggler")) {
+            let id = e.target.getAttribute("data-toggler");
+            this.toggle(this.togglers[id]);
         }
     }
 
     onDomContentChanged() {
         this.togglers = {};
-        let elements = document.querySelectorAll("[data-toggler-on]");
+        let elements = document.querySelectorAll("[data-toggler]");
         elements.forEach((element) => {
             let item = this.create(element);
             this.update(item);
@@ -31,6 +32,7 @@ class Toggler {
     }
 
     create(element) {
+        let id = element.getAttribute("data-toggler");
         let on = element.getAttribute("data-toggler-on");
         let off = element.getAttribute("data-toggler-off");
         let state = element.getAttribute("data-toggler-state") || "on";
@@ -39,8 +41,7 @@ class Toggler {
             on: document.getElementById(on),
             off: document.getElementById(off)
         };
-        this.togglers[on] = item;
-        this.togglers[off] = item;
+        this.togglers[id] = item;
         return item;
     }
 }

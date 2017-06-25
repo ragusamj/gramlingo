@@ -50,10 +50,21 @@ input[type="number"] {
     }
 }
 
-.expandable-box, .navbar-items {
-    transition: height .4s ease-in-out;
+.expandable-box-sm, .expandable-box-lg, .navbar-items {
     height: 0;
     overflow: hidden;
+}
+
+.navbar-items {
+    transition: height .2s ease-in-out;
+}
+
+.expandable-box-sm {
+    transition: height .4s ease-in-out;
+}
+
+.expandable-box-lg {
+    transition: height .6s ease-in-out;
 }
 
 .toolbox {
@@ -171,8 +182,11 @@ input[type="number"] {
     body {
         padding-bottom: 4rem;
     }
-    .expandable-box {
+    .expandable-box-sm {
         transition: height .2s ease-in-out;
+    }
+    .expandable-box-lg {
+        transition: height .4s ease-in-out;
     }
     .navbar-items {
         height: initial;

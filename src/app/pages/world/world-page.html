@@ -2,16 +2,14 @@
     <div class="col-md-8">
         <div class="row mb-3">
             <div class="col-md-12">
-                <section class="card">
-                    <div class="card-body text-center">
-                        <img class="img-fluid" src="/images/728x90-1.png" />
-                    </div>
-                </section>
+                <img class="img-fluid" src="/images/728x90-1.png" />
             </div>
         </div>
 
         <div class="row mb-3">
             <div class="col-md-12">
+                <h1>Världen</h1>
+                <hr/>
                 <h3 class="toolbox">
                     <button
                         data-toggler="toggle-help"
@@ -29,58 +27,51 @@
 
         <div class="row mb-3">
             <div class="col-md-12">
-                <h3 class="text-muted"><span class="fa fa-chevron-circle-down text-info"></span> South America</h3>
-                <section class="card">
-                    <div class="card-header bg-inverse text-white">
-                        <div class="row">
-                            <div class="col-md-12 toolbox">
-                                <button
-                                    data-toggler="toggle-country-data"
-                                    data-toggler-on="toggle-country-on"
-                                    data-toggler-off="toggle-country-off"
-                                    class="text-white toolbox-button">
-                                    <span id="toggle-country-on" class="fa fa-toggle-on mr-3"></span>
-                                    <span id="toggle-country-off" class="fa fa-toggle-off mr-3"></span>
-                                </button>
-                                <span class="fa fa-repeat mr-3 toolbox-button"></span>
+                <h3 class="toolbox">
+                    <button
+                        data-toggler="toggle-country-exercise"
+                        data-toggler-on="toggle-country-exercise-on"
+                        data-toggler-off="toggle-country-exercise-off"
+                        data-toggler-expand-area="country-exercise-box"
+                        class="text-info toolbox-button">
+                        <span id="toggle-country-exercise-on" class="fa fa-chevron-circle-down"></span>
+                        <span id="toggle-country-exercise-off" class="fa fa-chevron-circle-right"></span>
+                        <span class="text-muted">South America</span>
+                    </button>
+                </h3>
+                <div id="country-exercise-box" class="expandable-box-lg">
+                    <section class="card">
+                        <div class="card-header bg-inverse text-white">
+                            <div class="row">
+                                <div class="col-md-12 toolbox">
+                                    <button
+                                        data-toggler="toggle-country-data"
+                                        data-toggler-on="toggle-country-on"
+                                        data-toggler-off="toggle-country-off"
+                                        class="text-white toolbox-button">
+                                        <span id="toggle-country-on" class="fa fa-toggle-on mr-3"></span>
+                                        <span id="toggle-country-off" class="fa fa-toggle-off mr-3"></span>
+                                    </button>
+                                    <span class="fa fa-repeat mr-3 toolbox-button"></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-body bg-faded">
-                        <div class="row mb-2">
-                            <div class="col-md-12">
-                                <span class="fa fa-map-pin fa-lg text-danger" style="position: absolute; top: 65%; left: 24%;"></span>
-                                <img src="/images/outline-blank-white-transparent-world-map-b2b.png" class="img-fluid"/>
+                        <div class="card-body bg-faded">
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <span class="fa fa-map-pin fa-lg text-danger" style="position: absolute; top: 65%; left: 24%;"></span>
+                                    <img src="/images/outline-blank-white-transparent-world-map-b2b.png" class="img-fluid"/>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4 mb-3">
-        <section class="card">
-            <div class="card-body text-center">
-                <img class="img-fluid mb-3" src="/images/300x250-1.png" />
-                <img class="img-fluid mb-3" src="/images/300x600-2.png" />
-                <img class="img-fluid" src="/images/300x250-2.png" />
-            </div>
-        </section>
+    <div class="col-md-4 mb-3 text-center">
+        <img class="img-fluid mb-3" src="/images/300x250-1.png" />
+        <img class="img-fluid mb-3" src="/images/300x600-2.png" />
+        <img class="img-fluid" src="/images/300x250-2.png" />
     </div>
 </div>
-
-
-<!--<div class="row">
-    <div class="col-md-12 text-muted">
-        <h1>
-            <i class="fa fa-globe text-success"></i>
-            <span data-translate="world-header"></span>
-        </h1>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12 text-center mb-5 mt-3">
-        <img src="/images/world-map.png" class="img-fluid"/>
-    </div>
-</div>
--->

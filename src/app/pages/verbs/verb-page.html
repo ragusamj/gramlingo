@@ -2,16 +2,14 @@
     <div class="col-md-8">
         <div class="row mb-3">
             <div class="col-md-12">
-                <section class="card">
-                    <div class="card-body text-center">
-                        <img class="img-fluid" src="/images/728x90-1.png" />
-                    </div>
-                </section>
+                <img class="img-fluid" src="/images/728x90-1.png" />
             </div>
         </div>
 
         <div class="row mb-3">
             <div class="col-md-12">
+                <h1>Verb</h1>
+                <hr/>
                 <h3 class="toolbox">
                     <button
                         data-toggler="toggle-help"
@@ -22,11 +20,11 @@
                         class="text-info toolbox-button">
                         <span id="toggle-help-on" class="fa fa-chevron-circle-down"></span>
                         <span id="toggle-help-off" class="fa fa-chevron-circle-right"></span>
+                        <span class="text-muted">Help</span>
                     </button>
-                    <span class="text-muted">Help</span>
                 </h3>
-                <div id="help-box" class="expandable-box">
-                    <h1>One metric ton of verb forms</h1>
+                <div id="help-box" class="expandable-box-sm">
+                    <h3>One metric ton of verb forms</h3>
                     <blockquote class="blockquote">
                         <p class="mb-0">Am I supposed to learn all this by heart...? Subjunctive? What?!</p>
                         <footer class="blockquote-footer">Every student in <cite title="Source Title">every spanish class ever</cite></footer>
@@ -39,189 +37,195 @@
 
         <div class="row mb-3">
             <div class="col-md-12">
-                <h3 class="text-muted">
-                    <span class="fa fa-chevron-circle-down text-info"></span>
-                    <span id="verb-name"></span>
-                    <span id="verb-mode"></span>
+                <h3 class="toolbox">
+                    <button
+                        data-toggler="toggle-verb-exercise"
+                        data-toggler-on="toggle-verb-exercise-on"
+                        data-toggler-off="toggle-verb-exercise-off"
+                        data-toggler-expand-area="verb-exercise-box"
+                        class="text-info toolbox-button">
+                        <span id="toggle-verb-exercise-on" class="fa fa-chevron-circle-down"></span>
+                        <span id="toggle-verb-exercise-off" class="fa fa-chevron-circle-right"></span>
+                        <span class="text-muted" id="verb-name"></span>
+                        <span class="text-muted" id="verb-mode"></span>
+                    </button>
                 </h3>
-                <section class="card">
-                    <div class="card-header bg-inverse text-white">
-                        <div class="row">
-                            <div class="col-md-12 toolbox">
-                                <button
-                                    data-toggler="toggle-numerals-data"
-                                    data-toggler-on="toggle-numerals-on"
-                                    data-toggler-off="toggle-numerals-off"
-                                    data-toggle-inputs
-                                    class="text-white toolbox-button">
-                                    <span id="toggle-numerals-on" class="fa fa-toggle-on mr-3"></span>
-                                    <span id="toggle-numerals-off" class="fa fa-toggle-off mr-3"></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body bg-faded">
-                        <div class="row mb-3">
-                            <div class="col-md-4 mb-2 mb-md-0">
-                                <h5><span class="fa fa-search text-muted"></span></h5>
-                                <div class="popup-wrapper">
-                                    <input type="text"
-                                        class="form-control form-control-sm"
-                                        spellcheck="false"
-                                        data-search-input
-                                        data-translate-placeholder="verbs-toolbar-placeholder-search"
-                                    />
-                                    <div id="search-result-container"></div>
+                <div id="verb-exercise-box" class="expandable-box-lg">
+                    <section class="card">
+                        <div class="card-header bg-inverse text-white">
+                            <div class="row">
+                                <div class="col-md-12 toolbox">
+                                    <button
+                                        data-toggler="toggle-numerals-data"
+                                        data-toggler-on="toggle-numerals-on"
+                                        data-toggler-off="toggle-numerals-off"
+                                        data-toggle-inputs
+                                        class="text-white toolbox-button">
+                                        <span id="toggle-numerals-on" class="fa fa-toggle-on mr-3"></span>
+                                        <span id="toggle-numerals-off" class="fa fa-toggle-off mr-3"></span>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="col-md-4 mb-2 mb-md-0">
-                                <h5>Gerundio</h5>
-                                <div data-field-path="presentparticiple"></div>
+                        </div>
+                        <div class="card-body bg-faded">
+                            <div class="row mb-3">
+                                <div class="col-md-4 mb-2 mb-md-0">
+                                    <h5><span class="fa fa-search text-muted"></span></h5>
+                                    <div class="popup-wrapper">
+                                        <input type="text"
+                                            class="form-control form-control-sm"
+                                            spellcheck="false"
+                                            data-search-input
+                                            data-translate-placeholder="verbs-toolbar-placeholder-search"
+                                        />
+                                        <div id="search-result-container"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-2 mb-md-0">
+                                    <h5>Gerundio</h5>
+                                    <div data-field-path="presentparticiple"></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5>Participio</h5>
+                                    <div data-field-path="pastparticiple"></div>
+                                </div>
                             </div>
-                            <div class="col-md-4">
-                                <h5>Participio</h5>
-                                <div data-field-path="pastparticiple"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3 class="text-muted">Indicativo</h3>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4 d-none d-md-block">
+                                    <h5>Persona</h5>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Yo</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Tú</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Él, ella, Ud.</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Nosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Vosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Ellos, ellas, Uds.</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Vos</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                </div>
+                                <div class="col-md-4 mb-3 mb-md-0">
+                                    <h5>Presente</h5>
+                                    <div data-field-path="indicative.present"></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5>Futuro</h5>
+                                    <div data-field-path="indicative.future"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4 d-none d-md-block">
+                                    <h5>Persona</h5>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Yo</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Tú</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Él, ella, Ud.</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Nosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Vosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Ellos, ellas, Uds.</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Vos</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                </div>
+                                <div class="col-md-4 mb-3 mb-md-0">
+                                    <h5>Imperfecto</h5>
+                                    <div data-field-path="indicative.imperfect"></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5>Indefinido</h5>
+                                    <div data-field-path="indicative.preterite"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4 d-none d-md-block">
+                                    <h5>Persona</h5>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Yo</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Tú</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Él, ella, Ud.</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Nosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Vosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Ellos, ellas, Uds.</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Vos</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5>Condicional</h5>
+                                    <div data-field-path="indicative.conditional"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3 class="text-muted">Subjuntivo</h3>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4 d-none d-md-block">
+                                    <h5>Persona</h5>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Yo</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Tú</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Él, ella, Ud.</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Nosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Vosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Ellos, ellas, Uds.</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Vos</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                </div>
+                                <div class="col-md-4 mb-3 mb-md-0">
+                                    <h5>Presente</h5>
+                                    <div data-field-path="subjunctive.present"></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5>Imperfecto</h5>
+                                    <div data-field-path="subjunctive.imperfect"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4 d-none d-md-block">
+                                    <h5>Persona</h5>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Yo</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Tú</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Él, ella, Ud.</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Nosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Vosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Ellos, ellas, Uds.</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Vos</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                </div>
+                                <div class="col-md-4 rarely-used-tense">
+                                    <h5>(Futuro)</h5>
+                                    <div data-field-path="subjunctive.future"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3 class="text-muted">Imperativo</h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 d-none d-md-block">
+                                    <h5>Persona</h5>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Yo</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Tú</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Él, ella, Ud.</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Nosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Vosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Ellos, ellas, Uds.</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                    <div class="row"><div class="col-12 person"><div class="input-group">Vos</div><input class="form-control form-control-sm mb-1"/></div></div>
+                                </div>
+                                <div class="col-md-4 mb-3 mb-md-0">
+                                    <h5>Afirmativo</h5>
+                                    <div data-field-path="imperative.affirmative"></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5>Negativo</h5>
+                                    <div data-field-path="imperative.negative"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h3 class="text-muted">Indicativo</h3>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-4 d-none d-md-block">
-                                <h5>Persona</h5>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Yo</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Tú</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Él, ella, Ud.</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Nosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Vosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Ellos, ellas, Uds.</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Vos</div><input class="form-control form-control-sm mb-1"/></div></div>
-                            </div>
-                            <div class="col-md-4 mb-3 mb-md-0">
-                                <h5>Presente</h5>
-                                <div data-field-path="indicative.present"></div>
-                            </div>
-                            <div class="col-md-4">
-                                <h5>Futuro</h5>
-                                <div data-field-path="indicative.future"></div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-4 d-none d-md-block">
-                                <h5>Persona</h5>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Yo</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Tú</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Él, ella, Ud.</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Nosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Vosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Ellos, ellas, Uds.</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Vos</div><input class="form-control form-control-sm mb-1"/></div></div>
-                            </div>
-                            <div class="col-md-4 mb-3 mb-md-0">
-                                <h5>Imperfecto</h5>
-                                <div data-field-path="indicative.imperfect"></div>
-                            </div>
-                            <div class="col-md-4">
-                                <h5>Indefinido</h5>
-                                <div data-field-path="indicative.preterite"></div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-4 d-none d-md-block">
-                                <h5>Persona</h5>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Yo</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Tú</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Él, ella, Ud.</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Nosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Vosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Ellos, ellas, Uds.</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Vos</div><input class="form-control form-control-sm mb-1"/></div></div>
-                            </div>
-                            <div class="col-md-4">
-                                <h5>Condicional</h5>
-                                <div data-field-path="indicative.conditional"></div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h3 class="text-muted">Subjuntivo</h3>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-4 d-none d-md-block">
-                                <h5>Persona</h5>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Yo</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Tú</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Él, ella, Ud.</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Nosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Vosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Ellos, ellas, Uds.</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Vos</div><input class="form-control form-control-sm mb-1"/></div></div>
-                            </div>
-                            <div class="col-md-4 mb-3 mb-md-0">
-                                <h5>Presente</h5>
-                                <div data-field-path="subjunctive.present"></div>
-                            </div>
-                            <div class="col-md-4">
-                                <h5>Imperfecto</h5>
-                                <div data-field-path="subjunctive.imperfect"></div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-4 d-none d-md-block">
-                                <h5>Persona</h5>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Yo</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Tú</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Él, ella, Ud.</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Nosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Vosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Ellos, ellas, Uds.</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Vos</div><input class="form-control form-control-sm mb-1"/></div></div>
-                            </div>
-                            <div class="col-md-4 rarely-used-tense">
-                                <h5>(Futuro)</h5>
-                                <div data-field-path="subjunctive.future"></div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h3 class="text-muted">Imperativo</h3>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 d-none d-md-block">
-                                <h5>Persona</h5>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Yo</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Tú</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Él, ella, Ud.</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Nosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Vosotros</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Ellos, ellas, Uds.</div><input class="form-control form-control-sm mb-1"/></div></div>
-                                <div class="row"><div class="col-12 person"><div class="input-group">Vos</div><input class="form-control form-control-sm mb-1"/></div></div>
-                            </div>
-                            <div class="col-md-4 mb-3 mb-md-0">
-                                <h5>Afirmativo</h5>
-                                <div data-field-path="imperative.affirmative"></div>
-                            </div>
-                            <div class="col-md-4">
-                                <h5>Negativo</h5>
-                                <div data-field-path="imperative.negative"></div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                    </section>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <section class="card">
-            <div class="card-body text-center">
-                <img class="img-fluid mb-3" src="/images/300x250-1.png" />
-                <img class="img-fluid mb-3" src="/images/300x600-2.png" />
-                <img class="img-fluid" src="/images/300x250-2.png" />
-            </div>
-        </section>
+    <div class="col-md-4 text-center">
+        <img class="img-fluid mb-3" src="/images/300x250-1.png" />
+        <img class="img-fluid mb-3" src="/images/300x600-2.png" />
+        <img class="img-fluid" src="/images/300x250-2.png" />
     </div>
 </div>

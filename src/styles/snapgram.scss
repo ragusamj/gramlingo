@@ -60,6 +60,22 @@ input[type="number"] {
     max-height: 0;
 }
 
+.toolbox {
+    button {
+        background: transparent;
+        border: 0;
+        padding: 0;
+        outline: none;
+    }
+    .toolbox-button {
+        cursor: pointer;
+        transition: $transition-base;
+    }
+    .toolbox-button:hover {
+        color: $yellow !important;
+    }
+}
+
 .popup-wrapper {
     position: relative;
     .popup, .search-result {

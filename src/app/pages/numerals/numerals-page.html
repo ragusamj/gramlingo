@@ -12,7 +12,18 @@
 
         <div class="row mb-3">
             <div class="col-md-12">
-                <h3 class="text-muted"><span class="fa fa-chevron-circle-right text-info"></span> Help</h3>
+                <h3 class="toolbox">
+                    <button
+                        data-toggler="toggle-help"
+                        data-toggler-on="toggle-help-on"
+                        data-toggler-off="toggle-help-off"
+                        data-toggler-state="off"
+                        class="text-info toolbox-button">
+                        <span id="toggle-help-on" class="fa fa-chevron-circle-down"></span>
+                        <span id="toggle-help-off" class="fa fa-chevron-circle-right"></span>
+                    </button>
+                    <span class="text-muted">Help</span>
+                </h3>
                 <!--<h1>How do you say <em>123456</em> in spanish?</h1>
                 <p>And what about 12/6...? The third, the fourth, the fifth and so on? How on earth do you say it's twelve o'clock?</p>
                 <p>Don't fret, these exercises will help you master all these numbers in spanish in no time!<br/>
@@ -29,11 +40,17 @@
                 <section class="card">
                     <div class="card-header bg-inverse text-white">
                         <div class="row">
-                            <div class="col-md-12">
-                                <span class="fa fa-repeat mr-3"></span>
-                                <span class="fa fa-exchange mr-3"></span>
-                                <span class="fa fa-toggle-on mr-3"></span>
-                                <!--<span class="fa fa-toggle-off"></span>-->
+                            <div class="col-md-12 toolbox">
+                                <button
+                                    data-toggler="toggle-numerals-data"
+                                    data-toggler-on="toggle-numerals-on"
+                                    data-toggler-off="toggle-numerals-off"
+                                    class="text-white toolbox-button">
+                                    <span id="toggle-numerals-on" class="fa fa-toggle-on mr-3"></span>
+                                    <span id="toggle-numerals-off" class="fa fa-toggle-off mr-3"></span>
+                                </button>
+                                <span class="fa fa-repeat mr-3 toolbox-button"></span>
+                                <span class="fa fa-exchange mr-3 toolbox-button"></span>
                             </div>
                         </div>
                     </div>

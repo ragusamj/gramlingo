@@ -12,7 +12,18 @@
 
         <div class="row mb-3">
             <div class="col-md-12">
-                <h3 class="text-muted"><span class="fa fa-chevron-circle-right text-info"></span> Help</h3>
+                <h3 class="toolbox">
+                    <button
+                        data-toggler="toggle-help"
+                        data-toggler-on="toggle-help-on"
+                        data-toggler-off="toggle-help-off"
+                        data-toggler-state="off"
+                        class="text-info toolbox-button">
+                        <span id="toggle-help-on" class="fa fa-chevron-circle-down"></span>
+                        <span id="toggle-help-off" class="fa fa-chevron-circle-right"></span>
+                    </button>
+                    <span class="text-muted">Help</span>
+                </h3>
                 <!--
                 <h1>One metric ton of verb forms</h1>
                 <blockquote class="blockquote">
@@ -35,11 +46,16 @@
                 <section class="card">
                     <div class="card-header bg-inverse text-white">
                         <div class="row">
-                            <div class="col-md-12">
-                                <span data-toggler-on="toggle-verbs-on" data-toggler-off="toggle-verbs-off">
-                                    <span id="toggle-verbs-on" data-toggler data-toggle-inputs class="fa fa-toggle-on mr-3"></span>
-                                    <span id="toggle-verbs-off" data-toggler data-toggle-inputs class="fa fa-toggle-off mr-3"></span>
-                                </span>
+                            <div class="col-md-12 toolbox">
+                                <button
+                                    data-toggler="toggle-numerals-data"
+                                    data-toggler-on="toggle-numerals-on"
+                                    data-toggler-off="toggle-numerals-off"
+                                    data-toggle-inputs
+                                    class="text-white toolbox-button">
+                                    <span id="toggle-numerals-on" class="fa fa-toggle-on mr-3"></span>
+                                    <span id="toggle-numerals-off" class="fa fa-toggle-off mr-3"></span>
+                                </button>
                             </div>
                         </div>
                     </div>

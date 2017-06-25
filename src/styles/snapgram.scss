@@ -50,14 +50,10 @@ input[type="number"] {
     }
 }
 
-.navbar-slider {
-    max-height: 200px;
-	overflow-y: hidden;
-	transition: $transition-base;
-}
-
-.navbar-slider.hide {
-    max-height: 0;
+.expandable-box, .navbar-items {
+    transition: height .4s ease-in-out;
+    height: 0;
+    overflow: hidden;
 }
 
 .toolbox {
@@ -175,8 +171,11 @@ input[type="number"] {
     body {
         padding-bottom: 4rem;
     }
-    .navbar-slider.hide {
-	    max-height: 200px;
+    .expandable-box {
+        transition: height .2s ease-in-out;
+    }
+    .navbar-items {
+        height: initial;
     }
     .footer {
         position: fixed;

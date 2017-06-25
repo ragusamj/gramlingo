@@ -58,6 +58,7 @@ class ExerciseAreaListener {
             let field = this.fields[id];
             this.fieldsByIconId[field.iconId] = field;
         }
+        this.exerciseArea.prefill = true;
     }
 
     onPageDataUpdated(e) {

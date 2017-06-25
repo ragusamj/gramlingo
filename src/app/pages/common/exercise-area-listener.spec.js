@@ -31,8 +31,8 @@ test("ExerciseArea should check input value on 'blur' event", (t) => {
     Dom.sandbox("<input type='text' id='id' value='value'/>", {}, () => {
 
         setup();
-
         let input = document.getElementById("id");
+
         input.dispatchEvent(new Event("blur"));
 
         t.deepEqual(checker.check.lastCall.args, [["alternative"], "value"]);
@@ -44,8 +44,8 @@ test("ExerciseArea should show answer on 'blur' event", (t) => {
     Dom.sandbox("<input type='text' id='id' value='value'/>", {}, () => {
 
         setup();
-
         let input = document.getElementById("id");
+
         input.dispatchEvent(new Event("blur"));
 
         t.deepEqual(exerciseArea.showAnswer.lastCall.args, [
@@ -58,9 +58,9 @@ test("ExerciseArea should ignore unknown blur events", (t) => {
     Dom.sandbox("", {}, () => {
 
         setup();
-
         checker.check.reset();
         new ExerciseAreaListener(new BrowserEvent(), checker, exerciseArea, walker);
+
         document.dispatchEvent(new Event("blur"));
 
         t.false(checker.check.called);
@@ -107,8 +107,8 @@ test("ExerciseArea should ignore 'click' event if element doesn't have the attri
         exerciseArea.prefill = true;
 
         button.dispatchEvent(new Event("click"));
-        t.true(exerciseArea.prefill);
 
+        t.true(exerciseArea.prefill);
         t.end();
     });
 });
@@ -120,8 +120,8 @@ test("ExerciseArea should move to adjacent input on 'keydown'", (t) => {
         let event = document.createEvent("Event");
         event.initEvent("keydown", true, true);
         event.keyCode = 38;
-
         let input = document.getElementById("input-id");
+
         input.dispatchEvent(event);
 
         t.deepEqual(walker.walk.lastCall.args, [38, "input-id"]);
@@ -134,8 +134,8 @@ test("ExerciseArea should ignore 'keydown' events from unknown targets", (t) => 
 
         setup();
         walker.walk.reset();
-
         let input = document.getElementById("input-id");
+
         input.dispatchEvent(new Event("keydown"));
 
         t.false(walker.walk.called);
@@ -147,8 +147,8 @@ test("ExerciseArea should show popup on 'mouseover' event from icon", (t) => {
     Dom.sandbox("<div id='icon-id' />", {}, () => {
 
         setup();
-
         let icon = document.getElementById("icon-id");
+
         icon.dispatchEvent(new Event("mouseover"));
 
         t.deepEqual(exerciseArea.showPopup.lastCall.args, ["popup-id"]);
@@ -161,8 +161,8 @@ test("ExerciseArea should ignore 'mouseover' events from unknown targets", (t) =
 
         setup();
         exerciseArea.showPopup.reset();
-
         let icon = document.getElementById("unknown-id");
+
         icon.dispatchEvent(new Event("mouseover"));
 
         t.false(exerciseArea.showPopup.called);
@@ -174,8 +174,8 @@ test("ExerciseArea should show popup on 'mouseout' event from icon", (t) => {
     Dom.sandbox("<div id='icon-id' />", {}, () => {
 
         setup();
-
         let icon = document.getElementById("icon-id");
+
         icon.dispatchEvent(new Event("mouseout"));
 
         t.deepEqual(exerciseArea.hide.lastCall.args, ["popup-id"]);
@@ -188,8 +188,8 @@ test("ExerciseArea should ignore 'mouseout' events from unknown targets", (t) =>
 
         setup();
         exerciseArea.hide.reset();
-
         let icon = document.getElementById("unknown-id");
+
         icon.dispatchEvent(new Event("mouseout"));
 
         t.false(exerciseArea.hide.called);
@@ -202,9 +202,23 @@ test("ExerciseArea should link walker when page data is updated", (t) => {
 
         let exerciseAreaListener = setup();
         walker.link.reset();
+
         exerciseAreaListener.onPageDataUpdated({ detail: { "path": ["alternative"] }});
 
         t.deepEqual(walker.link.firstCall.args, [["id"]]);
+        t.end();
+    });
+});
+
+test("ExerciseArea should reset exercise area when field list is updated", (t) => {
+    Dom.sandbox("", {}, () => {
+
+        let exerciseAreaListener = setup();
+        exerciseArea.prefill = false;
+
+        exerciseAreaListener.onPageFieldListUpdated({detail: {}});
+
+        t.true(exerciseArea.prefill);
         t.end();
     });
 });

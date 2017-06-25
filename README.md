@@ -1,4 +1,4 @@
-# Snapgram.net
+# Gramlingo.com
 
 ## Licensing
 

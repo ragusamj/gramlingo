@@ -4,10 +4,11 @@ import BrowserEvent from "../browser-event";
 import Toggler from "./toggler";
 
 const html =
-"<button data-toggler data-toggler-on='on' data-toggler-off='off'>" +
+"<button data-toggler data-toggler-on='on' data-toggler-off='off' data-toggler-expand-area='expand'>" +
     "<span id='on'>On</span>" +
     "<span id='off'>Off</button>" +
-"</div>";
+"</button>" + 
+"<div id='expand'>Expand</div>";
 
 test("Toggler should find all togglers on the event 'dom-content-changed'", (t) => {
     Dom.sandbox(html, {}, () => {
@@ -67,6 +68,44 @@ test("Toggler should toggle", (t) => {
         button.dispatchEvent(new Event("click"));
         t.equal(on.style.display, "");
         t.equal(off.style.display, "none");
+
+        t.end();
+    });
+});
+
+test("Toggler should allow toggle with only on/off specified, no expand area", (t) => {
+    Dom.sandbox(html, {}, () => {
+        let browserEvent = new BrowserEvent();
+        let button = document.querySelector("[data-toggler]");
+        button.removeAttribute("data-toggler-expand-area");
+        let on = document.getElementById("on");
+        let off = document.getElementById("off");
+
+        new Toggler(browserEvent).onDomContentChanged();
+
+        button.dispatchEvent(new Event("click"));
+        t.equal(on.style.display, "none");
+        t.equal(off.style.display, "");
+
+        t.end();
+    });
+});
+
+test("Toggler should allow toggle with only an expand area specified, no on/off", (t) => {
+    Dom.sandbox(html, {}, () => {
+        let browserEvent = new BrowserEvent();
+        let button = document.querySelector("[data-toggler]");
+        button.removeAttribute("data-toggler-on");
+        button.removeAttribute("data-toggler-off");
+        let expand = document.getElementById("expand");
+
+        new Toggler(browserEvent).onDomContentChanged();
+
+        button.dispatchEvent(new Event("click"));
+        t.equal(expand.style.height, "");
+
+        button.dispatchEvent(new Event("click"));
+        t.equal(expand.style.height, "0px");
 
         t.end();
     });

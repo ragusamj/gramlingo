@@ -27,19 +27,30 @@ class Toggler {
     }
 
     update(item) {
-        item.on.style.display = item.state === "on" ? "" : "none";
-        item.off.style.display = item.state === "off" ? "" : "none";
+        if(item.on && item.off) {
+            item.on.style.display = item.state === "on" ? "" : "none";
+            item.off.style.display = item.state === "off" ? "" : "none";
+        }
+        if(item.expandArea) {
+            if(item.state === "on") {
+                item.expandArea.style.height = item.expandArea.scrollHeight + "px";
+            }
+            if (item.state === "off") {
+                item.expandArea.style.height = "";
+            }
+        }
     }
 
     create(element) {
         let id = element.getAttribute("data-toggler");
         let on = element.getAttribute("data-toggler-on");
         let off = element.getAttribute("data-toggler-off");
-        let state = element.getAttribute("data-toggler-state") || "on";
+        let expandArea = element.getAttribute("data-toggler-expand-area");
         let item = {
-            state: state,
+            state: element.getAttribute("data-toggler-state") || "on",
             on: document.getElementById(on),
-            off: document.getElementById(off)
+            off: document.getElementById(off),
+            expandArea: document.getElementById(expandArea)
         };
         this.togglers[id] = item;
         return item;

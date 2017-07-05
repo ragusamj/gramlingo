@@ -25,6 +25,7 @@ import Erro404Page from "./pages/error/error-404-page";
 import HomePage from "./pages/home/home-page";
 import NumeralsPage from "./pages/numerals/numerals-page";
 import VerbPage from "./pages/verbs/verb-page";
+import WorldMap from "./pages/world/world-map";
 import WorldPage from "./pages/world/world-page";
 
 const browserEvent = new BrowserEvent();
@@ -61,7 +62,7 @@ class App {
             },
             {
                 paths: ["/world", "/world/:part"],
-                page: new WorldPage(),
+                page: new WorldPage(new WorldMap(browserEvent)),
                 template: "/app/pages/world/world-page.html"
             },
             {

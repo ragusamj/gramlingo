@@ -178,6 +178,41 @@ input[type="number"] {
     }
 }
 
+#US {
+    fill: $orange;
+    stroke: $black;
+}
+
+#AU {
+    fill: $red;
+}
+
+#RU {
+    fill: $green;
+    stroke: $black;
+}
+
+#BR {
+    fill: $blue;
+    -webkit-transform: scale(1);
+    -webkit-transform-origin: 50% 50%;
+    -webkit-transition:.3s;
+    transform: scale(1);
+    transform-origin: 50% 50%;
+    transition:.3s;
+    filter:url(#dropshadow)
+}
+
+#BR:hover {
+    z-index: 1000;
+    -webkit-transform: scale(2);
+    -webkit-transform-origin: 50% 50%;
+    -webkit-transition:.3s;
+    transform: scale(1.1);
+    transform-origin: 50% 50%;
+    transition:.3s;
+}
+
 .footer {
     @extend .fixed-bottom;
     position: relative;

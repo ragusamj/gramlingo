@@ -31,7 +31,7 @@ function getCountries(data) {
             else {
                 var polygon = [];
                 geometryData.forEach(function(point) {
-                    polygon.push({ x: point[0], y: point[1] });
+                    polygon.push({ xoriginal: point[0], yorignal: point[1] });
                 });
                 countries[iso].polygons.push(polygon);
             }
@@ -44,17 +44,17 @@ function getCountries(data) {
     return countries;
 }
 
-function getBounds(countries) {
+function calculateBounds(countries) {
 
     var bounds = { ymin: 0, xmin: 0, ymax: 0, xmax: 0 };
 
     Object.keys(countries).forEach(function(iso) {
         countries[iso].polygons.forEach(function(polygon) {
             polygon.forEach(function(point) {
-                bounds.xmin = Math.min(bounds.xmin, point.x);
-                bounds.ymin = Math.min(bounds.ymin, point.y);
-                bounds.xmax = Math.max(bounds.xmax, point.x);
-                bounds.ymax = Math.max(bounds.ymax, point.y);
+                bounds.xmin = Math.min(bounds.xmin, point.xoriginal);
+                bounds.ymin = Math.min(bounds.ymin, point.yorignal);
+                bounds.xmax = Math.max(bounds.xmax, point.xoriginal);
+                bounds.ymax = Math.max(bounds.ymax, point.yorignal);
             });
         });
     });
@@ -66,55 +66,131 @@ function getBounds(countries) {
     return bounds;
 }
 
-function cleanup(polygon) {
+function areEqual(pointA, pointB) {
+    return pointA && pointB &&
+           pointA.x === pointB.x &&
+           pointA.y === pointB.y;
+}
 
-    var cleaned = [polygon[0]];
-
+function dedupe(polygon) {
+    var deduped = [];
     polygon.forEach(function(point) {
-        var lastPoint = cleaned[cleaned.length -1];
-        var lastLastPoint = cleaned[cleaned.length -2];
-        if(lastPoint && (lastPoint.xPixel !== point.xPixel || lastPoint.yPixel !== point.yPixel)) {
-            cleaned.push(point);
-        }
-        if(lastLastPoint && lastLastPoint.xPixel === point.xPixel && lastLastPoint.yPixel === point.yPixel) {
-            cleaned.length = cleaned.length - 2;
+        var lastPoint = deduped[deduped.length - 1];
+        if(!areEqual(lastPoint, point)) {
+            deduped.push(point);
         }
     });
+    return deduped;
+}
 
-    return cleaned;
+function removeEmptyPixels(polygon) {
+    var filledPixels = [];
+    polygon.forEach(function(point, index) {
+        var lastPoint = polygon[index - 1];
+        var nextPoint = polygon[index + 1];
+        if(!areEqual(lastPoint, nextPoint)) {
+            filledPixels.push(point);
+        }
+    });
+    return filledPixels;
+}
+
+function clean(polygon) {
+    var deduped = dedupe(polygon);
+    var filledPixels = removeEmptyPixels(deduped);
+    return dedupe(filledPixels);
 }
 
 function interpolate(polygon) {
     var interpolated = [];
-    cleanup(polygon).forEach(function(point) {
-        var lastPoint = interpolated[interpolated.length -1];
-        if(lastPoint && lastPoint.xPixel !== point.xPixel && lastPoint.yPixel !== point.yPixel) {
-            var x = point.xPixel + (lastPoint.xPixel > point.xPixel ? 1 : -1);
-            interpolated.push({xPixel: x, yPixel: point.yPixel});
+    clean(polygon).forEach(function(point) {
+        var lastPoint = interpolated[interpolated.length - 1];
+        if(lastPoint && lastPoint.x !== point.x && lastPoint.y !== point.y) {
+            var x = point.x + (lastPoint.x > point.x ? 1 : - 1);
+            interpolated.push({x: x, y: point.y});
         }
         interpolated.push(point);
     });
-    return cleanup(interpolated);
+    return clean(interpolated);
+}
+
+function offsetToGrid(point, bounds, scale) {
+    var x = Math.floor((((bounds.xmin) - point.xoriginal) / scale) * -1);
+    var y = Math.floor((bounds.ymax - point.yorignal) / scale);
+    return { x:x, y:y };
+}
+
+function createHVPath(polygon) {
+    var hvPath = [];
+    polygon.forEach(function(point, index) {
+        var last = hvPath[index - 1];
+        if(last) {
+            if(last.x === point.x) {
+                point.direction = "V";
+            }
+            if(last.y === point.y) {
+                point.direction = "H";
+            }
+        }
+        hvPath.push(point);
+    });
+
+    var shortenedPath = [];
+    hvPath.forEach(function(point, index) {
+        var nextPoint = hvPath[index + 1];
+        if(nextPoint && nextPoint.direction !== point.direction) {
+            shortenedPath.push(point);
+        }
+    });
+
+    return shortenedPath;
+}
+
+function deleteEmptyPolygons(grid) {
+    Object.keys(grid).forEach(function(iso) {
+        var polygons = [];
+        grid[iso].polygons.forEach(function(polygon) {
+            if(polygon.length > 0) {
+                polygons.push(polygon);
+            }
+        });
+        grid[iso].polygons = polygons;
+    });
+}
+
+function createGrid(countries, bounds, scale) {
+
+    var grid = {};
+
+    Object.keys(countries).forEach(function(iso) {
+        grid[iso] = { polygons: [] };
+        countries[iso].polygons.forEach(function(polygon) {
+            var gridPolygon = [];
+            polygon.forEach(function(point) {
+                var gridPoint = offsetToGrid(point, bounds, scale);
+                gridPolygon.push(gridPoint);
+            });
+            var interpolated = interpolate(gridPolygon);
+            var path = createHVPath(interpolated);
+            grid[iso].polygons.push(path);
+        });
+    });
+
+    deleteEmptyPolygons(grid);
+
+    return grid;
 }
 
 function createMap(data, width) {
 
     var countries = getCountries(data);
-    var bounds = getBounds(countries);
+    var bounds = calculateBounds(countries);
     var scale = bounds.width / width;
-
-    Object.keys(countries).forEach(function(iso) {
-        countries[iso].polygons.forEach(function(polygon) {
-            polygon.forEach(function(point) {
-                point.xPixel = Math.floor((((bounds.xmin) - point.x) / scale) * -1);
-                point.yPixel = Math.floor((bounds.ymax - point.y) / scale);
-            });
-        });
-    });
 
     return {
         bounds: bounds,
         countries: countries,
+        grid: createGrid(countries, bounds, scale),
         image: {
             width: width,
             height: Math.floor(width / bounds.ratio)
@@ -123,46 +199,76 @@ function createMap(data, width) {
     };
 }
 
+function setIsEmpty(map) {
+    Object.keys(map.countries).forEach(function(iso) {
+        var count = 0;
+        map.grid[iso].polygons.forEach(function(polygon) {
+            if(polygon.length > 0) {
+                count++;
+            }
+        });
+        if(count === 0) {
+            map.grid[iso].empty = true;
+        }
+    });
+}
+
+function drawPolygon(polygon, id) {
+    var markup;
+    markup = id ?
+        "        <path id=\"" + id + "\" d=\"M" :
+        "            <path d=\"M";
+    
+    polygon.forEach(function(point, index) {
+        if(index === 0) {
+            markup += " " + point.x + " " + point.y;
+        }
+        else {
+            if(point.direction === "V") {
+                markup += "V" + point.y;
+            }
+            if(point.direction === "H") {
+                markup += "H" + point.x;
+            }
+        }
+    });
+    markup += "Z\" />\n";
+    return markup;
+}
+
 function draw(map) {
+
+    setIsEmpty(map);
 
     var svg = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewBox=\"0 0 " + map.image.width + " " + map.image.height + "\">\n";
     svg += "    <g fill=\"#444\" stroke=\"#f7f7f7\" stroke-width=\"0.1\">\n";
 
     Object.keys(map.countries).forEach(function(iso) {
-        svg += "        <g id=\"" + iso + "\">\n";
-        map.countries[iso].polygons.forEach(function(polygon) {
-            svg += "           <path d=\"M";
-            var interpolated = interpolate(polygon);
-            interpolated.forEach(function(point, index) {
-                if(index + 1 === interpolated.length) {
-                    svg += "Z\" />\n";
-                }
-                else {
-                    var last = interpolated[index - 1];
-                    if(last) {
-                        if(last.xPixel === point.xPixel) {
-                            svg += " V " + point.yPixel;
-                        }
-                        if(last.yPixel === point.yPixel) {
-                            svg += " H " + point.xPixel;
-                        }
-                    }
-                    else {
-                        svg += " " + point.xPixel + " " + point.yPixel;
-                    }
+        if(!map.grid[iso].empty) {
+            var polygons = map.grid[iso].polygons;
+            if(polygons.length > 1) {
+                svg += "        <g id=\"" + iso + "\">\n";
+            }
+            polygons.forEach(function(polygon) {
+                if(polygon.length > 0) {
+                    svg += drawPolygon(polygon, polygons.length === 1 ? iso : undefined);
                 }
             });
-            
-        });
-        svg += "        </g>\n";
+            if(polygons.length > 1) {
+                svg += "        </g>\n";
+            }
+        }
     });
     svg += "    </g>\n";
 
     return svg + "</svg>";
 }
 
-mapshaper.applyCommands("-i countries.shp -filter '\"AQ\".indexOf(iso_a2) === -1' -filter-islands min-vertices=70 -proj robin -o format=geojson", input, function(err, output) {
-    var map = createMap(output["countries.json"], 256);
+mapshaper.applyCommands("-i countries.shp -filter '\"AQ\".indexOf(iso_a2) === -1' -filter-islands min-vertices=70 -proj robin -o format=geojson", input, function(error, output) {
+    if(error) {
+        throw new Error(error);
+    }
+    var map = createMap(output["countries.json"], 448);
     var svg = draw(map);
     process.stdout.write(svg);
 });

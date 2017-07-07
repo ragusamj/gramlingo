@@ -178,39 +178,14 @@ input[type="number"] {
     }
 }
 
-#US {
-    fill: $orange;
-    stroke: $black;
+#worldmap {
+    fill: $gray;
+    stroke: $white;
+    stroke-width: 0.1;
 }
 
-#AU {
-    fill: $red;
-}
-
-#RU {
+#worldmap path:hover, #worldmap g:hover {
     fill: $green;
-    stroke: $black;
-}
-
-#BR {
-    fill: $blue;
-    -webkit-transform: scale(1);
-    -webkit-transform-origin: 50% 50%;
-    -webkit-transition:.3s;
-    transform: scale(1);
-    transform-origin: 50% 50%;
-    transition:.3s;
-    filter:url(#dropshadow)
-}
-
-#BR:hover {
-    z-index: 1000;
-    -webkit-transform: scale(2);
-    -webkit-transform-origin: 50% 50%;
-    -webkit-transition:.3s;
-    transform: scale(1.1);
-    transform-origin: 50% 50%;
-    transition:.3s;
 }
 
 .footer {

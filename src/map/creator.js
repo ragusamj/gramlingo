@@ -101,13 +101,40 @@ function clean(polygon) {
     return dedupe(filledPixels);
 }
 
+function isInside(point, polygon) {
+    // Ray casting, http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+    var inside = false;
+    for (var i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+        var xi = polygon[i].x;
+        var yi = polygon[i].y;
+        var xj = polygon[j].x;
+        var yj = polygon[j].y;
+        if (((yi > point.y) !== (yj > point.y)) && (point.x < (xj - xi) * (point.y - yi) / (yj - yi) + xi)) {
+            inside = !inside;
+        }
+    }
+    return inside;
+}
+
 function interpolate(polygon) {
     var interpolated = [];
     clean(polygon).forEach(function(point) {
         var lastPoint = interpolated[interpolated.length - 1];
         if(lastPoint && lastPoint.x !== point.x && lastPoint.y !== point.y) {
-            var x = point.x + (lastPoint.x > point.x ? 1 : - 1);
-            interpolated.push({x: x, y: point.y});
+            var interpolatedY = {
+                x: point.x,
+                y: point.y + (lastPoint.y > point.y ? 1 : -1)
+            };
+            var interpolatedX = {
+                x: point.x + (lastPoint.x > point.x ? 1 : -1),
+                y: point.y
+            };
+            if(!isInside(interpolatedY, polygon)) {
+                interpolated.push(interpolatedY);
+            }
+            else if(!isInside(interpolatedX, polygon)) {
+                interpolated.push(interpolatedX);
+            }
         }
         interpolated.push(point);
     });
@@ -115,9 +142,10 @@ function interpolate(polygon) {
 }
 
 function offsetToGrid(point, bounds, scale) {
-    var x = Math.floor((((bounds.xmin) - point.xoriginal) / scale) * -1);
-    var y = Math.floor((bounds.ymax - point.yorignal) / scale);
-    return { x:x, y:y };
+    return {
+        x: Math.floor((((bounds.xmin) - point.xoriginal) / scale) * -1),
+        y: Math.floor((bounds.ymax - point.yorignal) / scale)
+    };
 }
 
 function createHVPath(polygon) {
@@ -213,10 +241,9 @@ function setIsEmpty(map) {
     });
 }
 
-function drawPolygon(polygon, id) {
-    var markup;
-    markup = id ?
-        "        <path id=\"" + id + "\" d=\"M" :
+function drawPolygon(polygon, iso) {
+    var markup = iso ?
+        "        <path id=\"" + iso + "\" d=\"M" :
         "            <path d=\"M";
     
     polygon.forEach(function(point, index) {

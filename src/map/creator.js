@@ -243,8 +243,8 @@ function setIsEmpty(map) {
 
 function drawPolygon(polygon, iso) {
     var markup = iso ?
-        "        <path id=\"" + iso + "\" d=\"M" :
-        "            <path d=\"M";
+        "    <path id=\"" + iso + "\" d=\"M" :
+        "        <path d=\"M";
     
     polygon.forEach(function(point, index) {
         if(index === 0) {
@@ -267,14 +267,13 @@ function draw(map) {
 
     setIsEmpty(map);
 
-    var svg = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewBox=\"0 0 " + map.image.width + " " + map.image.height + "\">\n";
-    svg += "    <g fill=\"#444\" stroke=\"#f7f7f7\" stroke-width=\"0.1\">\n";
+    var svg = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewBox=\"0 0 " + map.image.width + " " + map.image.height + "\" id=\"worldmap\" fill=\"#444\" stroke=\"#f7f7f7\" stroke-width=\"0.1\">\n";
 
     Object.keys(map.countries).forEach(function(iso) {
         if(!map.grid[iso].empty) {
             var polygons = map.grid[iso].polygons;
             if(polygons.length > 1) {
-                svg += "        <g id=\"" + iso + "\">\n";
+                svg += "    <g id=\"" + iso + "\">\n";
             }
             polygons.forEach(function(polygon) {
                 if(polygon.length > 0) {
@@ -282,11 +281,10 @@ function draw(map) {
                 }
             });
             if(polygons.length > 1) {
-                svg += "        </g>\n";
+                svg += "    </g>\n";
             }
         }
     });
-    svg += "    </g>\n";
 
     return svg + "</svg>";
 }

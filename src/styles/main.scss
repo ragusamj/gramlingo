@@ -135,7 +135,7 @@ input[type="number"] {
         visibility: visible;
         z-index: 999;
         opacity: 1;
-        transition: $transition-base;        
+        transition: $transition-base;       
     }
     .icon, .popup, .search-result.hide {
         visibility: hidden;
@@ -172,9 +172,6 @@ input[type="number"] {
         position: absolute;
         top: 0;
         left: 0;
-        path {
-            cursor: pointer;
-        }
     }
 }
 
@@ -182,6 +179,11 @@ input[type="number"] {
     fill: $gray;
     stroke: $white;
     stroke-width: 0.1;
+}
+
+#worldmap path {
+    cursor: pointer;
+    transition: $transition-base;
 }
 
 #worldmap path:hover, #worldmap g:hover {

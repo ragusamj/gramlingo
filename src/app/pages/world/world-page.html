@@ -36,33 +36,46 @@
                         class="text-info toolbox-button">
                         <span id="toggle-country-exercise-on" class="fa fa-chevron-circle-down"></span>
                         <span id="toggle-country-exercise-off" class="fa fa-chevron-circle-right"></span>
-                        <span class="text-muted">South America</span>
+                        <span class="text-muted">Countries</span>
                     </button>
                 </h3>
                 <div id="country-exercise-box" class="expandable-box-lg">
                     <section class="card">
-                        <div class="card-header bg-inverse text-white">
+                        <div class="card-header bg-inverse">
                             <div class="row">
-                                <div class="col-md-12 toolbox">
+                                <div class="col-md-12 toolbox text-white">
                                     <button
                                         data-toggler="toggle-country-data"
                                         data-toggler-on="toggle-country-on"
                                         data-toggler-off="toggle-country-off"
-                                        class="text-white toolbox-button mr-3">
+                                        class="text-white toolbox-button mr-2">
                                         <span id="toggle-country-on" class="fa fa-toggle-on"></span>
                                         <span id="toggle-country-off" class="fa fa-toggle-off"></span>
                                     </button>
-                                    <button class="text-white toolbox-button mr-3">
+                                    <span class="text-muted">|</span>
+                                    <button class="text-white toolbox-button ml-2" data-map-zoom-in>
                                         <span class="fa fa-plus"></span>
                                     </button>
-                                    <button class="text-white toolbox-button mr-3">
+                                    <button class="text-white toolbox-button ml-2 mr-2" data-map-zoom-out>
                                         <span class="fa fa-minus"></span>
                                     </button>
-                                    <button class="text-white toolbox-button mr-3">
+                                    <span class="text-muted">|</span>
+                                    <button class="text-white toolbox-button ml-2" data-map-pan-up>
+                                        <span class="fa fa-chevron-up"></span>
+                                    </button>
+                                    <button class="text-white toolbox-button ml-2 mr-2" data-map-pan-down>
+                                        <span class="fa fa-chevron-down"></span>
+                                    </button>
+                                    <span class="text-muted">|</span>
+                                    <button class="text-white toolbox-button ml-2" data-map-pan-left>
                                         <span class="fa fa-chevron-left"></span>
                                     </button>
-                                    <button class="text-white toolbox-button mr-3">
+                                    <button class="text-white toolbox-button ml-2 mr-2" data-map-pan-right>
                                         <span class="fa fa-chevron-right"></span>
+                                    </button>
+                                    <span class="text-muted">|</span>
+                                    <button class="text-white toolbox-button ml-2" data-map-reset>
+                                        <span class="fa fa-picture-o"></span>
                                     </button>
                                 </div>
                             </div>
@@ -71,7 +84,7 @@
                             <div class="row mb-2">
                                 <div class="col-md-12">
                                     <div class="fluid-svg-container">
-                                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 448 221" id="worldmap">
+                                        <svg viewBox="0 0 448 221" id="worldmap">
                                             <path id="AF" d="M 305 68H302V69H300V70H301V73H300V75H299V77H297V78H295V79H296V80H295V81H289V80H288V79H289V77H287V74H286V73H287H287V71H289V70H291V68H292V67H294V68H297V67H298V66H300V69H301V68H304V67H305Z" />
                                             <path id="AO" d="M 227 144H228V143H230V142H234V149H236V148H237V152H234V158H235V159H236V160H229V159H221V158H220V159H219V155H220V151H221V150H222V148H221V143H220V140H226V142H227Z" />
                                             <path id="AL" d="M 228 59H229V61H230V63H228V60H227V59Z" />

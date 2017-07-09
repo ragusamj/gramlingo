@@ -178,16 +178,14 @@ input[type="number"] {
 #worldmap {
     fill: $gray;
     stroke: $white;
-    stroke-width: 0.1;
-}
-
-#worldmap path {
-    cursor: pointer;
-    transition: $transition-base;
-}
-
-#worldmap path:hover, #worldmap g:hover {
-    fill: $green;
+    stroke-width: 0.2;
+    path {
+        cursor: pointer;
+        transition: $transition-base;
+    }
+    path:hover, g:hover {
+        fill: $teal;
+    }
 }
 
 .footer {

@@ -5,7 +5,6 @@ class WorldPage {
     }
 
     attach(pageTemplate, onPageChanged) {
-        this.worldMap.draw(pageTemplate);
         onPageChanged();
     }
 }

@@ -243,7 +243,7 @@ function setIsEmpty(map) {
 
 function drawPolygon(polygon, iso) {
     var markup = iso ?
-        "    <path id=\"" + iso + "\" d=\"M" :
+        "    <path data-iso=\"" + iso + "\" d=\"M" :
         "        <path d=\"M";
     
     polygon.forEach(function(point, index) {
@@ -273,7 +273,7 @@ function draw(map) {
         if(!map.grid[iso].empty) {
             var polygons = map.grid[iso].polygons;
             if(polygons.length > 1) {
-                svg += "    <g id=\"" + iso + "\">\n";
+                svg += "    <g data-iso=\"" + iso + "\">\n";
             }
             polygons.forEach(function(polygon) {
                 if(polygon.length > 0) {

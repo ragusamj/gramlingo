@@ -62,7 +62,7 @@ class App {
             },
             {
                 paths: ["/world", "/world/:part"],
-                page: new WorldPage(new WorldMap(browserEvent)),
+                page: new WorldPage(browserEvent, new WorldMap(browserEvent)),
                 template: "/app/pages/world/world-page.html"
             },
             {

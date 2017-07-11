@@ -186,6 +186,9 @@ input[type="number"] {
     path:hover, g:hover {
         fill: $teal;
     }
+    .selected {
+        fill: $teal;
+    }
 }
 
 .footer {

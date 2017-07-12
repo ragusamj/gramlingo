@@ -5,6 +5,9 @@ class WorldMap {
     constructor(browserEvent) {
         this.browserEvent = browserEvent;
         browserEvent.on("click", this.onClick.bind(this));
+        browserEvent.on("mousedown", this.onMousedown.bind(this));
+        browserEvent.on("mousemove", this.onMousemove.bind(this));
+        browserEvent.on("mouseup", this.onMouseup.bind(this));
         browserEvent.on("wheel", this.onWheel.bind(this));
     }
 
@@ -68,11 +71,46 @@ class WorldMap {
         }
     }
 
+    onMousedown(e) {
+        if(this.isMapEvent(e)) {
+            this.dragStartPoint = this.createSVGPoint(e.clientX, e.clientY);
+        }
+    }
+
+    onMousemove(e) {
+        if(this.isMapEvent(e) && this.dragStartPoint) {
+            let mousePoint = this.createSVGPoint(e.clientX, e.clientY);
+            requestAnimationFrame(() => {
+                if(this.dragStartPoint) {
+                    this.map.viewBox.baseVal.x += (this.dragStartPoint.x - mousePoint.x);
+                    this.map.viewBox.baseVal.y += (this.dragStartPoint.y - mousePoint.y);
+                }
+            });
+        }
+    }
+
+    onMouseup() {
+        this.dragStartPoint = undefined;
+    }
+
     onWheel(e) {
-        if(e.target.id === "worldmap" || e.target.hasAttribute("data-iso")) {
+        if(this.isMapEvent(e)) {
             this.deferredAnimateWheel(e);
             e.preventDefault();
         }
+    }
+
+    createSVGPoint(x, y) {
+        let point = this.map.createSVGPoint();
+        point.x = x;
+        point.y = y;
+        return point.matrixTransform(this.map.getScreenCTM().inverse());
+    }
+
+    isMapEvent(e) {
+        return e.target.id === "worldmap" ||
+            e.target.hasAttribute("data-iso") ||
+            e.target.parentElement.hasAttribute("data-iso");
     }
 
     selectCountry(element) {

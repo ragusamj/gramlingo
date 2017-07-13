@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Bouncing cookie</title>
+        <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+        <style>
+            body {
+                background-color: #fff;
+                font-family: Lobster, sans-serif;
+                text-align: center;
+            }
+            button {
+                padding: 1rem;
+                border: none;
+                border-radius: 2rem;
+                background-color: #552700;
+                font-size: 2rem;
+                color: #FFFFFF;
+                font-family: Lobster;
+                margin-top: 3rem;
+                outline: none;
+                cursor: pointer;
+            }
+            h1 {
+                font-size: 5rem;
+                color: #669999;
+            }
+            #cookie-jar {
+                padding: 1rem;
+                height: 150px;
+                width: 800px;
+                overflow: hidden;
+                background-color: #FFD1AA;
+                border-radius: 300px;
+                display: inline-block;
+            }
+            #cookie {
+                position: relative;
+                left: 0;
+                height: 100px;
+                width: 100px;
+                background-color: #AA3939;
+                border: 25px solid #D49A6A;
+                border-radius: 100px;
+                
+            }
+        </style>
+    </head>
+<body>
+    <h1>Bouncing cookie</h1>
+    <div id="cookie-jar">
+        <div id="cookie"></div>
+    </div>
+    <div>
+        <button onclick="window.run();">Bounce!</button>
+    </div>
+</body>
+
+<script>
+
+    const easeIn = (t, p) => Math.pow(t, p);
+    const easeOut = (t, p) => 1 - easeIn(1 - t, p);
+    const easeInOut = (t, p) => t < 0.5 ? easeIn(t * 2, p) / 2 : easeOut(t * 2 - 1, p) / 2 + 0.5;
+
+    const easeInElastic = (t) => - Math.pow(2, 10 * (t -= 1)) * Math.sin((t - 0.4 / 4) * (2 * Math.PI) / 0.4);
+    const easeOutElastic = (t) => 1 - easeInElastic(1 - t);
+    const easeInOutElastic = (t) => t < 0.5 ? easeInElastic(t * 2) / 2 : easeOutElastic(t * 2 - 1) / 2 + 0.5;
+
+    const fps = 60;
+    const duration = 2;
+    const frames = (1000 * duration) / (1000 / fps);
+    const cookie = document.querySelector("#cookie");
+
+    let frame;
+
+    let draw = () => {
+        if(frame < frames) {
+            let t = (frame / fps) / duration;
+            cookie.style.left = easeInOutElastic(t) * 650 + "px";
+            frame++;
+            requestAnimationFrame(draw);
+        }
+    };
+
+    window.run = () => {
+        frame = 0;
+        cookie.style.left = "0px";
+        draw();
+    };
+
+</script>
+
+</html>

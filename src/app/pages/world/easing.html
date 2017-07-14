@@ -68,6 +68,10 @@
     const easeOutElastic = (t) => 1 - easeInElastic(1 - t);
     const easeInOutElastic = (t) => t < 0.5 ? easeInElastic(t * 2) / 2 : easeOutElastic(t * 2 - 1) / 2 + 0.5;
 
+    const easeInBack = (t) => t * t * (2.7 * t - 1.7);
+    const easeOutBack = (t) => 1 - easeInBack(1 - t);
+    const easeInOutBack = (t) => t < 0.5 ? easeInBack(t * 2) / 2 : easeOutBack(t * 2 - 1) / 2 + 0.5;
+
     const fps = 60;
     const duration = 2;
     const frames = (1000 * duration) / (1000 / fps);
@@ -78,7 +82,7 @@
     let draw = () => {
         if(frame < frames) {
             let t = (frame / fps) / duration;
-            cookie.style.left = easeInOutElastic(t) * 650 + "px";
+            cookie.style.left = easeInOutBack(t) * 650 + "px";
             frame++;
             requestAnimationFrame(draw);
         }

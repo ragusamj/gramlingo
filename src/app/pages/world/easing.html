@@ -3,9 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Easing functions</title>
+        <title>Bouncing blue dot</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/css?family=Lobster|Montserrat" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Lobster|Montserrat:300,400" rel="stylesheet">
         <style>
 
             #slider-container {
@@ -14,9 +14,26 @@
             #slider {
                 position: relative;
                 left: 0;
-                height: 160px;
-                width: 120px;
+                height: 100px;
+                width: 100px;
+                background-color: #5bc0de;
+                border-radius: 50px;
+                cursor: pointer;
             }
+
+            h1, h2, h3 {
+                font-family: Lobster, sans-serif;
+            }
+
+            .footer {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                height: 60px;
+                line-height: 60px;
+                background-color: #f5f5f5;
+            }
+
 
             html {
                 position: relative;
@@ -27,7 +44,7 @@
                 font-family: Montserrat, sans-serif;
                 margin-bottom: 60px;
             }
-
+            /*
             body, button, h1, h2, h3 {
                 color: #fff;
             }
@@ -41,83 +58,124 @@
                 color: #fff;
             }
 
-            button, h1, h2, h3 {
-                font-family: Lobster, sans-serif;
-            }
-
             hr {
                 background-color: #636c72;
+            }*/
+
+            svg text {
+                font-family: monospace;
+                font-size: 10px;
+                fill: #5bc0de;
             }
 
-            .footer {
-                position: absolute;
-                bottom: 0;
-                width: 100%;
-                height: 60px;
-                line-height: 60px;
-                background-color: #f5f5f5;
+            svg line {
+                stroke-width: 1;
+                stroke: #636c72;
+                stroke-linecap: square;
+            }
+
+            svg path {
+                stroke: #f0ad4e;
+                stroke-width: 2;
+                fill: transparent;
             }
         </style>
     </head>
 <body class="bg-inverse">
+
     <div class="container">
-        <div class="row mt-4">
+        <div class="row mt-3">
             <div class="col-md-12 text-center">
-                <img src="../../../images/728x90-1.png" class="mb-4"/>
-                <hr class="mt-4"/>
-                <h1>Easing functions</h1>
-                <hr class="mt-4"/>
+                <img class="img-fluid" src="../../../images/728x90-1.png" />
             </div>
         </div>
-        <div class="row mb-5">
-            <div class="col-md-12 text-muted">
+        <div class="row mt-5">
+            <div class="col-md-12 text-white text-center">
+                <h1>Easing functions</h1>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-12 text-white">
                 <div id="slider-container">
-                    <div id="slider">
-                        <svg width="120" height="200">
-                            <text x="60" y="160" font-size="10px" fill="#636c72">time</text>
-                            <line x1="0" y1="0" x2="0" y2="160" stroke-width="1" stroke="#636c72"/>
-                            <line x1="0" y1="20" x2="120" y2="20" stroke-width="1" stroke="#636c72"/>
-                            <line x1="0" y1="140" x2="120" y2="140" stroke-width="1" stroke="#636c72"/>
-                            <path id="curve" d="M 0 0" stroke="#f0ad4e" stroke-width="2" fill="transparent"/>
-                        </svg>
+                    <div id="slider" onclick="window.run();">
+                        <span id="frames">&infin;</span> frames<br/>
+                        <span id="factor" style="display: none;">&infin;</span>
                     </div>
                 </div>
-                <div id="easing"></div>
-                <div>Fps: ~60</div>
-                <div>Duration: <span id="duration">&infin;</span> second(s)</span></div>
-                <div>Frame: <span id="frames">&infin;</span></div>
-                <div>Factor: <span id="factor">&infin;</span></div>
-            </div>
-        </div>       
-        <div class="row mb-5 mt-5">
-            <div class="col-md-12 text-center">
-                <button class="btn btn-lg btn-secondary" onclick="window.run();">Run!</button>
             </div>
         </div>
-        <div class="row mt-5 text-center text-md-left">
+        <div class="row mt-5">
+            <div class="col-md-4 text-center"></div>
+            <div class="col-md-4 text-center">
+                <svg width="66.66%" viewBox="0 0 140 140">
+                    <text x="0" y="23">1.0</text>
+                    <text x="0" y="73">0.5</text>
+                    <text x="0" y="123">0.0</text>
+
+                    <line x1="25" y1="20" x2="125" y2="20"/>
+
+                    <line x1="25" y1="45" x2="30" y2="45"/>
+                    <line x1="25" y1="70" x2="30" y2="70"/>
+                    <line x1="25" y1="95" x2="30" y2="95"/>
+
+                    <line x1="120" y1="45" x2="125" y2="45"/>
+                    <line x1="120" y1="70" x2="125" y2="70"/>
+                    <line x1="120" y1="95" x2="125" y2="95"/>
+
+                    <line x1="25" y1="120" x2="125" y2="120"/>
+
+                    <text x="21.5" y="135">0</text>
+                    <text x="67" y="135" id="mid-second"></text>
+                    <text x="116.5" y="135" id="end-second"></text>
+        
+                    <line x1="25" y1="20" x2="25" y2="120"/>
+
+                    <line x1="50" y1="20" x2="50" y2="25"/>
+                    <line x1="75" y1="20" x2="75" y2="25"/>
+                    <line x1="100" y1="20" x2="100" y2="25"/>
+
+                    <line x1="50" y1="115" x2="50" y2="120"/>
+                    <line x1="75" y1="115" x2="75" y2="120"/>
+                    <line x1="100" y1="115" x2="100" y2="120"/>
+
+                    <line x1="125" y1="20" x2="125" y2="120"/>
+
+                    <path id="curve" d="M 0 0"/>
+                </svg>
+            </div>
+            <div class="col-md-4 text-center"></div>
+        </div>
+        <div class="row" style="display: none;">
+            <input id="easing" type="text" class="form-control" />
+            <input id="duration" type="number" step="0.1" class="form-control" />
+        </div>
+        <!--
+        <div class="row mt-4 text-white">
             <div class="col-md-4">
                 <p>This is a demo for compact easing functions written with Javascript ES6 syntax, inspired by and adapted from <a href="http://robertpenner.com/easing/">Robert Penner's easing equations</a>.</p>
-            </div>
-            <div class="col-md-4">
                 <p>To run the demo you need a browser with ES6 support, for instance Chrome or Firefox.</p>
+                <p>The code is licensed with the MIT license.</p>
             </div>
             <div class="col-md-4">
+                <p>This is a demo for compact easing functions written with Javascript ES6 syntax, inspired by and adapted from <a href="http://robertpenner.com/easing/">Robert Penner's easing equations</a>.</p>
+                <p>To run the demo you need a browser with ES6 support, for instance Chrome or Firefox.</p>
+                <p>The code is licensed with the MIT license.</p>
+            </div>
+            <div class="col-md-4">
+                <p>This is a demo for compact easing functions written with Javascript ES6 syntax, inspired by and adapted from <a href="http://robertpenner.com/easing/">Robert Penner's easing equations</a>.</p>
+                <p>To run the demo you need a browser with ES6 support, for instance Chrome or Firefox.</p>
                 <p>The code is licensed with the MIT license.</p>
             </div>
         </div>
-        <div class="row mt-5 text-center text-md-left">
-            <div class="col-md-4">
-                <img src="../../../images/300x250-1.png" class="mb-4"/>
-            </div>
-            <div class="col-md-4">
-                <img src="../../../images/300x250-2.png" class="mb-4"/>
-            </div>
-            <div class="col-md-4">
-                <img src="../../../images/300x250-1.png" class="mb-4"/>
-            </div>
-        </div>
+        -->
     </div>
-
+    <!--
+    <div class="col-md-4 mb-3 text-center">                         
+        <img class="img-fluid mb-3" src="../../../images/300x250-1.png" />
+        <img class="img-fluid mb-3" src="../../../images/300x600-2.png" />
+        <img class="img-fluid" src="../../../images/300x250-2.png" />
+    </div>
+    -->
     <footer class="footer bg-inverse">
         <div class="container text-muted text-center">
             &copy; 2017 Erik Barke
@@ -148,11 +206,16 @@
     const easeOutBack = (t) => 1 - easeInBack(1 - t);
     const easeInOutBack = (t) => t < 0.5 ? easeInBack(t * 2) / 2 : easeOutBack(t * 2 - 1) / 2 + 0.5;
 
-    const easing = easeInOutElastic;
-    const fps = 60;
-    const duration = 2;
+    function round(value, precision) {
+        var multiplier = Math.pow(10, precision || 0);
+        return Math.round(value * multiplier) / multiplier;
+    }
 
-    const frames = (1000 * duration) / (1000 / fps);
+    const easing = easeInOutSine;
+    const fps = 60;
+    let duration = 2;
+
+    let frames = (1000 * duration) / (1000 / fps);
     const container = document.querySelector("#slider-container");
     const slider = document.querySelector("#slider");
 
@@ -161,12 +224,15 @@
     const frameElement = document.querySelector("#frames");
     const factorElement = document.querySelector("#factor");
 
+    const midSecond = document.querySelector("#mid-second");
+    const endSecond = document.querySelector("#end-second");
+
     let tweens;
     let frame;
     let path;
 
-    easingElement.innerHTML = easing.name;
-    durationElement.innerHTML = duration;
+    easingElement.value = easing.name;
+    durationElement.value = duration;
 
     let draw = () => {
         if(frame < frames) {
@@ -175,7 +241,7 @@
             let destination = container.offsetWidth - slider.offsetWidth;
             slider.style.left = factor * destination + "px";
             frameElement.innerHTML = frame + 1;
-            factorElement.innerHTML = factor;
+            factorElement.innerHTML = factor.toFixed(4);
             frame++;
             requestAnimationFrame(draw);
         }
@@ -186,8 +252,10 @@
         tweens = [];
         path = "";
 
-        for(let f = 0; f < frames; f++) {
-            let t = (f / fps) / 2;
+        let xframes = 100;
+
+        for(let f = 0; f < xframes; f++) {
+            let t = (f / 50) / 2;
             let factor = easing(t, 3);
             tweens.push(factor);
         }
@@ -196,13 +264,20 @@
 
         for(let i = 0; i < tweens.length; i++) {
             path += (i === 0 ? "M" : "L");
-            path += i + " " + ((tweens[i] * 120) + 20);
+            path += (i + 25) + " " + ((tweens[i] * xframes) + 20);
         }
+
+        path += " L125 20";
 
         let svgPath = document.querySelector("#curve");
         svgPath.setAttribute("d", path);
         
         slider.style.left = "0px";
+        duration = durationElement.value;
+        frames = (1000 * duration) / (1000 / fps);
+        midSecond.innerHTML = round(duration / 2, 1).toFixed(1);
+        endSecond.innerHTML = round(duration, 1).toFixed(1);
+        
         draw();
     };
 

@@ -70,22 +70,6 @@ class WorldMap {
         }, 10);*/
     }
 
-    createTweens(easing, duration, step) {
-        const tweens = [];
-        const frames = (1000 * duration) / (1000 / fps);
-        for(let frame = 0; frame < frames; frame++) {
-            let t = (frame / fps) / duration;
-            let factor = easings[easing](t);
-            tweens.push({
-                height: factor * step.height / this.ratio,
-                width: factor * step.width,
-                x: factor * (step.x / 2),
-                y: factor * (step.y / (this.ratio * 2))
-            });
-        }
-        return tweens;
-    }
-
     onClick(e) {
         if(e.target.hasAttribute("data-iso")) {
             this.selectCountry(e.target);
@@ -118,25 +102,18 @@ class WorldMap {
 
     onMousedown(e) {
         if(this.isMapEvent(e)) {
-            this.dragStartPoint = this.createSVGPoint(e.clientX, e.clientY);
+            this.startDrag(e);
         }
     }
 
     onMousemove(e) {
         if(this.isMapEvent(e) && this.dragStartPoint) {
-            this.currentAnimationId++;
-            let mousePoint = this.createSVGPoint(e.clientX, e.clientY);
-            requestAnimationFrame(() => {
-                if(this.dragStartPoint) {
-                    this.map.viewBox.baseVal.x += (this.dragStartPoint.x - mousePoint.x);
-                    this.map.viewBox.baseVal.y += (this.dragStartPoint.y - mousePoint.y);
-                }
-            });
+            this.drag(e);
         }
     }
 
     onMouseup() {
-        this.dragStartPoint = undefined;
+        this.endDrag();
     }
 
     onWheel(e) {
@@ -144,6 +121,41 @@ class WorldMap {
             //this.deferredAnimateWheel(e);
             e.preventDefault();
         }
+    }
+
+    createTweens(easing, duration, step) {
+        const tweens = [];
+        const frames = (1000 * duration) / (1000 / fps);
+        for(let frame = 0; frame < frames; frame++) {
+            let t = (frame / fps) / duration;
+            let factor = easings[easing](t);
+            tweens.push({
+                height: factor * step.height / this.ratio,
+                width: factor * step.width,
+                x: factor * (step.x / 2),
+                y: factor * (step.y / (this.ratio * 2))
+            });
+        }
+        return tweens;
+    }
+
+    startDrag(e) {
+        this.dragStartPoint = this.createSVGPoint(e.clientX, e.clientY);
+    }
+
+    drag(e) {
+        this.currentAnimationId++;
+        let mousePoint = this.createSVGPoint(e.clientX, e.clientY);
+        requestAnimationFrame(() => {
+            if(this.dragStartPoint) {
+                this.map.viewBox.baseVal.x += (this.dragStartPoint.x - mousePoint.x);
+                this.map.viewBox.baseVal.y += (this.dragStartPoint.y - mousePoint.y);
+            }
+        });
+    }
+
+    endDrag() {
+        this.dragStartPoint = undefined;
     }
 
     createSVGPoint(x, y) {

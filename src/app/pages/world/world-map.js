@@ -56,7 +56,8 @@ class WorldMap {
         this.initialWidth = this.map.viewBox.baseVal.width;
         this.initialHeight = this.map.viewBox.baseVal.height;
         this.ratio = this.initialWidth / this.initialHeight;
-        this.clickTweens = this.createTweens("easeOutQuad", 0.5, { height: 90, width: 90, x: 90, y: 90 });
+        this.clickTweens = this.createTweens("easeOutSine", 0.5, { height: 90, width: 90, x: 90, y: 90 });
+        this.currentAnimationId = 0;
 
         /*
         this.deferredAnimateWheel = throttle((e) => {
@@ -123,6 +124,7 @@ class WorldMap {
 
     onMousemove(e) {
         if(this.isMapEvent(e) && this.dragStartPoint) {
+            this.currentAnimationId++;
             let mousePoint = this.createSVGPoint(e.clientX, e.clientY);
             requestAnimationFrame(() => {
                 if(this.dragStartPoint) {
@@ -177,12 +179,13 @@ class WorldMap {
             x: this.map.viewBox.baseVal.x * 2,
             y: this.map.viewBox.baseVal.y * (this.ratio * 2)
         };
-        const tweens = this.createTweens("easeInOutElastic", 1.2, step);
+        const tweens = this.createTweens("easeOutElastic", 1, step);
         this.animate(moves.minus, moves.minus, moves.minus, moves.minus, tweens);
     }
 
     animate(zoomH, zoomW, panX, panY, tweens) {
 
+        const id = ++this.currentAnimationId;
         const start = {
             height: this.map.viewBox.baseVal.height,
             width: this.map.viewBox.baseVal.width,
@@ -192,7 +195,7 @@ class WorldMap {
     
         let frame = 0;
         let draw = () => {
-            if(frame < tweens.length) {
+            if(frame < tweens.length && id === this.currentAnimationId) {
                 let tween = tweens[frame];
                 this.map.viewBox.baseVal.height = zoomH(tween.height, start.height);
                 this.map.viewBox.baseVal.width = zoomW(tween.width, start.width);

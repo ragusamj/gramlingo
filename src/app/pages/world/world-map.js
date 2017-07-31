@@ -1,4 +1,44 @@
-import throttle from "lodash.throttle";
+//import throttle from "lodash.throttle";
+
+const easeIn = p => t => Math.pow(t, p);
+const easeOut = p => t => 1 - easeIn(p)(1 - t);
+const easeInOut = p => t => t < 0.5 ? easeIn(p)(t * 2) / 2 : easeOut(p)(t * 2 - 1) / 2 + 0.5;
+
+const easeInSine = (t) => 1 - Math.cos(t * Math.PI / 2);
+const easeOutSine = (t) => 1 - easeInSine(1 - t);
+const easeInOutSine = (t) => t < 0.5 ? easeInSine(t * 2) / 2 : easeOutSine(t * 2 - 1) / 2 + 0.5;
+
+const easeInCircular = (t) => 1 - Math.sqrt(1 - Math.pow(t, 3));
+const easeOutCircular = (t) => 1 - easeInCircular(1 - t);
+const easeInOutCircular = (t) => t < 0.5 ? easeInCircular(t * 2) / 2 : easeOutCircular(t * 2 - 1) / 2 + 0.5;
+
+const easeInElastic = (t) => - Math.pow(2, 10 * (t -= 1)) * Math.sin((t - 0.4 / 4) * (2 * Math.PI) / 0.4);
+const easeOutElastic = (t) => 1 - easeInElastic(1 - t);
+const easeInOutElastic = (t) => t < 0.5 ? easeInElastic(t * 2) / 2 : easeOutElastic(t * 2 - 1) / 2 + 0.5;
+
+const easeInBack = (t) => t * t * (2.7 * t - 1.7);
+const easeOutBack = (t) => 1 - easeInBack(1 - t);
+const easeInOutBack = (t) => t < 0.5 ? easeInBack(t * 2) / 2 : easeOutBack(t * 2 - 1) / 2 + 0.5;
+
+const easings = {
+    linear: t => t,
+    easeInQuad: easeIn(2), easeOutQuad: easeOut(2), easeInOutQuad: easeInOut(2),
+    easeInCubic: easeIn(3), easeOutCubic: easeOut(3), easeInOutCubic: easeInOut(3),
+    easeInQuart: easeIn(4), easeOutQuart: easeOut(4), easeInOutQuart: easeInOut(4),
+    easeInQuint: easeIn(5), easeOutQuint: easeOut(5), easeInOutQuint: easeInOut(5),
+    easeInSine: easeInSine, easeOutSine: easeOutSine, easeInOutSine: easeInOutSine,
+    easeInCircular: easeInCircular, easeOutCircular: easeOutCircular, easeInOutCircular: easeInOutCircular,
+    easeInElastic: easeInElastic, easeOutElastic: easeOutElastic, easeInOutElastic: easeInOutElastic,
+    easeInBack: easeInBack, easeOutBack: easeOutBack, easeInOutBack: easeInOutBack
+};
+
+const fps = 60;
+
+const moves = {
+    plus: (a, b) => b + a,
+    minus: (a, b) => b - a,
+    noop: (a, b) => b 
+};
 
 class WorldMap {
 
@@ -15,9 +55,9 @@ class WorldMap {
         this.map = document.getElementById("worldmap");
         this.initialWidth = this.map.viewBox.baseVal.width;
         this.initialHeight = this.map.viewBox.baseVal.height;
-        this.clickStep = this.createStep(10);
-        this.wheelStep = this.createStep(1);
+        this.clickTweens = this.createTweens("easeOutQuad", 0.5, { height: 90, width: 90, x: 90, y: 90 });
 
+        /*
         this.deferredAnimateWheel = throttle((e) => {
             if(e.deltaY > 0) {
                 this.animateWheel(this.zoomOut);
@@ -25,20 +65,27 @@ class WorldMap {
             else {
                 this.animateWheel(this.zoomIn);
             }
-        }, 10);
+        }, 10);*/
     }
 
-    createStep(frames) {
-        let ratio = this.initialWidth / this.initialHeight;
-        let width = this.initialWidth / 75;
-        let height = width / ratio;
-        return {
-            frames: frames,
-            width: width,
-            height: height,
-            x: height,
-            y: height / ratio
-        };
+    createTweens(easing, duration, step) {
+
+        const tweens = [];
+        const ratio = this.initialWidth / this.initialHeight;
+        const frames = (1000 * duration) / (1000 / fps);
+
+        for(let frame = 0; frame < frames; frame++) {
+            let t = (frame / fps) / duration;
+            let factor = easings[easing](t);
+            tweens.push({
+                height: factor * step.height / ratio,
+                width: factor * step.width,
+                x: factor * (step.x / 2),
+                y: factor * (step.y / (ratio * 2))
+            });
+        }
+
+        return tweens;
     }
 
     onClick(e) {
@@ -49,25 +96,35 @@ class WorldMap {
             this.selectCountry(e.target.parentElement);
         }
         if(e.target.hasAttribute("data-map-zoom-in")) {
-            this.animateClick(this.zoomIn);
+            this.animateClick(moves.minus, moves.minus, moves.plus, moves.plus);
         }
         if(e.target.hasAttribute("data-map-zoom-out")) {
-            this.animateClick(this.zoomOut);
+            this.animateClick(moves.plus, moves.plus, moves.minus, moves.minus);
         }
         if(e.target.hasAttribute("data-map-pan-up")) {
-            this.animateClick(this.panUp);
+            this.animateClick(moves.noop, moves.noop, moves.noop, moves.minus);
         }
         if(e.target.hasAttribute("data-map-pan-down")) {
-            this.animateClick(this.panDown);
+            this.animateClick(moves.noop, moves.noop, moves.noop, moves.plus);
         }
         if(e.target.hasAttribute("data-map-pan-left")) {
-            this.animateClick(this.panLeft);
+            this.animateClick(moves.noop, moves.noop, moves.minus, moves.noop);
         }
         if(e.target.hasAttribute("data-map-pan-right")) {
-            this.animateClick(this.panRight);
+            this.animateClick(moves.noop, moves.noop, moves.plus, moves.noop);
         }
         if(e.target.hasAttribute("data-map-reset")) {
-            this.animateReset();
+
+            const ratio = this.initialWidth / this.initialHeight;
+            const step = {
+                height: (this.map.viewBox.baseVal.height - this.initialHeight) * ratio,
+                width: this.map.viewBox.baseVal.width - this.initialWidth,
+                x: this.map.viewBox.baseVal.x * 2,
+                y: this.map.viewBox.baseVal.y * (ratio * 2)
+            };
+
+            const tweens = this.createTweens("easeInOutElastic", 1.2, step);
+            this.animate(moves.minus, moves.minus, moves.minus, moves.minus, tweens);
         }
     }
 
@@ -95,7 +152,7 @@ class WorldMap {
 
     onWheel(e) {
         if(this.isMapEvent(e)) {
-            this.deferredAnimateWheel(e);
+            //this.deferredAnimateWheel(e);
             e.preventDefault();
         }
     }
@@ -122,83 +179,32 @@ class WorldMap {
         this.browserEvent.emit("map-country-changed", element.getAttribute("data-iso"));
     }
 
-    animateClick(fn) {
-        this.animate(this.clickStep, fn);
+    animateClick(zoomH, zoomW, panX, panY) {
+        this.animate(zoomH, zoomW, panX, panY, this.clickTweens);
     }
 
-    animateWheel(fn) {
-        this.animate(this.wheelStep, fn);
-    }
+    animate(zoomH, zoomW, panX, panY, tweens) {
 
-    animateReset() {
-        let frames = 10;
-        let step = {
-            frames: frames,
-            width: (this.map.viewBox.baseVal.width - this.initialWidth) / frames,
-            height: (this.map.viewBox.baseVal.height - this.initialHeight) / frames,
-            x: this.map.viewBox.baseVal.x / frames,
-            y: this.map.viewBox.baseVal.y / frames
+        const start = {
+            height: this.map.viewBox.baseVal.height,
+            width: this.map.viewBox.baseVal.width,
+            x: this.map.viewBox.baseVal.x,
+            y: this.map.viewBox.baseVal.y,
         };
-        this.animate(step, this.reset);
-    }
-
-    animate(step, fn) {
-        let drawnFrames = 0;
+    
+        let frame = 0;
         let draw = () => {
-            if(drawnFrames < step.frames) {
-                fn.call(this, step);
-                drawnFrames++;
+            if(frame < tweens.length) {
+                let tween = tweens[frame];
+                this.map.viewBox.baseVal.height = zoomH(tween.height, start.height);
+                this.map.viewBox.baseVal.width = zoomW(tween.width, start.width);
+                this.map.viewBox.baseVal.x = panX(tween.x, start.x);
+                this.map.viewBox.baseVal.y = panY(tween.y, start.y);
+                frame++;
                 requestAnimationFrame(draw);
             }
         };
         requestAnimationFrame(draw);
-    }
-
-    zoomIn(step) {
-        if(this.map.viewBox.baseVal.width >= this.initialWidth / 10) {
-            this.map.viewBox.baseVal.width -= step.width;
-            this.map.viewBox.baseVal.height -= step.height;
-            this.map.viewBox.baseVal.x += step.x;
-            this.map.viewBox.baseVal.y += step.y;
-        }
-    }
-
-    zoomOut(step) {
-        this.map.viewBox.baseVal.width += step.width;
-        this.map.viewBox.baseVal.height += step.height;
-        this.map.viewBox.baseVal.x -= step.x;
-        this.map.viewBox.baseVal.y -= step.y;
-    }
-
-    panUp(step) {
-        if(this.map.viewBox.baseVal.y  * -1 < this.map.viewBox.baseVal.height) {
-            this.map.viewBox.baseVal.y -= step.y;
-        }
-    }
-
-    panDown(step) {
-        if(this.map.viewBox.baseVal.y < this.initialHeight) {
-            this.map.viewBox.baseVal.y += step.y;
-        }
-    }
-
-    panLeft(step) {
-        if(this.map.viewBox.baseVal.x  * -1 < this.map.viewBox.baseVal.width) {
-            this.map.viewBox.baseVal.x -= step.x;
-        }
-    }
-
-    panRight(step) {
-        if(this.map.viewBox.baseVal.x < this.initialWidth) {
-            this.map.viewBox.baseVal.x += step.x;
-        }
-    }
-
-    reset(step) {
-        this.map.viewBox.baseVal.width -= step.width;
-        this.map.viewBox.baseVal.height -= step.height;
-        this.map.viewBox.baseVal.x -= step.x;
-        this.map.viewBox.baseVal.y -= step.y;
     }
 }
 

@@ -35,9 +35,9 @@ const easings = {
 const fps = 60;
 
 const moves = {
-    plus: (a, b) => b + a,
-    minus: (a, b) => b - a,
-    noop: (a, b) => b 
+    plus: (tween, start) => start + tween,
+    minus: (tween, start) => start - tween,
+    noop: (tween, start) => start
 };
 
 class WorldMap {
@@ -55,6 +55,7 @@ class WorldMap {
         this.map = document.getElementById("worldmap");
         this.initialWidth = this.map.viewBox.baseVal.width;
         this.initialHeight = this.map.viewBox.baseVal.height;
+        this.ratio = this.initialWidth / this.initialHeight;
         this.clickTweens = this.createTweens("easeOutQuad", 0.5, { height: 90, width: 90, x: 90, y: 90 });
 
         /*
@@ -69,22 +70,18 @@ class WorldMap {
     }
 
     createTweens(easing, duration, step) {
-
         const tweens = [];
-        const ratio = this.initialWidth / this.initialHeight;
         const frames = (1000 * duration) / (1000 / fps);
-
         for(let frame = 0; frame < frames; frame++) {
             let t = (frame / fps) / duration;
             let factor = easings[easing](t);
             tweens.push({
-                height: factor * step.height / ratio,
+                height: factor * step.height / this.ratio,
                 width: factor * step.width,
                 x: factor * (step.x / 2),
-                y: factor * (step.y / (ratio * 2))
+                y: factor * (step.y / (this.ratio * 2))
             });
         }
-
         return tweens;
     }
 
@@ -114,17 +111,7 @@ class WorldMap {
             this.animateClick(moves.noop, moves.noop, moves.plus, moves.noop);
         }
         if(e.target.hasAttribute("data-map-reset")) {
-
-            const ratio = this.initialWidth / this.initialHeight;
-            const step = {
-                height: (this.map.viewBox.baseVal.height - this.initialHeight) * ratio,
-                width: this.map.viewBox.baseVal.width - this.initialWidth,
-                x: this.map.viewBox.baseVal.x * 2,
-                y: this.map.viewBox.baseVal.y * (ratio * 2)
-            };
-
-            const tweens = this.createTweens("easeInOutElastic", 1.2, step);
-            this.animate(moves.minus, moves.minus, moves.minus, moves.minus, tweens);
+            this.animateReset();
         }
     }
 
@@ -181,6 +168,17 @@ class WorldMap {
 
     animateClick(zoomH, zoomW, panX, panY) {
         this.animate(zoomH, zoomW, panX, panY, this.clickTweens);
+    }
+
+    animateReset() {
+        const step = {
+            height: (this.map.viewBox.baseVal.height - this.initialHeight) * this.ratio,
+            width: this.map.viewBox.baseVal.width - this.initialWidth,
+            x: this.map.viewBox.baseVal.x * 2,
+            y: this.map.viewBox.baseVal.y * (this.ratio * 2)
+        };
+        const tweens = this.createTweens("easeInOutElastic", 1.2, step);
+        this.animate(moves.minus, moves.minus, moves.minus, moves.minus, tweens);
     }
 
     animate(zoomH, zoomW, panX, panY, tweens) {

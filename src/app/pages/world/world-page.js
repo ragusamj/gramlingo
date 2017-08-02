@@ -1,13 +1,19 @@
 class WorldPage {
 
-    constructor(browserEvent, worldMap) {
-        browserEvent.on("map-country-changed", this.onMapCountrySelected.bind(this));
-        this.worldMap = worldMap;
+    constructor(browserEvent, worldMapListener) {
+        this.browserEvent = browserEvent;
+        this.worldMapListener = worldMapListener;
     }
 
     attach(pageTemplate, onPageChanged) {
         onPageChanged();
-        this.worldMap.initialize();
+        this.worldMapListener.initialize();
+        this.removeListener = this.browserEvent.on("map-country-changed", this.onMapCountrySelected.bind(this));
+    }
+
+    detach() {
+        this.removeListener();
+        this.worldMapListener.destroy();
     }
 
     onMapCountrySelected(e) {

@@ -167,25 +167,25 @@
             <div class="col-md-12 text-white">
                 <h3>Example code</h3>
 <pre class="text-white">
-<span class="text-info font-italic">const</span> <span class="function">easeIn</span> = (<span class="text-warning">t, p</span>) => <span class="text-info">Math</span>.pow(t, p);
-<span class="text-info font-italic">const</span> <span class="function">easeOut</span> = (<span class="text-warning">t, p</span>) => 1 - <span class="function">easeIn</span>(1 - t, p);
-<span class="text-info font-italic">const</span> <span class="function">easeInOut</span> = (<span class="text-warning">t, p</span>) => t < <span class="text-danger">0.5</span> ? <span class="function">easeIn</span>(t * 2, p) / 2 : <span class="function">easeOut</span>(t * 2 - 1, p) / 2 + <span class="text-danger">0.5</span>;
+<span class="text-info font-italic">const</span> <span class="function">easeIn</span> = (<span class="text-warning">t, p</span>) =&gt; <span class="text-info">Math</span>.pow(t, p);
+<span class="text-info font-italic">const</span> <span class="function">easeOut</span> = (<span class="text-warning">t, p</span>) =&gt; 1 - <span class="function">easeIn</span>(1 - t, p);
+<span class="text-info font-italic">const</span> <span class="function">easeInOut</span> = (<span class="text-warning">t, p</span>) =&gt; t &lt; <span class="text-danger">0.5</span> ? <span class="function">easeIn</span>(t * 2, p) / 2 : <span class="function">easeOut</span>(t * 2 - 1, p) / 2 + <span class="text-danger">0.5</span>;
 
-<span class="text-info font-italic">const</span> <span class="function">easeInSine</span> = (<span class="text-warning">t</span>) => 1 - <span class="text-info">Math</span>.cos(t * <span class="text-info">Math</span>.PI / 2);
-<span class="text-info font-italic">const</span> <span class="function">easeOutSine</span> = (<span class="text-warning">t</span>) => 1 - <span class="function">easeInSine</span>(1 - t);
-<span class="text-info font-italic">const</span> <span class="function">easeInOutSine</span> = (<span class="text-warning">t</span>) => t < <span class="text-danger">0.5</span> ? <span class="function">easeInSine</span>(t * 2) / 2 : <span class="function">easeOutSine</span>(t * 2 - 1) / 2 + <span class="text-danger">0.5</span>;
+<span class="text-info font-italic">const</span> <span class="function">easeInSine</span> = (<span class="text-warning">t</span>) =&gt; 1 - <span class="text-info">Math</span>.cos(t * <span class="text-info">Math</span>.PI / 2);
+<span class="text-info font-italic">const</span> <span class="function">easeOutSine</span> = (<span class="text-warning">t</span>) =&gt; 1 - <span class="function">easeInSine</span>(1 - t);
+<span class="text-info font-italic">const</span> <span class="function">easeInOutSine</span> = (<span class="text-warning">t</span>) =&gt; t &lt; <span class="text-danger">0.5</span> ? <span class="function">easeInSine</span>(t * 2) / 2 : <span class="function">easeOutSine</span>(t * 2 - 1) / 2 + <span class="text-danger">0.5</span>;
 
-<span class="text-info font-italic">const</span> <span class="function">easeInCircular</span> = (<span class="text-warning">t</span>) => 1 - <span class="text-info">Math</span>.sqrt(1 - <span class="text-info">Math</span>.pow(t, 3));
-<span class="text-info font-italic">const</span> <span class="function">easeOutCircular</span> = (<span class="text-warning">t</span>) => 1 - <span class="function">easeInCircular</span>(1 - t);
-<span class="text-info font-italic">const</span> <span class="function">easeInOutCircular</span> = (<span class="text-warning">t</span>) => t < <span class="text-danger">0.5</span> ? <span class="function">easeInCircular</span>(t * 2) / 2 : <span class="function">easeOutCircular</span>(t * 2 - 1) / 2 + <span class="text-danger">0.5</span>;
+<span class="text-info font-italic">const</span> <span class="function">easeInCircular</span> = (<span class="text-warning">t</span>) =&gt; 1 - <span class="text-info">Math</span>.sqrt(1 - <span class="text-info">Math</span>.pow(t, 3));
+<span class="text-info font-italic">const</span> <span class="function">easeOutCircular</span> = (<span class="text-warning">t</span>) =&gt; 1 - <span class="function">easeInCircular</span>(1 - t);
+<span class="text-info font-italic">const</span> <span class="function">easeInOutCircular</span> = (<span class="text-warning">t</span>) =&gt; t &lt; <span class="text-danger">0.5</span> ? <span class="function">easeInCircular</span>(t * 2) / 2 : <span class="function">easeOutCircular</span>(t * 2 - 1) / 2 + <span class="text-danger">0.5</span>;
 
-<span class="text-info font-italic">const</span> <span class="function">easeInElastic</span> = (<span class="text-warning">t</span>) => - <span class="text-info">Math</span>.pow(2, 10 * (t -= 1)) * <span class="text-info">Math</span>.sin((t - <span class="text-danger">0.4</span> / 4) * (2 * <span class="text-info">Math</span>.PI) / <span class="text-danger">0.4</span>);
-<span class="text-info font-italic">const</span> <span class="function">easeOutElastic</span> = (<span class="text-warning">t</span>) => 1 - <span class="function">easeInElastic</span>(1 - t);
-<span class="text-info font-italic">const</span> <span class="function">easeInOutElastic</span> = (<span class="text-warning">t</span>) => t < <span class="text-danger">0.5</span> ? <span class="function">easeInElastic</span>(t * 2) / 2 : <span class="function">easeOutElastic</span>(t * 2 - 1) / 2 + <span class="text-danger">0.5</span>;
+<span class="text-info font-italic">const</span> <span class="function">easeInElastic</span> = (<span class="text-warning">t</span>) =&gt; - <span class="text-info">Math</span>.pow(2, 10 * (t -= 1)) * <span class="text-info">Math</span>.sin((t - <span class="text-danger">0.4</span> / 4) * (2 * <span class="text-info">Math</span>.PI) / <span class="text-danger">0.4</span>);
+<span class="text-info font-italic">const</span> <span class="function">easeOutElastic</span> = (<span class="text-warning">t</span>) =&gt; 1 - <span class="function">easeInElastic</span>(1 - t);
+<span class="text-info font-italic">const</span> <span class="function">easeInOutElastic</span> = (<span class="text-warning">t</span>) =&gt; t &lt; <span class="text-danger">0.5</span> ? <span class="function">easeInElastic</span>(t * 2) / 2 : <span class="function">easeOutElastic</span>(t * 2 - 1) / 2 + <span class="text-danger">0.5</span>;
 
-<span class="text-info font-italic">const</span> <span class="function">easeInBack</span> = (<span class="text-warning">t</span>) => t * t * (2.7 * t - 1.7);
-<span class="text-info font-italic">const</span> <span class="function">easeOutBack</span> = (<span class="text-warning">t</span>) => 1 - <span class="function">easeInBack</span>(1 - t);
-<span class="text-info font-italic">const</span> <span class="function">easeInOutBack</span> = (<span class="text-warning">t</span>) => t < <span class="text-danger">0.5</span> ? <span class="function">easeInBack</span>(t * 2) / 2 : <span class="function">easeOutBack</span>(t * 2 - 1) / 2 + <span class="text-danger">0.5</span>;
+<span class="text-info font-italic">const</span> <span class="function">easeInBack</span> = (<span class="text-warning">t</span>) =&gt; t * t * (2.7 * t - 1.7);
+<span class="text-info font-italic">const</span> <span class="function">easeOutBack</span> = (<span class="text-warning">t</span>) =&gt; 1 - <span class="function">easeInBack</span>(1 - t);
+<span class="text-info font-italic">const</span> <span class="function">easeInOutBack</span> = (<span class="text-warning">t</span>) =&gt; t &lt; <span class="text-danger">0.5</span> ? <span class="function">easeInBack</span>(t * 2) / 2 : <span class="function">easeOutBack</span>(t * 2 - 1) / 2 + <span class="text-danger">0.5</span>;
 </pre>
             </div>
         </div>
@@ -209,7 +209,6 @@
         </div>
     </footer>
 </body>
-</html>
 
 <script>
 

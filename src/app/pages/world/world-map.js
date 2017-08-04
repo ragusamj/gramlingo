@@ -93,12 +93,13 @@ class WorldMap {
     scroll(e) {
         if(this.isMapEvent(e)) {
             e.preventDefault();
+            let mousePoint = this.createSVGPoint(e.clientX, e.clientY);
             this.currentAnimationId++;
             requestAnimationFrame(() => {
                 this.map.viewBox.baseVal.height += e.deltaY / this.ratio;
                 this.map.viewBox.baseVal.width += e.deltaY;
-                this.map.viewBox.baseVal.x -= e.deltaY / 2;
-                this.map.viewBox.baseVal.y -= e.deltaY / (this.ratio * 4);
+                this.map.viewBox.baseVal.x -= e.deltaY * (mousePoint.x / this.initialWidth);
+                this.map.viewBox.baseVal.y -= e.deltaY * ((mousePoint.y / this.initialHeight) / this.ratio);
             });
         }
     }
@@ -152,9 +153,12 @@ class WorldMap {
     }
 
     isMapEvent(e) {
-        return e.target.id === "worldmap" ||
-            e.target.hasAttribute("data-iso") ||
-            e.target.parentElement.hasAttribute("data-iso");
+        if(e.target && e.target.hasAttribute) {
+            return e.target.id === "worldmap" ||
+                   e.target.hasAttribute("data-iso") ||
+                   e.target.parentElement.hasAttribute("data-iso");
+        }
+        return false;
     }
 }
 

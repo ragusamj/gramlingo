@@ -7,10 +7,10 @@ class WorldMapListener {
 
     initialize() {
         this.removeClickListener = this.browserEvent.on("click", this.onClick.bind(this));
-        this.removeMousedownListener = this.browserEvent.on("mousedown", this.onMousedown.bind(this));
-        this.removeMousemoveListener = this.browserEvent.on("mousemove", this.onMousemove.bind(this));
-        this.removeMousemupListener = this.browserEvent.on("mouseup", this.onMouseup.bind(this));
-        this.removeWheelListener = this.browserEvent.on("wheel", this.onWheel.bind(this));
+        this.removeMousedownListener = this.browserEvent.on("mousedown", this.worldMap.startDrag.bind(this.worldMap));
+        this.removeMousemoveListener = this.browserEvent.on("mousemove", this.worldMap.drag.bind(this.worldMap));
+        this.removeMousemupListener = this.browserEvent.on("mouseup", this.worldMap.endDrag.bind(this.worldMap));
+        this.removeWheelListener = this.browserEvent.on("wheel", this.worldMap.scroll.bind(this.worldMap));
         this.worldMap.initialize();
     }
 
@@ -50,22 +50,6 @@ class WorldMapListener {
         if(e.target.hasAttribute("data-map-reset")) {
             this.worldMap.reset();
         }
-    }
-
-    onMousedown(e) {
-        this.worldMap.startDrag(e);
-    }
-
-    onMousemove(e) {
-        this.worldMap.drag(e);
-    }
-
-    onMouseup() {
-        this.worldMap.endDrag();
-    }
-
-    onWheel(e) {
-        this.worldMap.scroll(e);
     }
 }
 

@@ -37,7 +37,9 @@ class WorldMap {
     }
 
     zoomOut() {
-        this.animate(moves.plus, moves.plus, moves.minus, moves.minus, this.clickTweens);
+        if(this.assertZoomOutBounds()) {
+            this.animate(moves.plus, moves.plus, moves.minus, moves.minus, this.clickTweens);
+        }
     }
 
     panUp() {
@@ -57,14 +59,19 @@ class WorldMap {
     }
 
     reset() {
-        const step = {
-            height: (this.map.viewBox.baseVal.height - this.initialHeight) * this.ratio,
-            width: this.map.viewBox.baseVal.width - this.initialWidth,
-            x: this.map.viewBox.baseVal.x * 2,
-            y: this.map.viewBox.baseVal.y * (this.ratio * 2)
-        };
-        const tweens = this.createTweens("easeOutElastic", 1, step);
-        this.animate(moves.minus, moves.minus, moves.minus, moves.minus, tweens);
+        if(!this.resetInProgress) {
+            this.resetInProgress = true;
+            const step = {
+                height: (this.map.viewBox.baseVal.height - this.initialHeight) * this.ratio,
+                width: this.map.viewBox.baseVal.width - this.initialWidth,
+                x: this.map.viewBox.baseVal.x * 2,
+                y: this.map.viewBox.baseVal.y * (this.ratio * 2)
+            };
+            const tweens = this.createTweens("easeOutElastic", 1, step);
+            this.animate(moves.minus, moves.minus, moves.minus, moves.minus, tweens, () => {
+                this.resetInProgress = false;
+            });
+        }
     }
 
     startDrag(e) {
@@ -93,14 +100,19 @@ class WorldMap {
     scroll(e) {
         if(this.isMapEvent(e)) {
             e.preventDefault();
-            let mousePoint = this.createSVGPoint(e.clientX, e.clientY);
-            this.currentAnimationId++;
-            requestAnimationFrame(() => {
-                this.map.viewBox.baseVal.height += e.deltaY / this.ratio;
-                this.map.viewBox.baseVal.width += e.deltaY;
-                this.map.viewBox.baseVal.x -= e.deltaY * (mousePoint.x / this.initialWidth);
-                this.map.viewBox.baseVal.y -= e.deltaY * ((mousePoint.y / this.initialHeight) / this.ratio);
-            });
+            if(this.assertZoomOutBounds()) {
+                this.currentAnimationId++;
+                const mousePoint = this.createSVGPoint(e.clientX, e.clientY);
+                requestAnimationFrame(() => {
+                    const height = this.map.viewBox.baseVal.height + e.deltaY / this.ratio;
+                    if(height > 0) {
+                        this.map.viewBox.baseVal.height = height;
+                        this.map.viewBox.baseVal.width += e.deltaY;
+                        this.map.viewBox.baseVal.x -= e.deltaY * (mousePoint.x / this.initialWidth);
+                        this.map.viewBox.baseVal.y -= e.deltaY * ((mousePoint.y / this.initialHeight) / this.ratio);
+                    }
+                });
+            }
         }
     }
 
@@ -127,7 +139,7 @@ class WorldMap {
         return point.matrixTransform(this.map.getScreenCTM().inverse());
     }
 
-    animate(zoomH, zoomW, panX, panY, tweens) {
+    animate(zoomH, zoomW, panX, panY, tweens, onAnimationFinished) {
 
         const id = ++this.currentAnimationId;
         const start = {
@@ -138,15 +150,20 @@ class WorldMap {
         };
     
         let frame = 0;
-        let draw = () => {
+        const draw = () => {
             if(frame < tweens.length && id === this.currentAnimationId) {
-                let tween = tweens[frame];
-                this.map.viewBox.baseVal.height = zoomH(tween.height, start.height);
-                this.map.viewBox.baseVal.width = zoomW(tween.width, start.width);
-                this.map.viewBox.baseVal.x = panX(tween.x, start.x);
-                this.map.viewBox.baseVal.y = panY(tween.y, start.y);
+                const tween = tweens[frame];
+                if(zoomH(tween.height, start.height) > 0) {
+                    this.map.viewBox.baseVal.height = zoomH(tween.height, start.height);
+                    this.map.viewBox.baseVal.width = zoomW(tween.width, start.width);
+                    this.map.viewBox.baseVal.x = panX(tween.x, start.x);
+                    this.map.viewBox.baseVal.y = panY(tween.y, start.y);
+                }
                 frame++;
                 requestAnimationFrame(draw);
+            }
+            else if(onAnimationFinished) {
+                onAnimationFinished();
             }
         };
         requestAnimationFrame(draw);
@@ -159,6 +176,17 @@ class WorldMap {
                    e.target.parentElement.hasAttribute("data-iso");
         }
         return false;
+    }
+
+    assertZoomOutBounds() {
+        if(this.resetInProgress){
+            return false;
+        }
+        if(this.map.viewBox.baseVal.height > this.initialHeight * 1.5) {
+            this.reset();
+            return false;
+        }
+        return true;
     }
 }
 

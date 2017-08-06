@@ -183,10 +183,7 @@ input[type="number"] {
         cursor: pointer;
         transition: $transition-base;
     }
-    path:hover, g:hover {
-        fill: $teal;
-    }
-    .selected {
+    path:hover, g:hover, .selected {
         fill: $teal;
     }
 }

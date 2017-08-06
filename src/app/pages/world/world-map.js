@@ -1,6 +1,7 @@
 import easings from "../../core/animation/easings";
 
 const fps = 60;
+const clickstep = { height: 90, width: 90, x: 90, y: 90 };
 
 const moves = {
     plus: (tween, start) => start + tween,
@@ -19,7 +20,7 @@ class WorldMap {
         this.initialWidth = this.map.viewBox.baseVal.width;
         this.initialHeight = this.map.viewBox.baseVal.height;
         this.ratio = this.initialWidth / this.initialHeight;
-        this.clickTweens = this.createTweens("easeOutSine", 0.5, { height: 90, width: 90, x: 90, y: 90 });
+        this.clickTweens = this.createTweens("easeOutQuad", 0.2, clickstep);
         this.currentAnimationId = 0;
     }
 
@@ -37,9 +38,11 @@ class WorldMap {
     }
 
     zoomOut() {
-        if(this.assertZoomOutBounds()) {
-            this.animate(moves.plus, moves.plus, moves.minus, moves.minus, this.clickTweens);
+        if(this.map.viewBox.baseVal.height + clickstep.height / 2 > this.initialHeight) {
+            this.reset();
+            return;
         }
+        this.animate(moves.plus, moves.plus, moves.minus, moves.minus, this.clickTweens);
     }
 
     panUp() {
@@ -59,19 +62,14 @@ class WorldMap {
     }
 
     reset() {
-        if(!this.resetInProgress) {
-            this.resetInProgress = true;
-            const step = {
-                height: (this.map.viewBox.baseVal.height - this.initialHeight) * this.ratio,
-                width: this.map.viewBox.baseVal.width - this.initialWidth,
-                x: this.map.viewBox.baseVal.x * 2,
-                y: this.map.viewBox.baseVal.y * (this.ratio * 2)
-            };
-            const tweens = this.createTweens("easeOutElastic", 1, step);
-            this.animate(moves.minus, moves.minus, moves.minus, moves.minus, tweens, () => {
-                this.resetInProgress = false;
-            });
-        }
+        const step = {
+            height: (this.map.viewBox.baseVal.height - this.initialHeight) * this.ratio,
+            width: this.map.viewBox.baseVal.width - this.initialWidth,
+            x: this.map.viewBox.baseVal.x * 2,
+            y: this.map.viewBox.baseVal.y * (this.ratio * 2)
+        };
+        const tweens = this.createTweens("easeOutElastic", 1, step);
+        this.animate(moves.minus, moves.minus, moves.minus, moves.minus, tweens);
     }
 
     startDrag(e) {
@@ -100,20 +98,58 @@ class WorldMap {
     scroll(e) {
         if(this.isMapEvent(e)) {
             e.preventDefault();
-            if(this.assertZoomOutBounds()) {
-                this.currentAnimationId++;
-                const mousePoint = this.createSVGPoint(e.clientX, e.clientY);
-                requestAnimationFrame(() => {
-                    const height = this.map.viewBox.baseVal.height + e.deltaY / this.ratio;
-                    if(height > 0) {
-                        this.map.viewBox.baseVal.height = height;
-                        this.map.viewBox.baseVal.width += e.deltaY;
-                        this.map.viewBox.baseVal.x -= e.deltaY * (mousePoint.x / this.initialWidth);
-                        this.map.viewBox.baseVal.y -= e.deltaY * ((mousePoint.y / this.initialHeight) / this.ratio);
-                    }
-                });
+
+            this.assertScrolling(e);
+
+            if(!this.scrollingEnabled) {
+                return;
             }
+
+            if(!this.assertZoomingBounds(e)){
+                return;
+            }
+
+            this.currentAnimationId++;
+            const mousePoint = this.createSVGPoint(e.clientX, e.clientY);
+            requestAnimationFrame(() => {
+                this.map.viewBox.baseVal.height += e.deltaY / this.ratio;
+                this.map.viewBox.baseVal.width += e.deltaY;
+                this.map.viewBox.baseVal.x -= e.deltaY * (mousePoint.x / this.initialWidth);
+                this.map.viewBox.baseVal.y -= e.deltaY * ((mousePoint.y / this.initialHeight) / this.ratio);
+            });
         }
+    }
+
+    assertScrolling(e) {
+
+        if(this.lastDeltaY !== undefined && this.lastDeltaY * e.deltaY <= 0) {
+            this.scrollingEnabled = true;
+        }
+        this.lastDeltaY = e.deltaY;
+
+        if(this.scrollEnd) {
+            clearTimeout(this.scrollEnd);
+        }
+
+        this.scrollEnd = setTimeout(() => {
+            this.scrollingEnabled = true;
+        }, 250);
+    }
+
+    assertZoomingBounds(e) {
+
+        if(e.deltaY > 0 && this.map.viewBox.baseVal.height > this.initialHeight) {
+            this.scrollingEnabled = false;
+            this.reset();
+            return false;
+        }
+
+        if(e.deltaY <= 0 && this.map.viewBox.baseVal.height + e.deltaY / this.ratio < this.initialHeight / 10) {
+            this.scrollingEnabled = false;
+            return false;
+        }
+
+        return true;
     }
 
     createTweens(easing, duration, step) {
@@ -139,7 +175,7 @@ class WorldMap {
         return point.matrixTransform(this.map.getScreenCTM().inverse());
     }
 
-    animate(zoomH, zoomW, panX, panY, tweens, onAnimationFinished) {
+    animate(zoomH, zoomW, panX, panY, tweens) {
 
         const id = ++this.currentAnimationId;
         const start = {
@@ -153,7 +189,7 @@ class WorldMap {
         const draw = () => {
             if(frame < tweens.length && id === this.currentAnimationId) {
                 const tween = tweens[frame];
-                if(zoomH(tween.height, start.height) > 0) {
+                if(zoomH(tween.height, start.height) > this.initialHeight / 10) {
                     this.map.viewBox.baseVal.height = zoomH(tween.height, start.height);
                     this.map.viewBox.baseVal.width = zoomW(tween.width, start.width);
                     this.map.viewBox.baseVal.x = panX(tween.x, start.x);
@@ -161,9 +197,6 @@ class WorldMap {
                 }
                 frame++;
                 requestAnimationFrame(draw);
-            }
-            else if(onAnimationFinished) {
-                onAnimationFinished();
             }
         };
         requestAnimationFrame(draw);
@@ -176,17 +209,6 @@ class WorldMap {
                    e.target.parentElement.hasAttribute("data-iso");
         }
         return false;
-    }
-
-    assertZoomOutBounds() {
-        if(this.resetInProgress){
-            return false;
-        }
-        if(this.map.viewBox.baseVal.height > this.initialHeight * 1.5) {
-            this.reset();
-            return false;
-        }
-        return true;
     }
 }
 

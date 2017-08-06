@@ -116,10 +116,10 @@ input[type="number"] {
             }
         }
         li.selected {
-            background-color: $gray-lighter !important;
+            background-color: $gray-200 !important;
         }
         li:nth-child(odd) {
-            background-color: $gray-lightest;
+            background-color: $gray-100;
         }
     }
     .icon {
@@ -176,7 +176,7 @@ input[type="number"] {
 }
 
 #worldmap {
-    fill: $gray;
+    fill: $gray-700;
     stroke: $white;
     stroke-width: 0.2;
     path {
@@ -184,7 +184,7 @@ input[type="number"] {
         transition: $transition-base;
     }
     path:hover, g:hover, .selected {
-        fill: $teal;
+        fill: $cyan;
     }
 }
 

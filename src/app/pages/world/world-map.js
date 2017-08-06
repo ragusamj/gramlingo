@@ -22,6 +22,7 @@ class WorldMap {
         this.ratio = this.initialWidth / this.initialHeight;
         this.clickTweens = this.createTweens("easeOutQuad", 0.2, clickstep);
         this.currentAnimationId = 0;
+        this.scrollingEnabled = true;
     }
 
     selectCountry(element) {

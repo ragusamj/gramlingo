@@ -19,7 +19,7 @@ class FragmentParser {
         }
         else {
 
-            let firstTagName = html.match(/^[\s]*<([a-z][^\/\s>]+)/i)[1];
+            let firstTagName = html.match(/^[\s]*<([a-z][^/\s>]+)/i)[1];
             let wrapper = wrappers[firstTagName];
 
             if(wrapper) {

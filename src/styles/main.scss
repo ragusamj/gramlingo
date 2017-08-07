@@ -191,15 +191,21 @@ input[type="number"] {
 .footer {
     @extend .fixed-bottom;
     position: relative;
-    padding: 1rem;
+    padding: 0 1rem;
     img {
         cursor: pointer;
         height: 32px;
         width: 32px;
         margin: 0 12px;
     }
-    .image-height-adjust {
-        padding-top: 2px;
+    .section {
+        display: table;
+        height: 56px;
+        overflow: hidden;
+        .content {
+            display: table-cell;
+            vertical-align: middle;
+        }
     }
 }
 

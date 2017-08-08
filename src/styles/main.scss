@@ -133,9 +133,14 @@ input[type="number"] {
     }
     .icon.show, .popup.show, .search-result {
         visibility: visible;
-        z-index: 999;
         opacity: 1;
         transition: $transition-base;       
+    }
+    .icon.show {
+        z-index: 998;  
+    }
+    .popup.show, .search-result {
+        z-index: 999;  
     }
     .icon, .popup, .search-result.hide {
         visibility: hidden;

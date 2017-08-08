@@ -1,3 +1,4 @@
+import sinon from "sinon";
 import test from "tape";
 import Dom from "../mock/dom";
 import BrowserEvent from "../browser-event";
@@ -107,6 +108,23 @@ test("Toggler should allow toggle with only an expand area specified, no on/off"
         button.dispatchEvent(new Event("click"));
         t.equal(expand.style.height, "0px");
 
+        t.end();
+    });
+});
+
+test("Toggler should set expand area style 'overflow: initial' with a 500 ms delay to avoid animation tearing effects", (t) => {
+    Dom.sandbox(html, {}, () => {
+        let clock = sinon.useFakeTimers();
+        let browserEvent = new BrowserEvent();
+        let button = document.querySelector("[data-toggler]");
+        let expand = document.getElementById("expand");
+
+        new Toggler(browserEvent).onDomContentChanged();
+        button.dispatchEvent(new Event("click"));
+        button.dispatchEvent(new Event("click"));
+        clock.tick(500);
+
+        t.equal(expand.style.overflow, "initial");
         t.end();
     });
 });

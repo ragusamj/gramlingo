@@ -34,9 +34,16 @@ class Toggler {
         if(item.expandArea) {
             if(item.state === "on") {
                 item.expandArea.style.height = item.expandArea.scrollHeight + "px";
+                this.overflowTimeout = setTimeout(() => {
+                    item.expandArea.style.overflow = "initial";
+                }, 500);
             }
             if (item.state === "off") {
+                if(this.overflowTimeout) {
+                    clearTimeout(this.overflowTimeout);
+                }
                 item.expandArea.style.height = "";
+                item.expandArea.style.overflow = "";
             }
         }
     }

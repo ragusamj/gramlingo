@@ -42,7 +42,7 @@
     "babel-register": "^6.24.1",
     "babelify": "^7.3.0",
     "browserify": "^14.3.0",
-    "concurrently": "^3.5.0",
+    "concurrently": "^3.4.0",
     "eslint": "^4.4.0",
     "exorcist": "^0.4.0",
     "fast-diff": "^1.1.1",

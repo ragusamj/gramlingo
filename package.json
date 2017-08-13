@@ -17,7 +17,14 @@
     "build:json:watch": "onchange 'src/**/*.json' -- npm run build:json",
     "dev": "node server.js & concurrently -p \"{time} {name}\" --names \"HTML,SCSS,JS,JSON,SERVER\" -c \"magenta.bgBlack,green.bgBlack,yellow.bgBlack,cyan.bgBlack\" \"npm run build:html:watch\" \"npm run build:scss:watch\" \"npm run build:js:watch\" \"npm run build:json:watch\"",
     "lint": "eslint ./src",
-    "test": "babel-node ./node_modules/istanbul/lib/cli cover tape \"src/**/*.spec.js\" | tap-nyan"
+    "test": "tape -r babel-register 'src/**/*.spec.js' | tap-nyan",
+    "test:coverage": "nyc --reporter=lcov npm test"
+  },
+  "nyc": {
+    "exclude": [
+      "**/*.spec.js"
+    ],
+    "temp-directory": "./coverage/.nyc_output"
   },
   "keywords": [
     "español",
@@ -30,42 +37,38 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "autoprefixer": "^6.7.7",
-    "babel-cli": "^6.24.1",
+    "autoprefixer": "^7.1.2",
     "babel-preset-es2015": "^6.24.1",
+    "babel-register": "^6.24.1",
     "babelify": "^7.3.0",
     "browserify": "^14.3.0",
     "concurrently": "^3.5.0",
-    "eslint": "^3.19.0",
+    "eslint": "^4.4.0",
     "exorcist": "^0.4.0",
+    "fast-diff": "^1.1.1",
     "glob": "^7.1.1",
     "html-minifier": "^3.5.3",
     "http-server": "^0.10.0",
-    "istanbul": "^1.1.0-alpha.1",
-    "jsdom": "^10.1.0",
+    "jsdom": "^11.1.0",
+    "log4js": "^2.3.3",
     "mapshaper": "^0.4.41",
     "mkdirp": "^0.5.1",
     "ncp": "^2.0.0",
     "node-sass": "^4.5.2",
+    "nyc": "^11.1.0",
     "onchange": "^3.2.1",
-    "postcss-cli": "^3.2.0",
+    "postcss-cli": "^4.1.0",
     "sinon": "^3.0.0",
     "tap-nyan": "^1.1.0",
     "tape": "^4.8.0",
     "uglify-js": "^3.0.27"
   },
   "dependencies": {
-    "autoprefixer": "^7.1.2",
     "bootstrap": "github:twbs/bootstrap#v4-dev",
-    "eslint": "^4.4.0",
-    "fast-diff": "^1.1.1",
     "font-awesome": "^4.7.0",
-    "jsdom": "^11.1.0",
     "lodash.debounce": "^4.0.8",
     "lodash.get": "^4.4.2",
-    "log4js": "^2.3.3",
     "parseurl": "^1.3.1",
-    "postcss-cli": "^4.1.0",
     "serve-static": "^1.12.4"
   }
 }

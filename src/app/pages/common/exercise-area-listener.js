@@ -33,7 +33,9 @@ class ExerciseAreaListener {
 
     onKeydown(e) {
         if(e.target.hasAttribute("data-walkable-field")) {
-            this.walker.walk(e.keyCode, e.target.id);
+            if(this.walker.walk(e.keyCode, e.target.id)) {
+                e.preventDefault();
+            }
         }
     }
 

@@ -30,6 +30,22 @@ test("InputWalker should walk to previous element when up arrow is pressed", (t)
     t.end();
 });
 
+test("InputWalker should indicate it has walked to previous element", (t) => {
+    
+    let walker = new InputWalker();
+    let elements = {
+        "input-1": { select: sinon.stub() },
+        "input-2": {}
+    };
+    
+    setup(elements);
+    
+    walker.link(Object.keys(elements));
+    
+    t.true(walker.walk(KeyCode.upArrow, "input-2"));
+    t.end();
+});
+
 test("InputWalker should walk to previous element and skip disabled elements", (t) => {
 
     let walker = new InputWalker();
@@ -65,6 +81,22 @@ test("InputWalker should walk to next element when down arrow is pressed", (t) =
     t.end();
 });
 
+test("InputWalker should indicate it has walked to next element when down arrow is pressed", (t) => {
+    
+    let walker = new InputWalker();
+    let elements = {
+        "input-1": {},
+        "input-2": { select: sinon.stub() }
+    };
+    
+    setup(elements);
+    
+    walker.link(Object.keys(elements));
+    
+    t.true(walker.walk(KeyCode.downArrow, "input-1"));
+    t.end();
+});
+
 test("InputWalker should walk to next element when enter key is pressed", (t) => {
 
     let walker = new InputWalker();
@@ -79,6 +111,22 @@ test("InputWalker should walk to next element when enter key is pressed", (t) =>
     walker.walk(KeyCode.enter, "input-1");
 
     t.true(elements["input-2"].select.called);
+    t.end();
+});
+
+test("InputWalker should indicate it has walked to next element when enter key is pressed", (t) => {
+    
+    let walker = new InputWalker();
+    let elements = {
+        "input-1": {},
+        "input-2": { select: sinon.stub() }
+    };
+    
+    setup(elements);
+    
+    walker.link(Object.keys(elements));
+    
+    t.true(walker.walk(KeyCode.enter, "input-1"));
     t.end();
 });
 
@@ -116,6 +164,21 @@ test("InputWalker should ignore unknown keys", (t) => {
 
     t.false(elements["input-1"].select.called);
     t.false(elements["input-2"].select.called);
+    t.end();
+});
+
+test("InputWalker should indicate that it hasn't walked", (t) => {
+    
+    let walker = new InputWalker();
+    let elements = {
+        "input-1": { select: sinon.stub() }
+    };
+    
+    setup(elements);
+
+    walker.link(Object.keys(elements));
+    
+    t.false(walker.walk(15, "input-1"));
     t.end();
 });
 

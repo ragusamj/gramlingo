@@ -17,7 +17,7 @@ const exerciseArea = {
 
 const walker = {
     link: sinon.spy(),
-    walk: sinon.spy()
+    walk: sinon.stub().returns(true)
 };
 
 const setup = () => {
@@ -126,6 +126,43 @@ test("ExerciseArea should move to adjacent input on 'keydown'", (t) => {
 
         t.deepEqual(walker.walk.lastCall.args, [38, "input-id"]);
         t.end();
+    });
+});
+
+test("ExerciseArea should prevent default if the walker walked on 'keydown'", (t) => {
+    Dom.sandbox("<input id='input-id' data-walkable-field />", {}, () => {
+
+        setup();
+        let event = document.createEvent("Event");
+        event.initEvent("keydown", true, true);
+        event.keyCode = 38;
+        sinon.spy(event, "preventDefault");
+        let input = document.getElementById("input-id");
+
+        input.dispatchEvent(event);
+
+        t.true(event.preventDefault.called);
+        t.end();
+    });
+});
+
+test("ExerciseArea should not prevent default if the walker didn't walk on 'keydown'", (t) => {
+    Dom.sandbox("<input id='input-id' data-walkable-field />", {}, () => {
+
+        walker.walk.returns(false);
+        setup();
+        let event = document.createEvent("Event");
+        event.initEvent("keydown", true, true);
+        event.keyCode = 38;
+        sinon.spy(event, "preventDefault");
+        let input = document.getElementById("input-id");
+
+        input.dispatchEvent(event);
+
+        t.false(event.preventDefault.called);
+        t.end();
+
+        walker.walk.returns(true);
     });
 });
 

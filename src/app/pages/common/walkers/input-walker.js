@@ -16,10 +16,13 @@ class InputWalker {
         let index = this.ids.indexOf(id);
         if (key === KeyCode.upArrow) {
             this.select(this.ids[index - 1]);
+            return true;
         }
         else if (key === KeyCode.downArrow || key === KeyCode.enter) {
             this.select(this.ids[index + 1]);
+            return true;
         }
+        return false;
     }
 
     select(id) {

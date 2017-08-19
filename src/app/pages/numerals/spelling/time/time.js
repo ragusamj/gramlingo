@@ -7,7 +7,7 @@ class Time {
 
     static spell(hour, minute) {
 
-        var spelling = [];
+        let spelling = [];
 
         if (minute === 0) {
             return this.getHourSpelling(hour);

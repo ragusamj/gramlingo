@@ -18,13 +18,13 @@ class ExerciseArea {
     updateField(field, alternatives) {
         let input = document.getElementById(field.inputId);
         input.disabled = !alternatives[0];
+        input.type = this.isNumeric(alternatives[0]) ? "number" : "text";
         if(input.disabled) {
             input.value = "-";
         }
         else {
             input.value = this.prefill ? alternatives[0] : "";
         }
-        input.type = this.isNumeric(alternatives[0]) ? "number" : "text";
         this.hide(field.iconId);
         this.hide(field.popupId);
     }

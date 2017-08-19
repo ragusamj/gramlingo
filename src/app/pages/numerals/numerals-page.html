@@ -38,119 +38,82 @@
             <div class="col-md-12">
                 <h3 class="toolbox">
                     <button
-                        data-toggler="toggle-time-exercise"
-                        data-toggler-on="toggle-time-exercise-on"
-                        data-toggler-off="toggle-time-exercise-off"
-                        data-toggler-expand-area="time-exercise-box"
+                        data-toggler="toggle-number-exercise"
+                        data-toggler-on="toggle-number-exercise-on"
+                        data-toggler-off="toggle-number-exercise-off"
+                        data-toggler-expand-area="number-exercise-box"
                         class="text-info toolbox-button">
-                        <span id="toggle-time-exercise-on" class="fa fa-chevron-circle-down"></span>
-                        <span id="toggle-time-exercise-off" class="fa fa-chevron-circle-right"></span>
-                        <span class="text-muted">Klockan</span>
+                        <span id="toggle-number-exercise-on" class="fa fa-chevron-circle-down"></span>
+                        <span id="toggle-number-exercise-off" class="fa fa-chevron-circle-right"></span>
+                        <span class="text-muted">Heltal</span>
                     </button>
                 </h3>
-                <div id="time-exercise-box" class="expandable-box-lg">
+                <div id="number-exercise-box" class="expandable-box-lg">
                     <section class="card mb-3">
                         <div class="card-header bg-dark text-white">
                             <div class="row">
                                 <div class="col-md-12 toolbox">
                                     <button
-                                        data-toggler="toggle-numerals-data"
-                                        data-toggler-on="toggle-numerals-on"
-                                        data-toggler-off="toggle-numerals-off"
+                                        data-toggler="toggle-numbers-data"
+                                        data-toggler-on="toggle-numbers-on"
+                                        data-toggler-off="toggle-numbers-off"
+                                        data-toggle-inputs
                                         class="text-white toolbox-button">
-                                        <span id="toggle-numerals-on" class="fa fa-toggle-on mr-3"></span>
-                                        <span id="toggle-numerals-off" class="fa fa-toggle-off mr-3"></span>
+                                        <span id="toggle-numbers-on" class="fa fa-toggle-on mr-3"></span>
+                                        <span id="toggle-numbers-off" class="fa fa-toggle-off mr-3"></span>
                                     </button>
-                                    <span class="fa fa-repeat mr-3 toolbox-button"></span>
-                                    <span class="fa fa-exchange mr-3 toolbox-button"></span>
+                                    <button class="fa fa-repeat mr-3 text-white toolbox-button" data-randomize-fields="numbers"></button>
+                                    <button class="fa fa-exchange mr-3 text-white toolbox-button" data-switch-fields="numbers"></button>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body bg-light">
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <h5>32795</h5>
-                                    <div class="input-group popup-wrapper">
-                                        <input class="form-control form-control-sm mb-1" value="treinta y dos mil setecientos noventa y cinco"/>
-                                    </div>
+                                    <h5 data-field-header-path="numbers[0].q"></h5>
+                                    <div data-field-path="numbers[0].a"></div>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <h5>2013</h5>
-                                    <div class="input-group popup-wrapper">
-                                        <input class="form-control form-control-sm mb-1" value="dos mil trece"/>
-                                    </div>
+                                    <h5 data-field-header-path="numbers[1].q"></h5>
+                                    <div data-field-path="numbers[1].a"></div>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <h5>un millón doscientos treinta y cuatro mil quinientos sesenta y siete</h5>
-                                    <div class="input-group popup-wrapper">
-                                        <input class="form-control form-control-sm mb-1" value="1234567"/>
-                                    </div>
+                                    <h5 data-field-header-path="numbers[2].q"></h5>
+                                    <div data-field-path="numbers[1].a"></div>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <h5>13:00</h5>
-                                    <div class="input-group popup-wrapper">
-                                        <div class="popup show">
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="p-1">
-                                                            <span class="fa fa-exclamation-circle text-danger"></span>
-                                                        </td>
-                                                        <td class="text-danger" id="answer_sf9kvyut8k">voyx</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="p-1">
-                                                            <span class="fa fa-question-circle text-warning"></span>
-                                                        </td>
-                                                        <td id="diff_j2lfq4vl8p"><span>voy</span><span class="text-danger alien-letter">x</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="p-1">
-                                                            <span class="fa fa-check-circle text-success"></span>
-                                                        </td>
-                                                        <td id="solution_t082k6vzn8">voy</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="icon fa fa-exclamation-circle text-danger show"></div>
-                                        <input class="form-control form-control-sm mb-1" value="son las trece"/>
-                                    </div>
+                                    <h5 data-field-header-path="numbers[3].q"></h5>
+                                    <div data-field-path="numbers[3].a"></div>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <h5>500</h5>
-                                    <div class="input-group popup-wrapper">
-                                        <input class="form-control form-control-sm mb-1" value="quinientos"/>
-                                    </div>
+                                    <h5 data-field-header-path="numbers[4].q"></h5>
+                                    <div data-field-path="numbers[4].a"></div>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <h5>56</h5>
-                                    <div class="input-group popup-wrapper">
-                                        <input class="form-control form-control-sm mb-1" value="cincuenta y seis"/>
-                                    </div>
+                                    <h5 data-field-header-path="numbers[5].q"></h5>
+                                    <div data-field-path="numbers[5].a"></div>
                                 </div>
                             </div>
                             <hr/>
                             <div class="row">
                                 <div class="col-md-12">
                                     <h5><span class="fa fa-laptop text-info"></span> Ask the machine</h5>
-                                    Type a time of day to see how it's spelled:
+                                    Type a number to see how it's spelled:
                                     <div class="popup-wrapper">
-                                        <input placeholder="13:00" class="form-control form-control-sm" />
+                                        <input placeholder="123" class="form-control form-control-sm" />
                                         <div id="search-result-container">
                                         <ul class="search-result">
-                                            <li>es la una</li>
-                                            <li>son las trece</li>
+                                            <li>ciento veintitrés</li>
                                         </ul>
                                         </div>
                                     </div>
@@ -166,19 +129,19 @@
             <div class="col-md-12 text-muted">
                 <h3 class="toolbox">
                     <button
-                        data-toggler="toggle-integer-exercise"
-                        data-toggler-on="toggle-integer-exercise-on"
-                        data-toggler-off="toggle-integer-exercise-off"
-                        data-toggler-expand-area="integer-exercise-box"
+                        data-toggler="toggle-time-exercise"
+                        data-toggler-on="toggle-time-exercise-on"
+                        data-toggler-off="toggle-time-exercise-off"
+                        data-toggler-expand-area="time-exercise-box"
                         data-toggler-state="off"
                         class="text-info toolbox-button">
-                        <span id="toggle-integer-exercise-on" class="fa fa-chevron-circle-down"></span>
-                        <span id="toggle-integer-exercise-off" class="fa fa-chevron-circle-right"></span>
-                        <span class="text-muted">Heltal</span>
+                        <span id="toggle-time-exercise-on" class="fa fa-chevron-circle-down"></span>
+                        <span id="toggle-time-exercise-off" class="fa fa-chevron-circle-right"></span>
+                        <span class="text-muted">Klockan</span>
                     </button>
                 </h3>
-                <div id="integer-exercise-box" class="expandable-box-sm">
-                    Heltal
+                <div id="time-exercise-box" class="expandable-box-sm">
+                    Klockan
                 </div>
             </div>
         </div>

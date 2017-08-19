@@ -1,9 +1,9 @@
-var fs = require("fs");
-var mapshaper = require("mapshaper");
+let fs = require("fs");
+let mapshaper = require("mapshaper");
 
-var root = "naturalearth/ne_50m_admin_0_countries/ne_50m_admin_0_countries";
+let root = "naturalearth/ne_50m_admin_0_countries/ne_50m_admin_0_countries";
 
-var input = {
+let input = {
     "countries.dbf": fs.readFileSync(root + ".dbf"),
     "countries.prj": fs.readFileSync(root + ".prj"),
     "countries.shp": fs.readFileSync(root + ".shp")
@@ -11,12 +11,12 @@ var input = {
 
 function getCountries(data) {
 
-    var countries = {};
-    var geojson = JSON.parse(data);
+    let countries = {};
+    let geojson = JSON.parse(data);
 
     geojson.features.forEach(function(feature) {
 
-        var iso = feature.properties.iso_a2;
+        let iso = feature.properties.iso_a2;
         countries[iso] = {
             polygons: [],
             properties: feature.properties
@@ -29,7 +29,7 @@ function getCountries(data) {
                 });
             }
             else {
-                var polygon = [];
+                let polygon = [];
                 geometryData.forEach(function(point) {
                     polygon.push({ x: point[0], y: point[1] });
                 });
@@ -44,7 +44,7 @@ function getCountries(data) {
 
 function getBounds(countries) {
 
-    var bounds = { ymin: 0, xmin: 0, ymax: 0, xmax: 0 };
+    let bounds = { ymin: 0, xmin: 0, ymax: 0, xmax: 0 };
 
     Object.keys(countries).forEach(function(iso) {
         countries[iso].polygons.forEach(function(polygon) {
@@ -66,9 +66,9 @@ function getBounds(countries) {
 
 function createMap(data, width) {
 
-    var countries = getCountries(data);
-    var bounds = getBounds(countries);
-    var scale = bounds.width / width;
+    let countries = getCountries(data);
+    let bounds = getBounds(countries);
+    let scale = bounds.width / width;
 
     Object.keys(countries).forEach(function(iso) {
         countries[iso].polygons.forEach(function(polygon) {
@@ -97,16 +97,16 @@ function randomize(min, max) {
 }
 
 function getRandomColor() {
-    var h = randomize(0, 350);
-    var s = randomize(70, 100);
-    var l = randomize(30, 60);
+    let h = randomize(0, 350);
+    let s = randomize(70, 100);
+    let l = randomize(30, 60);
     return "hsl(" + h + "," + s + "%," + l + "%)";
 }
 
 function draw(map) {
 
-    var svg = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewBox=\"0 0 " + map.image.width + " " + map.image.height + "\">";
-    var cache = {};
+    let svg = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewBox=\"0 0 " + map.image.width + " " + map.image.height + "\">";
+    let cache = {};
 
     Object.keys(map.countries).forEach(function(iso) {
         svg += "<g id=\"" + iso + "\">";
@@ -127,7 +127,7 @@ function draw(map) {
 }
 
 mapshaper.applyCommands("-i countries.shp -filter '\"AQ\".indexOf(iso_a2) === -1' -proj robin -o format=geojson", input, function(err, output) {
-    var map = createMap(output["countries.json"], 256);
-    var svg = draw(map);
+    let map = createMap(output["countries.json"], 256);
+    let svg = draw(map);
     process.stdout.write(svg);
 });

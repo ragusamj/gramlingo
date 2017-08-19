@@ -247,7 +247,7 @@ test("ExerciseArea should link walker when page data is updated", (t) => {
     });
 });
 
-test("ExerciseArea should reset exercise area when field list is updated", (t) => {
+test("ExerciseArea should preserve show/hide mode when field list is updated", (t) => {
     Dom.sandbox("", {}, () => {
 
         let exerciseAreaListener = setup();
@@ -255,7 +255,7 @@ test("ExerciseArea should reset exercise area when field list is updated", (t) =
 
         exerciseAreaListener.onPageFieldListUpdated({detail: {}});
 
-        t.true(exerciseArea.prefill);
+        t.false(exerciseArea.prefill);
         t.end();
     });
 });

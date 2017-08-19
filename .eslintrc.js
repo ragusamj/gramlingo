@@ -20,6 +20,7 @@ module.exports = {
         "no-cond-assign": ["error", "always"],
         "no-empty-function": ["error"],
         "no-unused-expressions": ["error"],
+        "no-var": ["error"],
         "quotes": ["error", "double"],
         "semi": ["error", "always"],
 

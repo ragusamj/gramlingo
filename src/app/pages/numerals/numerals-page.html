@@ -84,7 +84,7 @@
                             <div class="row mb-2">
                                 <div class="col-md-12">
                                     <h5 data-field-header-path="integers[2].q">.</h5>
-                                    <div data-field-path="integers[1].a"></div>
+                                    <div data-field-path="integers[2].a"></div>
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -127,22 +127,93 @@
         </div>
 
         <div class="row mb-3">
-            <div class="col-md-12 text-muted">
+            <div class="col-md-12">
                 <h3 class="toolbox">
                     <button
                         data-toggler="toggle-time-exercise"
                         data-toggler-on="toggle-time-exercise-on"
                         data-toggler-off="toggle-time-exercise-off"
                         data-toggler-expand-area="time-exercise-box"
-                        data-toggler-state="off"
                         class="text-info toolbox-button">
                         <span id="toggle-time-exercise-on" class="fa fa-chevron-circle-down"></span>
                         <span id="toggle-time-exercise-off" class="fa fa-chevron-circle-right"></span>
                         <span class="text-muted">Klockan</span>
                     </button>
                 </h3>
-                <div id="time-exercise-box" class="expandable-box-sm">
-                    Klockan
+                <div id="time-exercise-box" class="expandable-box-lg">
+                    <section class="card mb-3">
+                        <div class="card-header bg-dark text-white">
+                            <div class="row">
+                                <div class="col-md-12 toolbox">
+                                    <button
+                                        data-toggler="toggle-time-data"
+                                        data-toggler-on="toggle-time-on"
+                                        data-toggler-off="toggle-time-off"
+                                        data-toggle-inputs
+                                        class="text-white toolbox-button">
+                                        <span id="toggle-time-on" class="fa fa-toggle-on mr-3"></span>
+                                        <span id="toggle-time-off" class="fa fa-toggle-off mr-3"></span>
+                                    </button>
+                                    <button class="fa fa-repeat mr-3 text-white toolbox-button" data-randomize-fields="time"></button>
+                                    <button class="fa fa-exchange mr-3 text-white toolbox-button" data-switch-fields="time"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light">
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="time[0].q">.</h5>
+                                    <div data-field-path="time[0].a"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="time[1].q">.</h5>
+                                    <div data-field-path="time[1].a"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="time[2].q">.</h5>
+                                    <div data-field-path="time[2].a"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="time[3].q">.</h5>
+                                    <div data-field-path="time[3].a"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="time[4].q">.</h5>
+                                    <div data-field-path="time[4].a"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="time[5].q">.</h5>
+                                    <div data-field-path="time[5].a"></div>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5><span class="fa fa-laptop text-info"></span> Ask the machine</h5>
+                                    Type a time of day to see how it's spelled:
+                                    <div class="popup-wrapper">
+                                        <input placeholder="13:00" class="form-control form-control-sm" />
+                                        <div id="search-result-container">
+                                            <ul class="search-result">
+                                                <li>es la una</li>
+                                                <li>son las trece</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
         </div>
@@ -176,6 +247,7 @@
                         data-toggler-on="toggle-fractions-exercise-on"
                         data-toggler-off="toggle-fractions-exercise-off"
                         data-toggler-expand-area="fractions-exercise-box"
+                        data-toggler-state="off"
                         class="text-info toolbox-button">
                         <span id="toggle-fractions-exercise-on" class="fa fa-chevron-circle-down"></span>
                         <span id="toggle-fractions-exercise-off" class="fa fa-chevron-circle-right"></span>
@@ -217,7 +289,7 @@
                             <div class="row mb-2">
                                 <div class="col-md-12">
                                     <h5 data-field-header-path="fractions[2].q">.</h5>
-                                    <div data-field-path="fractions[1].a"></div>
+                                    <div data-field-path="fractions[2].a"></div>
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -242,7 +314,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <h5><span class="fa fa-laptop text-info"></span> Ask the machine</h5>
-                                    Type a fration to see how it's spelled:
+                                    Type a fraction to see how it's spelled:
                                     <div class="popup-wrapper">
                                         <input placeholder="2/4" class="form-control form-control-sm" />
                                         <div id="search-result-container">

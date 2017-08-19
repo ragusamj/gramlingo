@@ -1,12 +1,14 @@
 import Fraction from "./spelling/fractions/fraction";
 import Integer from "./spelling/integers/integer";
+import Time from "./spelling/time/time";
 
 class Generator {
 
     constructor() {
         this.actions = {
+            fractions: this.randomizeFractions.bind(this),
             integers: this.randomizeIntegers.bind(this),
-            fractions: this.randomizeFractions.bind(this)
+            time: this.randomizeTime.bind(this),
         };
     }
 
@@ -20,6 +22,31 @@ class Generator {
 
     get(key) {
         return this.actions[key]();
+    }
+
+    randomizeFractions() {
+        
+        let result = [];
+        let fractions = [
+            [this.getRandomNumber(1, 5), this.getRandomNumber(2, 5)],
+            [this.getRandomNumber(1, 5), this.getRandomNumber(2, 5)],
+            [this.getRandomNumber(1, 5), this.getRandomNumber(6, 10)],
+            [this.getRandomNumber(1, 10), this.getRandomNumber(6, 10)],
+            [this.getRandomNumber(1, 10), this.getRandomNumber(2, 5)],
+            [this.getRandomNumber(1, 10), this.getRandomNumber(11, 30)],
+            [this.getRandomNumber(11, 100), this.getRandomNumber(31, 100)]
+        ];
+
+        this.shuffleArray(fractions);
+        
+        for (let fraction of fractions) {
+            result.push({
+                q: [[fraction[0] + "/" + fraction[1]]],
+                a: [Fraction.spell(fraction[0], fraction[1])]
+            });
+        }
+        
+        return result;
     }
 
     randomizeIntegers() {
@@ -47,25 +74,24 @@ class Generator {
         return result;
     }
 
-    randomizeFractions() {
+    randomizeTime() {
         
         let result = [];
-        let fractions = [
-            [this.getRandomNumber(1, 5), this.getRandomNumber(2, 5)],
-            [this.getRandomNumber(1, 5), this.getRandomNumber(2, 5)],
-            [this.getRandomNumber(1, 5), this.getRandomNumber(6, 10)],
-            [this.getRandomNumber(1, 10), this.getRandomNumber(6, 10)],
-            [this.getRandomNumber(1, 10), this.getRandomNumber(2, 5)],
-            [this.getRandomNumber(1, 10), this.getRandomNumber(11, 30)],
-            [this.getRandomNumber(11, 100), this.getRandomNumber(31, 100)]
+        let times = [
+            [this.getRandomNumber(0, 23), this.getRandomNumber(0, 59)],
+            [this.getRandomNumber(0, 23), this.getRandomNumber(0, 59)],
+            [this.getRandomNumber(0, 23), this.getRandomNumber(0, 59)],
+            [this.getRandomNumber(0, 23), this.getRandomNumber(0, 59)],
+            [this.getRandomNumber(0, 23), this.getRandomNumber(0, 59)],
+            [this.getRandomNumber(0, 23), this.getRandomNumber(0, 59)]
         ];
 
-        this.shuffleArray(fractions);
+        this.shuffleArray(times);
         
-        for (let fraction of fractions) {
+        for (let time of times) {
             result.push({
-                q: [[fraction[0] + "/" + fraction[1]]],
-                a: [[Fraction.spell(fraction[0], fraction[1])]]
+                q: [[this.formatTimeSpan(time[0], time[1])]],
+                a: [Time.spell(time[0], time[1])]
             });
         }
         
@@ -88,6 +114,19 @@ class Generator {
                 array[j] = tempi;
             }
         }
+    }
+
+    padLeft(value, length, padchar) {
+        let result = value.toString();
+        let pad;
+        for (pad = length - result.length; pad > 0; pad--) {
+            result = padchar + result;
+        }
+        return result;
+    }
+        
+    formatTimeSpan(hour, minute) {
+        return this.padLeft(hour, 2, "0") + ":" + this.padLeft(minute, 2, "0");
     }
 }
 

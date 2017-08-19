@@ -9,7 +9,7 @@ test("Checker should mark empty answer", (t) => {
         let result = checker.check([], "");
         t.deepEqual(result, {
             accepted: true,
-            solutions: [],
+            alternatives: [],
             answer: ""
         });
         t.end();
@@ -21,7 +21,7 @@ test("Checker should accept correct answer with no solutions", (t) => {
         let result = checker.check(["voy"], "voy");
         t.deepEqual(result, {
             accepted: true,
-            solutions: [],
+            alternatives: [],
             answer: "voy",
             solution: "voy"
         });
@@ -34,7 +34,7 @@ test("Checker should accept correct answer with solutions", (t) => {
         let result = checker.check(["fuera", "fuese"], "fuera");
         t.deepEqual(result, {
             accepted: true,
-            solutions: ["fuese"],
+            alternatives: ["fuese"],
             answer: "fuera",
             solution: "fuera"
         });
@@ -47,7 +47,7 @@ test("Checker should accept correct answer of type number with solutions", (t) =
         let result = checker.check([123], "123");
         t.deepEqual(result, {
             accepted: true,
-            solutions: [],
+            alternatives: [],
             answer: "123",
             solution: 123
         });
@@ -60,7 +60,7 @@ test("Checker should ignore case", (t) => {
         let result = checker.check(["voy"], "Voy");
         t.deepEqual(result, {
             accepted: true,
-            solutions: [],
+            alternatives: [],
             answer: "Voy",
             solution: "voy"
         });
@@ -73,7 +73,7 @@ test("Checker should accept correct answer with extra whitespace", (t) => {
         let result = checker.check(["cuarenta y cinco"], "  cuarenta  y  cinco   ");
         t.deepEqual(result, {
             accepted: true,
-            solutions: [],
+            alternatives: [],
             answer: "  cuarenta  y  cinco   ",
             solution: "cuarenta y cinco"
         });
@@ -86,7 +86,7 @@ test("Checker should sanitize input and accept correct answer", (t) => {
         let result = checker.check(["bañé"], "#&ºbañé..,");
         t.deepEqual(result, {
             accepted: true,
-            solutions: [],
+            alternatives: [],
             answer: "#&ºbañé..,",
             solution: "bañé"
         });
@@ -99,7 +99,7 @@ test("Checker should reject incorrect answer", (t) => {
         let result = checker.check(["vamos"], "vamo");
         t.deepEqual(result, {
             accepted: false,
-            solutions: [],
+            alternatives: [],
             answer: "vamo",
             diff: [[ 0, "vamo" ], [-1, "s"]],
             solution: "vamos"
@@ -113,7 +113,7 @@ test("Checker should reject incorrect answer with solutions", (t) => {
         let result = checker.check(["vayamos", "vamos"], "vamo");
         t.deepEqual(result, {
             accepted: false,
-            solutions: ["vayamos", "vamos"],
+            alternatives: ["vayamos", "vamos"],
             answer: "vamo",
             diff: [[0, "vamo"], [-1, "s"]],
             solution: "vamos"
@@ -127,7 +127,7 @@ test("Checker should reject incorrect answer with solutions and choose most simi
         let result = checker.check(["fuese", "fuera"], "fueses");
         t.deepEqual(result, {
             accepted: false,
-            solutions: ["fuese", "fuera"],
+            alternatives: ["fuese", "fuera"],
             answer: "fueses",
             diff: [[0, "fuese"], [1, "s"]],
             solution: "fuese"

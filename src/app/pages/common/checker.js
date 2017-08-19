@@ -5,7 +5,7 @@ class Checker {
 
         let result = {
             accepted: false,
-            solutions: [],
+            alternatives: [],
             answer: answer
         };
 
@@ -28,7 +28,7 @@ class Checker {
                     result.accepted = true;
                 }
                 else if(solutions.length > 1) {
-                    result.solutions.push(solution);
+                    result.alternatives.push(solution);
                 }
             }
         }

@@ -11,7 +11,7 @@ class ExerciseArea {
     constructor() {
         this.popupTemplate = Template.fromElementId("popup-template");
         this.trafficLightTemplate = Template.fromElementId("popup-traffic-light-template");
-        this.solutionsTemplate = Template.fromElementId("popup-solutions-template");
+        this.alternativesTemplate = Template.fromElementId("popup-alternatives-template");
         this.prefill = true;
     }
 
@@ -30,7 +30,7 @@ class ExerciseArea {
     }
 
     showAnswer(field, result) {
-        if(result.accepted && result.solutions.length === 0) {
+        if(result.accepted && result.alternatives.length === 0) {
             this.hide(field.iconId);
             this.hide(field.popupId);
         }
@@ -97,9 +97,9 @@ class ExerciseArea {
     }
 
     addSolutions(result, tbody) {
-        result.solutions.forEach((alternative) => {
+        result.alternatives.forEach((alternative) => {
             if(alternative !== result.solution) {
-                let altTemplate = this.solutionsTemplate.clone();
+                let altTemplate = this.alternativesTemplate.clone();
                 altTemplate.set("alternative", { innerHTML: alternative });
                 tbody.appendChild(altTemplate.fragment());
             }

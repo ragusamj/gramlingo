@@ -14,7 +14,7 @@ const html =
         "</tr>" +
     "</script>" +
 
-    "<script id='popup-solutions-template'>" +
+    "<script id='popup-alternatives-template'>" +
         "<tr>" +
             "<td id='alternative'></td>" +
         "</tr>" +
@@ -121,7 +121,7 @@ test("ExerciseArea should show accepted answer and hide icon if there are no sol
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
         exerciseArea.show("icon-1");
-        exerciseArea.showAnswer(field, { accepted: true, solutions: [] });
+        exerciseArea.showAnswer(field, { accepted: true, alternatives: [] });
         t.equal(document.getElementById("icon-1").className, "");
         t.end();
     });
@@ -131,7 +131,7 @@ test("ExerciseArea should show accepted answer and hide popup if there are no so
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
         exerciseArea.showPopup("popup-1");
-        exerciseArea.showAnswer(field, { accepted: true, solutions: [] });
+        exerciseArea.showAnswer(field, { accepted: true, alternatives: [] });
         t.equal(document.getElementById("popup-1").className, "");
         t.end();
     });
@@ -142,7 +142,7 @@ test("ExerciseArea should show accepted answer and show icon if there are soluti
         let clock = sinon.useFakeTimers();
         let exerciseArea = new ExerciseArea();
         exerciseArea.hide("icon-1");
-        exerciseArea.showAnswer(field, { accepted: true, solutions: ["alternative 2"], diff: [] });
+        exerciseArea.showAnswer(field, { accepted: true, alternatives: ["alternative 2"], diff: [] });
         t.equal(document.getElementById("icon-1").className, "fa-plus-circle text-info show");
         clock.tick(3000);
         t.end();
@@ -153,7 +153,7 @@ test("ExerciseArea should show rejected answer and show icon", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
         exerciseArea.hide("icon-1");
-        exerciseArea.showAnswer(field, { accepted: false, solutions: [], diff: [] });
+        exerciseArea.showAnswer(field, { accepted: false, alternatives: [], diff: [] });
         t.equal(document.getElementById("icon-1").className, "fa-exclamation-circle text-danger show");
         t.end();
     });
@@ -164,7 +164,7 @@ test("ExerciseArea should show rejected answer and show popup", (t) => {
         let clock = sinon.useFakeTimers();
         let exerciseArea = new ExerciseArea();
         exerciseArea.hide("popup-1");
-        exerciseArea.showAnswer(field, { accepted: false, solutions: [], diff: [] });
+        exerciseArea.showAnswer(field, { accepted: false, alternatives: [], diff: [] });
         t.equal(document.getElementById("popup-1").className, "show");
         clock.tick(3000);
         t.end();
@@ -176,7 +176,7 @@ test("ExerciseArea should show rejected answer and hide popup automatically", (t
         let clock = sinon.useFakeTimers();
         let exerciseArea = new ExerciseArea();
         exerciseArea.showPopup("popup-1");
-        exerciseArea.showAnswer(field, { accepted: false, solutions: [], diff: [] });
+        exerciseArea.showAnswer(field, { accepted: false, alternatives: [], diff: [] });
         clock.tick(3000);
         t.equal(document.getElementById("popup-1").className, "");
         t.end();
@@ -186,7 +186,7 @@ test("ExerciseArea should show rejected answer and hide popup automatically", (t
 test("ExerciseArea should show rejected answer and display the answer", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
-        exerciseArea.showAnswer(field, { accepted: false, solutions: [], answer: "answer", diff: [] });
+        exerciseArea.showAnswer(field, { accepted: false, alternatives: [], answer: "answer", diff: [] });
         t.equal(document.querySelectorAll("td")[0].innerHTML, "answer");
         t.end();
     });
@@ -195,7 +195,7 @@ test("ExerciseArea should show rejected answer and display the answer", (t) => {
 test("ExerciseArea should show rejected answer and display the diff between the answer and the solution", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
-        exerciseArea.showAnswer(field, { accepted: false, solutions: [], diff: [[0, "vamo"], [-1, "s"], [1, "z"]], });
+        exerciseArea.showAnswer(field, { accepted: false, alternatives: [], diff: [[0, "vamo"], [-1, "s"], [1, "z"]], });
         t.equal(document.querySelectorAll("td")[1].innerHTML,
             "<span>vamo</span><span class=\"missing-letter\">s</span><span class=\"text-danger alien-letter\">z</span>");
         t.end();
@@ -205,7 +205,7 @@ test("ExerciseArea should show rejected answer and display the diff between the 
 test("ExerciseArea should show rejected answer and display the solution", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
-        exerciseArea.showAnswer(field, { accepted: false, solutions: [], diff: [], solution: "solution" });
+        exerciseArea.showAnswer(field, { accepted: false, alternatives: [], diff: [], solution: "solution" });
         t.equal(document.querySelectorAll("td")[2].innerHTML, "solution");
         t.end();
     });
@@ -214,7 +214,7 @@ test("ExerciseArea should show rejected answer and display the solution", (t) =>
 test("ExerciseArea should show popup and display solutions", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
-        exerciseArea.showAnswer(field, { accepted: false, solutions: ["solution", "solution 2"], diff: [], solution: "solution" });
+        exerciseArea.showAnswer(field, { accepted: false, alternatives: ["solution", "solution 2"], diff: [], solution: "solution" });
         t.equal(document.querySelectorAll("td")[3].innerHTML, "solution 2");
         t.end();
     });

@@ -11,26 +11,26 @@ class ExerciseArea {
     constructor() {
         this.popupTemplate = Template.fromElementId("popup-template");
         this.trafficLightTemplate = Template.fromElementId("popup-traffic-light-template");
-        this.alternativesTemplate = Template.fromElementId("popup-alternatives-template");
+        this.solutionsTemplate = Template.fromElementId("popup-solutions-template");
         this.prefill = true;
     }
 
-    updateField(field, alternatives) {
+    updateField(field, solutions) {
         let input = document.getElementById(field.inputId);
-        input.disabled = !alternatives[0];
-        input.type = this.isNumeric(alternatives[0]) ? "number" : "text";
+        input.disabled = !solutions[0];
+        input.type = this.isNumeric(solutions[0]) ? "number" : "text";
         if(input.disabled) {
             input.value = "-";
         }
         else {
-            input.value = this.prefill ? alternatives[0] : "";
+            input.value = this.prefill ? solutions[0] : "";
         }
         this.hide(field.iconId);
         this.hide(field.popupId);
     }
 
     showAnswer(field, result) {
-        if(result.accepted && result.alternatives.length === 0) {
+        if(result.accepted && result.solutions.length === 0) {
             this.hide(field.iconId);
             this.hide(field.popupId);
         }
@@ -65,7 +65,7 @@ class ExerciseArea {
         let template = this.popupTemplate.clone();
         let tbody = template.querySelector("tbody");
         this.createTrafficLight(result, tbody);
-        this.addAlternatives(result, tbody);
+        this.addSolutions(result, tbody);
         template.replaceContent(field.popupId);
     }
 
@@ -96,10 +96,10 @@ class ExerciseArea {
         });
     }
 
-    addAlternatives(result, tbody) {
-        result.alternatives.forEach((alternative) => {
+    addSolutions(result, tbody) {
+        result.solutions.forEach((alternative) => {
             if(alternative !== result.solution) {
-                let altTemplate = this.alternativesTemplate.clone();
+                let altTemplate = this.solutionsTemplate.clone();
                 altTemplate.set("alternative", { innerHTML: alternative });
                 tbody.appendChild(altTemplate.fragment());
             }

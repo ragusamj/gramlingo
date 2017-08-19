@@ -1,42 +1,42 @@
 import fastdiff from "fast-diff";
 
 class Checker {
-    check(alternatives, answer) {
+    check(solutions, answer) {
 
         let result = {
             accepted: false,
-            alternatives: [],
+            solutions: [],
             answer: answer
         };
 
         answer = this.sanitize(answer);
 
-        this.compareAlternativesWithAnswer(alternatives, answer, result);
-        this.diffMostSimilarAlternative(alternatives, answer, result);
+        this.compareSolutionsWithAnswer(solutions, answer, result);
+        this.diffMostSimilarSolution(solutions, answer, result);
 
         return result;
     }
 
-    compareAlternativesWithAnswer(alternatives, answer, result) {
+    compareSolutionsWithAnswer(solutions, answer, result) {
         if(!answer) {
             result.accepted = true;
         }
         else {
-            for(let solution of alternatives) {
+            for(let solution of solutions) {
                 if(answer === solution) {
                     result.solution = solution;
                     result.accepted = true;
                 }
-                else if(alternatives.length > 1) {
-                    result.alternatives.push(solution);
+                else if(solutions.length > 1) {
+                    result.solutions.push(solution);
                 }
             }
         }
     }
 
-    diffMostSimilarAlternative(alternatives, answer, result) {
+    diffMostSimilarSolution(solutions, answer, result) {
         if(!result.accepted) {
-            for(let solution of alternatives) {
+            for(let solution of solutions) {
                 let diff = fastdiff(solution, answer);
                 if(!(result.diff && result.diff.length < diff.length)) {
                     result.diff = diff;

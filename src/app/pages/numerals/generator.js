@@ -1,6 +1,6 @@
 import Integer from "./spelling/integers/integer";
 
-class Randomizer {
+class Generator {
 
     getNumbers() {
 
@@ -48,4 +48,4 @@ class Randomizer {
     }
 }
 
-export default Randomizer;
+export default Generator;

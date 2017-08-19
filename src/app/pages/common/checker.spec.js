@@ -42,6 +42,19 @@ test("Checker should accept correct answer with solutions", (t) => {
     });
 });
 
+test("Checker should accept correct answer of type number with solutions", (t) => {
+    Dom.sandbox("", {}, () => {
+        let result = checker.check([123], "123");
+        t.deepEqual(result, {
+            accepted: true,
+            solutions: [],
+            answer: "123",
+            solution: 123
+        });
+        t.end();
+    });
+});
+
 test("Checker should ignore case", (t) => {
     Dom.sandbox("", {}, () => {
         let result = checker.check(["voy"], "Voy");

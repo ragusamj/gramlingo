@@ -23,7 +23,7 @@ class Checker {
         }
         else {
             for(let solution of solutions) {
-                if(answer === solution) {
+                if(answer === solution.toString()) {
                     result.solution = solution;
                     result.accepted = true;
                 }
@@ -37,7 +37,7 @@ class Checker {
     diffMostSimilarSolution(solutions, answer, result) {
         if(!result.accepted) {
             for(let solution of solutions) {
-                let diff = fastdiff(solution, answer);
+                let diff = fastdiff(solution.toString(), answer);
                 if(!(result.diff && result.diff.length < diff.length)) {
                     result.diff = diff;
                     result.solution = solution;

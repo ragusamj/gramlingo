@@ -3,9 +3,9 @@ import Page from "../common/page";
 
 class NumeralsPage {
 
-    constructor(browserEvent, randomizer) {
+    constructor(browserEvent, generator) {
         this.browserEvent = browserEvent;
-        this.randomizer = randomizer;
+        this.generator = generator;
         browserEvent.on("click", this.onClick.bind(this));
     }
 
@@ -14,13 +14,10 @@ class NumeralsPage {
     }
 
     applyPageTemplate(pageTemplate, onPageChanged) {
-        this.pageData = {
-            numbers: this.randomizer.getNumbers()
-        };
+        this.pageData = this.generator.all();
         if(!this.fields) {
             this.fields = new Page().apply(pageTemplate, this.pageData);
         }
-
         onPageChanged();
         this.onPageDataChanged();
     }
@@ -37,7 +34,7 @@ class NumeralsPage {
     onClick(e) {
         if(e.target.hasAttribute("data-randomize-fields")) {
             let key = e.target.getAttribute("data-randomize-fields");
-            this.pageData[key] = this.randomizer.getNumbers();
+            this.pageData[key] = this.generator.get(key);
             this.onPageDataChanged();
         }
         if(e.target.hasAttribute("data-switch-fields")) {

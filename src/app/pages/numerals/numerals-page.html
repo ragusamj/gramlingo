@@ -38,70 +38,71 @@
             <div class="col-md-12">
                 <h3 class="toolbox">
                     <button
-                        data-toggler="toggle-number-exercise"
-                        data-toggler-on="toggle-number-exercise-on"
-                        data-toggler-off="toggle-number-exercise-off"
-                        data-toggler-expand-area="number-exercise-box"
+                        data-toggler="toggle-integers-exercise"
+                        data-toggler-on="toggle-integers-exercise-on"
+                        data-toggler-off="toggle-integers-exercise-off"
+                        data-toggler-expand-area="integers-exercise-box"
+                        data-toggler-state="off"
                         class="text-info toolbox-button">
-                        <span id="toggle-number-exercise-on" class="fa fa-chevron-circle-down"></span>
-                        <span id="toggle-number-exercise-off" class="fa fa-chevron-circle-right"></span>
+                        <span id="toggle-integers-exercise-on" class="fa fa-chevron-circle-down"></span>
+                        <span id="toggle-integers-exercise-off" class="fa fa-chevron-circle-right"></span>
                         <span class="text-muted">Heltal</span>
                     </button>
                 </h3>
-                <div id="number-exercise-box" class="expandable-box-lg">
+                <div id="integers-exercise-box" class="expandable-box-lg">
                     <section class="card mb-3">
                         <div class="card-header bg-dark text-white">
                             <div class="row">
                                 <div class="col-md-12 toolbox">
                                     <button
-                                        data-toggler="toggle-numbers-data"
-                                        data-toggler-on="toggle-numbers-on"
-                                        data-toggler-off="toggle-numbers-off"
+                                        data-toggler="toggle-integers-data"
+                                        data-toggler-on="toggle-integers-on"
+                                        data-toggler-off="toggle-integers-off"
                                         data-toggle-inputs
                                         class="text-white toolbox-button">
-                                        <span id="toggle-numbers-on" class="fa fa-toggle-on mr-3"></span>
-                                        <span id="toggle-numbers-off" class="fa fa-toggle-off mr-3"></span>
+                                        <span id="toggle-integers-on" class="fa fa-toggle-on mr-3"></span>
+                                        <span id="toggle-integers-off" class="fa fa-toggle-off mr-3"></span>
                                     </button>
-                                    <button class="fa fa-repeat mr-3 text-white toolbox-button" data-randomize-fields="numbers"></button>
-                                    <button class="fa fa-exchange mr-3 text-white toolbox-button" data-switch-fields="numbers"></button>
+                                    <button class="fa fa-repeat mr-3 text-white toolbox-button" data-randomize-fields="integers"></button>
+                                    <button class="fa fa-exchange mr-3 text-white toolbox-button" data-switch-fields="integers"></button>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body bg-light">
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <h5 data-field-header-path="numbers[0].q">.</h5>
-                                    <div data-field-path="numbers[0].a"></div>
+                                    <h5 data-field-header-path="integers[0].q">.</h5>
+                                    <div data-field-path="integers[0].a"></div>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <h5 data-field-header-path="numbers[1].q">.</h5>
-                                    <div data-field-path="numbers[1].a"></div>
+                                    <h5 data-field-header-path="integers[1].q">.</h5>
+                                    <div data-field-path="integers[1].a"></div>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <h5 data-field-header-path="numbers[2].q">.</h5>
-                                    <div data-field-path="numbers[1].a"></div>
+                                    <h5 data-field-header-path="integers[2].q">.</h5>
+                                    <div data-field-path="integers[1].a"></div>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <h5 data-field-header-path="numbers[3].q">.</h5>
-                                    <div data-field-path="numbers[3].a"></div>
+                                    <h5 data-field-header-path="integers[3].q">.</h5>
+                                    <div data-field-path="integers[3].a"></div>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <h5 data-field-header-path="numbers[4].q">.</h5>
-                                    <div data-field-path="numbers[4].a"></div>
+                                    <h5 data-field-header-path="integers[4].q">.</h5>
+                                    <div data-field-path="integers[4].a"></div>
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <h5 data-field-header-path="numbers[5].q">.</h5>
-                                    <div data-field-path="numbers[5].a"></div>
+                                    <h5 data-field-header-path="integers[5].q">.</h5>
+                                    <div data-field-path="integers[5].a"></div>
                                 </div>
                             </div>
                             <hr/>
@@ -112,9 +113,9 @@
                                     <div class="popup-wrapper">
                                         <input placeholder="123" class="form-control form-control-sm" />
                                         <div id="search-result-container">
-                                        <ul class="search-result">
-                                            <li>ciento veintitrés</li>
-                                        </ul>
+                                            <ul class="search-result">
+                                                <li>ciento veintitrés</li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -168,8 +169,93 @@
         </div>
 
         <div class="row mb-3">
-            <div class="col-md-12 text-muted">
-                <h3><span class="fa fa-chevron-circle-right text-info"></span> Bråktal</h3>
+            <div class="col-md-12">
+                <h3 class="toolbox">
+                    <button
+                        data-toggler="toggle-fractions-exercise"
+                        data-toggler-on="toggle-fractions-exercise-on"
+                        data-toggler-off="toggle-fractions-exercise-off"
+                        data-toggler-expand-area="fractions-exercise-box"
+                        class="text-info toolbox-button">
+                        <span id="toggle-fractions-exercise-on" class="fa fa-chevron-circle-down"></span>
+                        <span id="toggle-fractions-exercise-off" class="fa fa-chevron-circle-right"></span>
+                        <span class="text-muted">Bråktal</span>
+                    </button>
+                </h3>
+                <div id="fractions-exercise-box" class="expandable-box-lg">
+                    <section class="card mb-3">
+                        <div class="card-header bg-dark text-white">
+                            <div class="row">
+                                <div class="col-md-12 toolbox">
+                                    <button
+                                        data-toggler="toggle-fractions-data"
+                                        data-toggler-on="toggle-fractions-on"
+                                        data-toggler-off="toggle-fractions-off"
+                                        data-toggle-inputs
+                                        class="text-white toolbox-button">
+                                        <span id="toggle-fractions-on" class="fa fa-toggle-on mr-3"></span>
+                                        <span id="toggle-fractions-off" class="fa fa-toggle-off mr-3"></span>
+                                    </button>
+                                    <button class="fa fa-repeat mr-3 text-white toolbox-button" data-randomize-fields="fractions"></button>
+                                    <button class="fa fa-exchange mr-3 text-white toolbox-button" data-switch-fields="fractions"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light">
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="fractions[0].q">.</h5>
+                                    <div data-field-path="fractions[0].a"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="fractions[1].q">.</h5>
+                                    <div data-field-path="fractions[1].a"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="fractions[2].q">.</h5>
+                                    <div data-field-path="fractions[1].a"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="fractions[3].q">.</h5>
+                                    <div data-field-path="fractions[3].a"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="fractions[4].q">.</h5>
+                                    <div data-field-path="fractions[4].a"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="fractions[5].q">.</h5>
+                                    <div data-field-path="fractions[5].a"></div>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5><span class="fa fa-laptop text-info"></span> Ask the machine</h5>
+                                    Type a fration to see how it's spelled:
+                                    <div class="popup-wrapper">
+                                        <input placeholder="2/4" class="form-control form-control-sm" />
+                                        <div id="search-result-container">
+                                            <ul class="search-result">
+                                                <li>dos cuartos</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </div>
         </div>
 

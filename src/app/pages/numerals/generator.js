@@ -1,12 +1,32 @@
+import Fraction from "./spelling/fractions/fraction";
 import Integer from "./spelling/integers/integer";
 
 class Generator {
 
-    getNumbers() {
+    constructor() {
+        this.actions = {
+            integers: this.randomizeIntegers.bind(this),
+            fractions: this.randomizeFractions.bind(this)
+        };
+    }
+
+    all() {
+        let generated = {};
+        for (let key of Object.keys(this.actions)) {
+            generated[key] = this.actions[key]();
+        }
+        return generated;
+    }
+
+    get(key) {
+        return this.actions[key]();
+    }
+
+    randomizeIntegers() {
 
         let result = [];
         let now = new Date();
-        let numbers = [
+        let integers = [
             this.getRandomNumber(1, 29),
             this.getRandomNumber(30, 100),
             this.getRandomNumber(100, 1000),
@@ -15,15 +35,40 @@ class Generator {
             this.getRandomNumber(100000, 1000000)
         ];
 
-        this.shuffleArray(numbers);
+        this.shuffleArray(integers);
 
-        for (var number of numbers) {
+        for (let integer of integers) {
             result.push({
-                q: [[number]],
-                a: [[Integer.spell(number)]]
+                q: [[integer]],
+                a: [[Integer.spell(integer)]]
             });
         }
 
+        return result;
+    }
+
+    randomizeFractions() {
+        
+        let result = [];
+        let fractions = [
+            [this.getRandomNumber(1, 5), this.getRandomNumber(2, 5)],
+            [this.getRandomNumber(1, 5), this.getRandomNumber(2, 5)],
+            [this.getRandomNumber(1, 5), this.getRandomNumber(6, 10)],
+            [this.getRandomNumber(1, 10), this.getRandomNumber(6, 10)],
+            [this.getRandomNumber(1, 10), this.getRandomNumber(2, 5)],
+            [this.getRandomNumber(1, 10), this.getRandomNumber(11, 30)],
+            [this.getRandomNumber(11, 100), this.getRandomNumber(31, 100)]
+        ];
+
+        this.shuffleArray(fractions);
+        
+        for (let fraction of fractions) {
+            result.push({
+                q: [[fraction[0] + "/" + fraction[1]]],
+                a: [[Fraction.spell(fraction[0], fraction[1])]]
+            });
+        }
+        
         return result;
     }
 
@@ -32,10 +77,8 @@ class Generator {
     }
 
     shuffleArray(array) {
-
         // Fisher-Yates Shuffle
         let i = array.length;
-
         if (array.length > 0) {
             while (--i) {
                 let j = Math.floor(Math.random() * (i + 1));

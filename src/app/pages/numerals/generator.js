@@ -1,4 +1,5 @@
 import Fraction from "./spelling/fractions/fraction";
+import Century from "./spelling/centuries/century";
 import Integer from "./spelling/integers/integer";
 import Time from "./spelling/time/time";
 
@@ -6,10 +7,12 @@ class Generator {
 
     constructor() {
         this.actions = {
+            centuries: this.randomizeCenturies.bind(this),
             fractions: this.randomizeFractions.bind(this),
             integers: this.randomizeIntegers.bind(this),
             time: this.randomizeTime.bind(this),
         };
+        this.lastCenturiesValues = [];
     }
 
     all() {
@@ -22,6 +25,27 @@ class Generator {
 
     get(key) {
         return this.actions[key]();
+    }
+
+    randomizeCenturies() {
+        
+        let result = [];
+        let buffer = [];
+
+        while(buffer.length < 6) {
+            let century = this.getRandomNumber(0, 29) * 100;
+            if(buffer.indexOf(century) === -1 && this.lastCenturiesValues.indexOf(century) === -1) {
+                buffer.push(century);
+                result.push({
+                    q: [[century + "-" + (century + 99)]],
+                    a: [[Century.spell(century)]]
+                });
+            }
+        }
+
+        this.lastCenturiesValues = buffer;
+        
+        return result;
     }
 
     randomizeFractions() {

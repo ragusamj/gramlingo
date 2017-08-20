@@ -1,17 +1,17 @@
-var glob = require("glob");
-var http = require("http");
-var log4js = require("log4js");
-var parseUrl = require("parseurl");
-var path = require("path");
-var send = require("send");
-var serveStatic = require("serve-static");
+let glob = require("glob");
+let http = require("http");
+let log4js = require("log4js");
+let parseUrl = require("parseurl");
+let path = require("path");
+let send = require("send");
+let serveStatic = require("serve-static");
 
-var port = process.env.PORT || 8080;
-var root = "dist";
+let port = process.env.PORT || 8080;
+let root = "dist";
 
-var logger = log4js.getLogger();
-var serve = serveStatic(root);
-var gzipFileCache;
+let logger = log4js.getLogger();
+let serve = serveStatic(root);
+let gzipFileCache;
 
 function canServeGzipped(req) {
     return req.method === "GET" || req.method === "HEAD";
@@ -26,8 +26,8 @@ function hasGzippedVersion(fullpath) {
 }
 
 function setResponseHeaders(res, fullpath) {
-    var type = send.mime.lookup(fullpath);
-    var charset = send.mime.charsets.lookup(type);
+    let type = send.mime.lookup(fullpath);
+    let charset = send.mime.charsets.lookup(type);
     res.setHeader("Content-Encoding", "gzip");
     res.setHeader("Content-Type", type + (charset ? "; charset=" + charset : ""));
     res.setHeader("Vary", "Accept-Encoding");
@@ -38,10 +38,10 @@ function sendGzippedVersion(req, res, fullpath) {
     send(req, fullpath + ".gz").pipe(res);
 }
 
-var server = http.createServer(function(req, res) {
+let server = http.createServer(function(req, res) {
 
-    var urlparts = parseUrl(req);
-    var fullpath = path.join(process.cwd(), root, urlparts.pathname);
+    let urlparts = parseUrl(req);
+    let fullpath = path.join(process.cwd(), root, urlparts.pathname);
     fullpath += urlparts.pathname.endsWith("/") ? "index.html" : "";
 
     if(hasGzippedVersion(fullpath) && canServeGzipped(req) && browserAcceptsGzip(req)) {
@@ -49,7 +49,7 @@ var server = http.createServer(function(req, res) {
     }
     else {
         serve(req, res, function() {
-            var fallback = path.join(root, "index.html");
+            let fallback = path.join(root, "index.html");
             if(canServeGzipped(req) && browserAcceptsGzip(req)) {
                 sendGzippedVersion(req, res, fallback);
             }
@@ -60,7 +60,7 @@ var server = http.createServer(function(req, res) {
     }
 
     res.on("finish", function() {
-        var level = res.statusCode >= 300 ? (res.statusCode >= 400 ? "ERROR" : "WARN") : "INFO";
+        let level = res.statusCode >= 300 ? (res.statusCode >= 400 ? "ERROR" : "WARN") : "INFO";
         logger.log(level, req.method, res.statusCode, req.url);
     });
 });

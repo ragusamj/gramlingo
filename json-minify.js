@@ -1,16 +1,16 @@
-var fs = require("fs");
-var glob = require("glob");
-var mkdirp = require("mkdirp");
-var path = require("path");
+let fs = require("fs");
+let glob = require("glob");
+let mkdirp = require("mkdirp");
+let path = require("path");
 
-var outputDirectory = path.join(process.cwd(), process.argv[3]);
+let outputDirectory = path.join(process.cwd(), process.argv[3]);
 
 glob(process.argv[2], {}, function (error, files) {
     files.forEach(function(file) {
         fs.readFile(file, function(error, json) {
-            var minified = JSON.stringify(JSON.parse(json));
-            var filename = path.basename(file);
-            var out = path.join(outputDirectory, filename);
+            let minified = JSON.stringify(JSON.parse(json));
+            let filename = path.basename(file);
+            let out = path.join(outputDirectory, filename);
             mkdirp(outputDirectory, function (error) {
                 if (error) {
                     process.stderr.write(error.message);

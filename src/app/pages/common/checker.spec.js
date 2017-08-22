@@ -94,6 +94,19 @@ test("Checker should sanitize input and accept correct answer", (t) => {
     });
 });
 
+test("Checker should sanitize input and accept time spans", (t) => {
+    Dom.sandbox("", {}, () => {
+        let result = checker.check(["12:34"], "12:34");
+        t.deepEqual(result, {
+            accepted: true,
+            alternatives: [],
+            answer: "12:34",
+            solution: "12:34"
+        });
+        t.end();
+    });
+});
+
 test("Checker should sanitize input and accept fractions", (t) => {
     Dom.sandbox("", {}, () => {
         let result = checker.check(["1/2"], "1/2");

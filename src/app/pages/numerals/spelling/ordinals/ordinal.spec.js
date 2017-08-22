@@ -4,7 +4,7 @@ import Ordinal from "./ordinal";
 
 test("Ordinal should spell 1 - 1000 without crashing", (t) => {
     for(let i = 1; i <= 1000; i++) {
-        Ordinal.spell(i, Gender.neuter);
+        Ordinal.spell(i, Gender.feminine);
     }
     t.end();
 });

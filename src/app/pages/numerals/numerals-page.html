@@ -42,6 +42,7 @@
                         data-toggler-on="toggle-integers-exercise-on"
                         data-toggler-off="toggle-integers-exercise-off"
                         data-toggler-expand-area="integers-exercise-box"
+                        data-toggler-state="off"
                         class="text-info toolbox-button">
                         <span id="toggle-integers-exercise-on" class="fa fa-chevron-circle-down"></span>
                         <span id="toggle-integers-exercise-off" class="fa fa-chevron-circle-right"></span>
@@ -219,22 +220,93 @@
         </div>
 
         <div class="row mb-3">
-            <div class="col-md-12 text-muted">
+            <div class="col-md-12">
                 <h3 class="toolbox">
                     <button
-                        data-toggler="toggle-ordinal-exercise"
-                        data-toggler-on="toggle-ordinal-exercise-on"
-                        data-toggler-off="toggle-ordinal-exercise-off"
-                        data-toggler-expand-area="ordinal-exercise-box"
+                        data-toggler="toggle-ordinals-exercise"
+                        data-toggler-on="toggle-ordinals-exercise-on"
+                        data-toggler-off="toggle-ordinals-exercise-off"
+                        data-toggler-expand-area="ordinals-exercise-box"
                         data-toggler-state="off"
                         class="text-info toolbox-button">
-                        <span id="toggle-ordinal-exercise-on" class="fa fa-chevron-circle-down"></span>
-                        <span id="toggle-ordinal-exercise-off" class="fa fa-chevron-circle-right"></span>
+                        <span id="toggle-ordinals-exercise-on" class="fa fa-chevron-circle-down"></span>
+                        <span id="toggle-ordinals-exercise-off" class="fa fa-chevron-circle-right"></span>
                         <span class="text-muted">Ordningstal</span>
                     </button>
                 </h3>
-                <div id="ordinal-exercise-box" class="expandable-box-sm">
-                    Ordningstal
+                <div id="ordinals-exercise-box" class="expandable-box-lg">
+                    <section class="card mb-3">
+                        <div class="card-header bg-dark text-white">
+                            <div class="row">
+                                <div class="col-md-12 toolbox">
+                                    <button
+                                        data-toggler="toggle-ordinals-data"
+                                        data-toggler-on="toggle-ordinals-on"
+                                        data-toggler-off="toggle-ordinals-off"
+                                        data-toggle-inputs
+                                        class="text-white toolbox-button">
+                                        <span id="toggle-ordinals-on" class="fa fa-toggle-on mr-3"></span>
+                                        <span id="toggle-ordinals-off" class="fa fa-toggle-off mr-3"></span>
+                                    </button>
+                                    <button class="fa fa-repeat mr-3 text-white toolbox-button" data-randomize-fields="ordinals"></button>
+                                    <button class="fa fa-exchange mr-3 text-white toolbox-button" data-switch-fields="ordinals"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light">
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="ordinals[0].q">.</h5>
+                                    <div data-field-path="ordinals[0].a"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="ordinals[1].q">.</h5>
+                                    <div data-field-path="ordinals[1].a"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="ordinals[2].q">.</h5>
+                                    <div data-field-path="ordinals[2].a"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="ordinals[3].q">.</h5>
+                                    <div data-field-path="ordinals[3].a"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="ordinals[4].q">.</h5>
+                                    <div data-field-path="ordinals[4].a"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <h5 data-field-header-path="ordinals[5].q">.</h5>
+                                    <div data-field-path="ordinals[5].a"></div>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5><span class="fa fa-laptop text-info"></span> Ask the machine</h5>
+                                    Type an ordinal to see how it's spelled:
+                                    <div class="popup-wrapper">
+                                        <input placeholder="3ª" class="form-control form-control-sm" />
+                                        <div id="search-result-container">
+                                            <ul class="search-result">
+                                                <li>tercera</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
         </div>

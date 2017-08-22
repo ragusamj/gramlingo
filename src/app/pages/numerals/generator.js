@@ -1,6 +1,8 @@
 import Fraction from "./spelling/fractions/fraction";
 import Century from "./spelling/centuries/century";
 import Integer from "./spelling/integers/integer";
+import Ordinal from "./spelling/ordinals/ordinal";
+import Gender from "./spelling/ordinals/gender";
 import Time from "./spelling/time/time";
 
 class Generator {
@@ -10,11 +12,13 @@ class Generator {
             centuries: this.randomizeCenturies.bind(this),
             fractions: this.randomizeFractions.bind(this),
             integers: this.randomizeIntegers.bind(this),
+            ordinals: this.randomizeOrdinals.bind(this),
             time: this.randomizeTime.bind(this),
         };
         this.lastCenturiesValues = [];
         this.lastFractionValues = [];
         this.lastIntegerValues = [];
+        this.lastOrdinalValues = [];
         this.lastTimeValues = [];
     }
 
@@ -106,6 +110,36 @@ class Generator {
         }
     
         this.lastIntegerValues = buffer;
+        return result;
+    }
+
+    randomizeOrdinals() {
+        
+        let result = [];
+        let buffer = [];
+        let ranges = [
+            [1, 12],
+            [13, 29],
+            [13, 29],
+            [100, 999],
+            [1000, 4999],
+            [5000, 10000]
+        ];
+        
+        for (let range of ranges) {
+            let ordinal;
+            do {
+                ordinal = this.getRandomNumber(range[0], range[1]);
+            }
+            while(this.lastOrdinalValues.indexOf(ordinal) !== -1);
+            buffer.push(ordinal);
+            result.push({
+                q: [[ordinal]],
+                a: [Ordinal.spell(ordinal, Gender.feminine)]
+            });
+        }
+            
+        this.lastOrdinalValues = buffer;
         return result;
     }
 

@@ -57,7 +57,9 @@ class Ordinal {
         else {
             let one = x % 10;
             let ten = Math.floor((x % 100) / 10) * 10;
-            return [OrdinalDictionary[ten].slice() + " " + OrdinalDictionary[one].slice()]; // 'trigésimo primero', 'octogésimo tercero' ...
+            return one === 0 ?
+                [OrdinalDictionary[ten].slice()] : // 'sexagésimo', 'septuagésim0'...
+                [OrdinalDictionary[ten].slice() + " " + OrdinalDictionary[one].slice()]; // 'trigésimo primero', 'octogésimo tercero' ...
         }
     }
 

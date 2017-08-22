@@ -2,6 +2,13 @@ import test from "tape";
 import Gender from "./gender";
 import Ordinal from "./ordinal";
 
+test("Ordinal should spell 1 - 1000 without crashing", (t) => {
+    for(let i = 1; i <= 1000; i++) {
+        Ordinal.spell(i, Gender.neuter);
+    }
+    t.end();
+});
+
 test("Ordinal should spell 1, neuter", (t) => {
     t.deepEqual(Ordinal.spell(1, Gender.neuter), ["primer"]);
     t.end();
@@ -162,6 +169,11 @@ test("Ordinal should spell 55, feminine", (t) => {
     t.end();
 });
 
+test("Ordinal should spell 60, masculine", (t) => {
+    t.deepEqual(Ordinal.spell(60, Gender.masculine), ["sexagésimo"]);
+    t.end();
+});
+
 test("Ordinal should spell 99, masculine", (t) => {
     t.deepEqual(Ordinal.spell(99, Gender.masculine), ["nonagésimo noveno"]);
     t.end();
@@ -214,6 +226,11 @@ test("Ordinal should spell 200, masculine", (t) => {
 
 test("Ordinal should spell 200, feminine", (t) => {
     t.deepEqual(Ordinal.spell(200, Gender.feminine), ["ducentésima"]);
+    t.end();
+});
+
+test("Ordinal should spell 550, feminine", (t) => {
+    t.deepEqual(Ordinal.spell(550, Gender.feminine), ["quingentésima quincuagésima"]);
     t.end();
 });
 

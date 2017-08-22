@@ -1,5 +1,6 @@
 let fs = require("fs");
 let glob = require("glob");
+let os = require("os");
 let path = require("path");
 let zlib = require("zlib");
 
@@ -10,7 +11,7 @@ glob(process.argv[2], {}, function (error, files) {
         fs.readFile(file, function(error, data) {
             zlib.gzip(data, { level: compressionLevel }, function(error, buffer) {
                 fs.writeFile(file + ".gz", buffer, function() {
-                    process.stdout.write(path.basename(__filename) + ": done.");
+                    process.stdout.write(path.relative(__dirname, file) + os.EOL);
                 });
             });
         });

@@ -6,11 +6,15 @@ class NumeralsPage {
     constructor(browserEvent, generator) {
         this.browserEvent = browserEvent;
         this.generator = generator;
-        browserEvent.on("click", this.onClick.bind(this));
     }
 
     attach(pageTemplate, onPageChanged) {
         this.applyPageTemplate(pageTemplate, onPageChanged);
+        this.removeClickListener = this.browserEvent.on("click", this.onClick.bind(this));
+    }
+
+    detach() {
+        this.removeClickListener();
     }
 
     applyPageTemplate(pageTemplate, onPageChanged) {

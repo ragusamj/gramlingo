@@ -18,7 +18,7 @@ class NumeralsPage {
     }
 
     applyPageTemplate(pageTemplate, onPageChanged) {
-        this.pageData = this.generator.all();
+        this.pageData = this.generator.randomize();
         if(!this.fields) {
             this.fields = new Page().apply(pageTemplate, this.pageData);
         }
@@ -38,7 +38,7 @@ class NumeralsPage {
     onClick(e) {
         if(e.target.hasAttribute("data-randomize-fields")) {
             let key = e.target.getAttribute("data-randomize-fields");
-            this.pageData[key] = this.generator.get(key);
+            this.pageData[key] = this.generator.randomize(key);
             this.onPageDataChanged();
         }
         if(e.target.hasAttribute("data-switch-fields")) {

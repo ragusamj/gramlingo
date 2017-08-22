@@ -18,16 +18,16 @@ class Generator {
         this.lastTimeValues = [];
     }
 
-    all() {
+    randomize(key) {
+        if(key) {
+            return this.actions[key]();
+        }
+
         let generated = {};
         for (let key of Object.keys(this.actions)) {
             generated[key] = this.actions[key]();
         }
         return generated;
-    }
-
-    get(key) {
-        return this.actions[key]();
     }
 
     randomizeCenturies() {

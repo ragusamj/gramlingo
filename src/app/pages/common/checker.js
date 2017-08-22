@@ -49,7 +49,7 @@ class Checker {
     sanitize(s) {
         return s
             .replace(/\s+/g, " ")
-            .replace(/[^0-9a-z\s\u00E1-\u00FC]/ig, "")
+            .replace(/[^/0-9a-z\s\u00E1-\u00FC]/ig, "")
             .trim()
             .toLocaleLowerCase();
     }

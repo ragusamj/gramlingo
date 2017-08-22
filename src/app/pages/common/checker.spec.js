@@ -94,6 +94,19 @@ test("Checker should sanitize input and accept correct answer", (t) => {
     });
 });
 
+test("Checker should sanitize input and accept fractions", (t) => {
+    Dom.sandbox("", {}, () => {
+        let result = checker.check(["1/2"], "1/2");
+        t.deepEqual(result, {
+            accepted: true,
+            alternatives: [],
+            answer: "1/2",
+            solution: "1/2"
+        });
+        t.end();
+    });
+});
+
 test("Checker should reject incorrect answer", (t) => {
     Dom.sandbox("", {}, () => {
         let result = checker.check(["vamos"], "vamo");

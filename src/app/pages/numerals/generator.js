@@ -131,16 +131,28 @@ class Generator {
             do {
                 ordinal = this.getRandomNumber(range[0], range[1]);
             }
-            while(this.lastOrdinalValues.indexOf(ordinal) !== -1);
+            while(buffer.indexOf(ordinal) !== -1 || this.lastOrdinalValues.indexOf(ordinal) !== -1);
             buffer.push(ordinal);
+            let gender = this.randomizeGender(ordinal);
             result.push({
-                q: [[ordinal]],
-                a: [Ordinal.spell(ordinal, Gender.feminine)]
+                i: gender.icon,
+                q: [[ordinal + gender.icon]],
+                a: [Ordinal.spell(ordinal, gender.value)]
             });
         }
             
         this.lastOrdinalValues = buffer;
-        return result;
+        return result.sort((a, b) => a.q[0][0] - b.q[0][0]);
+    }
+
+    randomizeGender(ordinal) {
+        let r = Math.random();
+        if((ordinal === 1 || ordinal === 3) && r <= 0.3) {
+            return { value: Gender.neuter, icon: "" };
+        }
+        return r < 0.5 ?
+            { value: Gender.feminine, icon: "ª" } :
+            { value: Gender.masculine, icon: "º" };
     }
 
     randomizeTime() {

@@ -17,7 +17,7 @@ class VerbPage {
     }
 
     detach() {
-        this.destroyListener();
+        this.removeListener();
     }
 
     loadVerbs(callback) {
@@ -77,7 +77,7 @@ class VerbPage {
             this.fields = new Page().apply(pageTemplate, pageData);
         }
         onPageChanged();
-        this.destroyListener = this.browserEvent.on("search-result-selected", this.onSearchResultSelected.bind(this));
+        this.removeListener = this.browserEvent.on("search-result-selected", this.onSearchResultSelected.bind(this));
         this.browserEvent.emit("page-searchable-data-updated", this.verbs);
         this.browserEvent.emit("page-field-list-updated", this.fields);
         this.onPageDataChanged(index);

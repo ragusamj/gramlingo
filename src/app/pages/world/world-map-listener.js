@@ -5,7 +5,7 @@ class WorldMapListener {
         this.worldMap = worldMap;
     }
 
-    initialize() {
+    attach() {
         this.removeClickListener = this.browserEvent.on("click", this.onClick.bind(this));
         this.removeMousedownListener = this.browserEvent.on("mousedown", this.worldMap.startDrag.bind(this.worldMap));
         this.removeMousemoveListener = this.browserEvent.on("mousemove", this.worldMap.drag.bind(this.worldMap));
@@ -14,7 +14,7 @@ class WorldMapListener {
         this.worldMap.initialize();
     }
 
-    destroy() {
+    detach() {
         this.removeClickListener();
         this.removeMousedownListener();
         this.removeMousemoveListener();

@@ -7,13 +7,13 @@ class WorldPage {
 
     attach(pageTemplate, onPageChanged) {
         onPageChanged();
-        this.worldMapListener.initialize();
+        this.worldMapListener.attach();
         this.removeListener = this.browserEvent.on("map-country-changed", this.onMapCountrySelected.bind(this));
     }
 
     detach() {
         this.removeListener();
-        this.worldMapListener.destroy();
+        this.worldMapListener.detach();
     }
 
     onMapCountrySelected(e) {

@@ -1,7 +1,7 @@
 import PhoneticIndexer from "./phonetic-indexer";
+import Sanitizer from "../sanitizer";
 
-// \u00E1-\u00FC === á, é, ñ, ü etc...
-const spanishLetters = /^[a-z\u00E1-\u00FC]+$/i;
+const spanishLetters = new RegExp("^[a-z" + Sanitizer.getUnicodeString() + "]+$", "i");
 const maxSearchResults = 10;
 
 class SearchEngine {

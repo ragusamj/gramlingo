@@ -1,4 +1,5 @@
 import fastdiff from "fast-diff";
+import Sanitizer from "./sanitizer";
 
 class Checker {
     check(solutions, answer) {
@@ -9,7 +10,9 @@ class Checker {
             answer: answer
         };
 
-        answer = this.sanitize(answer);
+        answer = Sanitizer
+            .sanitize(answer)
+            .toLocaleLowerCase();
 
         this.compareSolutionsWithAnswer(solutions, answer, result);
         this.diffMostSimilarSolution(solutions, answer, result);
@@ -44,14 +47,6 @@ class Checker {
                 }
             }
         }
-    }
-
-    sanitize(s) {
-        return s
-            .replace(/\s+/g, " ")
-            .replace(/[^:/0-9a-z\s\u00E1-\u00FC]/ig, "")
-            .trim()
-            .toLocaleLowerCase();
     }
 }
 

@@ -83,11 +83,11 @@ test("Checker should accept correct answer with extra whitespace", (t) => {
 
 test("Checker should sanitize input and accept correct answer", (t) => {
     Dom.sandbox("", {}, () => {
-        let result = checker.check(["bañé"], "#&ºbañé..,");
+        let result = checker.check(["bañé"], "#&bañé..,");
         t.deepEqual(result, {
             accepted: true,
             alternatives: [],
-            answer: "#&ºbañé..,",
+            answer: "#&bañé..,",
             solution: "bañé"
         });
         t.end();

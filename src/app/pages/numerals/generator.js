@@ -2,7 +2,7 @@ import Fraction from "./spelling/fractions/fraction";
 import Century from "./spelling/centuries/century";
 import Integer from "./spelling/integers/integer";
 import Ordinal from "./spelling/ordinals/ordinal";
-import Gender from "./spelling/ordinals/gender";
+import OridnalSign from "./spelling/ordinals/ordinal-sign";
 import Time from "./spelling/time/time";
 
 class Generator {
@@ -133,10 +133,10 @@ class Generator {
             }
             while(buffer.indexOf(ordinal) !== -1 || this.lastOrdinalValues.indexOf(ordinal) !== -1);
             buffer.push(ordinal);
-            let gender = this.randomizeGender(ordinal);
+            let ordinalSign = this.randomizeOrdinalSign(ordinal);
             result.push({
-                q: [[ordinal + gender.icon]],
-                a: [Ordinal.spell(ordinal, gender.value)]
+                q: [[ordinal + ordinalSign.icon]],
+                a: [Ordinal.spell(ordinal, ordinalSign.value)]
             });
         }
             
@@ -144,14 +144,14 @@ class Generator {
         return result.sort((a, b) => a.q[0][0] - b.q[0][0]);
     }
 
-    randomizeGender(ordinal) {
+    randomizeOrdinalSign(ordinal) {
         let r = Math.random();
         if((ordinal === 1 || ordinal === 3) && r <= 0.3) {
-            return { value: Gender.neuter, icon: "" };
+            return { value: OridnalSign.neuter, icon: "" };
         }
         return r < 0.5 ?
-            { value: Gender.feminine, icon: "ª" } :
-            { value: Gender.masculine, icon: "º" };
+            { value: OridnalSign.feminine, icon: "ª" } :
+            { value: OridnalSign.masculine, icon: "º" };
     }
 
     randomizeTime() {

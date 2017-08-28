@@ -3,7 +3,7 @@ import OrdinalDictionary from "../dictionaries/ordinal-dictionary";
 
 class Ordinal {
 
-    static spell(number, genderType) {
+    static spell(number, ordinalSign) {
 
         let units = [];
         let spelling;
@@ -16,7 +16,7 @@ class Ordinal {
         }
 
         spelling = this.createSpellingCombinations(units);
-        this.setGender(spelling, genderType);
+        this.setOrdinalSign(spelling, ordinalSign);
         return spelling;
     }
 
@@ -108,9 +108,9 @@ class Ordinal {
         return spelling;
     }
 
-    static setGender(spelling, genderType) {
+    static setOrdinalSign(spelling, ordinalSign) {
         for (let i = 0; i < spelling.length; i++) {
-            spelling[i] = spelling[i].replace(/@/g, genderType);
+            spelling[i] = spelling[i].replace(/@/g, ordinalSign);
             spelling[i] = spelling[i].replace(/@/g, "");
         }
     }

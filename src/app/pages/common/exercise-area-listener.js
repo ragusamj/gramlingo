@@ -19,6 +19,11 @@ class ExerciseAreaListener {
         if(this.isKnownEvent(e, "INPUT", this.fields)) {
             let field = this.fields[e.target.id];
             let solutions = get(this.pageData, field.dataPath);
+
+            if(typeof field.filter === "function") {
+                field.filter(e.target, solutions);
+            }
+
             let result = this.checker.check(solutions, e.target.value);
             this.exerciseArea.showAnswer(field, result);
         }

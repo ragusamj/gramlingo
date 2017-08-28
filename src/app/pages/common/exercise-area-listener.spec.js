@@ -4,6 +4,8 @@ import BrowserEvent from "../../core/browser-event";
 import Dom from "../../core/mock/dom";
 import ExerciseAreaListener from "./exercise-area-listener";
 
+const fieldList = { "id": { dataPath: "path", iconId: "icon-id", popupId: "popup-id" } };
+
 const checker = {
     check: sinon.stub().returns({ accepted: true })
 };
@@ -22,8 +24,8 @@ const walker = {
 
 const setup = () => {
     let exerciseAreaListener = new ExerciseAreaListener(new BrowserEvent(), checker, exerciseArea, walker);
-    exerciseAreaListener.onPageFieldListUpdated({detail: { "id": { dataPath: "path", iconId: "icon-id", popupId: "popup-id" } }});
-    exerciseAreaListener.onPageDataUpdated({ detail: { "path": ["alternative"] }});
+    exerciseAreaListener.onPageFieldListUpdated({ detail: fieldList });
+    exerciseAreaListener.onPageDataUpdated({ detail: { "path": ["alternative"] } } );
     return exerciseAreaListener;
 };
 
@@ -50,6 +52,23 @@ test("ExerciseArea should show answer on 'blur' event", (t) => {
 
         t.deepEqual(exerciseArea.showAnswer.lastCall.args, [
             { dataPath: "path", iconId: "icon-id", popupId: "popup-id" }, { accepted: true }]);
+        t.end();
+    });
+});
+
+test("ExerciseArea should execute field filters on 'blur' event", (t) => {
+    Dom.sandbox("<input type='text' id='id' value='value'/>", {}, () => {
+
+        setup();
+        let input = document.getElementById("id");
+        let filter = sinon.spy();
+        fieldList.id.filter = filter;
+
+        input.dispatchEvent(new Event("blur"));
+
+        t.deepEqual(filter.lastCall.args, [input, ["alternative"]]);
+
+        delete fieldList.id.filter;
         t.end();
     });
 });

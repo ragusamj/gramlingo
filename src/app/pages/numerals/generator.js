@@ -135,7 +135,6 @@ class Generator {
             buffer.push(ordinal);
             let gender = this.randomizeGender(ordinal);
             result.push({
-                i: gender.icon,
                 q: [[ordinal + gender.icon]],
                 a: [Ordinal.spell(ordinal, gender.value)]
             });

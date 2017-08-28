@@ -21,9 +21,28 @@ class NumeralsPage {
         this.pageData = this.generator.randomize();
         if(!this.fields) {
             this.fields = new Page().apply(pageTemplate, this.pageData);
+            this.addFieldFilters();
         }
         onPageChanged();
         this.onPageDataChanged();
+    }
+
+    addFieldFilters() {
+        for(let key of Object.keys(this.fields)) {
+            let field = this.fields[key];
+            if(field.dataPath.startsWith("ordinals")) {
+                field.filter = this.filter;
+            }
+        }
+    }
+
+    filter(element, solutions) {
+        if(solutions[0].indexOf("ª") === (solutions[0].length) -1 && element.value.indexOf("ª") === -1) {
+            element.value += "ª";
+        }
+        if(solutions[0].indexOf("º") === (solutions[0].length) -1 && element.value.indexOf("º") === -1) {
+            element.value += "º";
+        }
     }
 
     applyHeaders() {

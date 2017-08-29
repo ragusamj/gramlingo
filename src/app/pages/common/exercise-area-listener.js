@@ -19,11 +19,9 @@ class ExerciseAreaListener {
         if(this.isKnownEvent(e, "INPUT", this.fields)) {
             let field = this.fields[e.target.id];
             let solutions = get(this.pageData, field.dataPath);
-
             if(typeof field.filter === "function") {
                 field.filter(e.target, solutions);
             }
-
             let result = this.checker.check(solutions, e.target.value);
             this.exerciseArea.showAnswer(field, result);
         }
@@ -31,7 +29,7 @@ class ExerciseAreaListener {
 
     onClick(e) {
         if(e.target.hasAttribute("data-toggle-inputs")) {
-            this.exerciseArea.prefill = !this.exerciseArea.prefill;
+            this.toggle(e.target.getAttribute("data-toggle-inputs"));
             this.updateFields();
         }
     }
@@ -78,6 +76,15 @@ class ExerciseAreaListener {
             let field = this.fields[id];
             let solutions = get(this.pageData, field.dataPath);
             this.exerciseArea.updateField(field, solutions);
+        }
+    }
+
+    toggle(fieldGroup) {
+        for(let id of Object.keys(this.fields)) {
+            let field = this.fields[id];
+            if(!fieldGroup || field.dataPath.indexOf(fieldGroup) === 0) {
+                field.prefill = !field.prefill;
+            }
         }
     }
 

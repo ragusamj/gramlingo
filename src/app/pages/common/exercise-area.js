@@ -12,7 +12,6 @@ class ExerciseArea {
         this.popupTemplate = Template.fromElementId("popup-template");
         this.trafficLightTemplate = Template.fromElementId("popup-traffic-light-template");
         this.alternativesTemplate = Template.fromElementId("popup-alternatives-template");
-        this.prefill = true;
     }
 
     updateField(field, solutions) {
@@ -23,7 +22,7 @@ class ExerciseArea {
             input.value = "-";
         }
         else {
-            input.value = this.prefill ? solutions[0] : "";
+            input.value = field.prefill ? solutions[0] : "";
         }
         this.hide(field.iconId);
         this.hide(field.popupId);

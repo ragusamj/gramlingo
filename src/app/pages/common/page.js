@@ -16,7 +16,8 @@ class Page {
                     dataPath: fieldPath + "[" + i + "]",
                     iconId: field.set("icon").id,
                     inputId: input.id,
-                    popupId: field.set("popup").id
+                    popupId: field.set("popup").id,
+                    prefill: true
                 };
                 fieldContainer.appendChild(field.fragment());
             }

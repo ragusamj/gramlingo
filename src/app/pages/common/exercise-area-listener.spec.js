@@ -4,7 +4,7 @@ import BrowserEvent from "../../core/browser-event";
 import Dom from "../../core/mock/dom";
 import ExerciseAreaListener from "./exercise-area-listener";
 
-const fieldList = { "id": { dataPath: "path", iconId: "icon-id", popupId: "popup-id" } };
+const field = { dataPath: "path", iconId: "icon-id", popupId: "popup-id", prefill: true };
 
 const checker = {
     check: sinon.stub().returns({ accepted: true })
@@ -24,7 +24,7 @@ const walker = {
 
 const setup = () => {
     let exerciseAreaListener = new ExerciseAreaListener(new BrowserEvent(), checker, exerciseArea, walker);
-    exerciseAreaListener.onPageFieldListUpdated({ detail: fieldList });
+    exerciseAreaListener.onPageFieldListUpdated({ detail: { "id": field } });
     exerciseAreaListener.onPageDataUpdated({ detail: { "path": ["alternative"] } } );
     return exerciseAreaListener;
 };
@@ -51,7 +51,7 @@ test("ExerciseArea should show answer on 'blur' event", (t) => {
         input.dispatchEvent(new Event("blur"));
 
         t.deepEqual(exerciseArea.showAnswer.lastCall.args, [
-            { dataPath: "path", iconId: "icon-id", popupId: "popup-id" }, { accepted: true }]);
+            { dataPath: "path", iconId: "icon-id", popupId: "popup-id", prefill: true }, { accepted: true }]);
         t.end();
     });
 });
@@ -62,13 +62,13 @@ test("ExerciseArea should execute field filters on 'blur' event", (t) => {
         setup();
         let input = document.getElementById("id");
         let filter = sinon.spy();
-        fieldList.id.filter = filter;
+        field.filter = filter;
 
         input.dispatchEvent(new Event("blur"));
 
         t.deepEqual(filter.lastCall.args, [input, ["alternative"]]);
 
-        delete fieldList.id.filter;
+        delete field.filter;
         t.end();
     });
 });
@@ -92,13 +92,12 @@ test("ExerciseArea should toggle inputs on 'click' event", (t) => {
 
         setup();
         let button = document.getElementById("toggle-button");
-        exerciseArea.prefill = true;
 
         button.dispatchEvent(new Event("click"));
-        t.false(exerciseArea.prefill);
+        t.false(field.prefill);
 
         button.dispatchEvent(new Event("click"));
-        t.true(exerciseArea.prefill);
+        t.true(field.prefill);
 
         t.end();
     });
@@ -113,7 +112,38 @@ test("ExerciseArea should toggle inputs on 'click' event and update fields", (t)
         button.dispatchEvent(new Event("click"));
 
         t.deepEqual(exerciseArea.updateField.lastCall.args, [
-            { dataPath: "path", iconId: "icon-id", popupId: "popup-id" }, ["alternative"]]);
+            { dataPath: "path", iconId: "icon-id", popupId: "popup-id", prefill: false  }, ["alternative"]]);
+
+        field.prefill = true;
+        t.end();
+    });
+});
+
+test("ExerciseArea should toggle inputs with matching field group on 'click' event", (t) => {
+    Dom.sandbox("<button id='toggle-button' data-toggle-inputs='path' />", {}, () => {
+
+        setup();
+        let button = document.getElementById("toggle-button");
+
+        button.dispatchEvent(new Event("click"));
+        t.false(field.prefill);
+
+        button.dispatchEvent(new Event("click"));
+        t.true(field.prefill);
+
+        t.end();
+    });
+});
+
+test("ExerciseArea should not toggle inputs without matching field group on 'click' event", (t) => {
+    Dom.sandbox("<button id='toggle-button' data-toggle-inputs='nonmatching.path' />", {}, () => {
+
+        setup();
+        let button = document.getElementById("toggle-button");
+
+        button.dispatchEvent(new Event("click"));
+        t.true(field.prefill);
+
         t.end();
     });
 });
@@ -123,11 +153,11 @@ test("ExerciseArea should ignore 'click' event if element doesn't have the attri
 
         setup();
         let button = document.getElementById("toggle-button");
-        exerciseArea.prefill = true;
+        field.prefill = true;
 
         button.dispatchEvent(new Event("click"));
 
-        t.true(exerciseArea.prefill);
+        t.true(field.prefill);
         t.end();
     });
 });
@@ -270,11 +300,11 @@ test("ExerciseArea should preserve show/hide mode when field list is updated", (
     Dom.sandbox("", {}, () => {
 
         let exerciseAreaListener = setup();
-        exerciseArea.prefill = false;
+        field.prefill = false;
 
         exerciseAreaListener.onPageFieldListUpdated({detail: {}});
 
-        t.false(exerciseArea.prefill);
+        t.false(field.prefill);
         t.end();
     });
 });

@@ -30,18 +30,20 @@ class NumeralsPage {
     addFieldFilters() {
         for(let key of Object.keys(this.fields)) {
             let field = this.fields[key];
-            if(field.dataPath.startsWith("ordinals")) {
+            if(field.dataPath.indexOf("ordinals") === 0) {
                 field.filter = this.filter;
             }
         }
     }
 
     filter(element, solutions) {
-        if(solutions[0].indexOf("ª") === (solutions[0].length) -1 && element.value.indexOf("ª") === -1) {
-            element.value += "ª";
-        }
-        if(solutions[0].indexOf("º") === (solutions[0].length) -1 && element.value.indexOf("º") === -1) {
-            element.value += "º";
+        if(element.value) {
+            if(solutions[0].indexOf("ª") === (solutions[0].length) -1 && element.value.indexOf("ª") === -1) {
+                element.value += "ª";
+            }
+            if(solutions[0].indexOf("º") === (solutions[0].length) -1 && element.value.indexOf("º") === -1) {
+                element.value += "º";
+            }
         }
     }
 

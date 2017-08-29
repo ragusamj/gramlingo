@@ -24,7 +24,7 @@ const html =
     "<div id='popup-1'></div>" +
     "<input id='input-1'/>";
 
-const field = { iconId: "icon-1", inputId: "input-1", popupId: "popup-1" };
+const field = { iconId: "icon-1", inputId: "input-1", popupId: "popup-1", prefill: true };
 const solutions = ["alternative 1"];
 
 test("ExerciseArea should update field and set input value", (t) => {
@@ -39,9 +39,10 @@ test("ExerciseArea should update field and set input value", (t) => {
 test("ExerciseArea should update field and set input value to empty string if inputs shouldn't be filled", (t) => {
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
-        exerciseArea.prefill = false;
+        field.prefill = false;
         exerciseArea.updateField(field, solutions);
         t.equal(document.getElementById("input-1").value, "");
+        field.prefill = true;
         t.end();
     });
 });
@@ -50,9 +51,10 @@ test("ExerciseArea should update field and disable input if there are no solutio
     Dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
         let noSolutions = [];
-        exerciseArea.prefill = false;
+        field.prefill = false;
         exerciseArea.updateField(field, noSolutions);
         t.true(document.getElementById("input-1").disabled);
+        field.prefill = true;
         t.end();
     });
 });

@@ -1,5 +1,5 @@
 import get from "lodash.get";
-import Page from "../common/page";
+import FieldGenerator from "../common/field-generator";
 
 class NumeralsPage {
 
@@ -20,7 +20,7 @@ class NumeralsPage {
     applyPageTemplate(pageTemplate, onPageChanged) {
         this.pageData = this.generator.randomize();
         if(!this.fields) {
-            this.fields = new Page().apply(pageTemplate, this.pageData);
+            this.fields = FieldGenerator.build(pageTemplate, this.pageData);
             this.addFieldFilters();
         }
         onPageChanged();

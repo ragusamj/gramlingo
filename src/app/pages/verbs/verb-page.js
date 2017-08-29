@@ -1,4 +1,4 @@
-import Page from "../common/page";
+import FieldGenerator from "../common/field-generator";
 
 const defaultVerbIndex = 624; // Ir
 
@@ -74,7 +74,7 @@ class VerbPage {
         let index = this.getVerbIndex(parameters.name) || defaultVerbIndex; // TODO: this will fail for index 0 (falsy)
         let pageData = this.verbs[index];
         if(!this.fields) {
-            this.fields = new Page().apply(pageTemplate, pageData);
+            this.fields = FieldGenerator.build(pageTemplate, pageData);
         }
         onPageChanged();
         this.removeListener = this.browserEvent.on("search-result-selected", this.onSearchResultSelected.bind(this));

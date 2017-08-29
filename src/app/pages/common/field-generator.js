@@ -1,8 +1,8 @@
 import get from "lodash.get";
 import Template from "../../core/template/template";
 
-class Page {
-    apply(pageTemplate, pageData) {
+class FieldGenerator {
+    static build(pageTemplate, pageData) {
         let fields = {};
         let fieldTemplate = Template.fromElementId("excercise-area-template");
         let fieldContainers = pageTemplate.querySelectorAll("[data-field-path]");
@@ -25,7 +25,7 @@ class Page {
         return fields;
     }
 
-    createInput(field) {
+    static createInput(field) {
         let input = field.set("input");
         input.autocapitalize = "off";
         input.autocomplete = "off";
@@ -35,4 +35,4 @@ class Page {
     }
 }
 
-export default Page;
+export default FieldGenerator;

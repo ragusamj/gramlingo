@@ -38,11 +38,10 @@ class NumeralsPage {
 
     filter(element, solutions) {
         if(element.value) {
-            if(solutions[0].indexOf("ª") === (solutions[0].length) -1 && element.value.indexOf("ª") === -1) {
-                element.value += "ª";
-            }
-            if(solutions[0].indexOf("º") === (solutions[0].length) -1 && element.value.indexOf("º") === -1) {
-                element.value += "º";
+            for(let sign of ["ª", "º"]) {
+                if(solutions[0].indexOf(sign) === (solutions[0].length) -1 && element.value.indexOf(sign) === -1) {
+                    element.value += sign;
+                }
             }
         }
     }

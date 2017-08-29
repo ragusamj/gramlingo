@@ -2,7 +2,7 @@ import Fraction from "./spelling/fractions/fraction";
 import Century from "./spelling/centuries/century";
 import Integer from "./spelling/integers/integer";
 import Ordinal from "./spelling/ordinals/ordinal";
-import OridnalSign from "./spelling/ordinals/ordinal-sign";
+import OridnalSuffix from "./spelling/ordinals/ordinal-suffix";
 import Time from "./spelling/time/time";
 
 class Generator {
@@ -147,11 +147,11 @@ class Generator {
     randomizeOrdinalSign(ordinal) {
         let r = Math.random();
         if((ordinal === 1 || ordinal === 3) && r <= 0.3) {
-            return { value: OridnalSign.neuter, icon: "" };
+            return { value: OridnalSuffix.neuter, icon: "" };
         }
         return r < 0.5 ?
-            { value: OridnalSign.feminine, icon: "ª" } :
-            { value: OridnalSign.masculine, icon: "º" };
+            { value: OridnalSuffix.feminine, icon: "ª" } :
+            { value: OridnalSuffix.masculine, icon: "º" };
     }
 
     randomizeTime() {

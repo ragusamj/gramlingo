@@ -1,7 +1,7 @@
 import PhoneticIndexer from "./phonetic-indexer";
 import Sanitizer from "../sanitizer";
 
-const spanishLetters = new RegExp("^[a-z" + Sanitizer.getUnicodeString() + "]+$", "i");
+const spanishLetters = new RegExp("^[a-z" + Sanitizer.getLetterString() + "]+$", "i");
 const maxSearchResults = 10;
 
 class SearchEngine {

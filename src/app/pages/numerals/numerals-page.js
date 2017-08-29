@@ -60,17 +60,24 @@ class NumeralsPage {
         if(e.target.hasAttribute("data-randomize-fields")) {
             let key = e.target.getAttribute("data-randomize-fields");
             this.pageData[key] = this.generator.randomize(key);
+            if(this.switchToggled) {
+                this.switch(key);
+            }
             this.onPageDataChanged();
         }
         if(e.target.hasAttribute("data-switch-fields")) {
-            let key = e.target.getAttribute("data-switch-fields");
-            this.pageData[key].forEach((field) => {
-                let tmp = field.q;
-                field.q = field.a;
-                field.a = tmp;
-            });
+            this.switch(e.target.getAttribute("data-switch-fields"));
+            this.switchToggled = !this.switchToggled;
             this.onPageDataChanged();
         }
+    }
+
+    switch(key) {
+        this.pageData[key].forEach((field) => {
+            let tmp = field.q;
+            field.q = field.a;
+            field.a = tmp;
+        });
     }
 
     onPageDataChanged() {

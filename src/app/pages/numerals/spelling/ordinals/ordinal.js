@@ -111,7 +111,6 @@ class Ordinal {
     static setOrdinalSign(spelling, ordinalSign) {
         for (let i = 0; i < spelling.length; i++) {
             spelling[i] = spelling[i].replace(/@/g, ordinalSign);
-            spelling[i] = spelling[i].replace(/@/g, "");
         }
     }
 }

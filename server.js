@@ -10,6 +10,7 @@ let port = process.env.PORT || 8080;
 let root = "dist";
 
 let logger = log4js.getLogger();
+logger.level = "INFO";
 let serve = serveStatic(root);
 let gzipFileCache;
 

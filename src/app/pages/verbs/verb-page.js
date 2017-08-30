@@ -1,14 +1,14 @@
-import FieldGenerator from "../common/field-generator";
 import VerbInflater from "./verb-inflater";
 
 const defaultVerbIndex = 624; // Ir
 
 class VerbPage {
 
-    constructor(browserEvent, http, i18n) {
+    constructor(browserEvent, http, i18n, fieldGenerator) {
         this.browserEvent = browserEvent;
         this.http = http;
         this.i18n = i18n;
+        this.fieldGenerator = fieldGenerator;
     }
 
     attach(pageTemplate, onPageChanged, parameters) {
@@ -40,7 +40,7 @@ class VerbPage {
         let index = this.getVerbIndex(parameters.name) || defaultVerbIndex; // TODO: this will fail for index 0 (falsy)
         let pageData = this.verbs[index];
         if(!this.fields) {
-            this.fields = FieldGenerator.build(pageTemplate, pageData);
+            this.fields = this.fieldGenerator.build(pageTemplate, pageData);
         }
         onPageChanged();
         this.removeListener = this.browserEvent.on("search-result-selected", this.onSearchResultSelected.bind(this));

@@ -18,6 +18,7 @@ import ExerciseAreaListener from "./pages/common/exercise-area/exercise-area-lis
 import ExerciseArea from "./pages/common/exercise-area/exercise-area";
 import ElementWalker from "./pages/common/walkers/element-walker";
 import InputWalker from "./pages/common/walkers/input-walker";
+import FieldGenerator from "./pages/common/field-generator";
 import IntegerGenerator from "./pages/common/integer-generator";
 import SearchListener from "./pages/common/search/search-listener";
 import SearchResult from "./pages/common/search/search-result";
@@ -34,6 +35,7 @@ import WorldPage from "./pages/world/world-page";
 const browserEvent = new BrowserEvent();
 const http = new Http();
 const i18n = new I18n();
+const fieldGenerator = new FieldGenerator();
 
 class App {
 
@@ -55,12 +57,12 @@ class App {
             },
             {
                 paths: ["/verbs", "/verbs/:name"],
-                page: new VerbPage(browserEvent, http, i18n),
+                page: new VerbPage(browserEvent, http, i18n, fieldGenerator),
                 template: "/app/pages/verbs/verb-page.html"
             },
             {
                 paths: ["/numerals", "/numerals/:type"],
-                page: new NumeralsPage(browserEvent, new NumeralGenerator(new IntegerGenerator())),
+                page: new NumeralsPage(browserEvent, fieldGenerator, new NumeralGenerator(new IntegerGenerator())),
                 template: "/app/pages/numerals/numerals-page.html"
             },
             {

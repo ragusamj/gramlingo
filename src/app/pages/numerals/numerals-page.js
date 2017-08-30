@@ -1,10 +1,10 @@
 import get from "lodash.get";
-import FieldGenerator from "../common/field-generator";
 
 class NumeralsPage {
 
-    constructor(browserEvent, numeralGenerator) {
+    constructor(browserEvent, fieldGenerator, numeralGenerator) {
         this.browserEvent = browserEvent;
+        this.fieldGenerator = fieldGenerator;
         this.numeralGenerator = numeralGenerator;
     }
 
@@ -20,7 +20,7 @@ class NumeralsPage {
     applyPageTemplate(pageTemplate, onPageChanged) {
         this.pageData = this.numeralGenerator.randomize();
         if(!this.fields) {
-            this.fields = FieldGenerator.build(pageTemplate, this.pageData);
+            this.fields = this.fieldGenerator.build(pageTemplate, this.pageData);
             this.addFieldFilters();
         }
         onPageChanged();

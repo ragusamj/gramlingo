@@ -2,7 +2,7 @@ import get from "lodash.get";
 import Template from "../../core/template/template";
 
 class FieldGenerator {
-    static build(pageTemplate, pageData) {
+    build(pageTemplate, pageData) {
         let fields = {};
         let fieldTemplate = Template.fromElementId("excercise-area-template");
         let fieldContainers = pageTemplate.querySelectorAll("[data-field-path]");
@@ -25,7 +25,7 @@ class FieldGenerator {
         return fields;
     }
 
-    static createInput(field) {
+    createInput(field) {
         let input = field.set("input");
         input.autocapitalize = "off";
         input.autocomplete = "off";

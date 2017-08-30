@@ -1,6 +1,11 @@
 class IntegerGenerator {
-    randomize(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
+
+    random() {
+        return Math.random();
+    }
+
+    range(min, max) {
+        return Math.floor(this.random() * (max - min + 1)) + min;
     }
 }
 

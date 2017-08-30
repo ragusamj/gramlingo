@@ -1,14 +1,14 @@
-import VerbInflater from "./verb-inflater";
 
 const defaultVerbIndex = 624; // Ir
 
 class VerbPage {
 
-    constructor(browserEvent, http, i18n, fieldGenerator) {
+    constructor(browserEvent, http, i18n, fieldGenerator, verbInflater) {
         this.browserEvent = browserEvent;
         this.http = http;
         this.i18n = i18n;
         this.fieldGenerator = fieldGenerator;
+        this.verbInflater = verbInflater;
     }
 
     attach(pageTemplate, onPageChanged, parameters) {
@@ -27,7 +27,7 @@ class VerbPage {
         }
         else {
             this.http.getJSON("/data/verbs.json", (data) => {
-                this.verbs = VerbInflater.inflate(data);
+                this.verbs = this.verbInflater.inflate(data);
                 callback();
             }, (event) => {
                 // console.log("loading verbs, recieved", event.loaded, "bytes of", event.total);

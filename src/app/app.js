@@ -25,9 +25,13 @@ import SearchResult from "./pages/common/search/search-result";
 
 import Erro404Page from "./pages/error/error-404-page";
 import HomePage from "./pages/home/home-page";
-import NumeralsPage from "./pages/numerals/numerals-page";
+
 import NumeralGenerator from "./pages/numerals/numeral-generator";
+import NumeralsPage from "./pages/numerals/numerals-page";
+
+import VerbInflater from "./pages/verbs/verb-inflater";
 import VerbPage from "./pages/verbs/verb-page";
+
 import WorldMap from "./pages/world/world-map";
 import WorldMapListener from "./pages/world/world-map-listener";
 import WorldPage from "./pages/world/world-page";
@@ -57,7 +61,7 @@ class App {
             },
             {
                 paths: ["/verbs", "/verbs/:name"],
-                page: new VerbPage(browserEvent, http, i18n, fieldGenerator),
+                page: new VerbPage(browserEvent, http, i18n, fieldGenerator, new VerbInflater()),
                 template: "/app/pages/verbs/verb-page.html"
             },
             {

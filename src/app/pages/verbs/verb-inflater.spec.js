@@ -1,6 +1,8 @@
 import test from "tape";
 import VerbInflater from "./verb-inflater";
 
+const inflater = new VerbInflater();
+
 const data = [
     ["Tener",0,["teniendo"],["tenido"],
         [["tengo"],["tienes"],["tiene"],["tenemos"],["tenéis"],["tienen"],["tenés"]],
@@ -26,7 +28,7 @@ const data = [
 ];
 
 test("VerbInflater should inflate verbs with negative imperative and sort by verb name", (t) => {
-    t.deepEqual(VerbInflater.inflate(data), [
+    t.deepEqual(inflater.inflate(data), [
         { name: "Hacer", regular: false, presentparticiple: [["haciendo"]], pastparticiple: [["hecho"]], 
             indicative: {
                 present: [["hago"], ["haces"], ["hace"], ["hacemos"], ["hacéis"], ["hacen"], ["hacés"]],

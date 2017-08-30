@@ -18,6 +18,7 @@ import ExerciseAreaListener from "./pages/common/exercise-area/exercise-area-lis
 import ExerciseArea from "./pages/common/exercise-area/exercise-area";
 import ElementWalker from "./pages/common/walkers/element-walker";
 import InputWalker from "./pages/common/walkers/input-walker";
+import IntegerGenerator from "./pages/common/integer-generator";
 import SearchListener from "./pages/common/search/search-listener";
 import SearchResult from "./pages/common/search/search-result";
 
@@ -59,7 +60,7 @@ class App {
             },
             {
                 paths: ["/numerals", "/numerals/:type"],
-                page: new NumeralsPage(browserEvent, new NumeralGenerator()),
+                page: new NumeralsPage(browserEvent, new NumeralGenerator(new IntegerGenerator())),
                 template: "/app/pages/numerals/numerals-page.html"
             },
             {

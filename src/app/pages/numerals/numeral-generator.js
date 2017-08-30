@@ -7,7 +7,8 @@ import Time from "./spelling/time/time";
 
 class NumeralGenerator {
 
-    constructor() {
+    constructor(integerGenerator) {
+        this.integerGenerator = integerGenerator;
         this.actions = {
             centuries: this.randomizeCenturies.bind(this),
             fractions: this.randomizeFractions.bind(this),
@@ -40,7 +41,7 @@ class NumeralGenerator {
         let buffer = [];
 
         while(buffer.length < 6) {
-            let century = this.getRandomNumber(0, 29) * 100;
+            let century = this.integerGenerator.randomize(0, 29) * 100;
             if(buffer.indexOf(century) === -1 && this.lastCenturiesValues.indexOf(century) === -1) {
                 buffer.push(century);
             }
@@ -64,8 +65,8 @@ class NumeralGenerator {
         let buffer = [];
         
         while(buffer.length < 6) {
-            let numerator = this.getRandomNumber(1, 10);
-            let denominator = this.getRandomNumber(2, 10);
+            let numerator = this.integerGenerator.randomize(1, 10);
+            let denominator = this.integerGenerator.randomize(2, 10);
             let fraction = numerator + "/" + denominator;
             if(buffer.indexOf(fraction) === -1 && this.lastFractionValues.indexOf(fraction) === -1) {
                 buffer.push(fraction);
@@ -99,7 +100,7 @@ class NumeralGenerator {
         for (let range of ranges) {
             let integer;
             do {
-                integer = this.getRandomNumber(range[0], range[1]);
+                integer = this.integerGenerator.randomize(range[0], range[1]);
             }
             while(this.lastIntegerValues.indexOf(integer) !== -1);
             buffer.push(integer);
@@ -129,7 +130,7 @@ class NumeralGenerator {
         for (let range of ranges) {
             let ordinal;
             do {
-                ordinal = this.getRandomNumber(range[0], range[1]);
+                ordinal = this.integerGenerator.randomize(range[0], range[1]);
             }
             while(buffer.indexOf(ordinal) !== -1 || this.lastOrdinalValues.indexOf(ordinal) !== -1);
             buffer.push(ordinal);
@@ -160,8 +161,8 @@ class NumeralGenerator {
         let buffer = [];
 
         while(buffer.length < 6) {
-            let hour = this.getRandomNumber(0, 23);
-            let minute = this.getRandomNumber(0, 59);
+            let hour = this.integerGenerator.randomize(0, 23);
+            let minute = this.integerGenerator.randomize(0, 59);
             let time = this.formatTimeSpan(hour, minute);
             if(buffer.indexOf(time) === -1 && this.lastTimeValues.indexOf(time) === -1) {
                 buffer.push(time);
@@ -175,10 +176,6 @@ class NumeralGenerator {
         this.lastTimeValues = buffer;
         
         return result.sort((a, b) => a.q[0][0].localeCompare(b.q[0][0]));
-    }
-
-    getRandomNumber(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     formatTimeSpan(hour, minute) {

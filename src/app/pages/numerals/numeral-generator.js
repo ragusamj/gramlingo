@@ -2,7 +2,7 @@ import Fraction from "./spelling/fractions/fraction";
 import Century from "./spelling/centuries/century";
 import Integer from "./spelling/integers/integer";
 import Ordinal from "./spelling/ordinals/ordinal";
-import OridnalSuffix from "./spelling/ordinals/ordinal-suffix";
+import OrdinalSuffix from "./spelling/ordinals/ordinal-suffix";
 import Time from "./spelling/time/time";
 
 class NumeralGenerator {
@@ -133,10 +133,10 @@ class NumeralGenerator {
             }
             while(buffer.indexOf(ordinal) !== -1 || this.lastOrdinalValues.indexOf(ordinal) !== -1);
             buffer.push(ordinal);
-            let ordinalSign = this.randomizeOrdinalSign(ordinal);
+            let ordinalType = this.randomizeOrdinalType(ordinal);
             result.push({
-                q: [[ordinal + ordinalSign.icon]],
-                a: [Ordinal.spell(ordinal, ordinalSign.value)]
+                q: [[ordinal + ordinalType.sign]],
+                a: [Ordinal.spell(ordinal, ordinalType.suffix)]
             });
         }
             
@@ -144,14 +144,14 @@ class NumeralGenerator {
         return result.sort((a, b) => a.q[0][0] - b.q[0][0]);
     }
 
-    randomizeOrdinalSign(ordinal) {
+    randomizeOrdinalType(ordinal) {
         let r = Math.random();
         if((ordinal === 1 || ordinal === 3) && r <= 0.3) {
-            return { value: OridnalSuffix.neuter, icon: "" };
+            return { suffix: OrdinalSuffix.neuter, sign: "" };
         }
         return r < 0.5 ?
-            { value: OridnalSuffix.feminine, icon: "ª" } :
-            { value: OridnalSuffix.masculine, icon: "º" };
+            { suffix: OrdinalSuffix.feminine, sign: "ª" } :
+            { suffix: OrdinalSuffix.masculine, sign: "º" };
     }
 
     randomizeTime() {

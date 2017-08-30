@@ -3,9 +3,9 @@ import FieldGenerator from "../common/field-generator";
 
 class NumeralsPage {
 
-    constructor(browserEvent, generator) {
+    constructor(browserEvent, numeralGenerator) {
         this.browserEvent = browserEvent;
-        this.generator = generator;
+        this.numeralGenerator = numeralGenerator;
     }
 
     attach(pageTemplate, onPageChanged) {
@@ -18,7 +18,7 @@ class NumeralsPage {
     }
 
     applyPageTemplate(pageTemplate, onPageChanged) {
-        this.pageData = this.generator.randomize();
+        this.pageData = this.numeralGenerator.randomize();
         if(!this.fields) {
             this.fields = FieldGenerator.build(pageTemplate, this.pageData);
             this.addFieldFilters();
@@ -58,7 +58,7 @@ class NumeralsPage {
     onClick(e) {
         if(e.target.hasAttribute("data-randomize-fields")) {
             let key = e.target.getAttribute("data-randomize-fields");
-            this.pageData[key] = this.generator.randomize(key);
+            this.pageData[key] = this.numeralGenerator.randomize(key);
             if(this.switchToggled) {
                 this.switch(key);
             }

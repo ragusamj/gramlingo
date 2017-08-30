@@ -24,7 +24,7 @@ import SearchResult from "./pages/common/search/search-result";
 import Erro404Page from "./pages/error/error-404-page";
 import HomePage from "./pages/home/home-page";
 import NumeralsPage from "./pages/numerals/numerals-page";
-import Generator from "./pages/numerals/generator";
+import NumeralGenerator from "./pages/numerals/numeral-generator";
 import VerbPage from "./pages/verbs/verb-page";
 import WorldMap from "./pages/world/world-map";
 import WorldMapListener from "./pages/world/world-map-listener";
@@ -59,7 +59,7 @@ class App {
             },
             {
                 paths: ["/numerals", "/numerals/:type"],
-                page: new NumeralsPage(browserEvent, new Generator()),
+                page: new NumeralsPage(browserEvent, new NumeralGenerator()),
                 template: "/app/pages/numerals/numerals-page.html"
             },
             {

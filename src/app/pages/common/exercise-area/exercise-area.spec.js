@@ -1,6 +1,6 @@
 import sinon from "sinon";
 import test from "tape";
-import Dom from "../../core/mock/dom";
+import Dom from "../../../core/mock/dom";
 import ExerciseArea from "./exercise-area";
 
 const html = 

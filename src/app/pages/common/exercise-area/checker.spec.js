@@ -1,5 +1,5 @@
 import test from "tape";
-import Dom from "../../core/mock/dom";
+import Dom from "../../../core/mock/dom";
 import Checker from "./checker";
 
 const checker = new Checker();

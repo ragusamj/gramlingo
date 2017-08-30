@@ -1,5 +1,5 @@
 import fastdiff from "fast-diff";
-import Sanitizer from "./sanitizer";
+import Sanitizer from "../sanitizer";
 
 class Checker {
     check(solutions, answer) {

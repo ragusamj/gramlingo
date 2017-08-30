@@ -1,7 +1,7 @@
 import sinon from "sinon";
 import test from "tape";
-import BrowserEvent from "../../core/browser-event";
-import Dom from "../../core/mock/dom";
+import BrowserEvent from "../../../core/browser-event";
+import Dom from "../../../core/mock/dom";
 import ExerciseAreaListener from "./exercise-area-listener";
 
 const field = { dataPath: "path", iconId: "icon-id", popupId: "popup-id", prefill: true };

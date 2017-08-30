@@ -13,9 +13,9 @@ import svSE from "./translations/sv-SE";
 
 import Menu from "./menu";
 
-import Checker from "./pages/common/checker";
-import ExerciseAreaListener from "./pages/common/exercise-area-listener";
-import ExerciseArea from "./pages/common/exercise-area";
+import Checker from "./pages/common/exercise-area/checker";
+import ExerciseAreaListener from "./pages/common/exercise-area/exercise-area-listener";
+import ExerciseArea from "./pages/common/exercise-area/exercise-area";
 import ElementWalker from "./pages/common/walkers/element-walker";
 import InputWalker from "./pages/common/walkers/input-walker";
 import SearchListener from "./pages/common/search/search-listener";

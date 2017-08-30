@@ -1,4 +1,4 @@
-import Template from "../../core/template/template";
+import Template from "../../../core/template/template";
 
 const type = 0;
 const data = 1;

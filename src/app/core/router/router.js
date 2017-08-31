@@ -11,9 +11,9 @@ class Router {
 
     onClick(e) {
         if(e.target.hasAttribute("data-route-link")) {
+            e.preventDefault();
             let route = this.finder.getRoute(e.target.pathname);
-            if(route) {
-                e.preventDefault();
+            if(this.assert(route)) {
                 this.onUrlChange(e.target.href);
                 this.broker.go(route);
             }
@@ -21,11 +21,22 @@ class Router {
     }
 
     onPageLoad() {
-        this.broker.go(this.finder.getRoute(window.location.pathname));
+        let route = this.finder.getRoute(window.location.pathname);
+        if(this.assert(route)) {
+            this.broker.go(route);
+        }
     }
 
     onUrlChange(e) {
         window.history.pushState({}, "", e.detail || e);
+    }
+
+    assert(route) {
+        if(route && route.path !== this.currentPath) {
+            this.currentPath = route.path;
+            return true;
+        }
+        return false;
     }
 }
 

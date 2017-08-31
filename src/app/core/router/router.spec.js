@@ -4,7 +4,9 @@ import Dom from "../mock/dom";
 import BrowserEvent from "../browser-event";
 import Router from "./router";
 
-const route = {};
+const route = {
+    path: "/page"
+};
 const finder = {};
 const broker = {};
 
@@ -53,6 +55,21 @@ test("Router should go to the route that matches the address bar on event 'DOMCo
         window.dispatchEvent(new Event("DOMContentLoaded"));
 
         t.deepEqual(broker.go.firstCall.args, [route]);
+        t.end();
+    });
+});
+
+test("Router should do nothing if no route matches the address bar on event 'DOMContentLoaded'", (t) => {
+    Dom.sandbox("", {}, () => {
+
+        finder.getRoute = sinon.stub().returns(undefined);
+        broker.go = sinon.stub();
+        let browserEvent = new BrowserEvent();
+        new Router(browserEvent, finder, broker);
+
+        window.dispatchEvent(new Event("DOMContentLoaded"));
+
+        t.false(broker.go.called);
         t.end();
     });
 });
@@ -121,7 +138,7 @@ test("Router should go to the route that matches the address bar on event 'click
     });
 });
 
-test("Router should ignore the event 'click' if route matches", (t) => {
+test("Router should ignore the event 'click' if no route matches", (t) => {
     Dom.sandbox("<a href='/page' data-route-link></a>", { url: "http://example.com" }, () => {
 
         finder.getRoute = sinon.stub().returns(undefined);
@@ -148,6 +165,29 @@ test("Router should ignore the event 'click' from elements without the attribute
         a.dispatchEvent(new Event("click"));
 
         t.false(broker.go.called);
+        t.end();
+    });
+});
+
+test("Router should ignore multiple calls on the current url on event 'click'", (t) => {
+    Dom.sandbox("<a href='/page' data-route-link></a>", { url: "http://example.com" }, () => {
+
+        finder.getRoute = sinon.stub().returns(route);
+        broker.go = sinon.stub();
+        window.history.pushState = sinon.stub();
+        let browserEvent = new BrowserEvent();
+        new Router(browserEvent, finder, broker);
+
+        let a = document.querySelector("a");
+
+        a.dispatchEvent(new Event("click"));
+        t.deepEqual(broker.go.firstCall.args, [route]);
+
+        broker.go.reset();
+
+        a.dispatchEvent(new Event("click"));
+        t.false(broker.go.called);
+
         t.end();
     });
 });

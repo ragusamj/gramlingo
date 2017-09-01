@@ -1,5 +1,5 @@
 
-const defaultVerbIndex = 624; // Ir
+const defaultVerb = "Ir";
 
 class VerbPage {
 
@@ -37,7 +37,7 @@ class VerbPage {
     }
 
     loadPage(pageTemplate, onPageChanged, parameters) {
-        let index = this.getVerbIndex(parameters.name) || defaultVerbIndex; // TODO: this will fail for index 0 (falsy)
+        let index = this.getVerbIndex(parameters.name || defaultVerb);
         let pageData = this.verbs[index];
         if(!this.fields) {
             this.fields = this.fieldGenerator.build(pageTemplate, pageData);

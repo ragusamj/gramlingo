@@ -17,7 +17,7 @@ class SearchResult {
 
         if(result.matches.length > 0) {
 
-            result.matches.forEach((match) => {
+            for(let match of result.matches) {
                 let itemTemplate = this.itemTemplate.clone();
                 itemTemplate.set("pre", { innerHTML: match.pre });
                 itemTemplate.set("match", { innerHTML: match.match });
@@ -27,7 +27,7 @@ class SearchResult {
                 li.setAttribute("data-search-result-index", match.index);
                 this.ids.push(li.id);
                 ul.appendChild(itemTemplate.fragment());
-            });
+            }
 
             if(result.maxExceeded) {
                 template.add(ul, "li", { innerHTML: "..." });

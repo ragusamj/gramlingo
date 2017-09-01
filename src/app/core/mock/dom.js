@@ -197,15 +197,15 @@ class Dom {
 
         global.window = dom.window;
 
-        properties.forEach((property) => {
+        for(let property of properties) {
             global[property] = dom.window[property];
-        });
+        }
 
         callback(dom);
 
-        properties.forEach((property) => {
+        for(let property of properties) {
             delete global[property];
-        });
+        }
 
         dom.window.close();
     }

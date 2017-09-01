@@ -15,10 +15,10 @@ class Toggler {
     onDomContentChanged() {
         this.togglers = {};
         let elements = document.querySelectorAll("[data-toggler]");
-        elements.forEach((element) => {
+        for(let element of elements) {
             let item = this.create(element);
             this.update(item);
-        });
+        }
     }
 
     toggle(item) {

@@ -32,15 +32,15 @@ class I18n {
     }
 
     translateApplication() {
-        attributes.forEach((attribute) => {
+        for(let attribute of attributes) {
             let selector = attribute === defaultAttribute ?
                 defaultSelector :
                 defaultSelector + "-" + attribute;
             let elements = document.querySelectorAll("[" + selector + "]");
-            elements.forEach((element) => {
+            for(let element of elements) {
                 this.translate(element, attribute, selector);
-            });
-        });
+            }
+        }
     }
 
     getUserLanguage() {

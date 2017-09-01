@@ -6,7 +6,7 @@ let path = require("path");
 let outputDirectory = path.join(process.cwd(), process.argv[3]);
 
 glob(process.argv[2], {}, function (error, files) {
-    files.forEach(function(file) {
+    for(let file of files) {
         fs.readFile(file, function(error, json) {
             let minified = JSON.stringify(JSON.parse(json));
             let filename = path.basename(file);
@@ -22,5 +22,5 @@ glob(process.argv[2], {}, function (error, files) {
                 }
             });
         });
-    });
+    }
 });

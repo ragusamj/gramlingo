@@ -47,12 +47,12 @@ class NumeralsPage {
     }
 
     applyHeaders() {
-        let headerContainer = document.querySelectorAll("[data-field-header-path]");
-        headerContainer.forEach((headerContainer) => {
+        let headerContainers = document.querySelectorAll("[data-field-header-path]");
+        for(let headerContainer of headerContainers) {
             let headerPath = headerContainer.getAttribute("data-field-header-path");
             let header = get(this.pageData, headerPath);
             headerContainer.innerHTML = header[0][0];
-        });
+        }
     }
 
     onClick(e) {
@@ -72,11 +72,11 @@ class NumeralsPage {
     }
 
     switch(key) {
-        this.pageData[key].forEach((field) => {
+        for(let field of this.pageData[key]) {
             let tmp = field.q;
             field.q = field.a;
             field.a = tmp;
-        });
+        }
     }
 
     onPageDataChanged() {

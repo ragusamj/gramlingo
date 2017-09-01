@@ -6,7 +6,7 @@ class FieldGenerator {
         let fields = {};
         let fieldTemplate = Template.fromElementId("excercise-area-template");
         let fieldContainers = pageTemplate.querySelectorAll("[data-field-path]");
-        fieldContainers.forEach((fieldContainer) => {
+        for(let fieldContainer of fieldContainers) {
             let fieldPath = fieldContainer.getAttribute("data-field-path");
             let fieldData = get(pageData, fieldPath);
             for(let i = 0; i < fieldData.length; i++) {
@@ -21,7 +21,7 @@ class FieldGenerator {
                 };
                 fieldContainer.appendChild(field.fragment());
             }
-        });
+        }
         return fields;
     }
 

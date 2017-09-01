@@ -8,9 +8,9 @@ class BrowserEvent {
         if(!this.listeners[name]) {
             this.listeners[name] = [];
             window.addEventListener(name, (e) => {
-                this.listeners[name].forEach((callback) => {
+                for(let callback of this.listeners[name]) {
                     callback(e);
-                });
+                }
             }, true);
         }  
         let listenerIndex = this.listeners[name].push(callback) -1;

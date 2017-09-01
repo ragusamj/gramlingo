@@ -80,7 +80,7 @@ class ExerciseArea {
 
     visualizeDiff(errorTemplate, result) {
         let td = errorTemplate.set("diff");
-        result.diff.forEach((diff) => {
+        for(let diff of result.diff) {
             switch(diff[type]) {
                 case deleted:
                     errorTemplate.add(td, "span", { innerHTML: diff[data], className: "missing-letter" });
@@ -92,17 +92,17 @@ class ExerciseArea {
                     errorTemplate.add(td, "span", { innerHTML: diff[data], className: "text-danger alien-letter" });
                     break;
             }
-        });
+        }
     }
 
     addSolutions(result, tbody) {
-        result.alternatives.forEach((alternative) => {
+        for(let alternative of result.alternatives) {
             if(alternative !== result.solution) {
                 let altTemplate = this.alternativesTemplate.clone();
                 altTemplate.set("alternative", { innerHTML: alternative });
                 tbody.appendChild(altTemplate.fragment());
             }
-        });
+        }
     }
 
     hide(id) {

@@ -73,9 +73,9 @@ class Template {
 
     setProperties(element, properties) {
         if(properties) {
-            Object.keys(properties).forEach((key) => {
+            for(let key of Object.keys(properties)) {
                 element[key] = properties[key];
-            });
+            }
         }
     }
 }

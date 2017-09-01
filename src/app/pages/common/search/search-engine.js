@@ -37,30 +37,29 @@ class SearchEngine {
         if(!this.phoneticIndex) {
             this.phoneticIndex = {};
             this.data.forEach((item, index) => {
-                Object.keys(item).forEach((key) => {
+                for(let key of Object.keys(item)) {
                     this.index(item[key], index, key);
-                });
+                }
             });
         }
     }
 
     index(obj, dataIndex, type) {
         if(typeof obj === "string") {
-            let keys = this.indexer.index(obj);
-            keys.forEach((key, i) => {
+            for(let key of this.indexer.index(obj)) {
                 let values = this.phoneticIndex[key] = this.phoneticIndex[key] || [];
-                values.push({type: type, dataIndex: dataIndex, value: obj, r: i});
-            });
+                values.push({type: type, dataIndex: dataIndex, value: obj});
+            }
         }
-        else if (Array.isArray(obj)){
-            obj.forEach((value) => {
+        else if (Array.isArray(obj)) {
+            for(let value of obj) {
                 this.index(value, dataIndex, type);
-            });
+            }
         }
         else if (typeof obj === "object") {
-            Object.keys(obj).forEach((key) => {
+            for(let key of Object.keys(obj)) {
                 this.index(obj[key], dataIndex, type);
-            });
+            }
         }
     }
 

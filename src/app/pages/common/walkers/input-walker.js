@@ -4,12 +4,12 @@ class InputWalker {
 
     link(ids) {
         this.ids = [];
-        ids.forEach((id) => {
+        for(let id of ids) {
             let element = document.getElementById(id);
             if(!element.disabled) {
                 this.ids.push(id);
             }
-        });
+        }
     }
 
     walk(key, id) {

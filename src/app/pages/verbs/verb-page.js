@@ -38,25 +38,30 @@ class VerbPage {
 
     loadPage(pageTemplate, onPageChanged, parameters) {
         let index = this.getVerbIndex(parameters.name || defaultVerb);
-        let pageData = this.verbs[index];
-        if(!this.fields) {
-            this.fields = this.fieldGenerator.build(pageTemplate, pageData);
+        if(index === undefined) {
+            onPageChanged();
         }
-        onPageChanged();
-        this.removeListener = this.browserEvent.on("search-result-selected", this.onSearchResultSelected.bind(this));
-        this.browserEvent.emit("page-searchable-data-updated", this.verbs);
-        this.browserEvent.emit("page-field-list-updated", this.fields);
-        this.onPageDataChanged(index);
+        else {
+            let pageData = this.verbs[index];
+            if(!this.fields) {
+                this.fields = this.fieldGenerator.build(pageTemplate, pageData);
+            }
+            onPageChanged();
+            this.removeListener = this.browserEvent.on("search-result-selected", this.onSearchResultSelected.bind(this));
+            this.browserEvent.emit("page-searchable-data-updated", this.verbs);
+            this.browserEvent.emit("page-field-list-updated", this.fields);
+            this.onPageDataChanged(index);
+        }
     }
 
     getVerbIndex(name) {
-        if(name) {
-            for(let i = 0; i < this.verbs.length; i++) {
-                if(this.verbs[i].name.toLowerCase() === name.toLowerCase()) {
-                    return i;
-                }
+        for(let i = 0; i < this.verbs.length; i++) {
+            if(this.verbs[i].name.toLowerCase() === name.toLowerCase()) {
+                return i;
             }
         }
+
+        // TODO: show error message, verb 'blargear' not found
         return undefined;
     }
 

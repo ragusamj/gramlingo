@@ -100,29 +100,31 @@ class SearchEngine {
         if(matches.length < maxSearchResults) {
             this.assertPhoneticIndex();
             let keys = this.indexer.index(term);
-            for(let i = 0; i < keys.length; i++) {
-                let key = keys[i];
+            for(let key of keys) {
                 let index = this.phoneticIndex[key];
                 if(index) {
-                    for(let j = 0; j < index.length; j++) {
-                        let match = index[j];
-                        let value = match.value.toLowerCase();
-                        let source = this.data[match.dataIndex].name.toLowerCase();
-                        let dupekey = value + "_" + source;
-                        if(dupecache.indexOf(dupekey) === -1) {
-                            dupecache.push(dupekey);
-                            let weight = (match.value === term ? 80 : 70) - (match.type === "name" ? 0 : 1);
-                            matches.push({
-                                weight: weight,
-                                pre: "",
-                                match: value,
-                                post: "",
-                                source: source,
-                                index: match.dataIndex
-                            });
-                        }
-                    }
+                    this.addWeightedPhoneticMathces(matches, term, index, dupecache);
                 }
+            }
+        }
+    }
+
+    addWeightedPhoneticMathces(matches, term, index, dupecache) {
+        for(let match of index) {
+            let value = match.value.toLowerCase();
+            let source = this.data[match.dataIndex].name.toLowerCase();
+            let dupekey = value + "_" + source;
+            if(dupecache.indexOf(dupekey) === -1) {
+                dupecache.push(dupekey);
+                let weight = (match.value === term ? 80 : 70) - (match.type === "name" ? 0 : 1);
+                matches.push({
+                    weight: weight,
+                    pre: "",
+                    match: value,
+                    post: "",
+                    source: source,
+                    index: match.dataIndex
+                });
             }
         }
     }

@@ -5,17 +5,27 @@ export default {
     "navigation-link-world": "Världen",
     "navigation-link-help": "Hjälp",
 
-    "numerals-header-centuries": "Sekler",
-    "numerals-header-fractions": "Bråktal",
-    "numerals-header-integers": "Heltal",
-    "numerals-header-ordinals": "Ordningstal",
-    "numerals-header-time": "Klockan",
+    "numerals-header": "Räkneord",
+    "numerals-help-header": "Hjälp",
+    "numerals-help-body":
+        "<h3>Hur säger man <em>123456</em> på spanska?</h3>" +
+        "<p>Och hur är det med 12/6...? Tredje, fjärde, femte och så vidare? Hur i hela friden säger man att klockan är tolv?</p>" +
+        "<p>Don't fret, these exercises will help you master all these numbers in spanish in no time!<br/>" +
+        "Just choose a type of numeral to work with and type away like there's no tomorrow!</p>" +
+        "<p>The application will randomize new numbers for you for as long as you want and correct your mistakes until you've mastered this area in spanish.</p>" +
+        "<p>You can even ask the machine to spell the numbers for you!</p>",
 
-    "numerals-button-centuries": "sekler",
-    "numerals-button-fractions": "bråktal",
-    "numerals-button-integers": "heltal",
-    "numerals-button-ordinals": "ordningstal",
-    "numerals-button-time": "klockan",
+    "numerals-centuries-header": "Sekler",
+    "numerals-fractions-header": "Bråktal",
+    "numerals-integers-header": "Heltal",
+    "numerals-ordinals-header": "Ordningstal",
+    "numerals-time-header": "Klockan",
+
+    "numerals-centuries-button": "sekler",
+    "numerals-fractions-button": "bråktal",
+    "numerals-integers-button": "heltal",
+    "numerals-ordinals-button": "ordningstal",
+    "numerals-time-button": "klockan",
 
     "verbs-header-regular": "(regelbundet)",
     "verbs-header-irregular": "(oregelbundet)",

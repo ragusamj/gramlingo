@@ -5,17 +5,27 @@ export default {
     "navigation-link-world": "El mundo",
     "navigation-link-help": "Ayuda",
 
-    "numerals-header-centuries": "Siglos",
-    "numerals-header-fractions": "Fraccions",
-    "numerals-header-integers": "Números enteros",
-    "numerals-header-ordinals": "Ordinales",
-    "numerals-header-time": "Tiempo",
+    "numerals-header": "Números",
+    "numerals-help-header": "Ayuda",
+    "numerals-help-body":
+        "<h3>¿Cómo se dice <em>123456</em> en español?</h3>" +
+        "<p>And what about 12/6...? The third, the fourth, the fifth and so on? How on earth do you say it's twelve o'clock?</p>" +
+        "<p>Don't fret, these exercises will help you master all these numbers in spanish in no time!<br/>" +
+        "Just choose a type of numeral to work with and type away like there's no tomorrow!</p>" +
+        "<p>The application will randomize new numbers for you for as long as you want and correct your mistakes until you've mastered this area in spanish.</p>" +
+        "<p>You can even ask the machine to spell the numbers for you!</p>",
 
-    "numerals-button-centuries": "siglos",
-    "numerals-button-fractions": "fracciones",
-    "numerals-button-integers": "números enteros",
-    "numerals-button-ordinals": "ordinales",
-    "numerals-button-time": "tiempo",
+    "numerals-centuries-header": "Siglos",
+    "numerals-fractions-header": "Fraccions",
+    "numerals-integers-header": "Números enteros",
+    "numerals-ordinals-header": "Ordinales",
+    "numerals-time-header": "Tiempo",
+
+    "numerals-centuries-button": "siglos",
+    "numerals-fractions-button": "fracciones",
+    "numerals-integers-button": "números enteros",
+    "numerals-ordinals-button": "ordinales",
+    "numerals-time-button": "tiempo",
 
     "verbs-header-regular": "(regular)",
     "verbs-header-irregular": "(irregular)",

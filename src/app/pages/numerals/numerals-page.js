@@ -86,8 +86,8 @@ class NumeralsPage {
     }
 
     setHeader() {
-        let header = document.getElementById("numeral-header");
-        header.setAttribute("data-translate", "numerals-header-" + this.type);
+        let header = document.getElementById("numerals-type-header");
+        header.setAttribute("data-translate", "numerals-" + this.type + "-header");
         this.i18n.translate(header);
     }
 

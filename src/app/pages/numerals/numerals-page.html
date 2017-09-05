@@ -8,7 +8,7 @@
 
         <div class="row mb-3">
             <div class="col-md-12">
-                <h1>Räkneord</h1>
+                <h1 data-translate="numerals-header"></h1>
                 <hr/>
                 <h3 class="toolbox">
                     <button
@@ -20,23 +20,16 @@
                         class="text-info toolbox-button">
                         <span id="toggle-help-on" class="fa fa-chevron-circle-down"></span>
                         <span id="toggle-help-off" class="fa fa-chevron-circle-right"></span>
-                        <span class="text-muted">Help</span>
+                        <span class="text-muted" data-translate="numerals-help-header"></span>
                     </button>
                 </h3>
-                <div id="help-box" class="expandable-box-sm">
-                    <h3 class="">How do you say <em>123456</em> in spanish?</h3>
-                    <p>And what about 12/6...? The third, the fourth, the fifth and so on? How on earth do you say it's twelve o'clock?</p>
-                    <p>Don't fret, these exercises will help you master all these numbers in spanish in no time!<br/>
-                    Just choose a type of numeral to work with and type away like there's no tomorrow!</p>
-                    <p>The application will randomize new numbers for you for as long as you want and correct your mistakes until you've mastered this area in spanish.</p>
-                    <p>You can even ask the machine to spell the numbers for you!</p>
-                </div>
+                <div id="help-box" class="expandable-box-sm" data-translate="numerals-help-body"></div>
                 <div class="mt-2 text-center text-sm-left">
-                    <button class="btn btn-sm btn-secondary" data-numeral-button="integers" data-translate="numerals-button-integers">heltal</button>
-                    <button class="btn btn-sm btn-secondary" data-numeral-button="time" data-translate="numerals-button-time">klockan</button>
-                    <button class="btn btn-sm btn-secondary" data-numeral-button="ordinals" data-translate="numerals-button-ordinals">ordningstal</button>
-                    <button class="btn btn-sm btn-secondary" data-numeral-button="fractions" data-translate="numerals-button-fractions">bråktal</button>
-                    <button class="btn btn-sm btn-secondary" data-numeral-button="centuries" data-translate="numerals-button-centuries">sekler</button>
+                    <button class="btn btn-sm btn-secondary" data-numeral-button="integers" data-translate="numerals-integers-button">heltal</button>
+                    <button class="btn btn-sm btn-secondary" data-numeral-button="time" data-translate="numerals-time-button">klockan</button>
+                    <button class="btn btn-sm btn-secondary" data-numeral-button="ordinals" data-translate="numerals-ordinals-button">ordningstal</button>
+                    <button class="btn btn-sm btn-secondary" data-numeral-button="fractions" data-translate="numerals-fractions-button">bråktal</button>
+                    <button class="btn btn-sm btn-secondary" data-numeral-button="centuries" data-translate="numerals-centuries-button">sekler</button>
                 </div>
             </div>
         </div>
@@ -52,7 +45,7 @@
                         class="text-info toolbox-button">
                         <span id="toggle-numerals-exercise-on" class="fa fa-chevron-circle-down"></span>
                         <span id="toggle-numerals-exercise-off" class="fa fa-chevron-circle-right"></span>
-                        <span id="numeral-header" class="text-muted"></span>
+                        <span id="numerals-type-header" class="text-muted"></span>
                     </button>
                 </h3>
                 <div id="numerals-exercise-box" class="expandable-box-lg">

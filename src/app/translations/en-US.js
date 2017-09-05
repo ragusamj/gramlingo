@@ -5,6 +5,18 @@ export default {
     "navigation-link-world": "The world",
     "navigation-link-help": "Help",
 
+    "numerals-header-centuries": "Centuries",
+    "numerals-header-fractions": "Fractions",
+    "numerals-header-integers": "Integers",
+    "numerals-header-ordinals": "Ordinals",
+    "numerals-header-time": "Time",
+
+    "numerals-button-centuries": "centuries",
+    "numerals-button-fractions": "fractions",
+    "numerals-button-integers": "integers",
+    "numerals-button-ordinals": "ordinals",
+    "numerals-button-time": "time",
+
     "verbs-header-regular": "(regular)",
     "verbs-header-irregular": "(irregular)",
 

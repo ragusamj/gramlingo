@@ -2,14 +2,16 @@ import get from "lodash.get";
 
 class NumeralsPage {
 
-    constructor(browserEvent, fieldGenerator, numeralGenerator) {
+    constructor(browserEvent, i18n, fieldGenerator, numeralGenerator) {
         this.browserEvent = browserEvent;
+        this.i18n = i18n;
         this.fieldGenerator = fieldGenerator;
         this.numeralGenerator = numeralGenerator;
     }
 
-    attach(pageTemplate, onPageChanged) {
-        this.applyPageTemplate(pageTemplate, onPageChanged);
+    attach(pageTemplate, onPageChanged, parameters) {
+        this.type = parameters.type.toLowerCase() || "integers";
+        this.applyPageTemplate(pageTemplate, onPageChanged, parameters);
         this.removeClickListener = this.browserEvent.on("click", this.onClick.bind(this));
     }
 
@@ -18,20 +20,21 @@ class NumeralsPage {
     }
 
     applyPageTemplate(pageTemplate, onPageChanged) {
-        this.pageData = this.numeralGenerator.randomize();
+        this.pageData = {
+            numerals: this.numeralGenerator.randomize(this.type)
+        };
         if(!this.fields) {
             this.fields = this.fieldGenerator.build(pageTemplate, this.pageData);
-            this.addFieldFilters();
         }
+        this.addFieldFilters();
         onPageChanged();
         this.onPageDataChanged();
     }
 
     addFieldFilters() {
-        for(let key of Object.keys(this.fields)) {
-            let field = this.fields[key];
-            if(field.dataPath.indexOf("ordinals") === 0) {
-                field.filter = this.filter;
+        if(this.type === "ordinals") {
+            for(let key of Object.keys(this.fields)) {
+                this.fields[key].filter = this.filter;
             }
         }
     }
@@ -46,33 +49,29 @@ class NumeralsPage {
         }
     }
 
-    applyHeaders() {
-        let headerContainers = document.querySelectorAll("[data-field-header-path]");
-        for(let headerContainer of headerContainers) {
-            let headerPath = headerContainer.getAttribute("data-field-header-path");
-            let header = get(this.pageData, headerPath);
-            headerContainer.innerHTML = header[0][0];
-        }
-    }
-
     onClick(e) {
+        if(e.target.hasAttribute("data-numeral-button")) {
+            this.type = e.target.getAttribute("data-numeral-button");
+            this.pageData.numerals = this.numeralGenerator.randomize(this.type);
+            this.onPageDataChanged();
+            this.browserEvent.emit("url-change", "/numerals/" + this.type);
+        }
         if(e.target.hasAttribute("data-randomize-fields")) {
-            let key = e.target.getAttribute("data-randomize-fields");
-            this.pageData[key] = this.numeralGenerator.randomize(key);
+            this.pageData.numerals = this.numeralGenerator.randomize(this.type);
             if(this.switchToggled) {
-                this.switch(key);
+                this.switch();
             }
             this.onPageDataChanged();
         }
         if(e.target.hasAttribute("data-switch-fields")) {
-            this.switch(e.target.getAttribute("data-switch-fields"));
+            this.switch();
             this.switchToggled = !this.switchToggled;
             this.onPageDataChanged();
         }
     }
-
-    switch(key) {
-        for(let field of this.pageData[key]) {
+    
+    switch() {
+        for(let field of this.pageData.numerals) {
             let tmp = field.q;
             field.q = field.a;
             field.a = tmp;
@@ -80,9 +79,25 @@ class NumeralsPage {
     }
 
     onPageDataChanged() {
-        this.applyHeaders();
+        this.setHeader();
+        this.setQuestionHeaders();
         this.browserEvent.emit("page-field-list-updated", this.fields);
         this.browserEvent.emit("page-data-updated", this.pageData);
+    }
+
+    setHeader() {
+        let header = document.getElementById("numeral-header");
+        header.setAttribute("data-translate", "numerals-header-" + this.type);
+        this.i18n.translate(header);
+    }
+
+    setQuestionHeaders() {
+        let headerContainers = document.querySelectorAll("[data-field-header-path]");
+        for(let headerContainer of headerContainers) {
+            let headerPath = headerContainer.getAttribute("data-field-header-path");
+            let header = get(this.pageData, headerPath);
+            headerContainer.innerHTML = header[0][0];
+        }
     }
 }
 

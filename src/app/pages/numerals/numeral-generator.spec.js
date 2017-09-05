@@ -24,56 +24,6 @@ const assertUnique = (t, a, b) => {
     }
 };
 
-test("NumeralGenerator should randomize all numeral types", (t) => {
-    const generator = new NumeralGenerator(mockIntegerGenerator);
-    mockRandomRangeSeed = 0;
-
-    t.deepEqual(generator.randomize(), {
-        "centuries": [
-            { "q": [["0-99"]],    "a": [["I"]] },
-            { "q": [["100-199"]], "a": [["II"]] },
-            { "q": [["200-299"]], "a": [["III"]] },
-            { "q": [["300-399"]], "a": [["IV"]] },
-            { "q": [["400-499"]], "a": [["V"]] },
-            { "q": [["500-599"]], "a": [["VI"]] }
-        ],
-        "fractions": [
-            { "p": 0.8571428571428571, "q": [["6/7"]],   "a": [["seis séptimos"]] },
-            { "p": 0.8888888888888888, "q": [["8/9"]],   "a": [["ocho novenos"]] },
-            { "p": 0.9090909090909091, "q": [["10/11"]], "a": [["diez onceavos", "diez onzavos"]] },
-            { "p": 0.9230769230769231, "q": [["12/13"]], "a": [["doce treceavos", "doce trezavos"]] },
-            { "p": 0.9333333333333333, "q": [["14/15"]], "a": [["catorce quinceavos", "catorce quinzavos"]] },
-            { "p": 0.9411764705882353, "q": [["16/17"]], "a": [["dieciséis diecisieteavos"]] }
-        ],
-        "integers": [
-            { "q": [[1]], "a": [["uno"]] },
-            { "q": [[2]], "a": [["dos"]] },
-            { "q": [[3]], "a": [["tres"]] },
-            { "q": [[4]], "a": [["cuatro"]] },
-            { "q": [[5]], "a": [["cinco"]] },
-            { "q": [[6]], "a": [["seis"]] }
-        ],
-        "ordinals": [
-            { "q": [["7ª"]],  "a": [["séptima"]] },
-            { "q": [["8ª"]],  "a": [["octava"]] },
-            { "q": [["9ª"]],  "a": [["novena"]] },
-            { "q": [["10ª"]], "a": [["décima"]] },
-            { "q": [["11ª"]], "a": [["undécima", "oncena", "decimoprimera"]] },
-            { "q": [["12ª"]], "a": [["duodécima", "docena", "decimosegunda"]] }
-        ],
-        "time": [
-            { "q": [["02:03"]], "a": [["son las dos y tres"]] },
-            { "q": [["04:05"]], "a": [["son las cuatro y cinco"]] },
-            { "q": [["06:07"]], "a": [["son las seis y siete"]] },
-            { "q": [["13:14"]], "a": [["son las trece y catorce", "es la una y catorce"]] },
-            { "q": [["15:16"]], "a": [["son las quince y dieciséis", "son las tres y dieciséis"]] },
-            { "q": [["17:01"]], "a": [["son las diecisiete y uno", "son las cinco y uno"]] }
-        ]
-    });
-
-    t.end();
-});
-
 test("NumeralGenerator should randomize centuries", (t) => {
     const generator = new NumeralGenerator(mockIntegerGenerator);
     mockRandomRangeSeed = 0;

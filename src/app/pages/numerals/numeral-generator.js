@@ -24,15 +24,7 @@ class NumeralGenerator {
     }
 
     randomize(key) {
-        if(key) {
-            return this.actions[key]();
-        }
-
-        let generated = {};
-        for (let key of Object.keys(this.actions)) {
-            generated[key] = this.actions[key]();
-        }
-        return generated;
+        return this.actions[key]();
     }
 
     randomizeCenturies() {

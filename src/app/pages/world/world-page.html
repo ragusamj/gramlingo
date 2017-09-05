@@ -8,7 +8,7 @@
 
         <div class="row mb-3">
             <div class="col-md-12">
-                <h1>Världen</h1>
+                <h1 data-translate="world-header"></h1>
                 <hr/>
                 <h3 class="toolbox">
                     <button
@@ -16,12 +16,14 @@
                         data-toggler-on="toggle-help-on"
                         data-toggler-off="toggle-help-off"
                         data-toggler-state="off"
+                        data-toggler-expand-area="help-box"
                         class="text-info toolbox-button">
                         <span id="toggle-help-on" class="fa fa-chevron-circle-down"></span>
                         <span id="toggle-help-off" class="fa fa-chevron-circle-right"></span>
+                        <span class="text-muted" data-translate="world-help-header"></span>
                     </button>
-                    <span class="text-muted">Help</span>
                 </h3>
+                <div id="help-box" class="expandable-box-sm" data-translate="world-help-body"></div>
             </div>
         </div>
 
@@ -36,7 +38,7 @@
                         class="text-info toolbox-button">
                         <span id="toggle-country-exercise-on" class="fa fa-chevron-circle-down"></span>
                         <span id="toggle-country-exercise-off" class="fa fa-chevron-circle-right"></span>
-                        <span class="text-muted">Countries</span>
+                        <span class="text-muted" data-translate="world-countries-header"></span>
                     </button>
                 </h3>
                 <div id="country-exercise-box" class="expandable-box-lg">

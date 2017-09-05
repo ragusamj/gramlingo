@@ -43,6 +43,12 @@ export default {
 
     "verbs-search-input-placeholder": "Search",
 
+    "world-header": "The world",
+    "world-help-header": "Help",
+    "world-help-body":
+        "...",
+    "world-countries-header": "Countries",
+
     "error-404-header": "We're sorry...",
     "error-404-body": "404 - The page you're trying to reach doesn't exist.",
     "error-404-contact": "If you think this is an error, please <a href='https://github.com/erikbarke/snapgram/issues'>contact us!</a>"

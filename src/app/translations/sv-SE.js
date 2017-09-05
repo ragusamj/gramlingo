@@ -43,6 +43,12 @@ export default {
 
     "verbs-search-input-placeholder": "Sök",
 
+    "world-header": "Världen",
+    "world-help-header": "Hjälp",
+    "world-help-body":
+        "...",
+    "world-countries-header": "Länder",
+
     "error-404-header": "Vi ber om ursäkt...",
     "error-404-body": "404 - Sidan du försöker nå finns inte.",
     "error-404-contact": "Om du tror att det här är ett fel, <a href='https://github.com/erikbarke/snapgram/issues'>kontakta oss!</a>"

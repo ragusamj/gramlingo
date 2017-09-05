@@ -8,7 +8,6 @@ import Toggler from "./core/widgets/toggler";
 
 import enUS from "./translations/en-US";
 import esES from "./translations/es-ES";
-import ruRU from "./translations/ru-RU";
 import svSE from "./translations/sv-SE";
 
 import Menu from "./menu";
@@ -51,7 +50,6 @@ class App {
         i18n.addTranslation("en-US", enUS);
         i18n.addTranslation("es-ES", esES);
         i18n.addTranslation("sv-SE", svSE);
-        i18n.addTranslation("ru-RU", ruRU);
 
         const routes = [
             {
@@ -66,7 +64,7 @@ class App {
             },
             {
                 paths: ["/numerals", "/numerals/:type"],
-                page: new NumeralsPage(browserEvent, fieldGenerator, new NumeralGenerator(new IntegerGenerator())),
+                page: new NumeralsPage(browserEvent, i18n, fieldGenerator, new NumeralGenerator(new IntegerGenerator())),
                 template: "/app/pages/numerals/numerals-page.html"
             },
             {

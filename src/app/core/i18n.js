@@ -5,7 +5,6 @@ const defaultSelector = "data-translate";
 const languageMap = {
     en: "en-US",
     es: "es-ES",
-    ru: "ru-RU",
     sv: "sv-SE"
 };
 

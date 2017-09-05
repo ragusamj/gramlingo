@@ -27,10 +27,21 @@ export default {
     "numerals-ordinals-button": "ordinals",
     "numerals-time-button": "time",
 
-    "verbs-header-regular": "(regular)",
-    "verbs-header-irregular": "(irregular)",
+    "verbs-header": "Verbs",
+    "verbs-help-header": "Help",
+    "verbs-help-body":
+        "<h3>One metric ton of verb forms</h3>" +
+        "<blockquote class='blockquote'>" +
+        "   <p class='mb-0'>Am I supposed to learn all this by heart...? Subjunctive? What?!</p>" +
+        "   <footer class='blockquote-footer'>Every student in <cite title='Source Title'>every spanish class ever</cite></footer>" +
+        "</blockquote>" +
+        "<p>Don't worry, it's as easy as pie with this exercise!</p>" +
+        "<p>Find a verb to work with (there are 1001 verbs to choose from) and type away like they're going to make it illegal!</p>",
 
-    "verbs-toolbar-placeholder-search": "Search",
+    "verbs-regular-header": "(regular)",
+    "verbs-irregular-header": "(irregular)",
+
+    "verbs-search-input-placeholder": "Search",
 
     "error-404-header": "We're sorry...",
     "error-404-body": "404 - The page you're trying to reach doesn't exist.",

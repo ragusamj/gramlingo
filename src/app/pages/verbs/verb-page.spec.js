@@ -221,7 +221,7 @@ test("VerbPage should show verb regularity on page load, regular", (t) => {
 
         page.attach(pageTemplate, onPageChanged, { name: "Comer" });
 
-        t.equal(document.getElementById("verb-mode").getAttribute("data-translate"), "verbs-header-regular");
+        t.equal(document.getElementById("verb-mode").getAttribute("data-translate"), "verbs-regular-header");
         t.end();
     });
 });
@@ -232,7 +232,7 @@ test("VerbPage should show verb regularity on page load, irregular", (t) => {
 
         page.attach(pageTemplate, onPageChanged, {});
 
-        t.equal(document.getElementById("verb-mode").getAttribute("data-translate"), "verbs-header-irregular");
+        t.equal(document.getElementById("verb-mode").getAttribute("data-translate"), "verbs-irregular-header");
         t.end();
     });
 });
@@ -243,7 +243,7 @@ test("VerbPage should show verb regularity on page load, irregular", (t) => {
 
         page.attach(pageTemplate, onPageChanged, {});
 
-        t.equal(document.getElementById("verb-mode").getAttribute("data-translate"), "verbs-header-irregular");
+        t.equal(document.getElementById("verb-mode").getAttribute("data-translate"), "verbs-irregular-header");
         t.end();
     });
 });

@@ -27,10 +27,21 @@ export default {
     "numerals-ordinals-button": "ordningstal",
     "numerals-time-button": "klockan",
 
-    "verbs-header-regular": "(regelbundet)",
-    "verbs-header-irregular": "(oregelbundet)",
+    "verbs-header": "Verb",
+    "verbs-help-header": "Hjälp",
+    "verbs-help-body":
+        "<h3>Tre ton verbformer</h3>" +
+        "<blockquote class='blockquote'>" +
+        "   <p class='mb-0'>Är det meningen att jag ska lära mig allt det här utantill...? Subjunktiv?!</p>" +
+        "   <footer class='blockquote-footer'>Varenda student på <cite title='Source Title'>varenda spanskakurs någonsin</cite></footer>" +
+        "</blockquote>" +
+        "<p>Don't worry, it's as easy as pie with this exercise!</p>" +
+        "<p>Find a verb to work with (there are 1001 verbs to choose from) and type away like they're going to make it illegal!</p>",
+    
+    "verbs-regular-header": "(regelbundet)",
+    "verbs-irregular-header": "(oregelbundet)",
 
-    "verbs-toolbar-placeholder-search": "Sök",
+    "verbs-search-input-placeholder": "Sök",
 
     "error-404-header": "Vi ber om ursäkt...",
     "error-404-body": "404 - Sidan du försöker nå finns inte.",

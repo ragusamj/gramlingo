@@ -78,7 +78,7 @@ class VerbPage {
     setHeader(verb) {
         document.getElementById("verb-name").innerHTML = verb.name;
         let mode = document.getElementById("verb-mode");
-        mode.setAttribute("data-translate", (verb.regular ? "verbs-header-regular" : "verbs-header-irregular"));
+        mode.setAttribute("data-translate", (verb.regular ? "verbs-regular-header" : "verbs-irregular-header"));
         this.i18n.translate(mode);
     }
 }

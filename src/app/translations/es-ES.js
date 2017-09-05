@@ -27,10 +27,21 @@ export default {
     "numerals-ordinals-button": "ordinales",
     "numerals-time-button": "tiempo",
 
-    "verbs-header-regular": "(regular)",
-    "verbs-header-irregular": "(irregular)",
+    "verbs-header": "Verbos",
+    "verbs-help-header": "Ayuda",
+    "verbs-help-body":
+        "<h3>Un montón de formas</h3>" +
+        "<blockquote class='blockquote'>" +
+        "   <p class='mb-0'>Am I supposed to learn all this by heart...? Subjunctive? What?!</p>" +
+        "   <footer class='blockquote-footer'>Every student in <cite title='Source Title'>every spanish class ever</cite></footer>" +
+        "</blockquote>" +
+        "<p>Don't worry, it's as easy as pie with this exercise!</p>" +
+        "<p>Find a verb to work with (there are 1001 verbs to choose from) and type away like they're going to make it illegal!</p>",
 
-    "verbs-toolbar-placeholder-search": "Buscar",
+    "verbs-regular-header": "(regular)",
+    "verbs-irregular-header": "(irregular)",
+
+    "verbs-search-input-placeholder": "Buscar",
 
     "error-404-header": "Lo sentimos...",
     "error-404-body": "404 - La página que intentas ver no existe.",

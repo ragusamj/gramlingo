@@ -1,5 +1,5 @@
+import dom from "jsdom-sandbox";
 import test from "tape";
-import Dom from "./mock/dom";
 import I18n from "./i18n";
 
 let setup = () => {
@@ -10,7 +10,7 @@ let setup = () => {
 };
 
 test("I18n should set language", (t) => {
-    Dom.sandbox("<span id='test-element' data-translate='translation-key'></span>", {}, () => {
+    dom.sandbox("<span id='test-element' data-translate='translation-key'></span>", {}, () => {
         let i18n = setup();
         i18n.setLanguage("es-ES");
 
@@ -22,7 +22,7 @@ test("I18n should set language", (t) => {
 });
 
 test("I18n should save language in localStorage", (t) => {
-    Dom.sandbox("<span id='test-element' data-translate='translation-key'></span>", {}, () => {
+    dom.sandbox("<span id='test-element' data-translate='translation-key'></span>", {}, () => {
         let i18n = setup();
         i18n.setLanguage("es-ES");
 
@@ -33,7 +33,7 @@ test("I18n should save language in localStorage", (t) => {
 });
 
 test("I18n should use language in localStorage", (t) => {
-    Dom.sandbox("<span id='test-element' data-translate='translation-key'></span>", {}, () => {
+    dom.sandbox("<span id='test-element' data-translate='translation-key'></span>", {}, () => {
 
         window.localStorage.setItem("language", "es-ES");
         let i18n = setup();
@@ -47,7 +47,7 @@ test("I18n should use language in localStorage", (t) => {
 });
 
 test("I18n should translate elements with 'data-translate' attribute", (t) => {
-    Dom.sandbox("<span id='test-element' data-translate='translation-key'></span>", {}, () => {
+    dom.sandbox("<span id='test-element' data-translate='translation-key'></span>", {}, () => {
         let i18n = setup();
         i18n.translateApplication();
 
@@ -59,7 +59,7 @@ test("I18n should translate elements with 'data-translate' attribute", (t) => {
 });
 
 test("I18n should translate elements with 'data-translate-*' attribute", (t) => {
-    Dom.sandbox("<span id='test-element' data-translate-placeholder='translation-key'></span>", {}, () => {
+    dom.sandbox("<span id='test-element' data-translate-placeholder='translation-key'></span>", {}, () => {
         let i18n = setup();
 
         i18n.translateApplication();
@@ -71,7 +71,7 @@ test("I18n should translate elements with 'data-translate-*' attribute", (t) => 
 });
 
 test("I18n should fallback to translation key if no translation exists", (t) => {
-    Dom.sandbox("<span id='test-element' data-translate='translation-does-not-exist'></span>", {}, () => {
+    dom.sandbox("<span id='test-element' data-translate='translation-does-not-exist'></span>", {}, () => {
         let i18n = setup();
         i18n.translateApplication();
 
@@ -83,7 +83,7 @@ test("I18n should fallback to translation key if no translation exists", (t) => 
 });
 
 test("I18n should translate single elements with default selector and default attribute", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         let i18n = setup();
 
         let element = document.createElement("div");
@@ -97,7 +97,7 @@ test("I18n should translate single elements with default selector and default at
 });
 
 test("I18n should use secondary language if primary doesn't match any translated language", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         global.navigator = { languages: ["xx-XX", "en-US"] };
         let i18n = setup();
 
@@ -112,7 +112,7 @@ test("I18n should use secondary language if primary doesn't match any translated
 });
 
 test("I18n should use fallback to navigator.language if present", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         global.navigator = { language: "en-US" };
         let i18n = setup();
 
@@ -127,7 +127,7 @@ test("I18n should use fallback to navigator.language if present", (t) => {
 });
 
 test("I18n should use fallback to navigator.userLanguage if present", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         global.navigator = { userLanguage: "en-US" };
         let i18n = setup();
 
@@ -142,7 +142,7 @@ test("I18n should use fallback to navigator.userLanguage if present", (t) => {
 });
 
 test("I18n should use default to spanish translations if the browser language doesn't match any translated language", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         global.navigator = { language: "xx-XX" };
         let i18n = setup();
 

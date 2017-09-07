@@ -1,6 +1,6 @@
+import dom from "jsdom-sandbox";
 import sinon from "sinon";
 import test from "tape";
-import Dom from "../mock/dom";
 import BrowserEvent from "../browser-event";
 import Toggler from "./toggler";
 
@@ -12,7 +12,7 @@ const html =
 "<div id='expand'>Expand</div>";
 
 test("Toggler should find all togglers on the event 'dom-content-changed'", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let browserEvent = new BrowserEvent();
         new Toggler(browserEvent);
 
@@ -25,7 +25,7 @@ test("Toggler should find all togglers on the event 'dom-content-changed'", (t) 
 });
 
 test("Toggler should toggle on the event 'click'", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let browserEvent = new BrowserEvent();
         let button = document.querySelector("[data-toggler]");
         let on = document.getElementById("on");
@@ -39,7 +39,7 @@ test("Toggler should toggle on the event 'click'", (t) => {
 });
 
 test("Toggler should ignore elements without the attribute 'data-toggler' on the event 'click'", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let browserEvent = new BrowserEvent();
         let button = document.querySelector("[data-toggler]");
         button.removeAttribute("data-toggler");
@@ -54,7 +54,7 @@ test("Toggler should ignore elements without the attribute 'data-toggler' on the
 });
 
 test("Toggler should toggle", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let browserEvent = new BrowserEvent();
         let button = document.querySelector("[data-toggler]");
         let on = document.getElementById("on");
@@ -75,7 +75,7 @@ test("Toggler should toggle", (t) => {
 });
 
 test("Toggler should allow toggle with only on/off specified, no expand area", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let browserEvent = new BrowserEvent();
         let button = document.querySelector("[data-toggler]");
         button.removeAttribute("data-toggler-expand-area");
@@ -93,7 +93,7 @@ test("Toggler should allow toggle with only on/off specified, no expand area", (
 });
 
 test("Toggler should allow toggle with only an expand area specified, no on/off", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let browserEvent = new BrowserEvent();
         let button = document.querySelector("[data-toggler]");
         button.removeAttribute("data-toggler-on");
@@ -113,7 +113,7 @@ test("Toggler should allow toggle with only an expand area specified, no on/off"
 });
 
 test("Toggler should set expand area style 'overflow: initial' with a 500 ms delay to avoid animation tearing effects", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let clock = sinon.useFakeTimers();
         let browserEvent = new BrowserEvent();
         let button = document.querySelector("[data-toggler]");
@@ -130,7 +130,7 @@ test("Toggler should set expand area style 'overflow: initial' with a 500 ms del
 });
 
 test("Toggler should use initial state if set", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let browserEvent = new BrowserEvent();
         let button = document.querySelector("[data-toggler]");
         button.setAttribute("data-toggler-state", "off");

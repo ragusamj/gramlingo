@@ -51,6 +51,7 @@
     "glob": "^7.1.1",
     "html-minifier": "^3.5.3",
     "jsdom": "^11.1.0",
+    "jsdom-sandbox": "^1.0.0",
     "log4js": "^2.3.3",
     "mapshaper": "^0.4.41",
     "mkdirp": "^0.5.1",

@@ -1,6 +1,6 @@
+import dom from "jsdom-sandbox";
 import sinon from "sinon";
 import test from "tape";
-import Dom from "./mock/dom";
 import BrowserEvent from "./browser-event";
 import HashRouter from "./hash-router";
 
@@ -20,7 +20,7 @@ const routes  = {
 };
 
 test("HashRouter should initialize on event 'DOMContentLoaded' and use default route", (t) => {
-    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+    dom.sandbox("<div id='placeholder'></div>", {}, () => {
         t.plan(1);
         let clock = sinon.useFakeTimers();
 
@@ -36,7 +36,7 @@ test("HashRouter should initialize on event 'DOMContentLoaded' and use default r
 });
 
 test("HashRouter should initialize on event 'DOMContentLoaded' and set window.location.hash to default route", (t) => {
-    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+    dom.sandbox("<div id='placeholder'></div>", {}, () => {
         t.plan(1);
         let clock = sinon.useFakeTimers();
 
@@ -52,7 +52,7 @@ test("HashRouter should initialize on event 'DOMContentLoaded' and set window.lo
 });
 
 test("HashRouter should initialize on event 'DOMContentLoaded' and use route from address bar", (t) => {
-    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+    dom.sandbox("<div id='placeholder'></div>", {}, () => {
         t.plan(1);
         let clock = sinon.useFakeTimers();
 
@@ -69,7 +69,7 @@ test("HashRouter should initialize on event 'DOMContentLoaded' and use route fro
 });
 
 test("HashRouter should initialize on event 'DOMContentLoaded' and not load any page if no route is found", (t) => {
-    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+    dom.sandbox("<div id='placeholder'></div>", {}, () => {
 
         let clock = sinon.useFakeTimers();
 
@@ -87,7 +87,7 @@ test("HashRouter should initialize on event 'DOMContentLoaded' and not load any 
 });
 
 test("HashRouter should fetch template on event 'hashchange'", (t) => {
-    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+    dom.sandbox("<div id='placeholder'></div>", {}, () => {
         t.plan(1);
         let clock = sinon.useFakeTimers();
 
@@ -103,7 +103,7 @@ test("HashRouter should fetch template on event 'hashchange'", (t) => {
 });
 
 test("HashRouter should emit event 'route-change-start' before attaching page", (t) => {
-    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+    dom.sandbox("<div id='placeholder'></div>", {}, () => {
         t.plan(1);
  
         routes["/another-page"].page.attach = sinon.stub();
@@ -119,7 +119,7 @@ test("HashRouter should emit event 'route-change-start' before attaching page", 
 });
 
 test("HashRouter should emit event 'route-change-success' after attaching page", (t) => {
-    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+    dom.sandbox("<div id='placeholder'></div>", {}, () => {
         t.plan(1);
         let clock = sinon.useFakeTimers();
 
@@ -139,7 +139,7 @@ test("HashRouter should emit event 'route-change-success' after attaching page",
 });
 
 test("HashRouter should translate application", (t) => {
-    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+    dom.sandbox("<div id='placeholder'></div>", {}, () => {
         t.plan(1);
 
         let clock = sinon.useFakeTimers();
@@ -157,7 +157,7 @@ test("HashRouter should translate application", (t) => {
 });
 
 test("HashRouter should detach current page", (t) => {
-    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+    dom.sandbox("<div id='placeholder'></div>", {}, () => {
  
         let clock = sinon.useFakeTimers();
         routes["/page"].page.attach = (pageTemplate, onPageAttached) => {

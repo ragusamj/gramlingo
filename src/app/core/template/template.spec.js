@@ -1,6 +1,6 @@
+import dom from "jsdom-sandbox";
 import sinon from "sinon";
 import test from "tape";
-import Dom from "../mock/dom";
 import Template from "./template";
 
 // document.createRange isn't implemented in jsdom yet :(
@@ -17,7 +17,7 @@ let fakeOldBrowser = () => {
 };
 
 test("Template constructor should accept a DocumentFragment", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         let fragment = document.createDocumentFragment();
         let template = new Template(fragment);
         t.equal(template.documentFragment, fragment);
@@ -26,7 +26,7 @@ test("Template constructor should accept a DocumentFragment", (t) => {
 });
 
 test("Template constructor should accept an html element", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         let div = document.createElement("div");
         div.id = "id";
         let template = new Template(div);
@@ -36,7 +36,7 @@ test("Template constructor should accept an html element", (t) => {
 });
 
 test("Template constructor should accept an html string", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         let template = new Template("<div id=\"id\"></div>");
         t.equal(template.querySelector("#id").outerHTML, "<div id=\"id\"></div>");
         t.end();
@@ -44,7 +44,7 @@ test("Template constructor should accept an html string", (t) => {
 });
 
 test("Template constructor should throw error for unknown object type", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         try {
             new Template(123);
             t.fail();
@@ -57,7 +57,7 @@ test("Template constructor should throw error for unknown object type", (t) => {
 });
 
 test("Template should create instance from element id with no inner content", (t) => {
-    Dom.sandbox("<div id='id'></div>", {}, () => {
+    dom.sandbox("<div id='id'></div>", {}, () => {
         let template = Template.fromElementId("id");
         t.equal(template.querySelector("#id").outerHTML, "<div id=\"id\"></div>");
         t.end();
@@ -65,7 +65,7 @@ test("Template should create instance from element id with no inner content", (t
 });
 
 test("Template should create instance from element id with inner content", (t) => {
-    Dom.sandbox("<div id='id'><div id='inner'>inner content</div></div>", {}, () => {
+    dom.sandbox("<div id='id'><div id='inner'>inner content</div></div>", {}, () => {
         let template = Template.fromElementId("id");
         t.equal(template.querySelector("#inner").outerHTML, "<div id=\"inner\">inner content</div>");
         t.end();
@@ -73,7 +73,7 @@ test("Template should create instance from element id with inner content", (t) =
 });
 
 test("Template should clear element content", (t) => {
-    Dom.sandbox("<div id='id'><div id='inner'>inner content</div></div>", {}, () => {
+    dom.sandbox("<div id='id'><div id='inner'>inner content</div></div>", {}, () => {
         let element = document.getElementById("id");
         Template.clear(element);
         t.equal(element.innerHTML, "");
@@ -82,7 +82,7 @@ test("Template should clear element content", (t) => {
 });
 
 test("Template should clear element content and ignore undefined elements", (t) => {
-    Dom.sandbox("<div id='id'><div id='inner'>inner content</div></div>", {}, () => {
+    dom.sandbox("<div id='id'><div id='inner'>inner content</div></div>", {}, () => {
         let element = undefined;
         Template.clear(element);
         t.equal(element, undefined);
@@ -91,7 +91,7 @@ test("Template should clear element content and ignore undefined elements", (t) 
 });
 
 test("Template should create and add element to parent id", (t) => {
-    Dom.sandbox("<div id='parent'></div>", {}, () => {
+    dom.sandbox("<div id='parent'></div>", {}, () => {
         let template = Template.fromElementId("parent");
         template.add("parent", "span", { innerHTML: "Hello" });
         t.equal(template.querySelector("#parent").outerHTML, "<div id=\"parent\"><span>Hello</span></div>");
@@ -100,7 +100,7 @@ test("Template should create and add element to parent id", (t) => {
 });
 
 test("Template should create and add element to parent element", (t) => {
-    Dom.sandbox("<div id='parent'></div>", {}, () => {
+    dom.sandbox("<div id='parent'></div>", {}, () => {
         let template = Template.fromElementId("parent");
         let parent = template.querySelector("#parent");
         template.add(parent, "span", { innerHTML: "Hello" });
@@ -110,7 +110,7 @@ test("Template should create and add element to parent element", (t) => {
 });
 
 test("Template should clone itself", (t) => {
-    Dom.sandbox("<div id='id'></div>", {}, () => {
+    dom.sandbox("<div id='id'></div>", {}, () => {
         let template = Template.fromElementId("id");
         let clone = template.clone();
         clone.add("id", "span");
@@ -121,7 +121,7 @@ test("Template should clone itself", (t) => {
 });
 
 test("Template should parse html and use fallback for older browsers", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         fakeOldBrowser();
         new Template("<div id='id'>Hello</div>");
         t.deepEqual(createContextualFragmentSpy.lastCall.args, ["<div id='id'>Hello</div>"]);
@@ -130,7 +130,7 @@ test("Template should parse html and use fallback for older browsers", (t) => {
 });
 
 test("Template should parse html with table row and use fallback for older browsers", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         fakeOldBrowser();
         let template = new Template("<tr><td>Hello</td></td>");
         t.equal(template.fragment().firstChild.outerHTML, "<tr><td>Hello</td></tr>");
@@ -139,7 +139,7 @@ test("Template should parse html with table row and use fallback for older brows
 });
 
 test("Template should expose querySelector", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         let template = new Template("<div id='id'></div>");
         t.equal(template.querySelector("#id").outerHTML, "<div id=\"id\"></div>");
         t.end();
@@ -147,7 +147,7 @@ test("Template should expose querySelector", (t) => {
 });
 
 test("Template should expose querySelectorAll", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         let template = new Template("<span></span><span></span>");
         t.equal(template.querySelectorAll("span").length, 2);
         t.end();
@@ -155,7 +155,7 @@ test("Template should expose querySelectorAll", (t) => {
 });
 
 test("Template should replace in live element with itself", (t) => {
-    Dom.sandbox("<div id='id'><span>Goodbye</span></div>", {}, () => {
+    dom.sandbox("<div id='id'><span>Goodbye</span></div>", {}, () => {
         let template = new Template("<span>Hello</span>");
         template.replaceContent("id");
         t.equal(document.getElementById("id").outerHTML, "<div id=\"id\"><span>Hello</span></div>");
@@ -164,7 +164,7 @@ test("Template should replace in live element with itself", (t) => {
 });
 
 test("Template should suffix the id of an existing element with a random string", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         let template = new Template("<button id='button'></button>");
         let button = template.set("button");
         t.true(button.id.match(/button_[a-z0-9]{10}/));
@@ -173,7 +173,7 @@ test("Template should suffix the id of an existing element with a random string"
 });
 
 test("Template should set properties of an existing element", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         let template = new Template("<h1 id='h1'></h1>");
         let h1 = template.set("h1", { innerHTML: "Hello" });
         t.equal(h1.innerHTML, "Hello");

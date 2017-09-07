@@ -1,7 +1,7 @@
+import dom from "jsdom-sandbox";
 import sinon from "sinon";
 import test from "tape";
 import BrowserEvent from "../../../core/browser-event";
-import Dom from "../../../core/mock/dom";
 import SearchListener from "./search-listener";
 import KeyCode from "../walkers/key-code";
 
@@ -31,7 +31,7 @@ let setup = () => {
 };
 
 test("SearchListener should search on event 'keyup'", (t) => {
-    Dom.sandbox("<input data-search-input/>", {}, () => {
+    dom.sandbox("<input data-search-input/>", {}, () => {
         let clock = sinon.useFakeTimers();
         let input = setup();
 
@@ -44,7 +44,7 @@ test("SearchListener should search on event 'keyup'", (t) => {
 });
 
 test("SearchListener should only search if the event is from an element with the attribute 'data-search-input'", (t) => {
-    Dom.sandbox("<input />", {}, () => {
+    dom.sandbox("<input />", {}, () => {
         let clock = sinon.useFakeTimers();
         let input = setup();
 
@@ -57,7 +57,7 @@ test("SearchListener should only search if the event is from an element with the
 });
 
 test("SearchListener should not search if the enter key is pressed", (t) => {
-    Dom.sandbox("<input data-search-input/>", {}, () => {
+    dom.sandbox("<input data-search-input/>", {}, () => {
         let clock = sinon.useFakeTimers();
         let input = setup();
 
@@ -72,7 +72,7 @@ test("SearchListener should not search if the enter key is pressed", (t) => {
 });
 
 test("SearchListener should not search if the down arrow is pressed", (t) => {
-    Dom.sandbox("<input data-search-input/>", {}, () => {
+    dom.sandbox("<input data-search-input/>", {}, () => {
         let clock = sinon.useFakeTimers();
         let input = setup();
 
@@ -87,7 +87,7 @@ test("SearchListener should not search if the down arrow is pressed", (t) => {
 });
 
 test("SearchListener should not search if the up arrow is pressed", (t) => {
-    Dom.sandbox("<input data-search-input/>", {}, () => {
+    dom.sandbox("<input data-search-input/>", {}, () => {
         let clock = sinon.useFakeTimers();
         let input = setup();
 
@@ -102,7 +102,7 @@ test("SearchListener should not search if the up arrow is pressed", (t) => {
 });
 
 test("SearchListener should select the clicked element", (t) => {
-    Dom.sandbox("<input data-search-input/><div></div>", {}, () => {
+    dom.sandbox("<input data-search-input/><div></div>", {}, () => {
         setup();
 
         let element = document.querySelector("div");
@@ -114,7 +114,7 @@ test("SearchListener should select the clicked element", (t) => {
 });
 
 test("SearchListener should close the result when the clicked element is selected", (t) => {
-    Dom.sandbox("<input data-search-input/><div></div>", {}, () => {
+    dom.sandbox("<input data-search-input/><div></div>", {}, () => {
         setup();
 
         let element = document.querySelector("div");
@@ -126,7 +126,7 @@ test("SearchListener should close the result when the clicked element is selecte
 });
 
 test("SearchListener should ignore keydown events from elements without the attribute 'data-search-input'", (t) => {
-    Dom.sandbox("<input data-search-input/><div></div>", {}, () => {
+    dom.sandbox("<input data-search-input/><div></div>", {}, () => {
         setup();
 
         let element = document.querySelector("div");
@@ -139,7 +139,7 @@ test("SearchListener should ignore keydown events from elements without the attr
 });
 
 test("SearchListener should walk down in the result on event 'keydown'", (t) => {
-    Dom.sandbox("<input data-search-input/>", {}, () => {
+    dom.sandbox("<input data-search-input/>", {}, () => {
         let input = setup();
 
         let e = new Event("keydown");
@@ -152,7 +152,7 @@ test("SearchListener should walk down in the result on event 'keydown'", (t) => 
 });
 
 test("SearchListener should walk up in the result on event 'keydown'", (t) => {
-    Dom.sandbox("<input data-search-input/>", {}, () => {
+    dom.sandbox("<input data-search-input/>", {}, () => {
         let input = setup();
 
         let e = new Event("keydown");
@@ -165,7 +165,7 @@ test("SearchListener should walk up in the result on event 'keydown'", (t) => {
 });
 
 test("SearchListener should select current item in search result when the enter key is pressed", (t) => {
-    Dom.sandbox("<input data-search-input/>", {}, () => {
+    dom.sandbox("<input data-search-input/>", {}, () => {
         let input = setup();
 
         let e = new Event("keydown");
@@ -178,7 +178,7 @@ test("SearchListener should select current item in search result when the enter 
 });
 
 test("SearchListener should close search result when the enter key is pressed", (t) => {
-    Dom.sandbox("<input data-search-input/>", {}, () => {
+    dom.sandbox("<input data-search-input/>", {}, () => {
         let input = setup();
 
         let e = new Event("keydown");

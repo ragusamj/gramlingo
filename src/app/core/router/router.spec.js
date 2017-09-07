@@ -1,6 +1,6 @@
+import dom from "jsdom-sandbox";
 import sinon from "sinon";
 import test from "tape";
-import Dom from "../mock/dom";
 import BrowserEvent from "../browser-event";
 import Router from "./router";
 
@@ -14,7 +14,7 @@ const broker = {};
 // https://github.com/tmpvar/jsdom/issues/1717
 
 test("Router should push state on event 'url-change'", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
 
         // navigation isn't implemented in jsdom yet :(
         // https://github.com/tmpvar/jsdom/issues/1565
@@ -30,7 +30,7 @@ test("Router should push state on event 'url-change'", (t) => {
 });
 
 test("Router should find the route that matches the address bar on event 'DOMContentLoaded'", (t) => {
-    Dom.sandbox("", { url: "http://example.com/page" }, () => {
+    dom.sandbox("", { url: "http://example.com/page" }, () => {
 
         finder.getRoute = sinon.stub().returns(route);
         broker.go = sinon.stub();
@@ -45,7 +45,7 @@ test("Router should find the route that matches the address bar on event 'DOMCon
 });
 
 test("Router should go to the route that matches the address bar on event 'DOMContentLoaded'", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
 
         finder.getRoute = sinon.stub().returns(route);
         broker.go = sinon.stub();
@@ -60,7 +60,7 @@ test("Router should go to the route that matches the address bar on event 'DOMCo
 });
 
 test("Router should do nothing if no route matches the address bar on event 'DOMContentLoaded'", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
 
         finder.getRoute = sinon.stub().returns(undefined);
         broker.go = sinon.stub();
@@ -75,7 +75,7 @@ test("Router should do nothing if no route matches the address bar on event 'DOM
 });
 
 test("Router should find the route that matches the address bar on event 'popstate'", (t) => {
-    Dom.sandbox("", { url: "http://example.com/page" }, () => {
+    dom.sandbox("", { url: "http://example.com/page" }, () => {
 
         finder.getRoute = sinon.stub().returns(route);
         broker.go = sinon.stub();
@@ -90,7 +90,7 @@ test("Router should find the route that matches the address bar on event 'popsta
 });
 
 test("Router should go to the route that matches the address bar on event 'popstate'", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
 
         finder.getRoute = sinon.stub().returns(route);
         broker.go = sinon.stub();
@@ -105,7 +105,7 @@ test("Router should go to the route that matches the address bar on event 'popst
 });
 
 test("Router should find the route that matches the address bar on event 'click'", (t) => {
-    Dom.sandbox("<a href='/page' data-route-link></a>", { url: "http://example.com" }, () => {
+    dom.sandbox("<a href='/page' data-route-link></a>", { url: "http://example.com" }, () => {
 
         finder.getRoute = sinon.stub().returns(route);
         broker.go = sinon.stub();
@@ -122,7 +122,7 @@ test("Router should find the route that matches the address bar on event 'click'
 });
 
 test("Router should go to the route that matches the address bar on event 'click'", (t) => {
-    Dom.sandbox("<a href='/page' data-route-link></a>", { url: "http://example.com" }, () => {
+    dom.sandbox("<a href='/page' data-route-link></a>", { url: "http://example.com" }, () => {
 
         finder.getRoute = sinon.stub().returns(route);
         broker.go = sinon.stub();
@@ -139,7 +139,7 @@ test("Router should go to the route that matches the address bar on event 'click
 });
 
 test("Router should ignore the event 'click' if no route matches", (t) => {
-    Dom.sandbox("<a href='/page' data-route-link></a>", { url: "http://example.com" }, () => {
+    dom.sandbox("<a href='/page' data-route-link></a>", { url: "http://example.com" }, () => {
 
         finder.getRoute = sinon.stub().returns(undefined);
         broker.go = sinon.stub();
@@ -155,7 +155,7 @@ test("Router should ignore the event 'click' if no route matches", (t) => {
 });
 
 test("Router should ignore the event 'click' from elements without the attribute 'data-route-link'", (t) => {
-    Dom.sandbox("<a href='/page'></a>", { url: "http://example.com" }, () => {
+    dom.sandbox("<a href='/page'></a>", { url: "http://example.com" }, () => {
 
         broker.go = sinon.stub();
         let browserEvent = new BrowserEvent();
@@ -170,7 +170,7 @@ test("Router should ignore the event 'click' from elements without the attribute
 });
 
 test("Router should ignore multiple calls on the current url on event 'click'", (t) => {
-    Dom.sandbox("<a href='/page' data-route-link></a>", { url: "http://example.com" }, () => {
+    dom.sandbox("<a href='/page' data-route-link></a>", { url: "http://example.com" }, () => {
 
         finder.getRoute = sinon.stub().returns(route);
         broker.go = sinon.stub();

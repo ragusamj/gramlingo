@@ -1,6 +1,6 @@
+import dom from "jsdom-sandbox";
 import sinon from "sinon";
 import test from "tape";
-import Dom from "../../core/mock/dom";
 import BrowserEvent from "../../core/browser-event";
 import VerbPage from "./verb-page";
 
@@ -42,7 +42,7 @@ const setup = () => {
 };
 
 test("VerbPage should load verb data on first page attach", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
@@ -53,7 +53,7 @@ test("VerbPage should load verb data on first page attach", (t) => {
 });
 
 test("VerbPage should report progress when loading verb data, TODO", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
@@ -65,7 +65,7 @@ test("VerbPage should report progress when loading verb data, TODO", (t) => {
 });
 
 test("VerbPage should use cached verb data after first page attach", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
 
         http.getJSON.resetHistory();
@@ -79,7 +79,7 @@ test("VerbPage should use cached verb data after first page attach", (t) => {
 });
 
 test("VerbPage should inflate verb data", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
@@ -90,7 +90,7 @@ test("VerbPage should inflate verb data", (t) => {
 });
 
 test("VerbPage should load page with default verb", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
@@ -101,7 +101,7 @@ test("VerbPage should load page with default verb", (t) => {
 });
 
 test("VerbPage should load page with verb from parameter, uppercase", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, { name: "COMER" });
@@ -112,7 +112,7 @@ test("VerbPage should load page with verb from parameter, uppercase", (t) => {
 });
 
 test("VerbPage should load page with verb from parameter, lowercase", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, { name: "comer" });
@@ -123,7 +123,7 @@ test("VerbPage should load page with verb from parameter, lowercase", (t) => {
 });
 
 test("VerbPage should not emit any events for unknown verbs", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, { name: "unknownverb" });
@@ -134,7 +134,7 @@ test("VerbPage should not emit any events for unknown verbs", (t) => {
 });
 
 test("VerbPage should execute callback when page has loaded", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         onPageChanged.resetHistory();
         let page = setup();
 
@@ -146,7 +146,7 @@ test("VerbPage should execute callback when page has loaded", (t) => {
 });
 
 test("VerbPage should execute callback when page has loaded with unknown verb", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         onPageChanged.resetHistory();
         let page = setup();
 
@@ -158,7 +158,7 @@ test("VerbPage should execute callback when page has loaded with unknown verb", 
 });
 
 test("VerbPage should generate page layout from verb data and page template", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         fieldGenerator.build.resetHistory();
         let page = setup();
 
@@ -170,7 +170,7 @@ test("VerbPage should generate page layout from verb data and page template", (t
 });
 
 test("VerbPage should cache generated page layout", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         fieldGenerator.build.resetHistory();
         let page = setup();
 
@@ -183,7 +183,7 @@ test("VerbPage should cache generated page layout", (t) => {
 });
 
 test("VerbPage should emit event 'page-searchable-data-updated' on page load", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
@@ -194,7 +194,7 @@ test("VerbPage should emit event 'page-searchable-data-updated' on page load", (
 });
 
 test("VerbPage should emit event 'page-field-list-updated' on page load", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
@@ -205,7 +205,7 @@ test("VerbPage should emit event 'page-field-list-updated' on page load", (t) =>
 });
 
 test("VerbPage should set verb name as header on page load", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
@@ -216,7 +216,7 @@ test("VerbPage should set verb name as header on page load", (t) => {
 });
 
 test("VerbPage should show verb regularity on page load, regular", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, { name: "Comer" });
@@ -227,7 +227,7 @@ test("VerbPage should show verb regularity on page load, regular", (t) => {
 });
 
 test("VerbPage should show verb regularity on page load, irregular", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
@@ -238,7 +238,7 @@ test("VerbPage should show verb regularity on page load, irregular", (t) => {
 });
 
 test("VerbPage should show verb regularity on page load, irregular", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
@@ -249,7 +249,7 @@ test("VerbPage should show verb regularity on page load, irregular", (t) => {
 });
 
 test("VerbPage should translate verb regularity on page load", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
@@ -260,7 +260,7 @@ test("VerbPage should translate verb regularity on page load", (t) => {
 });
 
 test("VerbPage should detach page and remove listeners", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
 
         t.plan(1);
         let page = setup();
@@ -277,7 +277,7 @@ test("VerbPage should detach page and remove listeners", (t) => {
 });
 
 test("VerbPage should listen to 'search-result-selected' event and emit 'url-change'", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
 
         t.plan(1);
         let page = setup();
@@ -291,7 +291,7 @@ test("VerbPage should listen to 'search-result-selected' event and emit 'url-cha
 });
 
 test("VerbPage should listen to 'search-result-selected' event and emit 'page-data-updated'", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
 
         t.plan(1);
         let page = setup();
@@ -307,7 +307,7 @@ test("VerbPage should listen to 'search-result-selected' event and emit 'page-da
 });
 
 test("VerbPage should listen to 'search-result-selected' event and update header", (t) => {
-    Dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
 
         let page = setup();
  

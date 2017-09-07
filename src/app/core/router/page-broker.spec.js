@@ -1,6 +1,6 @@
+import dom from "jsdom-sandbox";
 import sinon from "sinon";
 import test from "tape";
-import Dom from "../mock/dom";
 import BrowserEvent from "../browser-event";
 import PageBroker from "./page-broker";
 
@@ -12,7 +12,7 @@ const http = {
 };
 
 test("PageBroker should emit event 'page-change-start'", (t) => {
-    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+    dom.sandbox("<div id='placeholder'></div>", {}, () => {
 
         let broker = new PageBroker(browserEvent, http, "placeholder");
         let route = { page: { attach: sinon.stub() }, path: "/page", template: "/page.html" };
@@ -25,7 +25,7 @@ test("PageBroker should emit event 'page-change-start'", (t) => {
 });
 
 test("PageBroker should get page template for route", (t) => {
-    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+    dom.sandbox("<div id='placeholder'></div>", {}, () => {
 
         let broker = new PageBroker(browserEvent, http, "placeholder");
         let route = { page: { attach: sinon.stub() }, path: "/page", template: "/page.html" };
@@ -38,7 +38,7 @@ test("PageBroker should get page template for route", (t) => {
 });
 
 test("PageBroker should cache page template for route", (t) => {
-    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+    dom.sandbox("<div id='placeholder'></div>", {}, () => {
 
         let broker = new PageBroker(browserEvent, http, "placeholder");
         let route = { page: { attach: sinon.stub() }, path: "/page", template: "/page.html" };
@@ -55,7 +55,7 @@ test("PageBroker should cache page template for route", (t) => {
 });
 
 test("PageBroker should attach page", (t) => {
-    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+    dom.sandbox("<div id='placeholder'></div>", {}, () => {
 
         let clock = sinon.useFakeTimers();
         let broker = new PageBroker(browserEvent, http, "placeholder");
@@ -70,7 +70,7 @@ test("PageBroker should attach page", (t) => {
 });
 
 test("PageBroker should add page template to placeholder element", (t) => {
-    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+    dom.sandbox("<div id='placeholder'></div>", {}, () => {
 
         let clock = sinon.useFakeTimers();
         let broker = new PageBroker(browserEvent, http, "placeholder");
@@ -86,7 +86,7 @@ test("PageBroker should add page template to placeholder element", (t) => {
 });
 
 test("PageBroker should emit event 'page-change-success'", (t) => {
-    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+    dom.sandbox("<div id='placeholder'></div>", {}, () => {
 
         let clock = sinon.useFakeTimers();
         let broker = new PageBroker(browserEvent, http, "placeholder");
@@ -103,7 +103,7 @@ test("PageBroker should emit event 'page-change-success'", (t) => {
 });
 
 test("PageBroker should emit event 'dom-content-changed'", (t) => {
-    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+    dom.sandbox("<div id='placeholder'></div>", {}, () => {
 
         let clock = sinon.useFakeTimers();
         let broker = new PageBroker(browserEvent, http, "placeholder");
@@ -120,7 +120,7 @@ test("PageBroker should emit event 'dom-content-changed'", (t) => {
 });
 
 test("PageBroker should detach page", (t) => {
-    Dom.sandbox("<div id='placeholder'></div>", {}, () => {
+    dom.sandbox("<div id='placeholder'></div>", {}, () => {
 
         let clock = sinon.useFakeTimers();
         let broker = new PageBroker(browserEvent, http, "placeholder");

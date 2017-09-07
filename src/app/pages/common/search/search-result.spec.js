@@ -1,7 +1,7 @@
+import dom from "jsdom-sandbox";
 import sinon from "sinon";
 import test from "tape";
 import BrowserEvent from "../../../core/browser-event";
-import Dom from "../../../core/mock/dom";
 import ElementWalker from "../walkers/element-walker";
 import KeyCode from "../walkers/key-code";
 import SearchResult from "./search-result";
@@ -29,7 +29,7 @@ sinon.spy(walker, "link");
 sinon.spy(walker, "walk");
 
 test("SearchResult should ignore empty results", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let result = { matches: [] };
         searchResult.show(result);
         let container = document.getElementById("search-result-container");
@@ -40,7 +40,7 @@ test("SearchResult should ignore empty results", (t) => {
 
 
 test("SearchResult should show result property 'pre'", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let result = { matches: [{ pre: "pre" }] };
         searchResult.show(result);
         let li = document.querySelector("li");
@@ -50,7 +50,7 @@ test("SearchResult should show result property 'pre'", (t) => {
 });
 
 test("SearchResult should show result property 'match'", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let result = { matches: [{ match: "match" }] };
         searchResult.show(result);
         let li = document.querySelector("li");
@@ -60,7 +60,7 @@ test("SearchResult should show result property 'match'", (t) => {
 });
 
 test("SearchResult should show result property 'post'", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let result = { matches: [{ post: "post" }] };
         searchResult.show(result);
         let li = document.querySelector("li");
@@ -70,7 +70,7 @@ test("SearchResult should show result property 'post'", (t) => {
 });
 
 test("SearchResult should show result property 'source'", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let result = { matches: [{ source: "source" }] };
         searchResult.show(result);
         let li = document.querySelector("li");
@@ -80,7 +80,7 @@ test("SearchResult should show result property 'source'", (t) => {
 });
 
 test("SearchResult should set index attribute on each item", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let result = { matches: [{ index: 123 }] };
         searchResult.show(result);
         let li = document.querySelector("li");
@@ -90,7 +90,7 @@ test("SearchResult should set index attribute on each item", (t) => {
 });
 
 test("SearchResult should indicate if max number of search results were exceeded", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let result = { matches: [{ }], maxExceeded: true };
         searchResult.show(result);
         let ul = document.querySelector("ul");
@@ -100,7 +100,7 @@ test("SearchResult should indicate if max number of search results were exceeded
 });
 
 test("SearchResult should link walker", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let result = { matches: [{ }] };
         searchResult.show(result);
         t.true(walker.link.called);
@@ -109,7 +109,7 @@ test("SearchResult should link walker", (t) => {
 });
 
 test("SearchResult should walk the result", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let result = { matches: [{ }] };
         searchResult.show(result);
         searchResult.walk(KeyCode.downArrow);
@@ -119,7 +119,7 @@ test("SearchResult should walk the result", (t) => {
 });
 
 test("SearchResult should select current walked item", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let result = { matches: [{ }] };
         searchResult.show(result);
         searchResult.walk(KeyCode.downArrow);
@@ -130,7 +130,7 @@ test("SearchResult should select current walked item", (t) => {
 });
 
 test("SearchResult should select current walked item and ignore undefined element", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         browserEvent.emit.reset();
         let result = { matches: [{ }] };
         searchResult.show(result);
@@ -142,7 +142,7 @@ test("SearchResult should select current walked item and ignore undefined elemen
 });
 
 test("SearchResult should close result list", (t) => {
-    Dom.sandbox(html, {}, () => {
+    dom.sandbox(html, {}, () => {
         let result = { matches: [{ }] };
         searchResult.show(result);
         searchResult.close();

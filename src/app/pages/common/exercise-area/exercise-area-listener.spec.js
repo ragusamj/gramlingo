@@ -1,7 +1,7 @@
+import dom from "jsdom-sandbox";
 import sinon from "sinon";
 import test from "tape";
 import BrowserEvent from "../../../core/browser-event";
-import Dom from "../../../core/mock/dom";
 import ExerciseAreaListener from "./exercise-area-listener";
 
 const field = { dataPath: "path", iconId: "icon-id", popupId: "popup-id", prefill: true };
@@ -30,7 +30,7 @@ const setup = () => {
 };
 
 test("ExerciseArea should check input value on 'blur' event", (t) => {
-    Dom.sandbox("<input type='text' id='id' value='value'/>", {}, () => {
+    dom.sandbox("<input type='text' id='id' value='value'/>", {}, () => {
 
         setup();
         let input = document.getElementById("id");
@@ -43,7 +43,7 @@ test("ExerciseArea should check input value on 'blur' event", (t) => {
 });
 
 test("ExerciseArea should show answer on 'blur' event", (t) => {
-    Dom.sandbox("<input type='text' id='id' value='value'/>", {}, () => {
+    dom.sandbox("<input type='text' id='id' value='value'/>", {}, () => {
 
         setup();
         let input = document.getElementById("id");
@@ -57,7 +57,7 @@ test("ExerciseArea should show answer on 'blur' event", (t) => {
 });
 
 test("ExerciseArea should execute field filters on 'blur' event", (t) => {
-    Dom.sandbox("<input type='text' id='id' value='value'/>", {}, () => {
+    dom.sandbox("<input type='text' id='id' value='value'/>", {}, () => {
 
         setup();
         let input = document.getElementById("id");
@@ -74,7 +74,7 @@ test("ExerciseArea should execute field filters on 'blur' event", (t) => {
 });
 
 test("ExerciseArea should ignore unknown blur events", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
 
         setup();
         checker.check.reset();
@@ -88,7 +88,7 @@ test("ExerciseArea should ignore unknown blur events", (t) => {
 });
 
 test("ExerciseArea should toggle inputs on 'click' event", (t) => {
-    Dom.sandbox("<button id='toggle-button' data-toggle-inputs />", {}, () => {
+    dom.sandbox("<button id='toggle-button' data-toggle-inputs />", {}, () => {
 
         setup();
         let button = document.getElementById("toggle-button");
@@ -104,7 +104,7 @@ test("ExerciseArea should toggle inputs on 'click' event", (t) => {
 });
 
 test("ExerciseArea should toggle inputs on 'click' event and update fields", (t) => {
-    Dom.sandbox("<button id='toggle-button' data-toggle-inputs />", {}, () => {
+    dom.sandbox("<button id='toggle-button' data-toggle-inputs />", {}, () => {
 
         setup();
         let button = document.getElementById("toggle-button");
@@ -120,7 +120,7 @@ test("ExerciseArea should toggle inputs on 'click' event and update fields", (t)
 });
 
 test("ExerciseArea should toggle inputs with matching field group on 'click' event", (t) => {
-    Dom.sandbox("<button id='toggle-button' data-toggle-inputs='path' />", {}, () => {
+    dom.sandbox("<button id='toggle-button' data-toggle-inputs='path' />", {}, () => {
 
         setup();
         let button = document.getElementById("toggle-button");
@@ -136,7 +136,7 @@ test("ExerciseArea should toggle inputs with matching field group on 'click' eve
 });
 
 test("ExerciseArea should not toggle inputs without matching field group on 'click' event", (t) => {
-    Dom.sandbox("<button id='toggle-button' data-toggle-inputs='nonmatching.path' />", {}, () => {
+    dom.sandbox("<button id='toggle-button' data-toggle-inputs='nonmatching.path' />", {}, () => {
 
         setup();
         let button = document.getElementById("toggle-button");
@@ -149,7 +149,7 @@ test("ExerciseArea should not toggle inputs without matching field group on 'cli
 });
 
 test("ExerciseArea should ignore 'click' event if element doesn't have the attribute 'data-toggle-inputs'", (t) => {
-    Dom.sandbox("<button id='toggle-button' />", {}, () => {
+    dom.sandbox("<button id='toggle-button' />", {}, () => {
 
         setup();
         let button = document.getElementById("toggle-button");
@@ -163,7 +163,7 @@ test("ExerciseArea should ignore 'click' event if element doesn't have the attri
 });
 
 test("ExerciseArea should move to adjacent input on 'keydown'", (t) => {
-    Dom.sandbox("<input id='input-id' data-walkable-field />", {}, () => {
+    dom.sandbox("<input id='input-id' data-walkable-field />", {}, () => {
 
         setup();
         let event = document.createEvent("Event");
@@ -179,7 +179,7 @@ test("ExerciseArea should move to adjacent input on 'keydown'", (t) => {
 });
 
 test("ExerciseArea should prevent default if the walker walked on 'keydown'", (t) => {
-    Dom.sandbox("<input id='input-id' data-walkable-field />", {}, () => {
+    dom.sandbox("<input id='input-id' data-walkable-field />", {}, () => {
 
         setup();
         let event = document.createEvent("Event");
@@ -196,7 +196,7 @@ test("ExerciseArea should prevent default if the walker walked on 'keydown'", (t
 });
 
 test("ExerciseArea should not prevent default if the walker didn't walk on 'keydown'", (t) => {
-    Dom.sandbox("<input id='input-id' data-walkable-field />", {}, () => {
+    dom.sandbox("<input id='input-id' data-walkable-field />", {}, () => {
 
         walker.walk.returns(false);
         setup();
@@ -216,7 +216,7 @@ test("ExerciseArea should not prevent default if the walker didn't walk on 'keyd
 });
 
 test("ExerciseArea should ignore 'keydown' events from unknown targets", (t) => {
-    Dom.sandbox("<input id='input-id' />", {}, () => {
+    dom.sandbox("<input id='input-id' />", {}, () => {
 
         setup();
         walker.walk.reset();
@@ -230,7 +230,7 @@ test("ExerciseArea should ignore 'keydown' events from unknown targets", (t) => 
 });
 
 test("ExerciseArea should show popup on 'mouseover' event from icon", (t) => {
-    Dom.sandbox("<div id='icon-id' />", {}, () => {
+    dom.sandbox("<div id='icon-id' />", {}, () => {
 
         setup();
         let icon = document.getElementById("icon-id");
@@ -243,7 +243,7 @@ test("ExerciseArea should show popup on 'mouseover' event from icon", (t) => {
 });
 
 test("ExerciseArea should ignore 'mouseover' events from unknown targets", (t) => {
-    Dom.sandbox("<div id='unknown-id' />", {}, () => {
+    dom.sandbox("<div id='unknown-id' />", {}, () => {
 
         setup();
         exerciseArea.showPopup.reset();
@@ -257,7 +257,7 @@ test("ExerciseArea should ignore 'mouseover' events from unknown targets", (t) =
 });
 
 test("ExerciseArea should show popup on 'mouseout' event from icon", (t) => {
-    Dom.sandbox("<div id='icon-id' />", {}, () => {
+    dom.sandbox("<div id='icon-id' />", {}, () => {
 
         setup();
         let icon = document.getElementById("icon-id");
@@ -270,7 +270,7 @@ test("ExerciseArea should show popup on 'mouseout' event from icon", (t) => {
 });
 
 test("ExerciseArea should ignore 'mouseout' events from unknown targets", (t) => {
-    Dom.sandbox("<div id='unknown-id' />", {}, () => {
+    dom.sandbox("<div id='unknown-id' />", {}, () => {
 
         setup();
         exerciseArea.hide.reset();
@@ -284,7 +284,7 @@ test("ExerciseArea should ignore 'mouseout' events from unknown targets", (t) =>
 });
 
 test("ExerciseArea should link walker when page data is updated", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
 
         let exerciseAreaListener = setup();
         walker.link.reset();
@@ -297,7 +297,7 @@ test("ExerciseArea should link walker when page data is updated", (t) => {
 });
 
 test("ExerciseArea should preserve show/hide mode when field list is updated", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
 
         let exerciseAreaListener = setup();
         field.prefill = false;

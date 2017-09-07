@@ -1,11 +1,11 @@
+import dom from "jsdom-sandbox";
 import test from "tape";
-import Dom from "./mock/dom";
 import BrowserEvent from "./browser-event";
 
 const browserEvent = new BrowserEvent();
 
 test("BrowserEvent should register event", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         t.plan(1);
         browserEvent.on("keydown", () => {
             t.pass();
@@ -15,7 +15,7 @@ test("BrowserEvent should register event", (t) => {
 });
 
 test("BrowserEvent should handle multiple listeners", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         t.plan(2);
         browserEvent.on("mouseover", () => {
             t.pass();
@@ -28,7 +28,7 @@ test("BrowserEvent should handle multiple listeners", (t) => {
 });
 
 test("BrowserEvent should remove listener", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         let removeListener = browserEvent.on("mouseout", () => {
             t.fail();
         });
@@ -39,7 +39,7 @@ test("BrowserEvent should remove listener", (t) => {
 });
 
 test("BrowserEvent should emit event using CustomEvent", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         t.plan(1);
         browserEvent.on("custom-event", () => {
             t.pass();
@@ -49,7 +49,7 @@ test("BrowserEvent should emit event using CustomEvent", (t) => {
 });
 
 test("BrowserEvent should emit event using the old way", (t) => {
-    Dom.sandbox("", {}, () => {
+    dom.sandbox("", {}, () => {
         t.plan(1);
         delete window.CustomEvent;
         browserEvent.on("custom-event-the-old-way", () => {

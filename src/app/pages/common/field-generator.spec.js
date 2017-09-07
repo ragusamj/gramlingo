@@ -1,5 +1,5 @@
+import dom from "jsdom-sandbox";
 import test from "tape";
-import Dom from "../../core/mock/dom";
 import FieldGenerator from "./field-generator";
 import Template from "../../core/template/template";
 
@@ -13,7 +13,7 @@ const fieldTemplate =
     "</script>";
 
 test("FieldGenerator should build and return field list with data paths", (t) => {
-    Dom.sandbox(fieldTemplate, {}, () => {
+    dom.sandbox(fieldTemplate, {}, () => {
         let pageTemplate = new Template("<div data-field-path='path'></div>");
 
         let fieldList = generator.build(pageTemplate, { path: [ {} ] });
@@ -25,7 +25,7 @@ test("FieldGenerator should build and return field list with data paths", (t) =>
 });
 
 test("FieldGenerator should build and return field list with icon ids", (t) => {
-    Dom.sandbox(fieldTemplate, {}, () => {
+    dom.sandbox(fieldTemplate, {}, () => {
         let pageTemplate = new Template("<div data-field-path='path'></div>");
 
         let fieldList = generator.build(pageTemplate, { path: [ {} ] });
@@ -37,7 +37,7 @@ test("FieldGenerator should build and return field list with icon ids", (t) => {
 });
 
 test("FieldGenerator should build and return field list with input ids", (t) => {
-    Dom.sandbox(fieldTemplate, {}, () => {
+    dom.sandbox(fieldTemplate, {}, () => {
         let pageTemplate = new Template("<div data-field-path='path'></div>");
 
         let fieldList = generator.build(pageTemplate, { path: [ {} ] });
@@ -49,7 +49,7 @@ test("FieldGenerator should build and return field list with input ids", (t) => 
 });
 
 test("FieldGenerator should build and return field list with popup ids", (t) => {
-    Dom.sandbox(fieldTemplate, {}, () => {
+    dom.sandbox(fieldTemplate, {}, () => {
         let pageTemplate = new Template("<div data-field-path='path'></div>");
 
         let fieldList = generator.build(pageTemplate, { path: [ {} ] });
@@ -61,7 +61,7 @@ test("FieldGenerator should build and return field list with popup ids", (t) => 
 });
 
 test("FieldGenerator should build and return field list with property 'prefill' set to true", (t) => {
-    Dom.sandbox(fieldTemplate, {}, () => {
+    dom.sandbox(fieldTemplate, {}, () => {
         let pageTemplate = new Template("<div data-field-path='path'></div>");
 
         let fieldList = generator.build(pageTemplate, { path: [ {} ] });
@@ -73,7 +73,7 @@ test("FieldGenerator should build and return field list with property 'prefill' 
 });
 
 test("FieldGenerator should build and append popup to template", (t) => {
-    Dom.sandbox(fieldTemplate, {}, () => {
+    dom.sandbox(fieldTemplate, {}, () => {
         let pageTemplate = new Template("<div data-field-path='path'></div>");
 
         generator.build(pageTemplate, { path: [ {} ] });
@@ -86,7 +86,7 @@ test("FieldGenerator should build and append popup to template", (t) => {
 });
 
 test("FieldGenerator should build and append icon to template", (t) => {
-    Dom.sandbox(fieldTemplate, {}, () => {
+    dom.sandbox(fieldTemplate, {}, () => {
         let pageTemplate = new Template("<div data-field-path='path'></div>");
 
         generator.build(pageTemplate, { path: [ {} ] });
@@ -99,7 +99,7 @@ test("FieldGenerator should build and append icon to template", (t) => {
 });
 
 test("FieldGenerator should build and append input to template", (t) => {
-    Dom.sandbox(fieldTemplate, {}, () => {
+    dom.sandbox(fieldTemplate, {}, () => {
         let pageTemplate = new Template("<div data-field-path='path'></div>");
 
         let fieldList = generator.build(pageTemplate, { path: [ {} ] });

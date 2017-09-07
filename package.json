@@ -1,5 +1,5 @@
 {
-  "name": "snapgram",
+  "name": "gramlingo",
   "version": "1.0.0",
   "description": "Learn spanish by typing",
   "main": "dist/index.html",
@@ -36,7 +36,7 @@
   "author": "Erik Barke",
   "repository": {
     "type": "git",
-    "url": "https://github.com/erikbarke/snapgram.git"
+    "url": "https://github.com/erikbarke/gramlingo.git"
   },
   "license": "MIT",
   "devDependencies": {

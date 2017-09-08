@@ -2,6 +2,7 @@ class Toggler {
 
     constructor(browserEvent) {
         browserEvent.on("click", this.onClick.bind(this));
+        browserEvent.on("transitionend", this.onTransitionend.bind(this));
         browserEvent.on("dom-content-changed", this.onDomContentChanged.bind(this));
     }
 
@@ -9,6 +10,20 @@ class Toggler {
         if(e.target.hasAttribute("data-toggler")) {
             let id = e.target.getAttribute("data-toggler");
             this.toggle(this.togglers[id]);
+        }
+    }
+
+    onTransitionend(e) {
+        for(let key of Object.keys(this.togglers)) {
+            let item = this.togglers[key];
+            if(item.expandArea && item.expandArea.id === e.target.id) {
+                if(item.state === "on") {
+                    item.expandArea.style.overflow = "initial";
+                }
+                if (item.state === "off") {
+                    item.expandArea.style.overflow = "";
+                }
+            }
         }
     }
 
@@ -34,14 +49,8 @@ class Toggler {
         if(item.expandArea) {
             if(item.state === "on") {
                 item.expandArea.style.height = item.expandArea.scrollHeight + "px";
-                item.overflowTimeout = setTimeout(() => {
-                    item.expandArea.style.overflow = "initial";
-                }, 500);
             }
             if (item.state === "off") {
-                if(item.overflowTimeout) {
-                    clearTimeout(this.overflowTimeout);
-                }
                 item.expandArea.style.height = "";
                 item.expandArea.style.overflow = "";
             }

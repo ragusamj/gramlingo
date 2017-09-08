@@ -1,5 +1,4 @@
 import dom from "jsdom-sandbox";
-import sinon from "sinon";
 import test from "tape";
 import BrowserEvent from "../browser-event";
 import Toggler from "./toggler";
@@ -112,19 +111,61 @@ test("Toggler should allow toggle with only an expand area specified, no on/off"
     });
 });
 
-test("Toggler should set expand area style 'overflow: initial' with a 500 ms delay to avoid animation tearing effects", (t) => {
+test("Toggler should set expand area overflow to 'initial' on the event 'transitionend' if state is 'on'", (t) => {
     dom.sandbox(html, {}, () => {
-        let clock = sinon.useFakeTimers();
+        let browserEvent = new BrowserEvent();
+        let expand = document.getElementById("expand");
+
+        new Toggler(browserEvent).onDomContentChanged();
+        expand.dispatchEvent(new Event("transitionend"));
+
+        t.equal(expand.style.overflow, "initial");
+        t.end();
+    });
+});
+
+test("Toggler should set expand area overflow to '' on the event 'transitionend' if state is 'off'", (t) => {
+    dom.sandbox(html, {}, () => {
         let browserEvent = new BrowserEvent();
         let button = document.querySelector("[data-toggler]");
         let expand = document.getElementById("expand");
 
         new Toggler(browserEvent).onDomContentChanged();
         button.dispatchEvent(new Event("click"));
-        button.dispatchEvent(new Event("click"));
-        clock.tick(500);
+        expand.dispatchEvent(new Event("transitionend"));
 
-        t.equal(expand.style.overflow, "initial");
+        t.equal(expand.style.overflow, "");
+        t.end();
+    });
+});
+
+test("Toggler should set expand area overflow to '' on the event 'click' if state is 'off'", (t) => {
+    dom.sandbox(html, {}, () => {
+        let browserEvent = new BrowserEvent();
+        let button = document.querySelector("[data-toggler]");
+        let expand = document.getElementById("expand");
+
+        new Toggler(browserEvent).onDomContentChanged();
+        expand.dispatchEvent(new Event("transitionend"));
+        button.dispatchEvent(new Event("click"));
+
+        t.equal(expand.style.overflow, "");
+        t.end();
+    });
+});
+
+test("Toggler should ignore items without expand area on the event 'transitionend'", (t) => {
+    dom.sandbox(html, {}, () => {
+        let browserEvent = new BrowserEvent();
+        let button = document.querySelector("[data-toggler]");
+        button.removeAttribute("data-toggler-expand-area");
+        let expand = document.getElementById("expand");
+        expand.style.overflow = "auto";
+
+        new Toggler(browserEvent).onDomContentChanged();
+        expand.dispatchEvent(new Event("transitionend"));
+
+        t.equal(expand.style.overflow, "auto");
         t.end();
     });
 });

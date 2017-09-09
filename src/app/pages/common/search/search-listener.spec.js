@@ -36,7 +36,7 @@ test("SearchListener should search on event 'keyup'", (t) => {
         let input = setup();
 
         input.dispatchEvent(new Event("keyup"));
-        clock.tick(300);
+        clock.tick(250);
 
         t.true(searchResult.show.called);
         t.end();
@@ -49,7 +49,7 @@ test("SearchListener should only search if the event is from an element with the
         let input = setup();
 
         input.dispatchEvent(new Event("keyup"));
-        clock.tick(300);
+        clock.tick(250);
 
         t.false(searchResult.show.called);
         t.end();
@@ -64,7 +64,7 @@ test("SearchListener should not search if the enter key is pressed", (t) => {
         let e = new Event("keyup");
         e.keyCode = KeyCode.enter;
         input.dispatchEvent(e);
-        clock.tick(300);
+        clock.tick(250);
 
         t.false(searchResult.show.called);
         t.end();
@@ -79,7 +79,7 @@ test("SearchListener should not search if the down arrow is pressed", (t) => {
         let e = new Event("keyup");
         e.keyCode = KeyCode.downArrow;
         input.dispatchEvent(e);
-        clock.tick(300);
+        clock.tick(250);
 
         t.false(searchResult.show.called);
         t.end();
@@ -94,7 +94,7 @@ test("SearchListener should not search if the up arrow is pressed", (t) => {
         let e = new Event("keyup");
         e.keyCode = KeyCode.upArrow;
         input.dispatchEvent(e);
-        clock.tick(300);
+        clock.tick(250);
 
         t.false(searchResult.show.called);
         t.end();

@@ -4,7 +4,7 @@ import test from "tape";
 import BrowserEvent from "../../../core/browser-event";
 import ElementWalker from "../walkers/element-walker";
 import KeyCode from "../walkers/key-code";
-import SearchResult from "./search-result";
+import SearchResultVisualizer from "./search-result";
 
 const html =
     "<script id='search-result-template'>" +
@@ -22,16 +22,16 @@ const html =
 
 const browserEvent = new BrowserEvent();
 const walker = new ElementWalker();
-const searchResult = new SearchResult(browserEvent, walker);
+const searchResultVisualizer = new SearchResultVisualizer(browserEvent, walker);
 
 sinon.spy(browserEvent, "emit");
 sinon.spy(walker, "link");
 sinon.spy(walker, "walk");
 
-test("SearchResult should ignore empty results", (t) => {
+test("SearchResultVisualizer should ignore empty results", (t) => {
     dom.sandbox(html, {}, () => {
         let result = { matches: [] };
-        searchResult.show(result);
+        searchResultVisualizer.show(result);
         let container = document.getElementById("search-result-container");
         t.equal(container.innerHTML, "");
         t.end();
@@ -39,113 +39,113 @@ test("SearchResult should ignore empty results", (t) => {
 });
 
 
-test("SearchResult should show result property 'pre'", (t) => {
+test("SearchResultVisualizer should show result property 'pre'", (t) => {
     dom.sandbox(html, {}, () => {
         let result = { matches: [{ pre: "pre" }] };
-        searchResult.show(result);
+        searchResultVisualizer.show(result);
         let li = document.querySelector("li");
         t.equal(li.childNodes[0].innerHTML, "pre");
         t.end();
     });
 });
 
-test("SearchResult should show result property 'match'", (t) => {
+test("SearchResultVisualizer should show result property 'match'", (t) => {
     dom.sandbox(html, {}, () => {
         let result = { matches: [{ match: "match" }] };
-        searchResult.show(result);
+        searchResultVisualizer.show(result);
         let li = document.querySelector("li");
         t.equal(li.childNodes[1].innerHTML, "match");
         t.end();
     });
 });
 
-test("SearchResult should show result property 'post'", (t) => {
+test("SearchResultVisualizer should show result property 'post'", (t) => {
     dom.sandbox(html, {}, () => {
         let result = { matches: [{ post: "post" }] };
-        searchResult.show(result);
+        searchResultVisualizer.show(result);
         let li = document.querySelector("li");
         t.equal(li.childNodes[2].innerHTML, "post");
         t.end();
     });
 });
 
-test("SearchResult should show result property 'source'", (t) => {
+test("SearchResultVisualizer should show result property 'source'", (t) => {
     dom.sandbox(html, {}, () => {
         let result = { matches: [{ source: "source" }] };
-        searchResult.show(result);
+        searchResultVisualizer.show(result);
         let li = document.querySelector("li");
         t.equal(li.childNodes[3].innerHTML, "source");
         t.end();
     });
 });
 
-test("SearchResult should set index attribute on each item", (t) => {
+test("SearchResultVisualizer should set index attribute on each item", (t) => {
     dom.sandbox(html, {}, () => {
         let result = { matches: [{ index: 123 }] };
-        searchResult.show(result);
+        searchResultVisualizer.show(result);
         let li = document.querySelector("li");
         t.equal(li.getAttribute("data-search-result-index"), "123");
         t.end();
     });
 });
 
-test("SearchResult should indicate if max number of search results were exceeded", (t) => {
+test("SearchResultVisualizer should indicate if max number of search results were exceeded", (t) => {
     dom.sandbox(html, {}, () => {
         let result = { matches: [{ }], maxExceeded: true };
-        searchResult.show(result);
+        searchResultVisualizer.show(result);
         let ul = document.querySelector("ul");
         t.equal(ul.lastChild.innerHTML, "...");
         t.end();
     });
 });
 
-test("SearchResult should link walker", (t) => {
+test("SearchResultVisualizer should link walker", (t) => {
     dom.sandbox(html, {}, () => {
         let result = { matches: [{ }] };
-        searchResult.show(result);
+        searchResultVisualizer.show(result);
         t.true(walker.link.called);
         t.end();
     });
 });
 
-test("SearchResult should walk the result", (t) => {
+test("SearchResultVisualizer should walk the result", (t) => {
     dom.sandbox(html, {}, () => {
         let result = { matches: [{ }] };
-        searchResult.show(result);
-        searchResult.walk(KeyCode.downArrow);
+        searchResultVisualizer.show(result);
+        searchResultVisualizer.walk(KeyCode.downArrow);
         t.true(walker.walk.calledWith(KeyCode.downArrow));
         t.end();
     });
 });
 
-test("SearchResult should select current walked item", (t) => {
+test("SearchResultVisualizer should select current walked item", (t) => {
     dom.sandbox(html, {}, () => {
         let result = { matches: [{ }] };
-        searchResult.show(result);
-        searchResult.walk(KeyCode.downArrow);
-        searchResult.selectCurrent();
+        searchResultVisualizer.show(result);
+        searchResultVisualizer.walk(KeyCode.downArrow);
+        searchResultVisualizer.selectCurrent();
         t.true(browserEvent.emit.calledWith("search-result-selected"));
         t.end();
     });
 });
 
-test("SearchResult should select current walked item and ignore undefined element", (t) => {
+test("SearchResultVisualizer should select current walked item and ignore undefined element", (t) => {
     dom.sandbox(html, {}, () => {
         browserEvent.emit.reset();
         let result = { matches: [{ }] };
-        searchResult.show(result);
-        searchResult.walk(KeyCode.downArrow);
-        searchResult.select(undefined);
+        searchResultVisualizer.show(result);
+        searchResultVisualizer.walk(KeyCode.downArrow);
+        searchResultVisualizer.select(undefined);
         t.false(browserEvent.emit.calledWith("search-result-selected"));
         t.end();
     });
 });
 
-test("SearchResult should close result list", (t) => {
+test("SearchResultVisualizer should close result list", (t) => {
     dom.sandbox(html, {}, () => {
         let result = { matches: [{ }] };
-        searchResult.show(result);
-        searchResult.close();
+        searchResultVisualizer.show(result);
+        searchResultVisualizer.close();
         let ul = document.getElementById("search-result-container");
         t.equal(ul.innerHTML, "");
         t.end();

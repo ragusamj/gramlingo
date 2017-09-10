@@ -1,6 +1,6 @@
 import get from "lodash.get";
 import throttle from "lodash.throttle";
-import SearchResult from "../common/search/search-result";
+import SearchResultVisualizer from "../common/search/search-result";
 import ElementWalker from "../common/walkers/element-walker";
 import NumeralMachine from "./numeral-machine";
 
@@ -14,12 +14,12 @@ class NumeralsPage {
         this.fieldGenerator = fieldGenerator;
         this.numeralGenerator = numeralGenerator;
         this.numeralMachine = new NumeralMachine(i18n);
-        this.searchResult = new SearchResult(browserEvent, new ElementWalker());
+        this.searchResultVisualizer = new SearchResultVisualizer(browserEvent, new ElementWalker());
 
         this.throttledAskTheMachine = throttle((e) => {
             if(e.target.hasAttribute("data-ask-the-machine-input")) {
                 let result = this.numeralMachine.ask(e.target.value);
-                this.searchResult.show(result);
+                this.searchResultVisualizer.show(result);
             }
         }, askTheMachineTypingDelay, { leading: false });
     }

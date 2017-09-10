@@ -6,14 +6,14 @@ const searchTypingDelay = 250;
 
 class SearchListener {
 
-    constructor(browserEvent, searchResult) {
+    constructor(browserEvent, searchResultVisualizer) {
         this.browserEvent = browserEvent;
-        this.searchResult = searchResult;
+        this.searchResultVisualizer = searchResultVisualizer;
 
         this.throttledSearch = throttle((e) => {
             if(e.target.hasAttribute("data-search-input") && !(this.isWalkerKey(e.keyCode) || e.keyCode === KeyCode.enter)) {
                 let result = this.searchEngine.search(e.target.value);
-                this.searchResult.show(result);
+                this.searchResultVisualizer.show(result);
             }
         }, searchTypingDelay, { leading: false });
         
@@ -28,18 +28,18 @@ class SearchListener {
     }
 
     onSearchResultClick(e) {
-        this.searchResult.select(e.target);
-        this.searchResult.close();
+        this.searchResultVisualizer.select(e.target);
+        this.searchResultVisualizer.close();
     }
 
     onKeydown(e) {
         if(e.target.hasAttribute("data-search-input")) {
             if(this.isWalkerKey(e.keyCode)) {
-                this.searchResult.walk(e.keyCode);
+                this.searchResultVisualizer.walk(e.keyCode);
             }
             if(e.keyCode === KeyCode.enter) {
-                this.searchResult.selectCurrent();
-                this.searchResult.close();
+                this.searchResultVisualizer.selectCurrent();
+                this.searchResultVisualizer.close();
             }
         }
     }

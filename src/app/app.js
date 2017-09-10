@@ -20,7 +20,7 @@ import InputWalker from "./pages/common/walkers/input-walker";
 import FieldGenerator from "./pages/common/field-generator";
 import IntegerGenerator from "./pages/common/integer-generator";
 import SearchListener from "./pages/common/search/search-listener";
-import SearchResult from "./pages/common/search/search-result";
+import SearchResultVisualizer from "./pages/common/search/search-result";
 
 import Erro404Page from "./pages/error/error-404-page";
 import HomePage from "./pages/home/home-page";
@@ -82,7 +82,7 @@ class App {
         new ExerciseAreaListener(browserEvent, new Checker(), new ExerciseArea(), new InputWalker());
         new Menu(browserEvent);
         new Router(browserEvent, new PathFinder(routes), new PageBroker(browserEvent, http, "page-placeholder"));
-        new SearchListener(browserEvent, new SearchResult(browserEvent, new ElementWalker()));
+        new SearchListener(browserEvent, new SearchResultVisualizer(browserEvent, new ElementWalker()));
         new Toggler(browserEvent);
     }
 

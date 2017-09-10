@@ -5,7 +5,7 @@ import BrowserEvent from "../../../core/browser-event";
 import SearchListener from "./search-listener";
 import KeyCode from "../walkers/key-code";
 
-const searchResult = {
+const searchResultVisualizer = {
     close: sinon.spy(),
     select: sinon.spy(),
     selectCurrent: sinon.spy(),
@@ -15,14 +15,14 @@ const searchResult = {
 
 let setup = () => {
 
-    searchResult.close.reset();
-    searchResult.select.reset();
-    searchResult.selectCurrent.reset();
-    searchResult.show.reset();
-    searchResult.walk.reset();
+    searchResultVisualizer.close.reset();
+    searchResultVisualizer.select.reset();
+    searchResultVisualizer.selectCurrent.reset();
+    searchResultVisualizer.show.reset();
+    searchResultVisualizer.walk.reset();
 
     let browserEvent = new BrowserEvent();
-    new SearchListener(browserEvent, searchResult);
+    new SearchListener(browserEvent, searchResultVisualizer);
     browserEvent.emit("page-searchable-data-updated", [{name:"test"}]);
 
     let input = document.querySelector("input");
@@ -38,7 +38,7 @@ test("SearchListener should search on event 'keyup'", (t) => {
         input.dispatchEvent(new Event("keyup"));
         clock.tick(250);
 
-        t.true(searchResult.show.called);
+        t.true(searchResultVisualizer.show.called);
         t.end();
     });
 });
@@ -51,7 +51,7 @@ test("SearchListener should only search if the event is from an element with the
         input.dispatchEvent(new Event("keyup"));
         clock.tick(250);
 
-        t.false(searchResult.show.called);
+        t.false(searchResultVisualizer.show.called);
         t.end();
     });
 });
@@ -66,7 +66,7 @@ test("SearchListener should not search if the enter key is pressed", (t) => {
         input.dispatchEvent(e);
         clock.tick(250);
 
-        t.false(searchResult.show.called);
+        t.false(searchResultVisualizer.show.called);
         t.end();
     });
 });
@@ -81,7 +81,7 @@ test("SearchListener should not search if the down arrow is pressed", (t) => {
         input.dispatchEvent(e);
         clock.tick(250);
 
-        t.false(searchResult.show.called);
+        t.false(searchResultVisualizer.show.called);
         t.end();
     });
 });
@@ -96,7 +96,7 @@ test("SearchListener should not search if the up arrow is pressed", (t) => {
         input.dispatchEvent(e);
         clock.tick(250);
 
-        t.false(searchResult.show.called);
+        t.false(searchResultVisualizer.show.called);
         t.end();
     });
 });
@@ -108,7 +108,7 @@ test("SearchListener should select the clicked element", (t) => {
         let element = document.querySelector("div");
         element.dispatchEvent(new Event("click"));
 
-        t.deepEqual(searchResult.select.lastCall.args, [element]);
+        t.deepEqual(searchResultVisualizer.select.lastCall.args, [element]);
         t.end();
     });
 });
@@ -120,7 +120,7 @@ test("SearchListener should close the result when the clicked element is selecte
         let element = document.querySelector("div");
         element.dispatchEvent(new Event("click"));
 
-        t.true(searchResult.close.called);
+        t.true(searchResultVisualizer.close.called);
         t.end();
     });
 });
@@ -132,8 +132,8 @@ test("SearchListener should ignore keydown events from elements without the attr
         let element = document.querySelector("div");
         element.dispatchEvent(new Event("keydown"));
 
-        t.false(searchResult.walk.called);
-        t.false(searchResult.select.called);
+        t.false(searchResultVisualizer.walk.called);
+        t.false(searchResultVisualizer.select.called);
         t.end();
     });
 });
@@ -146,7 +146,7 @@ test("SearchListener should walk down in the result on event 'keydown'", (t) => 
         e.keyCode = KeyCode.downArrow;
         input.dispatchEvent(e);
 
-        t.deepEqual(searchResult.walk.lastCall.args, [KeyCode.downArrow]);
+        t.deepEqual(searchResultVisualizer.walk.lastCall.args, [KeyCode.downArrow]);
         t.end();
     });
 });
@@ -159,7 +159,7 @@ test("SearchListener should walk up in the result on event 'keydown'", (t) => {
         e.keyCode = KeyCode.upArrow;
         input.dispatchEvent(e);
 
-        t.deepEqual(searchResult.walk.lastCall.args, [KeyCode.upArrow]);
+        t.deepEqual(searchResultVisualizer.walk.lastCall.args, [KeyCode.upArrow]);
         t.end();
     });
 });
@@ -172,7 +172,7 @@ test("SearchListener should select current item in search result when the enter 
         e.keyCode = KeyCode.enter;
         input.dispatchEvent(e);
 
-        t.true(searchResult.selectCurrent.called);
+        t.true(searchResultVisualizer.selectCurrent.called);
         t.end();
     });
 });
@@ -185,7 +185,7 @@ test("SearchListener should close search result when the enter key is pressed", 
         e.keyCode = KeyCode.enter;
         input.dispatchEvent(e);
 
-        t.true(searchResult.close.called);
+        t.true(searchResultVisualizer.close.called);
         t.end();
     });
 });

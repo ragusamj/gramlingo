@@ -20,7 +20,7 @@ import InputWalker from "./pages/common/walkers/input-walker";
 import FieldGenerator from "./pages/common/field-generator";
 import IntegerGenerator from "./pages/common/integer-generator";
 import SearchListener from "./pages/common/search/search-listener";
-import SearchResultVisualizer from "./pages/common/search/search-result";
+import SearchResultVisualizer from "./pages/common/search/search-result-visualizer";
 
 import Erro404Page from "./pages/error/error-404-page";
 import HomePage from "./pages/home/home-page";

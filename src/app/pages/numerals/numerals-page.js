@@ -1,6 +1,6 @@
 import get from "lodash.get";
 import throttle from "lodash.throttle";
-import SearchResultVisualizer from "../common/search/search-result";
+import SearchResultVisualizer from "../common/search/search-result-visualizer";
 import ElementWalker from "../common/walkers/element-walker";
 import NumeralMachine from "./numeral-machine";
 

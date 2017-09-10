@@ -4,7 +4,7 @@ import test from "tape";
 import BrowserEvent from "../../../core/browser-event";
 import ElementWalker from "../walkers/element-walker";
 import KeyCode from "../walkers/key-code";
-import SearchResultVisualizer from "./search-result";
+import SearchResultVisualizer from "./search-result-visualizer";
 
 const html =
     "<script id='search-result-template'>" +

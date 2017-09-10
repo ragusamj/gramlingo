@@ -6,6 +6,14 @@ import NumeralMachine from "./numeral-machine";
 
 const askTheMachineTypingDelay = 250;
 
+const placeholders = {
+    centuries: "1700",
+    fractions: "5/6",
+    integers: "123",
+    ordinals: "3",
+    time: "23:58"
+};
+
 class NumeralsPage {
 
     constructor(browserEvent, i18n, fieldGenerator, numeralGenerator) {
@@ -96,16 +104,12 @@ class NumeralsPage {
     }
 
     onPageDataChanged() {
-        this.setHeader();
         this.setQuestionHeaders();
+        this.translateHeader();
+        this.translateAskTheMachine();
+
         this.browserEvent.emit("page-field-list-updated", this.fields);
         this.browserEvent.emit("page-data-updated", this.pageData);
-    }
-
-    setHeader() {
-        let header = document.getElementById("numerals-type-header");
-        header.setAttribute("data-translate", "numerals-" + this.type + "-header");
-        this.i18n.translate(header);
     }
 
     setQuestionHeaders() {
@@ -115,6 +119,22 @@ class NumeralsPage {
             let header = get(this.pageData, headerPath);
             headerContainer.innerHTML = header[0][0];
         }
+    }
+
+    translateHeader() {
+        let header = document.getElementById("numerals-type-header");
+        header.setAttribute("data-translate", "numerals-" + this.type + "-header");
+        this.i18n.translate(header);
+    }
+
+    translateAskTheMachine() {
+        let body = document.getElementById("ask-the-machine-body");
+        body.setAttribute("data-translate", "numerals-ask-the-machine-" + this.type + "-body");
+        this.i18n.translate(body);
+
+        let input = document.getElementById("ask-the-machine-input");
+        input.value = "";
+        input.placeholder = placeholders[this.type];
     }
 }
 

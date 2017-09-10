@@ -107,13 +107,16 @@
                             <hr/>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h5><span class="fa fa-laptop text-info"></span> Ask the machine</h5>
-                                    Type a number to see how it's spelled:
+                                    <h5>
+                                        <span class="fa fa-laptop text-info"></span>
+                                        <span data-translate="numerals-ask-the-machine-header"></span>
+                                    </h5>
+                                    <span id="ask-the-machine-body"></span>
                                     <div class="popup-wrapper">
-                                        <input type="text"
+                                        <input id="ask-the-machine-input"
+                                               type="text"
                                                class="form-control form-control-sm"
                                                spellcheck="false"
-                                               placeholder="123"
                                                data-ask-the-machine-input />
                                         <div id="search-result-container"></div>
                                     </div>

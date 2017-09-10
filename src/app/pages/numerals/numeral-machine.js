@@ -70,7 +70,7 @@ class NumeralMachine {
     }
 
     getCenturies(value, result) {
-        if(value >= 0 && value <= 2900) {
+        if(value >= 0 && value <= 2999) {
             let century = Century.spell(Math.floor(value / 100) * 100);
             result.matches.push({ pre: "", match: century, post: "", source: "", index: 0 });
         }

@@ -27,6 +27,14 @@ export default {
     "numerals-ordinals-button": "ordinals",
     "numerals-time-button": "time",
 
+    "numerals-ask-the-machine-header": "Ask the Machine",
+
+    "numerals-ask-the-machine-centuries-body": "Type a year (0 - 2999) to see how its century is spelled:",
+    "numerals-ask-the-machine-fractions-body": "Type a fraction (0/100 - 100/100) to see how it's spelled:",
+    "numerals-ask-the-machine-integers-body": "Type an integer (0 - 1000000) to see how it's spelled:",
+    "numerals-ask-the-machine-ordinals-body": "Type an ordinal (0 - 10000) to see how it's spelled:",
+    "numerals-ask-the-machine-time-body": "Type a time (00:00 - 23:59) to see how it's spelled:",
+
     "verbs-header": "Verbs",
     "verbs-help-header": "Help",
     "verbs-help-body":

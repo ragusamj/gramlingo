@@ -27,6 +27,14 @@ export default {
     "numerals-ordinals-button": "ordningstal",
     "numerals-time-button": "klockan",
 
+    "numerals-ask-the-machine-header": "Fråga maskinen",
+
+    "numerals-ask-the-machine-centuries-body": "Skriv ett årtal (0 - 2999) för att se hur dess sekel stavas:",
+    "numerals-ask-the-machine-fractions-body": "Skriv ett bråktal (0/100 - 100/100) för att se hur det stavas:",
+    "numerals-ask-the-machine-integers-body": "Skriv ett heltal (0 - 1000000) för att se hur det stavas:",
+    "numerals-ask-the-machine-ordinals-body": "Skriv ett ordningstal (0 - 10000) för att se hur det stavas:",
+    "numerals-ask-the-machine-time-body": "Skriv ett klockslag (00:00 - 23:59) för att se hur det stavas:",
+
     "verbs-header": "Verb",
     "verbs-help-header": "Hjälp",
     "verbs-help-body":

@@ -26,6 +26,11 @@ test("Fraction should spell singular, 1/10", (t) => {
     t.end();
 });
 
+test("Fraction should spell singular, 0/3", (t) => {
+    t.deepEqual(Fraction.spell(0, 3), ["cero tercios"]);
+    t.end();
+});
+
 test("Fraction should spell plural, 2/4", (t) => {
     t.deepEqual(Fraction.spell(2, 4), ["dos cuartos"]);
     t.end();

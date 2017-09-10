@@ -8,7 +8,7 @@ class Fraction {
         let spelling = [];
         let numeratorSpelling = this.getNumerator(numerator);
         let denominatorSpellings = this.getDenominator(denominator);
-        let plural = numerator > 1 ? "s" : "";
+        let plural = numerator !== 1 ? "s" : "";
         for (let i = 0; i < denominatorSpellings.length; i++) {
             spelling.push(numeratorSpelling + " " + denominatorSpellings[i] + plural);
         }

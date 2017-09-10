@@ -1,10 +1,4 @@
 import get from "lodash.get";
-import throttle from "lodash.throttle";
-import SearchResultVisualizer from "../common/search/search-result-visualizer";
-import ElementWalker from "../common/walkers/element-walker";
-import NumeralMachine from "./numeral-machine";
-
-const askTheMachineTypingDelay = 250;
 
 const placeholders = {
     centuries: "1700",
@@ -16,32 +10,22 @@ const placeholders = {
 
 class NumeralsPage {
 
-    constructor(browserEvent, i18n, fieldGenerator, numeralGenerator) {
+    constructor(browserEvent, i18n, fieldGenerator, numeralGenerator, askTheMachineListener) {
         this.browserEvent = browserEvent;
         this.i18n = i18n;
         this.fieldGenerator = fieldGenerator;
         this.numeralGenerator = numeralGenerator;
-        this.numeralMachine = new NumeralMachine(i18n);
-        this.searchResultVisualizer = new SearchResultVisualizer(browserEvent, new ElementWalker());
-
-        this.throttledAskTheMachine = throttle((e) => {
-            if(e.target.hasAttribute("data-ask-the-machine-input")) {
-                let result = this.numeralMachine.ask(this.type, e.target.value);
-                this.searchResultVisualizer.show(result);
-            }
-        }, askTheMachineTypingDelay, { leading: false });
+        this.askTheMachineListener = askTheMachineListener;
     }
 
     attach(pageTemplate, onPageChanged, parameters) {
         this.type = parameters.type.toLowerCase() || "integers";
         this.applyPageTemplate(pageTemplate, onPageChanged, parameters);
         this.removeClickListener = this.browserEvent.on("click", this.onClick.bind(this));
-        this.removeKeyupListener = this.browserEvent.on("keyup", this.throttledAskTheMachine);
     }
 
     detach() {
         this.removeClickListener();
-        this.removeKeyupListener();
     }
 
     applyPageTemplate(pageTemplate, onPageChanged) {
@@ -107,6 +91,8 @@ class NumeralsPage {
         this.setQuestionHeaders();
         this.translateHeader();
         this.translateAskTheMachine();
+
+        this.askTheMachineListener.setType(this.type);
 
         this.browserEvent.emit("page-field-list-updated", this.fields);
         this.browserEvent.emit("page-data-updated", this.pageData);

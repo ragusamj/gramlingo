@@ -1,18 +1,14 @@
-import Fraction from "./spelling/fractions/fraction";
-import Century from "./spelling/centuries/century";
-import Integer from "./spelling/integers/integer";
-import Ordinal from "./spelling/ordinals/ordinal";
-import OrdinalSuffix from "./spelling/ordinals/ordinal-suffix";
-import Time from "./spelling/time/time";
+import Fraction from "../spelling/fractions/fraction";
+import Century from "../spelling/centuries/century";
+import Integer from "../spelling/integers/integer";
+import Ordinal from "../spelling/ordinals/ordinal";
+import OrdinalSuffix from "../spelling/ordinals/ordinal-suffix";
+import Time from "../spelling/time/time";
 
 const fractionRegexp = /^([0-9][0-9]?|100)\/([2-9]|[1-9][0-9]|100)$/;
 const timespanRegexp = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/;
 
-class NumeralMachine {
-
-    constructor(i18n) {
-        this.i18n = i18n;
-    }
+class Machine {
 
     ask(type, value) {
 
@@ -93,4 +89,4 @@ class NumeralMachine {
     }
 }
 
-export default NumeralMachine;
+export default Machine;

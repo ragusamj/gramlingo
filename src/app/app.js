@@ -27,6 +27,8 @@ import HomePage from "./pages/home/home-page";
 
 import NumeralGenerator from "./pages/numerals/numeral-generator";
 import NumeralsPage from "./pages/numerals/numerals-page";
+import AskTheMachineListener from "./pages/numerals/ask-the-machine/ask-the-machine-listener";
+import Machine from "./pages/numerals/ask-the-machine/machine";
 
 import VerbInflater from "./pages/verbs/verb-inflater";
 import VerbPage from "./pages/verbs/verb-page";
@@ -64,7 +66,11 @@ class App {
             },
             {
                 paths: ["/numerals", "/numerals/:type"],
-                page: new NumeralsPage(browserEvent, i18n, fieldGenerator, new NumeralGenerator(new IntegerGenerator())),
+                page: new NumeralsPage(
+                    browserEvent, i18n, fieldGenerator,
+                    new NumeralGenerator(new IntegerGenerator()),
+                    new AskTheMachineListener(browserEvent, new Machine(), new SearchResultVisualizer(browserEvent, new ElementWalker()))
+                ),
                 template: "/app/pages/numerals/numerals-page.html"
             },
             {

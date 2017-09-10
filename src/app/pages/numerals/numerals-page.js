@@ -1,4 +1,10 @@
 import get from "lodash.get";
+import throttle from "lodash.throttle";
+import SearchResult from "../common/search/search-result";
+import ElementWalker from "../common/walkers/element-walker";
+import NumeralMachine from "./numeral-machine";
+
+const askTheMachineTypingDelay = 250;
 
 class NumeralsPage {
 
@@ -7,16 +13,27 @@ class NumeralsPage {
         this.i18n = i18n;
         this.fieldGenerator = fieldGenerator;
         this.numeralGenerator = numeralGenerator;
+        this.numeralMachine = new NumeralMachine(i18n);
+        this.searchResult = new SearchResult(browserEvent, new ElementWalker());
+
+        this.throttledAskTheMachine = throttle((e) => {
+            if(e.target.hasAttribute("data-ask-the-machine-input")) {
+                let result = this.numeralMachine.ask(e.target.value);
+                this.searchResult.show(result);
+            }
+        }, askTheMachineTypingDelay, { leading: false });
     }
 
     attach(pageTemplate, onPageChanged, parameters) {
         this.type = parameters.type.toLowerCase() || "integers";
         this.applyPageTemplate(pageTemplate, onPageChanged, parameters);
         this.removeClickListener = this.browserEvent.on("click", this.onClick.bind(this));
+        this.removeKeyupListener = this.browserEvent.on("keyup", this.throttledAskTheMachine);
     }
 
     detach() {
         this.removeClickListener();
+        this.removeKeyupListener();
     }
 
     applyPageTemplate(pageTemplate, onPageChanged) {

@@ -110,12 +110,12 @@
                                     <h5><span class="fa fa-laptop text-info"></span> Ask the machine</h5>
                                     Type a number to see how it's spelled:
                                     <div class="popup-wrapper">
-                                        <input placeholder="123" class="form-control form-control-sm" />
-                                        <div id="search-result-container">
-                                            <ul class="search-result">
-                                                <li>ciento veintitrés</li>
-                                            </ul>
-                                        </div>
+                                        <input type="text"
+                                               class="form-control form-control-sm"
+                                               spellcheck="false"
+                                               placeholder="123"
+                                               data-ask-the-machine-input />
+                                        <div id="search-result-container"></div>
                                     </div>
                                 </div>
                             </div>

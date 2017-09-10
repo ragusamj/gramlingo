@@ -18,7 +18,7 @@ class NumeralsPage {
 
         this.throttledAskTheMachine = throttle((e) => {
             if(e.target.hasAttribute("data-ask-the-machine-input")) {
-                let result = this.numeralMachine.ask(e.target.value);
+                let result = this.numeralMachine.ask(this.type, e.target.value);
                 this.searchResultVisualizer.show(result);
             }
         }, askTheMachineTypingDelay, { leading: false });

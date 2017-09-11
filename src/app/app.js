@@ -37,7 +37,7 @@ import WorldMap from "./pages/world/world-map";
 import WorldMapListener from "./pages/world/world-map-listener";
 import WorldPage from "./pages/world/world-page";
 
-const browserEvent = new BrowserEvent("weee");
+const browserEvent = new BrowserEvent();
 const http = new Http();
 const i18n = new I18n();
 const fieldGenerator = new FieldGenerator();

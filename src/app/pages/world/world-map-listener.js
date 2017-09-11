@@ -6,20 +6,20 @@ class WorldMapListener {
     }
 
     attach() {
-        this.removeClickListener = this.browserEvent.on("click", this.onClick.bind(this));
-        this.removeMousedownListener = this.browserEvent.on("mousedown", this.worldMap.startDrag.bind(this.worldMap));
-        this.removeMousemoveListener = this.browserEvent.on("mousemove", this.worldMap.drag.bind(this.worldMap));
-        this.removeMousemupListener = this.browserEvent.on("mouseup", this.worldMap.endDrag.bind(this.worldMap));
-        this.removeWheelListener = this.browserEvent.on("wheel", this.worldMap.scroll.bind(this.worldMap));
+        this.removeListeners = [
+            this.browserEvent.on("click", this.onClick.bind(this)),
+            this.browserEvent.on("mousedown", this.worldMap.startDrag.bind(this.worldMap)),
+            this.browserEvent.on("mousemove", this.worldMap.drag.bind(this.worldMap)),
+            this.browserEvent.on("mouseup", this.worldMap.endDrag.bind(this.worldMap)),
+            this.browserEvent.on("wheel", this.worldMap.scroll.bind(this.worldMap))
+        ];
         this.worldMap.initialize();
     }
 
     detach() {
-        this.removeClickListener();
-        this.removeMousedownListener();
-        this.removeMousemoveListener();
-        this.removeMousemupListener();
-        this.removeWheelListener();
+        for(let removeListener of this.removeListeners) {
+            removeListener();
+        }
     }
 
     onClick(e) {

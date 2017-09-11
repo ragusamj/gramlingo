@@ -19,6 +19,7 @@ import ElementWalker from "./pages/common/walkers/element-walker";
 import InputWalker from "./pages/common/walkers/input-walker";
 import FieldGenerator from "./pages/common/field-generator";
 import IntegerGenerator from "./pages/common/integer-generator";
+import SearchEngine from "./pages/common/search/search-engine";
 import SearchListener from "./pages/common/search/search-listener";
 import SearchResultVisualizer from "./pages/common/search/search-result-visualizer";
 
@@ -27,8 +28,7 @@ import HomePage from "./pages/home/home-page";
 
 import NumeralGenerator from "./pages/numerals/numeral-generator";
 import NumeralsPage from "./pages/numerals/numerals-page";
-import AskTheMachineListener from "./pages/numerals/ask-the-machine/ask-the-machine-listener";
-import Machine from "./pages/numerals/ask-the-machine/machine";
+import NumeralsSearchEngine from "./pages/numerals/numerals-search-engine";
 
 import VerbInflater from "./pages/verbs/verb-inflater";
 import VerbPage from "./pages/verbs/verb-page";
@@ -37,7 +37,7 @@ import WorldMap from "./pages/world/world-map";
 import WorldMapListener from "./pages/world/world-map-listener";
 import WorldPage from "./pages/world/world-page";
 
-const browserEvent = new BrowserEvent();
+const browserEvent = new BrowserEvent("weee");
 const http = new Http();
 const i18n = new I18n();
 const fieldGenerator = new FieldGenerator();
@@ -53,8 +53,6 @@ class App {
         i18n.addTranslation("es-ES", esES);
         i18n.addTranslation("sv-SE", svSE);
 
-        const searchListener = new SearchListener(browserEvent, new SearchResultVisualizer(browserEvent, new ElementWalker()));
-
         const routes = [
             {
                 paths: ["/"],
@@ -63,7 +61,11 @@ class App {
             },
             {
                 paths: ["/verbs", "/verbs/:name"],
-                page: new VerbPage(browserEvent, http, i18n, fieldGenerator, new VerbInflater(), searchListener),
+                page: new VerbPage(
+                    browserEvent, http, i18n, fieldGenerator,
+                    new VerbInflater(),
+                    new SearchListener(browserEvent, new SearchEngine(), new SearchResultVisualizer(browserEvent, new ElementWalker()))
+                ),
                 template: "/app/pages/verbs/verb-page.html"
             },
             {
@@ -71,7 +73,7 @@ class App {
                 page: new NumeralsPage(
                     browserEvent, i18n, fieldGenerator,
                     new NumeralGenerator(new IntegerGenerator()),
-                    new AskTheMachineListener(browserEvent, new Machine(), new SearchResultVisualizer(browserEvent, new ElementWalker()))
+                    new SearchListener(browserEvent, new NumeralsSearchEngine(), new SearchResultVisualizer(browserEvent, new ElementWalker()))
                 ),
                 template: "/app/pages/numerals/numerals-page.html"
             },

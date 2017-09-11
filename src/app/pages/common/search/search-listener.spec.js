@@ -2,6 +2,7 @@ import dom from "jsdom-sandbox";
 import sinon from "sinon";
 import test from "tape";
 import BrowserEvent from "../../../core/browser-event";
+import SearchEngine from "./search-engine";
 import SearchListener from "./search-listener";
 import KeyCode from "../walkers/key-code";
 
@@ -12,6 +13,8 @@ const searchResultVisualizer = {
     show: sinon.spy(),
     walk: sinon.spy()
 };
+
+const searchEngine = new SearchEngine();
 
 let searchListener;
 
@@ -24,7 +27,7 @@ let setup = () => {
     searchResultVisualizer.walk.reset();
 
     let browserEvent = new BrowserEvent();
-    searchListener = new SearchListener(browserEvent, searchResultVisualizer);
+    searchListener = new SearchListener(browserEvent, searchEngine, searchResultVisualizer);
     searchListener.attach();
     browserEvent.emit("page-searchable-data-updated", [{name:"test"}]);
 

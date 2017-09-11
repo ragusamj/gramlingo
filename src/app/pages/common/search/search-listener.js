@@ -1,19 +1,20 @@
 import throttle from "lodash.throttle";
 import KeyCode from "../walkers/key-code";
-import SearchEngine from "./search-engine";
 
 const searchTypingDelay = 250;
 
 class SearchListener {
 
-    constructor(browserEvent, searchResultVisualizer) {
+    constructor(browserEvent, engine, visualizer, who) {
         this.browserEvent = browserEvent;
-        this.searchResultVisualizer = searchResultVisualizer;
+        this.engine = engine;
+        this.visualizer = visualizer;
+        this.who = who;
 
         this.throttledSearch = throttle((e) => {
             if(e.target.hasAttribute("data-search-input") && !(this.isWalkerKey(e.keyCode) || e.keyCode === KeyCode.enter)) {
-                let result = this.searchEngine.search(e.target.value);
-                this.searchResultVisualizer.show(result);
+                let result = this.engine.search(e.target.value);
+                this.visualizer.show(result);
             }
         }, searchTypingDelay, { leading: false });
     }
@@ -34,22 +35,22 @@ class SearchListener {
     }
 
     onSearchablePageDataUpdated(e) {
-        this.searchEngine = new SearchEngine(e.detail);
+        this.engine.initialize(e.detail);
     }
 
     onSearchResultClick(e) {
-        this.searchResultVisualizer.select(e.target);
-        this.searchResultVisualizer.close();
+        this.visualizer.select(e.target);
+        this.visualizer.close();
     }
 
     onKeydown(e) {
         if(e.target.hasAttribute("data-search-input")) {
             if(this.isWalkerKey(e.keyCode)) {
-                this.searchResultVisualizer.walk(e.keyCode);
+                this.visualizer.walk(e.keyCode);
             }
             if(e.keyCode === KeyCode.enter) {
-                this.searchResultVisualizer.selectCurrent();
-                this.searchResultVisualizer.close();
+                this.visualizer.selectCurrent();
+                this.visualizer.close();
             }
         }
     }

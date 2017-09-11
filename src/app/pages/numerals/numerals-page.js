@@ -10,24 +10,24 @@ const placeholders = {
 
 class NumeralsPage {
 
-    constructor(browserEvent, i18n, fieldGenerator, numeralGenerator, askTheMachineListener) {
+    constructor(browserEvent, i18n, fieldGenerator, numeralGenerator, searchListener) {
         this.browserEvent = browserEvent;
         this.i18n = i18n;
         this.fieldGenerator = fieldGenerator;
         this.numeralGenerator = numeralGenerator;
-        this.askTheMachineListener = askTheMachineListener;
+        this.searchListener = searchListener;
     }
 
     attach(pageTemplate, onPageChanged, parameters) {
         this.type = parameters.type.toLowerCase() || "integers";
-        this.applyPageTemplate(pageTemplate, onPageChanged, parameters);
         this.removeClickListener = this.browserEvent.on("click", this.onClick.bind(this));
-        this.askTheMachineListener.attach();
+        this.searchListener.attach();
+        this.applyPageTemplate(pageTemplate, onPageChanged, parameters);
     }
 
     detach() {
         this.removeClickListener();
-        this.askTheMachineListener.detach();
+        this.searchListener.detach();
     }
 
     applyPageTemplate(pageTemplate, onPageChanged) {
@@ -94,8 +94,7 @@ class NumeralsPage {
         this.translateHeader();
         this.translateAskTheMachine();
 
-        this.askTheMachineListener.setType(this.type);
-
+        this.browserEvent.emit("page-searchable-data-updated", this.type);
         this.browserEvent.emit("page-field-list-updated", this.fields);
         this.browserEvent.emit("page-data-updated", this.pageData);
     }

@@ -6,9 +6,10 @@ const maxSearchResults = 10;
 
 class SearchEngine {
 
-    constructor(data) {
+    initialize(data) {
         this.data = data;
         this.indexer = new PhoneticIndexer();
+        this.phoneticIndex = undefined;
     }
 
     search(term) {

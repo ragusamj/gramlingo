@@ -120,11 +120,23 @@ test("SearchResultVisualizer should walk the result", (t) => {
 
 test("SearchResultVisualizer should select current walked item", (t) => {
     dom.sandbox(html, {}, () => {
-        let result = { matches: [{ }] };
+        let result = { matches: [{ index: 0 }] };
         searchResultVisualizer.show(result);
         searchResultVisualizer.walk(KeyCode.downArrow);
         searchResultVisualizer.selectCurrent();
         t.true(browserEvent.emit.calledWith("search-result-selected"));
+        t.end();
+    });
+});
+
+test("SearchResultVisualizer should not select current walked item if the item has no index", (t) => {
+    dom.sandbox(html, {}, () => {
+        browserEvent.emit.reset();
+        let result = { matches: [{ }] };
+        searchResultVisualizer.show(result);
+        searchResultVisualizer.walk(KeyCode.downArrow);
+        searchResultVisualizer.selectCurrent();
+        t.false(browserEvent.emit.calledWith("search-result-selected"));
         t.end();
     });
 });
@@ -136,6 +148,36 @@ test("SearchResultVisualizer should select current walked item and ignore undefi
         searchResultVisualizer.show(result);
         searchResultVisualizer.walk(KeyCode.downArrow);
         searchResultVisualizer.select(undefined);
+        t.false(browserEvent.emit.calledWith("search-result-selected"));
+        t.end();
+    });
+});
+
+test("SearchResultVisualizer should select element with attribute 'data-search-result-index' on click", (t) => {
+    dom.sandbox(html, {}, () => {
+        browserEvent.emit.reset();
+        let element = document.createElement("div");
+        element.setAttribute("data-search-result-index", "0");
+        searchResultVisualizer.click(element);
+        t.true(browserEvent.emit.calledWith("search-result-selected"));
+        t.end();
+    });
+});
+
+test("SearchResultVisualizer should not select element without attribute 'data-search-result-index' on click", (t) => {
+    dom.sandbox(html, {}, () => {
+        browserEvent.emit.reset();
+        let element = document.createElement("div");
+        searchResultVisualizer.click(element);
+        t.false(browserEvent.emit.calledWith("search-result-selected"));
+        t.end();
+    });
+});
+
+test("SearchResultVisualizer should not select undefined element on click", (t) => {
+    dom.sandbox(html, {}, () => {
+        browserEvent.emit.reset();
+        searchResultVisualizer.click(undefined);
         t.false(browserEvent.emit.calledWith("search-result-selected"));
         t.end();
     });

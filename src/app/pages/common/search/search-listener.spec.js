@@ -7,8 +7,7 @@ import SearchListener from "./search-listener";
 import KeyCode from "../walkers/key-code";
 
 const searchResultVisualizer = {
-    close: sinon.spy(),
-    select: sinon.spy(),
+    click: sinon.spy(),
     selectCurrent: sinon.spy(),
     show: sinon.spy(),
     walk: sinon.spy()
@@ -20,8 +19,7 @@ let searchListener;
 
 let setup = () => {
 
-    searchResultVisualizer.close.reset();
-    searchResultVisualizer.select.reset();
+    searchResultVisualizer.click.reset();
     searchResultVisualizer.selectCurrent.reset();
     searchResultVisualizer.show.reset();
     searchResultVisualizer.walk.reset();
@@ -114,19 +112,7 @@ test("SearchListener should select the clicked element", (t) => {
         let element = document.querySelector("div");
         element.dispatchEvent(new Event("click"));
 
-        t.deepEqual(searchResultVisualizer.select.lastCall.args, [element]);
-        t.end();
-    });
-});
-
-test("SearchListener should close the result when the clicked element is selected", (t) => {
-    dom.sandbox("<input data-search-input/><div></div>", {}, () => {
-        setup();
-
-        let element = document.querySelector("div");
-        element.dispatchEvent(new Event("click"));
-
-        t.true(searchResultVisualizer.close.called);
+        t.deepEqual(searchResultVisualizer.click.lastCall.args, [element]);
         t.end();
     });
 });
@@ -139,7 +125,7 @@ test("SearchListener should ignore keydown events from elements without the attr
         element.dispatchEvent(new Event("keydown"));
 
         t.false(searchResultVisualizer.walk.called);
-        t.false(searchResultVisualizer.select.called);
+        t.false(searchResultVisualizer.click.called);
         t.end();
     });
 });
@@ -183,18 +169,6 @@ test("SearchListener should select current item in search result when the enter 
     });
 });
 
-test("SearchListener should close search result when the enter key is pressed", (t) => {
-    dom.sandbox("<input data-search-input/>", {}, () => {
-        let input = setup();
-
-        let e = new Event("keydown");
-        e.keyCode = KeyCode.enter;
-        input.dispatchEvent(e);
-
-        t.true(searchResultVisualizer.close.called);
-        t.end();
-    });
-});
 
 test("SearchListener should remove event listeners on detach", (t) => {
     dom.sandbox("<input data-search-input/>", {}, () => {
@@ -207,7 +181,7 @@ test("SearchListener should remove event listeners on detach", (t) => {
         e.keyCode = KeyCode.enter;
         input.dispatchEvent(e);
 
-        t.false(searchResultVisualizer.close.called);
+        t.false(searchResultVisualizer.selectCurrent.called);
         t.end();
     });
 });

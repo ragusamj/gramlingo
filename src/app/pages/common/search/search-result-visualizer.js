@@ -24,7 +24,7 @@ class SearchResultVisualizer {
                 itemTemplate.set("post", { innerHTML: match.post });
                 itemTemplate.set("source", { innerHTML: match.source });
                 let li = itemTemplate.set("search-result-item");
-                li.setAttribute("data-search-result-index", match.index);
+                li.setAttribute("data-search-result-index", match.index === undefined ? "" : match.index);
                 this.ids.push(li.id);
                 ul.appendChild(itemTemplate.fragment());
             }
@@ -48,10 +48,22 @@ class SearchResultVisualizer {
         this.select(element);
     }
 
-    select(element) {
+    click(element) {
         if(element && element.hasAttribute("data-search-result-index")) {
+            this.select(element);
+        }
+        else {
+            this.close();
+        }
+    }
+
+    select(element) {
+        if(element) {
             let index = element.getAttribute("data-search-result-index");
-            this.browserEvent.emit("search-result-selected", index);
+            if(index) {
+                this.browserEvent.emit("search-result-selected", index);
+                this.close();
+            }
         }
     }
 

@@ -39,8 +39,7 @@ class SearchListener {
     }
 
     onSearchResultClick(e) {
-        this.visualizer.select(e.target);
-        this.visualizer.close();
+        this.visualizer.click(e.target);
     }
 
     onKeydown(e) {
@@ -50,7 +49,6 @@ class SearchListener {
             }
             if(e.keyCode === KeyCode.enter) {
                 this.visualizer.selectCurrent();
-                this.visualizer.close();
             }
         }
     }

@@ -40,10 +40,6 @@ class NumeralsSearchEngine {
                 break;
         }
 
-        for(let i = 0; i < result.matches.length; i++) {
-            result.matches[0].index = i;
-        }
-
         return result;
     }
 

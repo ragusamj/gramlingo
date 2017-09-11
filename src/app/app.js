@@ -26,7 +26,7 @@ import SearchResultVisualizer from "./pages/common/search/search-result-visualiz
 import Erro404Page from "./pages/error/error-404-page";
 import HomePage from "./pages/home/home-page";
 
-import NumeralGenerator from "./pages/numerals/numeral-generator";
+import NumeralsGenerator from "./pages/numerals/numerals-generator";
 import NumeralsPage from "./pages/numerals/numerals-page";
 import NumeralsSearchEngine from "./pages/numerals/numerals-search-engine";
 
@@ -72,7 +72,7 @@ class App {
                 paths: ["/numerals", "/numerals/:type"],
                 page: new NumeralsPage(
                     browserEvent, i18n, fieldGenerator,
-                    new NumeralGenerator(new IntegerGenerator()),
+                    new NumeralsGenerator(new IntegerGenerator()),
                     new SearchListener(browserEvent, new NumeralsSearchEngine(), new SearchResultVisualizer(browserEvent, new ElementWalker()))
                 ),
                 template: "/app/pages/numerals/numerals-page.html"

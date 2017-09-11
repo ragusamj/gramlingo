@@ -1,5 +1,5 @@
 import test from "tape";
-import NumeralGenerator from "./numeral-generator";
+import NumeralsGenerator from "./numerals-generator";
 
 let mockRandomValue = 0.2;
 let mockRandomRangeSeed = 0;
@@ -25,7 +25,7 @@ const assertUnique = (t, a, b) => {
 };
 
 test("NumeralGenerator should randomize centuries", (t) => {
-    const generator = new NumeralGenerator(mockIntegerGenerator);
+    const generator = new NumeralsGenerator(mockIntegerGenerator);
     mockRandomRangeSeed = 0;
 
     t.deepEqual(generator.randomize("centuries"), [
@@ -41,7 +41,7 @@ test("NumeralGenerator should randomize centuries", (t) => {
 });
 
 test("NumeralGenerator should randomize centuries and not repeat values from last batch", (t) => {
-    const generator = new NumeralGenerator(mockIntegerGenerator);
+    const generator = new NumeralsGenerator(mockIntegerGenerator);
     mockRandomRangeSeed = 0;
 
     let batch1 = generator.randomize("centuries");
@@ -53,7 +53,7 @@ test("NumeralGenerator should randomize centuries and not repeat values from las
 });
 
 test("NumeralGenerator should randomize fractions", (t) => {
-    const generator = new NumeralGenerator(mockIntegerGenerator);
+    const generator = new NumeralsGenerator(mockIntegerGenerator);
     mockRandomRangeSeed = 1;
 
     t.deepEqual(generator.randomize("fractions"), [
@@ -69,7 +69,7 @@ test("NumeralGenerator should randomize fractions", (t) => {
 });
 
 test("NumeralGenerator should randomize fractions and not repeat values from last batch", (t) => {
-    const generator = new NumeralGenerator(mockIntegerGenerator);
+    const generator = new NumeralsGenerator(mockIntegerGenerator);
     mockRandomRangeSeed = 1;
 
     let batch1 = generator.randomize("fractions");
@@ -81,7 +81,7 @@ test("NumeralGenerator should randomize fractions and not repeat values from las
 });
 
 test("NumeralGenerator should randomize integers", (t) => {
-    const generator = new NumeralGenerator(mockIntegerGenerator);
+    const generator = new NumeralsGenerator(mockIntegerGenerator);
     mockRandomRangeSeed = 1;
 
     t.deepEqual(generator.randomize("integers"), [
@@ -97,7 +97,7 @@ test("NumeralGenerator should randomize integers", (t) => {
 });
 
 test("NumeralGenerator should randomize integers and not repeat values from last batch", (t) => {
-    const generator = new NumeralGenerator(mockIntegerGenerator);
+    const generator = new NumeralsGenerator(mockIntegerGenerator);
     mockRandomRangeSeed = 1;
 
     let batch1 = generator.randomize("integers");
@@ -109,7 +109,7 @@ test("NumeralGenerator should randomize integers and not repeat values from last
 });
 
 test("NumeralGenerator should randomize ordinals, masculine", (t) => {
-    const generator = new NumeralGenerator(mockIntegerGenerator);
+    const generator = new NumeralsGenerator(mockIntegerGenerator);
     mockRandomValue = 0.5; // > 0.5 masculine
     mockRandomRangeSeed = 1;
 
@@ -126,7 +126,7 @@ test("NumeralGenerator should randomize ordinals, masculine", (t) => {
 });
 
 test("NumeralGenerator should randomize ordinals, feminine", (t) => {
-    const generator = new NumeralGenerator(mockIntegerGenerator);
+    const generator = new NumeralsGenerator(mockIntegerGenerator);
     mockRandomValue = 0.4; // < 0.5 feminine
     mockRandomRangeSeed = 1;
 
@@ -143,7 +143,7 @@ test("NumeralGenerator should randomize ordinals, feminine", (t) => {
 });
 
 test("NumeralGenerator should randomize ordinals, primer and tercer", (t) => {
-    const generator = new NumeralGenerator(mockIntegerGenerator);
+    const generator = new NumeralsGenerator(mockIntegerGenerator);
     mockRandomValue = 0.3; // treshold for primer and tercer
     mockRandomRangeSeed = 1;
 
@@ -160,7 +160,7 @@ test("NumeralGenerator should randomize ordinals, primer and tercer", (t) => {
 });
 
 test("NumeralGenerator should randomize ordinals and not repeat values from last batch", (t) => {
-    const generator = new NumeralGenerator(mockIntegerGenerator);
+    const generator = new NumeralsGenerator(mockIntegerGenerator);
     mockRandomRangeSeed = 1;
 
     let batch1 = generator.randomize("ordinals");
@@ -172,7 +172,7 @@ test("NumeralGenerator should randomize ordinals and not repeat values from last
 });
 
 test("NumeralGenerator should randomize time", (t) => {
-    const generator = new NumeralGenerator(mockIntegerGenerator);
+    const generator = new NumeralsGenerator(mockIntegerGenerator);
     mockRandomRangeSeed = 1;
 
     t.deepEqual(generator.randomize("time"), [
@@ -188,7 +188,7 @@ test("NumeralGenerator should randomize time", (t) => {
 });
 
 test("NumeralGenerator should randomize time and not repeat values from last batch", (t) => {
-    const generator = new NumeralGenerator(mockIntegerGenerator);
+    const generator = new NumeralsGenerator(mockIntegerGenerator);
     mockRandomRangeSeed = 1;
 
     let batch1 = generator.randomize("time");
@@ -200,7 +200,7 @@ test("NumeralGenerator should randomize time and not repeat values from last bat
 });
 
 test("NumeralGenerator should format time span", (t) => {
-    const generator = new NumeralGenerator(mockIntegerGenerator);
+    const generator = new NumeralsGenerator(mockIntegerGenerator);
     t.equal(generator.formatTimeSpan(12, 34), "12:34");
     t.end();
 });

@@ -10,11 +10,11 @@ const placeholders = {
 
 class NumeralsPage {
 
-    constructor(browserEvent, i18n, fieldGenerator, numeralGenerator, searchListener) {
+    constructor(browserEvent, i18n, fieldGenerator, numeralsGenerator, searchListener) {
         this.browserEvent = browserEvent;
         this.i18n = i18n;
         this.fieldGenerator = fieldGenerator;
-        this.numeralGenerator = numeralGenerator;
+        this.numeralsGenerator = numeralsGenerator;
         this.searchListener = searchListener;
     }
 
@@ -32,7 +32,7 @@ class NumeralsPage {
 
     applyPageTemplate(pageTemplate, onPageChanged) {
         this.pageData = {
-            numerals: this.numeralGenerator.randomize(this.type)
+            numerals: this.numeralsGenerator.randomize(this.type)
         };
         if(!this.fields) {
             this.fields = this.fieldGenerator.build(pageTemplate, this.pageData);
@@ -63,12 +63,12 @@ class NumeralsPage {
     onClick(e) {
         if(e.target.hasAttribute("data-numeral-button")) {
             this.type = e.target.getAttribute("data-numeral-button");
-            this.pageData.numerals = this.numeralGenerator.randomize(this.type);
+            this.pageData.numerals = this.numeralsGenerator.randomize(this.type);
             this.onPageDataChanged();
             this.browserEvent.emit("url-change", "/numerals/" + this.type);
         }
         if(e.target.hasAttribute("data-randomize-fields")) {
-            this.pageData.numerals = this.numeralGenerator.randomize(this.type);
+            this.pageData.numerals = this.numeralsGenerator.randomize(this.type);
             if(this.switchToggled) {
                 this.switch();
             }

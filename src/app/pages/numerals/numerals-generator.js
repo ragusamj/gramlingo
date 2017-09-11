@@ -5,7 +5,7 @@ import Ordinal from "./spelling/ordinals/ordinal";
 import OrdinalSuffix from "./spelling/ordinals/ordinal-suffix";
 import Time from "./spelling/time/time";
 
-class NumeralGenerator {
+class NumeralsGenerator {
 
     constructor(integerGenerator) {
         this.integerGenerator = integerGenerator;
@@ -175,4 +175,4 @@ class NumeralGenerator {
     }
 }
 
-export default NumeralGenerator;
+export default NumeralsGenerator;

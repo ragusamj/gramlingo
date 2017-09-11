@@ -22,10 +22,12 @@ class NumeralsPage {
         this.type = parameters.type.toLowerCase() || "integers";
         this.applyPageTemplate(pageTemplate, onPageChanged, parameters);
         this.removeClickListener = this.browserEvent.on("click", this.onClick.bind(this));
+        this.askTheMachineListener.attach();
     }
 
     detach() {
         this.removeClickListener();
+        this.askTheMachineListener.detach();
     }
 
     applyPageTemplate(pageTemplate, onPageChanged) {

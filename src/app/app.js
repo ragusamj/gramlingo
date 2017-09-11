@@ -53,6 +53,8 @@ class App {
         i18n.addTranslation("es-ES", esES);
         i18n.addTranslation("sv-SE", svSE);
 
+        const searchListener = new SearchListener(browserEvent, new SearchResultVisualizer(browserEvent, new ElementWalker()));
+
         const routes = [
             {
                 paths: ["/"],
@@ -61,7 +63,7 @@ class App {
             },
             {
                 paths: ["/verbs", "/verbs/:name"],
-                page: new VerbPage(browserEvent, http, i18n, fieldGenerator, new VerbInflater()),
+                page: new VerbPage(browserEvent, http, i18n, fieldGenerator, new VerbInflater(), searchListener),
                 template: "/app/pages/verbs/verb-page.html"
             },
             {
@@ -88,7 +90,6 @@ class App {
         new ExerciseAreaListener(browserEvent, new Checker(), new ExerciseArea(), new InputWalker());
         new Menu(browserEvent);
         new Router(browserEvent, new PathFinder(routes), new PageBroker(browserEvent, http, "page-placeholder"));
-        new SearchListener(browserEvent, new SearchResultVisualizer(browserEvent, new ElementWalker()));
         new Toggler(browserEvent);
     }
 

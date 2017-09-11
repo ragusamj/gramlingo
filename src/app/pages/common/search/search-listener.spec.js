@@ -13,6 +13,8 @@ const searchResultVisualizer = {
     walk: sinon.spy()
 };
 
+let searchListener;
+
 let setup = () => {
 
     searchResultVisualizer.close.reset();
@@ -22,7 +24,8 @@ let setup = () => {
     searchResultVisualizer.walk.reset();
 
     let browserEvent = new BrowserEvent();
-    new SearchListener(browserEvent, searchResultVisualizer);
+    searchListener = new SearchListener(browserEvent, searchResultVisualizer);
+    searchListener.attach();
     browserEvent.emit("page-searchable-data-updated", [{name:"test"}]);
 
     let input = document.querySelector("input");
@@ -186,6 +189,22 @@ test("SearchListener should close search result when the enter key is pressed", 
         input.dispatchEvent(e);
 
         t.true(searchResultVisualizer.close.called);
+        t.end();
+    });
+});
+
+test("SearchListener should remove event listeners on detach", (t) => {
+    dom.sandbox("<input data-search-input/>", {}, () => {
+        
+        let input = setup();
+
+        searchListener.detach();
+
+        let e = new Event("keydown");
+        e.keyCode = KeyCode.enter;
+        input.dispatchEvent(e);
+
+        t.false(searchResultVisualizer.close.called);
         t.end();
     });
 });

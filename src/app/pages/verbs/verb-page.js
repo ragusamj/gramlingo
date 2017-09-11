@@ -3,22 +3,25 @@ const defaultVerb = "Ir";
 
 class VerbPage {
 
-    constructor(browserEvent, http, i18n, fieldGenerator, verbInflater) {
+    constructor(browserEvent, http, i18n, fieldGenerator, verbInflater, searchListener) {
         this.browserEvent = browserEvent;
         this.http = http;
         this.i18n = i18n;
         this.fieldGenerator = fieldGenerator;
         this.verbInflater = verbInflater;
+        this.searchListener = searchListener;
     }
 
     attach(pageTemplate, onPageChanged, parameters) {
         this.loadVerbs(() => {
             this.loadPage(pageTemplate, onPageChanged, parameters);
         });
+        this.searchListener.attach();
     }
 
     detach() {
         this.removeListener();
+        this.searchListener.detach();
     }
 
     loadVerbs(callback) {

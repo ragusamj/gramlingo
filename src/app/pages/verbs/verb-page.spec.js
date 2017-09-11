@@ -32,13 +32,18 @@ const verbInflater = {
     inflate: sinon.stub().returns(verbs)
 };
 
+const searchListener = {
+    attach: sinon.stub(),
+    detach: sinon.stub()
+};
+
 const pageTemplate = {};
 const onPageChanged = sinon.stub();
 
 const setup = () => {
     browserEvent = new BrowserEvent();
     sinon.spy(browserEvent, "emit");
-    return new VerbPage(browserEvent, http, i18n, fieldGenerator, verbInflater);
+    return new VerbPage(browserEvent, http, i18n, fieldGenerator, verbInflater, searchListener);
 };
 
 test("VerbPage should load verb data on first page attach", (t) => {
@@ -85,6 +90,17 @@ test("VerbPage should inflate verb data", (t) => {
         page.attach(pageTemplate, onPageChanged, {});
 
         t.deepEqual(verbInflater.inflate.firstCall.args, [["mock-JSON-data"]]);
+        t.end();
+    });
+});
+
+test("VerbPage should attach search listener", (t) => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+        let page = setup();
+
+        page.attach(pageTemplate, onPageChanged, {});
+
+        t.true(searchListener.attach.called);
         t.end();
     });
 });
@@ -259,7 +275,7 @@ test("VerbPage should translate verb regularity on page load", (t) => {
     });
 });
 
-test("VerbPage should detach page and remove listeners", (t) => {
+test("VerbPage should detach page and remove 'search-result-selected' event listener", (t) => {
     dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
 
         t.plan(1);
@@ -273,6 +289,18 @@ test("VerbPage should detach page and remove listeners", (t) => {
         browserEvent.emit("search-result-selected", 0);
 
         t.pass();
+    });
+});
+
+test("VerbPage should detach page and detach search listener", (t) => {
+    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
+        let page = setup();
+
+        page.attach(pageTemplate, onPageChanged, {});
+        page.detach();
+
+        t.true(searchListener.detach.called);
+        t.end();
     });
 });
 

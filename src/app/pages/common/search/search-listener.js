@@ -16,11 +16,21 @@ class SearchListener {
                 this.searchResultVisualizer.show(result);
             }
         }, searchTypingDelay, { leading: false });
-        
-        this.browserEvent.on("click", this.onSearchResultClick.bind(this));
-        this.browserEvent.on("keydown", this.onKeydown.bind(this));
-        this.browserEvent.on("keyup", this.throttledSearch);
-        this.browserEvent.on("page-searchable-data-updated", this.onSearchablePageDataUpdated.bind(this));
+    }
+
+    attach() {
+        this.removeListeners = [
+            this.browserEvent.on("click", this.onSearchResultClick.bind(this)),
+            this.browserEvent.on("keydown", this.onKeydown.bind(this)),
+            this.browserEvent.on("keyup", this.throttledSearch),
+            this.browserEvent.on("page-searchable-data-updated", this.onSearchablePageDataUpdated.bind(this))
+        ];
+    }
+
+    detach() {
+        for(let removeListener of this.removeListeners) {
+            removeListener();
+        }
     }
 
     onSearchablePageDataUpdated(e) {

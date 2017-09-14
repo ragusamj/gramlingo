@@ -1,4 +1,5 @@
 import get from "lodash.get";
+import ordinalFilter from "./ordinal-filter";
 
 const placeholders = {
     centuries: "1700",
@@ -45,17 +46,7 @@ class NumeralsPage {
     addFieldFilters() {
         if(this.type === "ordinals") {
             for(let key of Object.keys(this.fields)) {
-                this.fields[key].filter = this.filter;
-            }
-        }
-    }
-
-    filter(element, solutions) {
-        if(element.value) {
-            for(let sign of ["ª", "º"]) {
-                if(solutions[0].indexOf(sign) === (solutions[0].length) -1 && element.value.indexOf(sign) === -1) {
-                    element.value += sign;
-                }
+                this.fields[key].filter = ordinalFilter;
             }
         }
     }

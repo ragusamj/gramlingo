@@ -10,12 +10,12 @@
             <div class="col-md-12">
                 <h1 data-translate="world-header"></h1>
                 <hr/>
-                <h3 class="toolbox">
+                <h3 class="mt-4 toolbox">
                     <button
                         data-toggler="toggle-help"
                         data-toggler-on="toggle-help-on"
                         data-toggler-off="toggle-help-off"
-                        data-toggler-state="off"
+                        data-toggler-state="on"
                         data-toggler-expand-area="help-box"
                         class="text-info toolbox-button">
                         <span id="toggle-help-on" class="fa fa-chevron-circle-down"></span>
@@ -23,7 +23,12 @@
                         <span class="text-muted" data-translate="world-help-header"></span>
                     </button>
                 </h3>
-                <div id="help-box" class="expandable-box-sm" data-translate="world-help-body"></div>
+                <div id="help-box" class="expandable-box-sm">
+                    <div class="pull-left mr-3">
+                        <img class="img-fluid mb-3" src="/images/placeholder-1.jpg" style="height:250px; width:300px;"/>
+                    </div>
+                    <div data-translate="world-help-body"></div>
+                </div>
             </div>
         </div>
 

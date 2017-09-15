@@ -6,14 +6,15 @@ export default {
     "navigation-link-help": "Hjälp",
 
     "numerals-header": "Räkneord",
-    "numerals-help-header": "Hjälp",
+    "numerals-help-header": "Hur säger man <em>123456</em> på spanska?",
     "numerals-help-body":
-        "<h3>Hur säger man <em>123456</em> på spanska?</h3>" +
-        "<p>Och hur är det med 12/6...? Tredje, fjärde, femte och så vidare? Hur i hela friden säger man att klockan är tolv?</p>" +
-        "<p>Don't fret, these exercises will help you master all these numbers in spanish in no time!<br/>" +
-        "Just choose a type of numeral to work with and type away like there's no tomorrow!</p>" +
-        "<p>The application will randomize new numbers for you for as long as you want and correct your mistakes until you've mastered this area in spanish.</p>" +
-        "<p>You can even ask the machine to spell the numbers for you!</p>",
+        "<p>Och hur är det med 12/6...? Tredje, fjärde, femte och så vidare? Hur i hela friden stavar man klockslaget 12:00?<p>" +
+        "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
+        "<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. " +
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>",
 
     "numerals-centuries-header": "Sekler",
     "numerals-fractions-header": "Bråktal",
@@ -36,15 +37,15 @@ export default {
     "numerals-ask-the-machine-time-body": "Skriv ett klockslag (00:00 - 23:59) för att se hur det stavas:",
 
     "verbs-header": "Verb",
-    "verbs-help-header": "Hjälp",
+    "verbs-help-header": "Tre ton verbformer",
     "verbs-help-body":
-        "<h3>Tre ton verbformer</h3>" +
-        "<blockquote class='blockquote'>" +
-        "   <p class='mb-0'>Är det meningen att jag ska lära mig allt det här utantill...? Subjunktiv?!</p>" +
-        "   <footer class='blockquote-footer'>Varenda student på <cite title='Source Title'>varenda spanskakurs någonsin</cite></footer>" +
-        "</blockquote>" +
-        "<p>Don't worry, it's as easy as pie with this exercise!</p>" +
-        "<p>Find a verb to work with (there are 1001 verbs to choose from) and type away like they're going to make it illegal!</p>",
+        "<p>Är det meningen att jag ska lära mig allt det här utantill...? Subjunktiv?!</p>" +
+        "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
+        "<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. " +
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>",
     
     "verbs-regular-header": "(regelbundet)",
     "verbs-irregular-header": "(oregelbundet)",
@@ -52,9 +53,15 @@ export default {
     "verbs-search-input-placeholder": "Sök",
 
     "world-header": "Världen",
-    "world-help-header": "Hjälp",
+    "world-help-header": "Världen är din",
     "world-help-body":
-        "...",
+        "<p>Om du studerar.</p>" +
+        "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
+        "<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. " +
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>",
     "world-countries-header": "Länder",
 
     "error-404-header": "Vi ber om ursäkt...",

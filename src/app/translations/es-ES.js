@@ -6,14 +6,15 @@ export default {
     "navigation-link-help": "Ayuda",
 
     "numerals-header": "Números",
-    "numerals-help-header": "Ayuda",
+    "numerals-help-header": "¿Cómo se dice <em>123456</em> en español?",
     "numerals-help-body":
-        "<h3>¿Cómo se dice <em>123456</em> en español?</h3>" +
-        "<p>And what about 12/6...? The third, the fourth, the fifth and so on? How on earth do you say it's twelve o'clock?</p>" +
-        "<p>Don't fret, these exercises will help you master all these numbers in spanish in no time!<br/>" +
-        "Just choose a type of numeral to work with and type away like there's no tomorrow!</p>" +
-        "<p>The application will randomize new numbers for you for as long as you want and correct your mistakes until you've mastered this area in spanish.</p>" +
-        "<p>You can even ask the machine to spell the numbers for you!</p>",
+        "<p>¿Y qué tal 12/6...? ¿El tercero, la quarta, el quinto y demás? ¿Cómo se dice 12:00?<p>" +
+        "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
+        "<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. " +
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>",
 
     "numerals-centuries-header": "Siglos",
     "numerals-fractions-header": "Fraccions",
@@ -36,15 +37,15 @@ export default {
     "numerals-ask-the-machine-time-body": "Type a time (00:00 - 23:59) to see how it's spelled:",
 
     "verbs-header": "Verbos",
-    "verbs-help-header": "Ayuda",
+    "verbs-help-header": "Un montón de formas",
     "verbs-help-body":
-        "<h3>Un montón de formas</h3>" +
-        "<blockquote class='blockquote'>" +
-        "   <p class='mb-0'>Am I supposed to learn all this by heart...? Subjunctive? What?!</p>" +
-        "   <footer class='blockquote-footer'>Every student in <cite title='Source Title'>every spanish class ever</cite></footer>" +
-        "</blockquote>" +
-        "<p>Don't worry, it's as easy as pie with this exercise!</p>" +
-        "<p>Find a verb to work with (there are 1001 verbs to choose from) and type away like they're going to make it illegal!</p>",
+        "<p>Memorizar todo esto...? Subjuntivo? ¿Qúe?</p>" +
+        "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
+        "<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. " +
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>",
 
     "verbs-regular-header": "(regular)",
     "verbs-irregular-header": "(irregular)",
@@ -52,9 +53,15 @@ export default {
     "verbs-search-input-placeholder": "Buscar",
 
     "world-header": "El mundo",
-    "world-help-header": "Ayuda",
+    "world-help-header": "El mundo es tuyo",
     "world-help-body":
-        "...",
+        "<p>Solo hay que estudiar.</p>" +
+        "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
+        "<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. " +
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>",
     "world-countries-header": "Países",
 
     "error-404-header": "Lo sentimos...",

@@ -2,7 +2,7 @@
     <div class="col-md-8">
         <div class="row mb-3">
             <div class="col-md-12">
-                <img class="img-fluid" src="/images/728x90-1.png" />
+                <img class="img-fluid" src="/images/728x90-2.png" />
             </div>
         </div>
 
@@ -10,12 +10,12 @@
             <div class="col-md-12">
                 <h1 data-translate="numerals-header"></h1>
                 <hr/>
-                <h3 class="toolbox">
+                <h3 class="mt-4 toolbox">
                     <button
                         data-toggler="toggle-help"
                         data-toggler-on="toggle-help-on"
                         data-toggler-off="toggle-help-off"
-                        data-toggler-state="off"
+                        data-toggler-state="on"
                         data-toggler-expand-area="help-box"
                         class="text-info toolbox-button">
                         <span id="toggle-help-on" class="fa fa-chevron-circle-down"></span>
@@ -23,13 +23,11 @@
                         <span class="text-muted" data-translate="numerals-help-header"></span>
                     </button>
                 </h3>
-                <div id="help-box" class="expandable-box-sm" data-translate="numerals-help-body"></div>
-                <div class="mt-2 text-center text-sm-left">
-                    <button class="btn btn-sm btn-secondary" data-numeral-button="integers" data-translate="numerals-integers-button">heltal</button>
-                    <button class="btn btn-sm btn-secondary" data-numeral-button="time" data-translate="numerals-time-button">klockan</button>
-                    <button class="btn btn-sm btn-secondary" data-numeral-button="ordinals" data-translate="numerals-ordinals-button">ordningstal</button>
-                    <button class="btn btn-sm btn-secondary" data-numeral-button="fractions" data-translate="numerals-fractions-button">bråktal</button>
-                    <button class="btn btn-sm btn-secondary" data-numeral-button="centuries" data-translate="numerals-centuries-button">sekler</button>
+                <div id="help-box" class="expandable-box-sm">
+                    <div class="pull-left mr-3">
+                        <img class="img-fluid mb-3" src="/images/placeholder-1.jpg" style="height:250px; width:300px;"/>
+                    </div>
+                    <div data-translate="numerals-help-body"></div>
                 </div>
             </div>
         </div>
@@ -49,7 +47,7 @@
                     </button>
                 </h3>
                 <div id="numerals-exercise-box" class="expandable-box-lg">
-                    <section class="card mb-3">
+                    <section class="card">
                         <div class="card-header bg-dark text-white">
                             <div class="row">
                                 <div class="col-md-12 toolbox">
@@ -68,6 +66,19 @@
                             </div>
                         </div>
                         <div class="card-body bg-light">
+
+                            <div class="row mb-2">
+                                <div class="col-md-12 text-center text-sm-left">
+                                    <button class="btn btn-sm btn-secondary" data-numeral-button="integers" data-translate="numerals-integers-button">heltal</button>
+                                    <button class="btn btn-sm btn-secondary" data-numeral-button="time" data-translate="numerals-time-button">klockan</button>
+                                    <button class="btn btn-sm btn-secondary" data-numeral-button="ordinals" data-translate="numerals-ordinals-button">ordningstal</button>
+                                    <button class="btn btn-sm btn-secondary" data-numeral-button="fractions" data-translate="numerals-fractions-button">bråktal</button>
+                                    <button class="btn btn-sm btn-secondary" data-numeral-button="centuries" data-translate="numerals-centuries-button">sekler</button>
+                                </div>
+                            </div>
+
+                            <hr/>
+
                             <div class="row mb-2">
                                 <div class="col-md-12">
                                     <h5 data-field-header-path="numerals[0].q">.</h5>
@@ -105,7 +116,7 @@
                                 </div>
                             </div>
                             <hr/>
-                            <div class="row">
+                            <div class="row mb-2">
                                 <div class="col-md-12">
                                     <h5>
                                         <span class="fa fa-laptop text-info"></span>

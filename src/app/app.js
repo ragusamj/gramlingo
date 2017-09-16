@@ -1,3 +1,5 @@
+import "babel-polyfill";
+
 import BrowserEvent from "./core/browser-event";
 import Http from "./core/http";
 import I18n from "./core/i18n";

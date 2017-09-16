@@ -6,8 +6,8 @@ export default {
     "navigation-link-help": "Help",
 
     "numerals-header": "Numerals",
-    "numerals-help-header": "How do you say <em>123456</em> in spanish?",
-    "numerals-help-body":
+    "numerals-info-header": "How do you say <em>123456</em> in spanish?",
+    "numerals-info-body":
         "<p>And what about 12/6...? The third, the fourth, the fifth and so on? How on earth do you spell 12:00?<p>" +
         "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
         "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
@@ -37,8 +37,8 @@ export default {
     "numerals-ask-the-machine-time-body": "Type a time (00:00 - 23:59) to see how it's spelled:",
 
     "verbs-header": "Verbs",
-    "verbs-help-header": "One metric ton of verb forms",
-    "verbs-help-body":
+    "verbs-info-header": "One metric ton of verb forms",
+    "verbs-info-body":
         "<p>Am I supposed to learn all this by heart...? Subjunctive? What?!</p>" +
         "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
         "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
@@ -53,8 +53,8 @@ export default {
     "verbs-search-input-placeholder": "Search",
 
     "world-header": "The world",
-    "world-help-header": "The world is yours",
-    "world-help-body":
+    "world-info-header": "The world is yours",
+    "world-info-body":
         "<p>You just have to study.</p>" +
         "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
         "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +

@@ -6,8 +6,8 @@ export default {
     "navigation-link-help": "Hjälp",
 
     "numerals-header": "Räkneord",
-    "numerals-help-header": "Hur säger man <em>123456</em> på spanska?",
-    "numerals-help-body":
+    "numerals-info-header": "Hur säger man <em>123456</em> på spanska?",
+    "numerals-info-body":
         "<p>Och hur är det med 12/6...? Tredje, fjärde, femte och så vidare? Hur i hela friden stavar man klockslaget 12:00?<p>" +
         "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
         "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
@@ -37,8 +37,8 @@ export default {
     "numerals-ask-the-machine-time-body": "Skriv ett klockslag (00:00 - 23:59) för att se hur det stavas:",
 
     "verbs-header": "Verb",
-    "verbs-help-header": "Tre ton verbformer",
-    "verbs-help-body":
+    "verbs-info-header": "Tre ton verbformer",
+    "verbs-info-body":
         "<p>Är det meningen att jag ska lära mig allt det här utantill...? Subjunktiv?!</p>" +
         "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
         "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
@@ -53,8 +53,8 @@ export default {
     "verbs-search-input-placeholder": "Sök",
 
     "world-header": "Världen",
-    "world-help-header": "Världen är din",
-    "world-help-body":
+    "world-info-header": "Världen är din",
+    "world-info-body":
         "<p>Om du studerar.</p>" +
         "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
         "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +

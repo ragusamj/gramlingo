@@ -23,6 +23,7 @@ class Toggler {
                 if (item.state === "off") {
                     item.expandArea.style.overflow = "";
                 }
+                this.update(item); // one last update to make sure expanding areas get the correct height, can't test scrollHeight with jsdom
             }
         }
     }

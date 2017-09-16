@@ -24,10 +24,8 @@
                     </button>
                 </h3>
                 <div id="help-box" class="expandable-box-sm">
-                    <div class="pull-left mr-3">
-                        <img class="img-fluid mb-3" src="/images/placeholder-1.jpg" style="height:250px; width:300px;"/>
-                    </div>
-                    <div data-translate="numerals-help-body"></div>
+                    <img class="pull-left img-fluid mb-3 mr-3" src="/images/placeholder-1.jpg" style="height:250px; width:300px;"/>
+                    <span data-translate="numerals-help-body"></span>
                 </div>
             </div>
         </div>
@@ -67,6 +65,7 @@
                         </div>
                         <div class="card-body bg-light">
 
+                            
                             <div class="row mb-2">
                                 <div class="col-md-12 text-center text-sm-left">
                                     <button class="btn btn-sm btn-secondary" data-numeral-button="integers" data-translate="numerals-integers-button">heltal</button>
@@ -115,14 +114,17 @@
                                     <div data-field-path="numerals[5].a"></div>
                                 </div>
                             </div>
+
                             <hr/>
                             <div class="row mb-2">
                                 <div class="col-md-12">
+                                    
                                     <h5>
                                         <span class="fa fa-laptop text-info"></span>
                                         <span data-translate="numerals-ask-the-machine-header"></span>
                                     </h5>
-                                    <span id="ask-the-machine-body"></span>
+                                    <span id="ask-the-machine-body" style="height: 1em;"></span>
+                                    
                                     <div class="popup-wrapper">
                                         <input id="ask-the-machine-input"
                                                type="text"

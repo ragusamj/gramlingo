@@ -158,7 +158,7 @@ test("NumeralsPage should emit the event 'page-data-updated'", (t) => {
 
         page.attach(pageTemplate, onPageChanged, { type: "fractions" });
 
-        t.deepEqual(browserEvent.emit.thirdCall.args, ["page-data-updated", { numerals: numerals }]);
+        t.deepEqual(browserEvent.emit.thirdCall.args, ["page-data-updated", { numerals: numerals, toggler: "toggle-numerals-data" }]);
         t.end();
     });
 });
@@ -230,7 +230,7 @@ test("NumeralsPage should emit the event 'page-data-updated' on the event 'click
         browserEvent.emit.reset();
         button.dispatchEvent(new Event("click"));
 
-        t.deepEqual(browserEvent.emit.thirdCall.args, ["page-data-updated", { numerals: numerals }]);
+        t.deepEqual(browserEvent.emit.thirdCall.args, ["page-data-updated", { numerals: numerals, toggler: "toggle-numerals-data" }]);
         t.end();
     });
 });

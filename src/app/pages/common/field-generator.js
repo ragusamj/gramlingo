@@ -16,8 +16,7 @@ class FieldGenerator {
                     dataPath: fieldPath + "[" + i + "]",
                     iconId: field.set("icon").id,
                     inputId: input.id,
-                    popupId: field.set("popup").id,
-                    prefill: true
+                    popupId: field.set("popup").id
                 };
                 fieldContainer.appendChild(field.fragment());
             }

@@ -60,18 +60,6 @@ test("FieldGenerator should build and return field list with popup ids", (t) => 
     });
 });
 
-test("FieldGenerator should build and return field list with property 'prefill' set to true", (t) => {
-    dom.sandbox(fieldTemplate, {}, () => {
-        let pageTemplate = new Template("<div data-field-path='path'></div>");
-
-        let fieldList = generator.build(pageTemplate, { path: [ {} ] });
-
-        let key = Object.keys(fieldList)[0];
-        t.true(fieldList[key].prefill);
-        t.end();
-    });
-});
-
 test("FieldGenerator should build and append popup to template", (t) => {
     dom.sandbox(fieldTemplate, {}, () => {
         let pageTemplate = new Template("<div data-field-path='path'></div>");

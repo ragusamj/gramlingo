@@ -24,13 +24,22 @@ const html =
     "<div id='popup-1'></div>" +
     "<input id='input-1'/>";
 
-const field = { iconId: "icon-1", inputId: "input-1", popupId: "popup-1", prefill: true };
+const field = { iconId: "icon-1", inputId: "input-1", popupId: "popup-1" };
 const solutions = ["alternative 1"];
 
 test("ExerciseArea should update field and set input value", (t) => {
     dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
-        exerciseArea.updateField(field, solutions);
+        exerciseArea.updateField(field, solutions, "on");
+        t.equal(document.getElementById("input-1").value, "alternative 1");
+        t.end();
+    });
+});
+
+test("ExerciseArea should update field and treat undefined state as 'on'", (t) => {
+    dom.sandbox(html, {}, () => {
+        let exerciseArea = new ExerciseArea();
+        exerciseArea.updateField(field, solutions, undefined);
         t.equal(document.getElementById("input-1").value, "alternative 1");
         t.end();
     });
@@ -39,10 +48,8 @@ test("ExerciseArea should update field and set input value", (t) => {
 test("ExerciseArea should update field and set input value to empty string if inputs shouldn't be filled", (t) => {
     dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
-        field.prefill = false;
-        exerciseArea.updateField(field, solutions);
+        exerciseArea.updateField(field, solutions, "off");
         t.equal(document.getElementById("input-1").value, "");
-        field.prefill = true;
         t.end();
     });
 });
@@ -51,10 +58,8 @@ test("ExerciseArea should update field and disable input if there are no solutio
     dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
         let noSolutions = [];
-        field.prefill = false;
-        exerciseArea.updateField(field, noSolutions);
+        exerciseArea.updateField(field, noSolutions, "on");
         t.true(document.getElementById("input-1").disabled);
-        field.prefill = true;
         t.end();
     });
 });
@@ -63,8 +68,7 @@ test("ExerciseArea should update field and set input value to '-' if there are n
     dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
         let noSolutions = [];
-        exerciseArea.prefill = false;
-        exerciseArea.updateField(field, noSolutions);
+        exerciseArea.updateField(field, noSolutions, "on");
         t.equal(document.getElementById("input-1").value, "-");
         t.end();
     });
@@ -73,7 +77,7 @@ test("ExerciseArea should update field and set input value to '-' if there are n
 test("ExerciseArea should update field and set input type to 'text' if the value is a string", (t) => {
     dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
-        exerciseArea.updateField(field, solutions);
+        exerciseArea.updateField(field, solutions, "on");
         t.equal(document.getElementById("input-1").type, "text");
         t.end();
     });
@@ -82,8 +86,7 @@ test("ExerciseArea should update field and set input type to 'text' if the value
 test("ExerciseArea should update field and set input type to 'number' if the value is numeric", (t) => {
     dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
-        exerciseArea.prefill = true;
-        exerciseArea.updateField(field, [123]);
+        exerciseArea.updateField(field, [123], "on");
         t.equal(document.getElementById("input-1").type, "number");
         t.end();
     });
@@ -92,8 +95,7 @@ test("ExerciseArea should update field and set input type to 'number' if the val
 test("ExerciseArea should update field and set input type to 'number' if the value is numeric and the input shouldn't be filled", (t) => {
     dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
-        exerciseArea.prefill = false;
-        exerciseArea.updateField(field, [123]);
+        exerciseArea.updateField(field, [123], "off");
         t.equal(document.getElementById("input-1").type, "number");
         t.end();
     });
@@ -103,7 +105,7 @@ test("ExerciseArea should update field and hide icon", (t) => {
     dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
         exerciseArea.show("icon-1");
-        exerciseArea.updateField(field, solutions);
+        exerciseArea.updateField(field, solutions, "on");
         t.equal(document.getElementById("icon-1").className, "");
         t.end();
     });
@@ -113,7 +115,7 @@ test("ExerciseArea should update field and hide popup", (t) => {
     dom.sandbox(html, {}, () => {
         let exerciseArea = new ExerciseArea();
         exerciseArea.showPopup("popup-1");
-        exerciseArea.updateField(field, solutions);
+        exerciseArea.updateField(field, solutions, "on");
         t.equal(document.getElementById("popup-1").className, "");
         t.end();
     });

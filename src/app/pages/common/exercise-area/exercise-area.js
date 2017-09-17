@@ -14,7 +14,7 @@ class ExerciseArea {
         this.alternativesTemplate = Template.fromElementId("popup-alternatives-template");
     }
 
-    updateField(field, solutions) {
+    updateField(field, solutions, toggleState) {
         let input = document.getElementById(field.inputId);
         input.disabled = !solutions[0];
         input.type = this.isNumeric(solutions[0]) ? "number" : "text";
@@ -22,7 +22,7 @@ class ExerciseArea {
             input.value = "-";
         }
         else {
-            input.value = field.prefill ? solutions[0] : "";
+            input.value = (!toggleState || toggleState === "on") ? solutions[0] : "";
         }
         this.hide(field.iconId);
         this.hide(field.popupId);

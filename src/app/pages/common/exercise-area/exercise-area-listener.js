@@ -7,12 +7,12 @@ class ExerciseAreaListener {
         this.exerciseArea = exerciseArea;
         this.walker = walker;
         browserEvent.on("blur", this.onBlur.bind(this));
-        browserEvent.on("click", this.onClick.bind(this));
         browserEvent.on("keydown", this.onKeydown.bind(this));
         browserEvent.on("mouseout", this.onMouseout.bind(this));
         browserEvent.on("mouseover", this.onMouseover.bind(this));
         browserEvent.on("page-field-list-updated", this.onPageFieldListUpdated.bind(this));
         browserEvent.on("page-data-updated", this.onPageDataUpdated.bind(this));
+        browserEvent.on("toggle-success", this.onToggleSuccess.bind(this));
     }
 
     onBlur(e) {
@@ -24,13 +24,6 @@ class ExerciseAreaListener {
             }
             let result = this.checker.check(solutions, e.target.value);
             this.exerciseArea.showAnswer(field, result);
-        }
-    }
-
-    onClick(e) {
-        if(e.target.hasAttribute("data-toggle-inputs")) {
-            this.toggle(e.target.getAttribute("data-toggle-inputs"));
-            this.updateFields();
         }
     }
 
@@ -67,24 +60,23 @@ class ExerciseAreaListener {
 
     onPageDataUpdated(e) {
         this.pageData = e.detail;
+        this.pageData.toggleState = localStorage.getItem(this.pageData.toggler); 
         this.updateFields();
         this.walker.link(Object.keys(this.fields));
+    }
+
+    onToggleSuccess(e) {
+        if(e.detail.id === this.pageData.toggler) {
+            this.pageData.toggleState = e.detail.state;
+            this.updateFields();
+        }
     }
 
     updateFields() {
         for(let id of Object.keys(this.fields)) {
             let field = this.fields[id];
             let solutions = get(this.pageData, field.dataPath);
-            this.exerciseArea.updateField(field, solutions);
-        }
-    }
-
-    toggle(fieldGroup) {
-        for(let id of Object.keys(this.fields)) {
-            let field = this.fields[id];
-            if(!fieldGroup || field.dataPath.indexOf(fieldGroup) === 0) {
-                field.prefill = !field.prefill;
-            }
+            this.exerciseArea.updateField(field, solutions, this.pageData.toggleState);
         }
     }
 

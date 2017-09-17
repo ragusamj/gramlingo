@@ -4,32 +4,32 @@ import test from "tape";
 import BrowserEvent from "../../../core/browser-event";
 import ExerciseAreaListener from "./exercise-area-listener";
 
-const field = { dataPath: "path", iconId: "icon-id", popupId: "popup-id", prefill: true };
+const field = { dataPath: "path", iconId: "icon-id", popupId: "popup-id" };
 
 const checker = {
     check: sinon.stub().returns({ accepted: true })
 };
 
 const exerciseArea = {
-    hide: sinon.spy(),
-    showAnswer: sinon.spy(),
-    showPopup: sinon.spy(),
-    updateField: sinon.spy()
+    hide: sinon.stub(),
+    showAnswer: sinon.stub(),
+    showPopup: sinon.stub(),
+    updateField: sinon.stub()
 };
 
 const walker = {
-    link: sinon.spy(),
+    link: sinon.stub(),
     walk: sinon.stub().returns(true)
 };
 
 const setup = () => {
     let exerciseAreaListener = new ExerciseAreaListener(new BrowserEvent(), checker, exerciseArea, walker);
     exerciseAreaListener.onPageFieldListUpdated({ detail: { "id": field } });
-    exerciseAreaListener.onPageDataUpdated({ detail: { "path": ["alternative"] } } );
+    exerciseAreaListener.onPageDataUpdated({ detail: { "path": ["alternative"], toggler: "toggler" } } );
     return exerciseAreaListener;
 };
 
-test("ExerciseArea should check input value on 'blur' event", (t) => {
+test("ExerciseAreaListener should check input value on the event 'blur'", (t) => {
     dom.sandbox("<input type='text' id='id' value='value'/>", {}, () => {
 
         setup();
@@ -42,7 +42,7 @@ test("ExerciseArea should check input value on 'blur' event", (t) => {
     });
 });
 
-test("ExerciseArea should show answer on 'blur' event", (t) => {
+test("ExerciseAreaListener should show answer on the event 'blur'", (t) => {
     dom.sandbox("<input type='text' id='id' value='value'/>", {}, () => {
 
         setup();
@@ -51,12 +51,12 @@ test("ExerciseArea should show answer on 'blur' event", (t) => {
         input.dispatchEvent(new Event("blur"));
 
         t.deepEqual(exerciseArea.showAnswer.lastCall.args, [
-            { dataPath: "path", iconId: "icon-id", popupId: "popup-id", prefill: true }, { accepted: true }]);
+            { dataPath: "path", iconId: "icon-id", popupId: "popup-id" }, { accepted: true }]);
         t.end();
     });
 });
 
-test("ExerciseArea should execute field filters on 'blur' event", (t) => {
+test("ExerciseAreaListener should execute field filters on the event 'blur'", (t) => {
     dom.sandbox("<input type='text' id='id' value='value'/>", {}, () => {
 
         setup();
@@ -73,7 +73,7 @@ test("ExerciseArea should execute field filters on 'blur' event", (t) => {
     });
 });
 
-test("ExerciseArea should ignore unknown blur events", (t) => {
+test("ExerciseAreaListener should ignore unknown blur events", (t) => {
     dom.sandbox("", {}, () => {
 
         setup();
@@ -87,82 +87,7 @@ test("ExerciseArea should ignore unknown blur events", (t) => {
     });
 });
 
-test("ExerciseArea should toggle inputs on 'click' event", (t) => {
-    dom.sandbox("<button id='toggle-button' data-toggle-inputs />", {}, () => {
-
-        setup();
-        let button = document.getElementById("toggle-button");
-
-        button.dispatchEvent(new Event("click"));
-        t.false(field.prefill);
-
-        button.dispatchEvent(new Event("click"));
-        t.true(field.prefill);
-
-        t.end();
-    });
-});
-
-test("ExerciseArea should toggle inputs on 'click' event and update fields", (t) => {
-    dom.sandbox("<button id='toggle-button' data-toggle-inputs />", {}, () => {
-
-        setup();
-        let button = document.getElementById("toggle-button");
-
-        button.dispatchEvent(new Event("click"));
-
-        t.deepEqual(exerciseArea.updateField.lastCall.args, [
-            { dataPath: "path", iconId: "icon-id", popupId: "popup-id", prefill: false  }, ["alternative"]]);
-
-        field.prefill = true;
-        t.end();
-    });
-});
-
-test("ExerciseArea should toggle inputs with matching field group on 'click' event", (t) => {
-    dom.sandbox("<button id='toggle-button' data-toggle-inputs='path' />", {}, () => {
-
-        setup();
-        let button = document.getElementById("toggle-button");
-
-        button.dispatchEvent(new Event("click"));
-        t.false(field.prefill);
-
-        button.dispatchEvent(new Event("click"));
-        t.true(field.prefill);
-
-        t.end();
-    });
-});
-
-test("ExerciseArea should not toggle inputs without matching field group on 'click' event", (t) => {
-    dom.sandbox("<button id='toggle-button' data-toggle-inputs='nonmatching.path' />", {}, () => {
-
-        setup();
-        let button = document.getElementById("toggle-button");
-
-        button.dispatchEvent(new Event("click"));
-        t.true(field.prefill);
-
-        t.end();
-    });
-});
-
-test("ExerciseArea should ignore 'click' event if element doesn't have the attribute 'data-toggle-inputs'", (t) => {
-    dom.sandbox("<button id='toggle-button' />", {}, () => {
-
-        setup();
-        let button = document.getElementById("toggle-button");
-        field.prefill = true;
-
-        button.dispatchEvent(new Event("click"));
-
-        t.true(field.prefill);
-        t.end();
-    });
-});
-
-test("ExerciseArea should move to adjacent input on 'keydown'", (t) => {
+test("ExerciseAreaListener should move to adjacent input on the event 'keydown'", (t) => {
     dom.sandbox("<input id='input-id' data-walkable-field />", {}, () => {
 
         setup();
@@ -178,7 +103,7 @@ test("ExerciseArea should move to adjacent input on 'keydown'", (t) => {
     });
 });
 
-test("ExerciseArea should prevent default if the walker walked on 'keydown'", (t) => {
+test("ExerciseAreaListener should prevent default if the walker walked on the event 'keydown'", (t) => {
     dom.sandbox("<input id='input-id' data-walkable-field />", {}, () => {
 
         setup();
@@ -195,7 +120,7 @@ test("ExerciseArea should prevent default if the walker walked on 'keydown'", (t
     });
 });
 
-test("ExerciseArea should not prevent default if the walker didn't walk on 'keydown'", (t) => {
+test("ExerciseAreaListener should not prevent default if the walker didn't walk on the event 'keydown'", (t) => {
     dom.sandbox("<input id='input-id' data-walkable-field />", {}, () => {
 
         walker.walk.returns(false);
@@ -215,7 +140,7 @@ test("ExerciseArea should not prevent default if the walker didn't walk on 'keyd
     });
 });
 
-test("ExerciseArea should ignore 'keydown' events from unknown targets", (t) => {
+test("ExerciseAreaListener should ignore 'keydown' events from unknown targets", (t) => {
     dom.sandbox("<input id='input-id' />", {}, () => {
 
         setup();
@@ -229,7 +154,7 @@ test("ExerciseArea should ignore 'keydown' events from unknown targets", (t) => 
     });
 });
 
-test("ExerciseArea should show popup on 'mouseover' event from icon", (t) => {
+test("ExerciseAreaListener should show popup on the event 'mouseover' from an icon", (t) => {
     dom.sandbox("<div id='icon-id' />", {}, () => {
 
         setup();
@@ -242,7 +167,7 @@ test("ExerciseArea should show popup on 'mouseover' event from icon", (t) => {
     });
 });
 
-test("ExerciseArea should ignore 'mouseover' events from unknown targets", (t) => {
+test("ExerciseAreaListener should ignore 'mouseover' events from unknown targets", (t) => {
     dom.sandbox("<div id='unknown-id' />", {}, () => {
 
         setup();
@@ -256,7 +181,7 @@ test("ExerciseArea should ignore 'mouseover' events from unknown targets", (t) =
     });
 });
 
-test("ExerciseArea should show popup on 'mouseout' event from icon", (t) => {
+test("ExerciseAreaListener should show popup on the 'mouseout' event from an icon", (t) => {
     dom.sandbox("<div id='icon-id' />", {}, () => {
 
         setup();
@@ -269,7 +194,7 @@ test("ExerciseArea should show popup on 'mouseout' event from icon", (t) => {
     });
 });
 
-test("ExerciseArea should ignore 'mouseout' events from unknown targets", (t) => {
+test("ExerciseAreaListener should ignore 'mouseout' events from unknown targets", (t) => {
     dom.sandbox("<div id='unknown-id' />", {}, () => {
 
         setup();
@@ -283,7 +208,7 @@ test("ExerciseArea should ignore 'mouseout' events from unknown targets", (t) =>
     });
 });
 
-test("ExerciseArea should link walker when page data is updated", (t) => {
+test("ExerciseAreaListener should link the walker when page data is updated", (t) => {
     dom.sandbox("", {}, () => {
 
         let exerciseAreaListener = setup();
@@ -296,15 +221,28 @@ test("ExerciseArea should link walker when page data is updated", (t) => {
     });
 });
 
-test("ExerciseArea should preserve show/hide mode when field list is updated", (t) => {
+test("ExerciseAreaListener should update fields on the event 'toggle-success'", (t) => {
     dom.sandbox("", {}, () => {
 
         let exerciseAreaListener = setup();
-        field.prefill = false;
+        exerciseArea.updateField.resetHistory();
 
-        exerciseAreaListener.onPageFieldListUpdated({detail: {}});
+        exerciseAreaListener.onToggleSuccess({ detail: { id: "toggler", state: "on" }});
 
-        t.false(field.prefill);
+        t.deepEqual(exerciseArea.updateField.firstCall.args, [ field, [ "alternative" ], "on" ]);
+        t.end();
+    });
+});
+
+test("ExerciseAreaListener should ignore the event 'toggle-success' from unknown togglers", (t) => {
+    dom.sandbox("", {}, () => {
+
+        let exerciseAreaListener = setup();
+        exerciseArea.updateField.resetHistory();
+
+        exerciseAreaListener.onToggleSuccess({ detail: { id: "unknown", state: "on" }});
+
+        t.false(exerciseArea.called);
         t.end();
     });
 });

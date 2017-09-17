@@ -32,9 +32,7 @@ class NumeralsPage {
     }
 
     applyPageTemplate(pageTemplate, onPageChanged) {
-        this.pageData = {
-            numerals: this.numeralsGenerator.randomize(this.type)
-        };
+        this.createPageData();
         if(!this.fields) {
             this.fields = this.fieldGenerator.build(pageTemplate, this.pageData);
         }
@@ -54,7 +52,7 @@ class NumeralsPage {
     onClick(e) {
         if(e.target.hasAttribute("data-numeral-button")) {
             this.type = e.target.getAttribute("data-numeral-button");
-            this.pageData.numerals = this.numeralsGenerator.randomize(this.type);
+            this.createPageData();
             this.onPageDataChanged();
             this.browserEvent.emit("url-change", "/numerals/" + this.type);
         }
@@ -70,6 +68,13 @@ class NumeralsPage {
             this.switchToggled = !this.switchToggled;
             this.onPageDataChanged();
         }
+    }
+
+    createPageData() {
+        this.pageData = {
+            numerals: this.numeralsGenerator.randomize(this.type),
+            toggler: "toggle-numerals-data"
+        };
     }
     
     switch() {

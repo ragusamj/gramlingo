@@ -45,7 +45,7 @@ class VerbPage {
             onPageChanged();
         }
         else {
-            let pageData = this.verbs[index];
+            let pageData = this.createPageData(index);
             if(!this.fields) {
                 this.fields = this.fieldGenerator.build(pageTemplate, pageData);
             }
@@ -68,20 +68,27 @@ class VerbPage {
         return undefined;
     }
 
+    createPageData(index) {
+        let pageData = this.verbs[index];
+        pageData.toggler = "toggle-verbs-data";
+        return pageData;
+    }
+
     onSearchResultSelected(e) {
         this.onPageDataChanged(e.detail);
         this.browserEvent.emit("url-change", "/verbs/" + this.verbs[e.detail].name.toLowerCase());
     }
 
     onPageDataChanged(index){
-        this.setHeader(this.verbs[index]);
-        this.browserEvent.emit("page-data-updated", this.verbs[index]);
+        let pageData = this.createPageData(index);
+        this.setHeader(pageData);
+        this.browserEvent.emit("page-data-updated", pageData);
     }
 
-    setHeader(verb) {
-        document.getElementById("verb-name").innerHTML = verb.name;
+    setHeader(pageData) {
+        document.getElementById("verb-name").innerHTML = pageData.name;
         let mode = document.getElementById("verb-mode");
-        mode.setAttribute("data-translate", (verb.regular ? "verbs-regular-header" : "verbs-irregular-header"));
+        mode.setAttribute("data-translate", (pageData.regular ? "verbs-regular-header" : "verbs-irregular-header"));
         this.i18n.translate(mode);
     }
 }

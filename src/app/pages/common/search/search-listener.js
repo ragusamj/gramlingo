@@ -1,4 +1,4 @@
-import throttle from "lodash.throttle";
+import debounce from "lodash.debounce";
 import KeyCode from "../walkers/key-code";
 
 const searchTypingDelay = 250;
@@ -11,19 +11,19 @@ class SearchListener {
         this.visualizer = visualizer;
         this.who = who;
 
-        this.throttledSearch = throttle((e) => {
+        this.debouncedSearch = debounce((e) => {
             if(e.target.hasAttribute("data-search-input") && !(this.isWalkerKey(e.keyCode) || e.keyCode === KeyCode.enter)) {
                 let result = this.engine.search(e.target.value);
                 this.visualizer.show(result);
             }
-        }, searchTypingDelay, { leading: false });
+        }, searchTypingDelay);
     }
 
     attach() {
         this.removeListeners = [
             this.browserEvent.on("click", this.onSearchResultClick.bind(this)),
             this.browserEvent.on("keydown", this.onKeydown.bind(this)),
-            this.browserEvent.on("keyup", this.throttledSearch),
+            this.browserEvent.on("keyup", this.debouncedSearch),
             this.browserEvent.on("page-searchable-data-updated", this.onSearchablePageDataUpdated.bind(this))
         ];
     }

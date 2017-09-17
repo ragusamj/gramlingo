@@ -4,7 +4,7 @@ import BrowserEvent from "../browser-event";
 import Toggler from "./toggler";
 
 const html =
-"<button data-toggler data-toggler-on='on' data-toggler-off='off' data-toggler-expand-area='expand'>" +
+"<button data-toggler='toggler' data-toggler-on='on' data-toggler-off='off' data-toggler-expand-area='expand'>" +
     "<span id='on'>On</span>" +
     "<span id='off'>Off</button>" +
 "</button>" + 
@@ -68,6 +68,36 @@ test("Toggler should toggle", (t) => {
         button.dispatchEvent(new Event("click"));
         t.equal(on.style.display, "");
         t.equal(off.style.display, "none");
+
+        t.end();
+    });
+});
+
+test("Toggler should toggle and save item state", (t) => {
+    dom.sandbox(html, {}, () => {
+        let browserEvent = new BrowserEvent();
+        let button = document.querySelector("[data-toggler]");
+
+        new Toggler(browserEvent).onDomContentChanged();
+
+        button.dispatchEvent(new Event("click"));
+        t.equal(localStorage.getItem("toggler"), "off");
+
+        t.end();
+    });
+});
+
+test("Toggler should use saved state for items on the event 'dom-content-changed'", (t) => {
+    dom.sandbox(html, {}, () => {
+        let browserEvent = new BrowserEvent();
+        let on = document.getElementById("on");
+        let off = document.getElementById("off");
+        localStorage.setItem("toggler", "off");
+
+        new Toggler(browserEvent).onDomContentChanged();
+
+        t.equal(on.style.display, "none");
+        t.equal(off.style.display, "");
 
         t.end();
     });

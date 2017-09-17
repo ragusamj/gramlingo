@@ -39,6 +39,7 @@ class Toggler {
 
     toggle(item) {
         item.state = item.state === "on" ? "off" : "on";
+        localStorage.setItem(item.id, item.state);
         this.update(item);
     }
 
@@ -64,7 +65,8 @@ class Toggler {
         let off = element.getAttribute("data-toggler-off");
         let expandArea = element.getAttribute("data-toggler-expand-area");
         let item = {
-            state: element.getAttribute("data-toggler-state") || "on",
+            id: id,
+            state: localStorage.getItem(id) || element.getAttribute("data-toggler-state") || "on",
             on: document.getElementById(on),
             off: document.getElementById(off),
             expandArea: document.getElementById(expandArea)

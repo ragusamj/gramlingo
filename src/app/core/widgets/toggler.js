@@ -1,9 +1,10 @@
 class Toggler {
 
     constructor(browserEvent) {
-        browserEvent.on("click", this.onClick.bind(this));
-        browserEvent.on("transitionend", this.onTransitionend.bind(this));
-        browserEvent.on("dom-content-changed", this.onDomContentChanged.bind(this));
+        this.browserEvent = browserEvent;
+        this.browserEvent.on("click", this.onClick.bind(this));
+        this.browserEvent.on("transitionend", this.onTransitionend.bind(this));
+        this.browserEvent.on("dom-content-changed", this.onDomContentChanged.bind(this));
     }
 
     onClick(e) {
@@ -41,6 +42,7 @@ class Toggler {
         item.state = item.state === "on" ? "off" : "on";
         localStorage.setItem(item.id, item.state);
         this.update(item);
+        this.browserEvent.emit("toggle-success", { id: item.id, state: item.state });
     }
 
     update(item) {

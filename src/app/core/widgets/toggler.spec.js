@@ -1,5 +1,6 @@
 import dom from "jsdom-sandbox";
 import test from "tape";
+import sinon from "sinon";
 import BrowserEvent from "../browser-event";
 import Toggler from "./toggler";
 
@@ -33,6 +34,20 @@ test("Toggler should toggle on the event 'click'", (t) => {
         button.dispatchEvent(new Event("click"));
 
         t.equal(on.style.display, "none");
+        t.end();
+    });
+});
+
+test("Toggler should emit the event 'toggle-success' on the event 'click'", (t) => {
+    dom.sandbox(html, {}, () => {
+        let browserEvent = new BrowserEvent();
+        sinon.spy(browserEvent, "emit");
+        let button = document.querySelector("[data-toggler]");
+
+        new Toggler(browserEvent).onDomContentChanged();
+        button.dispatchEvent(new Event("click"));
+
+        t.deepEqual(browserEvent.emit.firstCall.args, ["toggle-success", { id: "toggler", state: "off" }]);
         t.end();
     });
 });

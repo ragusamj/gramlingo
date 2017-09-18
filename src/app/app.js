@@ -1,4 +1,6 @@
-import "babel-polyfill";
+import "core-js/modules/es6.string.ends-with";
+import "core-js/modules/es6.symbol";
+import "core-js/modules/web.dom.iterable";
 
 import BrowserEvent from "./core/browser-event";
 import Http from "./core/http";

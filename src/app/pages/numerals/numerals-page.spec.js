@@ -250,6 +250,21 @@ test("NumeralsPage should emit the event 'url-change' on the event 'click' from 
     });
 });
 
+test("NumeralsPage should ignore the event 'click' from a 'data-numeral-button' button if the type hasn't changed", (t) => {
+    dom.sandbox(html, {}, () => {
+        let page = setup();
+        let button = document.querySelector("[data-numeral-button]");
+        button.setAttribute("data-numeral-button", "centuries");
+
+        page.attach(pageTemplate, onPageChanged, { type: "centuries" });
+        browserEvent.emit.reset();
+        button.dispatchEvent(new Event("click"));
+
+        t.false(browserEvent.emit.called);
+        t.end();
+    });
+});
+
 test("NumeralsPage should randomize numbers on the event 'click' from a 'data-randomize-fields' button", (t) => {
     dom.sandbox(html, {}, () => {
         let page = setup();

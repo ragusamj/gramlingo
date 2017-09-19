@@ -51,10 +51,13 @@ class NumeralsPage {
 
     onClick(e) {
         if(e.target.hasAttribute("data-numeral-button")) {
-            this.type = e.target.getAttribute("data-numeral-button");
-            this.createContext();
-            this.onPageDataChanged();
-            this.browserEvent.emit("url-change", "/numerals/" + this.type);
+            let type = e.target.getAttribute("data-numeral-button");
+            if(type !== this.type) {
+                this.type = type;
+                this.createContext();
+                this.onPageDataChanged();
+                this.browserEvent.emit("url-change", "/numerals/" + this.type);
+            } 
         }
         if(e.target.hasAttribute("data-randomize-fields")) {
             this.context.numerals = this.numeralsGenerator.randomize(this.type);

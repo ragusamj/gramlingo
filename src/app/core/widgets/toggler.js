@@ -1,8 +1,27 @@
+import debounce from "lodash.debounce";
+
+const resizeDelay = 500;
+
 class Toggler {
 
     constructor(browserEvent) {
         this.browserEvent = browserEvent;
+
+        this.debouncedResize = debounce(() => {
+            for(let key of Object.keys(this.togglers)) {
+                let item = this.togglers[key];
+                if(item.expandArea) {
+                    item.expandArea.style.height = "";
+                    clearTimeout(item.timeoutId);
+                    item.timeoutId = setTimeout(() => {
+                        this.update(item);
+                    }, resizeDelay);
+                }
+            }
+        }, resizeDelay);
+
         this.browserEvent.on("click", this.onClick.bind(this));
+        this.browserEvent.on("resize", this.debouncedResize);
         this.browserEvent.on("transitionend", this.onTransitionend.bind(this));
         this.browserEvent.on("dom-content-changed", this.onDomContentChanged.bind(this));
     }

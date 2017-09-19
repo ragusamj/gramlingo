@@ -261,3 +261,43 @@ test("Toggler should use initial state if set", (t) => {
         t.end();
     });
 });
+
+test("Toggler should resize expand areas on the window event 'resize'", (t) => {
+    dom.sandbox(html, {}, () => {
+        let browserEvent = new BrowserEvent();
+        let expand = document.getElementById("expand");
+        expand.style.height = "0px"; // layout isn't implemented in jsdom
+        let clock = sinon.useFakeTimers();
+
+        new Toggler(browserEvent).onDomContentChanged();
+        window.dispatchEvent(new Event("resize"));
+
+        clock.tick(500);
+        t.equal(expand.style.height, "");
+        clock.tick(500);
+        t.equal(expand.style.height, "0px");
+
+        t.end();
+    });
+});
+
+test("Toggler should ignore items without expand areas on the window event 'resize'", (t) => {
+    dom.sandbox(html, {}, () => {
+        let browserEvent = new BrowserEvent();
+        let button = document.querySelector("[data-toggler]");
+        button.removeAttribute("data-toggler-expand-area");
+        let expand = document.getElementById("expand");
+        expand.style.height = "0px"; // layout isn't implemented in jsdom
+        let clock = sinon.useFakeTimers();
+
+        new Toggler(browserEvent).onDomContentChanged();
+        window.dispatchEvent(new Event("resize"));
+
+        clock.tick(500);
+        t.equal(expand.style.height, "0px");
+        clock.tick(500);
+        t.equal(expand.style.height, "0px");
+
+        t.end();
+    });
+});

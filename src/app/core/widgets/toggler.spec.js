@@ -88,7 +88,7 @@ test("Toggler should toggle", (t) => {
     });
 });
 
-test("Toggler should toggle and save item state", (t) => {
+test("Toggler should toggle and save the item state, default", (t) => {
     dom.sandbox(html, {}, () => {
         let browserEvent = new BrowserEvent();
         let button = document.querySelector("[data-toggler]");
@@ -97,6 +97,36 @@ test("Toggler should toggle and save item state", (t) => {
 
         button.dispatchEvent(new Event("click"));
         t.equal(localStorage.getItem("toggler"), "off");
+
+        t.end();
+    });
+});
+
+test("Toggler should toggle and save the item state if the attribute 'data-toggler-save-state' is set to true", (t) => {
+    dom.sandbox(html, {}, () => {
+        let browserEvent = new BrowserEvent();
+        let button = document.querySelector("[data-toggler]");
+        button.setAttribute("data-toggler-save-state", "true");
+
+        new Toggler(browserEvent).onDomContentChanged();
+
+        button.dispatchEvent(new Event("click"));
+        t.equal(localStorage.getItem("toggler"), "off");
+
+        t.end();
+    });
+});
+
+test("Toggler should toggle and not save the item state if the attribute 'data-toggler-save-state' is set to false", (t) => {
+    dom.sandbox(html, {}, () => {
+        let browserEvent = new BrowserEvent();
+        let button = document.querySelector("[data-toggler]");
+        button.setAttribute("data-toggler-save-state", "false");
+
+        new Toggler(browserEvent).onDomContentChanged();
+
+        button.dispatchEvent(new Event("click"));
+        t.equal(localStorage.getItem("toggler"), undefined);
 
         t.end();
     });

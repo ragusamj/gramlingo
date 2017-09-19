@@ -40,7 +40,9 @@ class Toggler {
 
     toggle(item) {
         item.state = item.state === "on" ? "off" : "on";
-        localStorage.setItem(item.id, item.state);
+        if(item.saveState) {
+            localStorage.setItem(item.id, item.state);
+        }
         this.update(item);
         this.browserEvent.emit("toggle-success", { id: item.id, state: item.state });
     }
@@ -65,10 +67,12 @@ class Toggler {
         let id = element.getAttribute("data-toggler");
         let on = element.getAttribute("data-toggler-on");
         let off = element.getAttribute("data-toggler-off");
+        let saveState = element.getAttribute("data-toggler-save-state") || true;
         let expandArea = element.getAttribute("data-toggler-expand-area");
         let item = {
             id: id,
             state: localStorage.getItem(id) || element.getAttribute("data-toggler-state") || "on",
+            saveState: saveState === "false" ? false : saveState,
             on: document.getElementById(on),
             off: document.getElementById(off),
             expandArea: document.getElementById(expandArea)

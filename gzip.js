@@ -11,7 +11,7 @@ glob(process.argv[2], {}, function (error, files) {
         fs.readFile(file, function(error, data) {
             zlib.gzip(data, { level: compressionLevel }, function(error, buffer) {
                 fs.writeFile(file + ".gz", buffer, function() {
-                    process.stdout.write("Wrote " + buffer.length + " bytes to " + path.relative(__dirname, file) + os.EOL);
+                    process.stdout.write("Wrote " + buffer.length + " bytes to " + path.relative(__dirname, file + ".gz") + os.EOL);
                 });
             });
         });

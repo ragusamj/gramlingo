@@ -3,7 +3,18 @@ import test from "tape";
 import ElementWalker from "./element-walker";
 import KeyCode from "./key-code";
 
-test("ElementWalker should walk to previous element when up arrow is pressed", (t) => {
+test("ElementWalker should link and reset the current element id", (t) => {
+    dom.sandbox("<div id='element-1'></div><div id='element-2'></div>", {}, () => {
+        let walker = new ElementWalker();
+        walker.currentElementId = "element-2";
+        walker.link(["element-1", "element-2"]);
+
+        t.equal(walker.currentElementId, undefined);
+        t.end();
+    });
+});
+
+test("ElementWalker should walk to previous element when the up arrow is pressed", (t) => {
     dom.sandbox("<div id='element-1'></div><div id='element-2'></div>", {}, () => {
         let walker = new ElementWalker();
         walker.link(["element-1", "element-2"]);
@@ -16,7 +27,7 @@ test("ElementWalker should walk to previous element when up arrow is pressed", (
     });
 });
 
-test("ElementWalker should walk to next element when next arrow is pressed", (t) => {
+test("ElementWalker should walk to next element when the down arrow is pressed", (t) => {
     dom.sandbox("<div id='element-1'></div><div id='element-2'></div>", {}, () => {
         let walker = new ElementWalker();
         walker.link(["element-1", "element-2"]);
@@ -29,7 +40,7 @@ test("ElementWalker should walk to next element when next arrow is pressed", (t)
     });
 });
 
-test("ElementWalker should default to the first element in the list", (t) => {
+test("ElementWalker should default to the first element in the list when the down arrow is pressed", (t) => {
     dom.sandbox("<div id='element-1'></div><div id='element-2'></div>", {}, () => {
         let walker = new ElementWalker();
         walker.link(["element-1", "element-2"]);
@@ -37,6 +48,18 @@ test("ElementWalker should default to the first element in the list", (t) => {
         walker.walk(KeyCode.downArrow);
 
         t.equal(document.getElementById("element-1").className, "selected");
+        t.end();
+    });
+});
+
+test("ElementWalker should default to the last element in the list when the up arrow is pressed", (t) => {
+    dom.sandbox("<div id='element-1'></div><div id='element-2'></div>", {}, () => {
+        let walker = new ElementWalker();
+        walker.link(["element-1", "element-2"]);
+
+        walker.walk(KeyCode.upArrow);
+
+        t.equal(document.getElementById("element-2").className, "selected");
         t.end();
     });
 });

@@ -4,14 +4,16 @@ class ElementWalker {
 
     link(ids) {
         this.ids = ids;
+        this.currentElementId = undefined;
     }
 
     walk(key) {
-        let index = this.currentElementId ? this.ids.indexOf(this.currentElementId) : -1;
         if (key === KeyCode.upArrow) {
+            let index = this.currentElementId ? this.ids.indexOf(this.currentElementId) : this.ids.length;
             this.select(this.ids[index - 1]);
         }
         else if (key === KeyCode.downArrow) {
+            let index = this.currentElementId ? this.ids.indexOf(this.currentElementId) : -1;
             this.select(this.ids[index + 1]);
         }
     }

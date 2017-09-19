@@ -274,7 +274,7 @@ test("NumeralsPage should keep the switched state on the event 'click' from a 'd
         setNumerals([{ q: [["q"]], a: [["a"]] }]);
         button.dispatchEvent(new Event("click"));
 
-        t.deepEqual(page.pageData.numerals, [{ q: [["a"]], a: [["q"]] }]);
+        t.deepEqual(page.context.numerals, [{ q: [["a"]], a: [["q"]] }]);
 
         t.end();
     });
@@ -289,11 +289,11 @@ test("NumeralsPage should toggle the switched state on the event 'click' from a 
         setNumerals([{ q: [["q"]], a: [["a"]] }]);
 
         button.dispatchEvent(new Event("click"));
-        t.deepEqual(page.pageData.numerals, [{ q: [["a"]], a: [["q"]] }]);
+        t.deepEqual(page.context.numerals, [{ q: [["a"]], a: [["q"]] }]);
         t.true(page.switchToggled);
 
         button.dispatchEvent(new Event("click"));
-        t.deepEqual(page.pageData.numerals, [{ q: [["q"]], a: [["a"]] }]);
+        t.deepEqual(page.context.numerals, [{ q: [["q"]], a: [["a"]] }]);
         t.false(page.switchToggled);
 
         t.end();

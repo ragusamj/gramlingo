@@ -45,9 +45,9 @@ class VerbPage {
             onPageChanged();
         }
         else {
-            let pageData = this.createPageData(index);
+            this.createContext(index);
             if(!this.fields) {
-                this.fields = this.fieldGenerator.build(pageTemplate, pageData);
+                this.fields = this.fieldGenerator.build(pageTemplate, this.context);
             }
             onPageChanged();
             this.removeListener = this.browserEvent.on("search-result-selected", this.onSearchResultSelected.bind(this));
@@ -68,27 +68,28 @@ class VerbPage {
         return undefined;
     }
 
-    createPageData(index) {
-        let pageData = this.verbs[index];
-        pageData.toggler = "toggle-verbs-data";
-        return pageData;
+    createContext(index) {
+        this.context = {
+            verb: this.verbs[index],
+            toggler: "toggle-verbs-data"
+        };
     }
 
     onSearchResultSelected(e) {
-        this.onPageDataChanged(e.detail);
-        this.browserEvent.emit("url-change", "/verbs/" + this.verbs[e.detail].name.toLowerCase());
+        this.createContext(e.detail);
+        this.onPageDataChanged();
+        this.browserEvent.emit("url-change", "/verbs/" + this.context.verb.name.toLowerCase());
     }
 
-    onPageDataChanged(index){
-        let pageData = this.createPageData(index);
-        this.setHeader(pageData);
-        this.browserEvent.emit("page-data-updated", pageData);
+    onPageDataChanged() {
+        this.setHeader();
+        this.browserEvent.emit("page-data-updated", this.context);
     }
 
-    setHeader(pageData) {
-        document.getElementById("verb-name").innerHTML = pageData.name;
+    setHeader() {
+        document.getElementById("verb-name").innerHTML = this.context.verb.name;
         let mode = document.getElementById("verb-mode");
-        mode.setAttribute("data-translate", (pageData.regular ? "verbs-regular-header" : "verbs-irregular-header"));
+        mode.setAttribute("data-translate", (this.context.verb.regular ? "verbs-regular-header" : "verbs-irregular-header"));
         this.i18n.translate(mode);
     }
 }

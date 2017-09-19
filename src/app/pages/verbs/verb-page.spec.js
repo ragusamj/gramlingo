@@ -180,7 +180,7 @@ test("VerbPage should generate page layout from verb data and page template", (t
 
         page.attach(pageTemplate, onPageChanged, {});
 
-        t.deepEqual(fieldGenerator.build.firstCall.args, [pageTemplate, ir]);
+        t.deepEqual(fieldGenerator.build.firstCall.args, [pageTemplate,  { verb: ir, toggler: "toggle-verbs-data" }]);
         t.end();
     });
 });
@@ -324,7 +324,7 @@ test("VerbPage should listen to 'search-result-selected' event and emit 'page-da
         t.plan(1);
         let page = setup();
         browserEvent.on("page-data-updated", (e) => {
-            if(e.detail === comer) {
+            if(e.detail.verb === comer) {
                 t.pass();
             }
         });

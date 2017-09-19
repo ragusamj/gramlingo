@@ -32,9 +32,9 @@ class NumeralsPage {
     }
 
     applyPageTemplate(pageTemplate, onPageChanged) {
-        this.createPageData();
+        this.createContext();
         if(!this.fields) {
-            this.fields = this.fieldGenerator.build(pageTemplate, this.pageData);
+            this.fields = this.fieldGenerator.build(pageTemplate, this.context);
         }
         this.addFieldFilters();
         onPageChanged();
@@ -52,12 +52,12 @@ class NumeralsPage {
     onClick(e) {
         if(e.target.hasAttribute("data-numeral-button")) {
             this.type = e.target.getAttribute("data-numeral-button");
-            this.createPageData();
+            this.createContext();
             this.onPageDataChanged();
             this.browserEvent.emit("url-change", "/numerals/" + this.type);
         }
         if(e.target.hasAttribute("data-randomize-fields")) {
-            this.pageData.numerals = this.numeralsGenerator.randomize(this.type);
+            this.context.numerals = this.numeralsGenerator.randomize(this.type);
             if(this.switchToggled) {
                 this.switch();
             }
@@ -70,15 +70,15 @@ class NumeralsPage {
         }
     }
 
-    createPageData() {
-        this.pageData = {
+    createContext() {
+        this.context = {
             numerals: this.numeralsGenerator.randomize(this.type),
             toggler: "toggle-numerals-data"
         };
     }
     
     switch() {
-        for(let field of this.pageData.numerals) {
+        for(let field of this.context.numerals) {
             let tmp = field.q;
             field.q = field.a;
             field.a = tmp;
@@ -92,14 +92,14 @@ class NumeralsPage {
 
         this.browserEvent.emit("page-searchable-data-updated", this.type);
         this.browserEvent.emit("page-field-list-updated", this.fields);
-        this.browserEvent.emit("page-data-updated", this.pageData);
+        this.browserEvent.emit("page-data-updated", this.context);
     }
 
     setQuestionHeaders() {
         let headerContainers = document.querySelectorAll("[data-field-header-path]");
         for(let headerContainer of headerContainers) {
             let headerPath = headerContainer.getAttribute("data-field-header-path");
-            let header = get(this.pageData, headerPath);
+            let header = get(this.context, headerPath);
             headerContainer.innerHTML = header[0][0];
         }
     }

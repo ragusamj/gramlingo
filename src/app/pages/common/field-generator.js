@@ -2,13 +2,13 @@ import get from "lodash.get";
 import Template from "../../core/template/template";
 
 class FieldGenerator {
-    build(pageTemplate, pageData) {
+    build(pageTemplate, context) {
         let fields = {};
         let fieldTemplate = Template.fromElementId("excercise-area-template");
         let fieldContainers = pageTemplate.querySelectorAll("[data-field-path]");
         for(let fieldContainer of fieldContainers) {
             let fieldPath = fieldContainer.getAttribute("data-field-path");
-            let fieldData = get(pageData, fieldPath);
+            let fieldData = get(context, fieldPath);
             for(let i = 0; i < fieldData.length; i++) {
                 let field = fieldTemplate.clone();
                 let input = this.createInput(field);

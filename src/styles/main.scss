@@ -104,7 +104,6 @@ input[type="number"] {
         }
     }
     .search-result {
-        top: 2em;
         list-style: none;
         margin: 0;
         padding: 0;
@@ -121,6 +120,12 @@ input[type="number"] {
         li:nth-child(odd) {
             background-color: $gray-100;
         }
+    }
+    .search-result.position-bottom {
+        top: 2em;
+    }
+    .search-result.position-top {
+        bottom: 2em;
     }
     .icon {
         cursor: pointer;

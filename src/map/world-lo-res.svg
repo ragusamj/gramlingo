@@ -1,0 +1,233 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 128 64" id="worldmap" fill="#444" stroke="#f7f7f7" stroke-width="0.1">
+    <path data-iso="AF" d="M 89 16H88V17H87V19H85V18H84V17H85V16Z" />
+    <path data-iso="AO" d="M 70 35V34H71V36H72V37H71V38H72V39H70V38H68V34H70Z" />
+    <path data-iso="AE" d="M 83 21V22H82V21Z" />
+    <g data-iso="AR">
+        <path d="M 43 53H44V54H43Z" />
+        <path d="M 42 41H43V42H44V47H43V48H42V49H42V50H43V51H42V52H41V50H40V45H39V42H40V40H42Z" />
+    </g>
+    <g data-iso="AQ">
+        <path d="M 29 63H28V62H29Z" />
+        <path d="M 53 62H52V61H53Z" />
+        <path d="M 45 59H46V60H44V59Z" />
+        <path d="M 48 57H47V58H46V59H48V61H47V62H46V62H49V63H54V62H55V61H59V60H60V59H74V58H82V59H81V60H82V59H84V58H103V59H107V60H103V61H102V62H99V63H101H27V63H30H27V61H34V60H37V61H39V60H46V57Z" />
+    </g>
+    <path data-iso="-99" d="M 81 27V28H79V27Z" />
+    <g data-iso="AU">
+        <path d="M 111 48H112V49H111Z" />
+        <path d="M 115 36V39H116V40H117V43H116V45H115V46H114V47H110V45H109V44H106V45H104V46H103V40H105V39H107V38H108V37H110V36H112V38H114V36Z" />
+    </g>
+    <path data-iso="AT" d="M 69 12H68V11H69Z" />
+    <path data-iso="AZ" d="M 79 14H80V15H78V14Z" />
+    <path data-iso="BI" d="M 74 32H75V33H74Z" />
+    <path data-iso="BE" d="M 65 11H64V10H65Z" />
+    <path data-iso="BJ" d="M 65 26V28H64V26Z" />
+    <path data-iso="BF" d="M 64 25V27H62V26H63V25Z" />
+    <path data-iso="BD" d="M 95 21H96V22H95Z" />
+    <path data-iso="BG" d="M 73 13V14H71V13Z" />
+    <path data-iso="BA" d="M 70 13V14H69V13Z" />
+    <path data-iso="BY" d="M 72 9H73V10H71V9Z" />
+    <path data-iso="BO" d="M 43 39H42V40H39V35H40V36H41V37H42V38H43Z" />
+    <g data-iso="BR">
+        <path d="M 46 31V32H45V31Z" />
+        <path d="M 42 29V31H43V30H45V32H49V33H51V36H50V39H49V41H47V43H46V45H45V44H44V40H43V38H42V37H41V36H40V35H39V36H38V35H37V33H38V31H40V30H41V29Z" />
+    </g>
+    <path data-iso="BW" d="M 72 39H73V42H71V39Z" />
+    <path data-iso="CF" d="M 72 27V28H73V29H72V30H71V29H70V30H69V28H71V27Z" />
+    <g data-iso="CA">
+        <path d="M 39 13H40V12H42V11H43V13H42V12H41V13Z" />
+        <path d="M 24 11H25V12H24Z" />
+        <path d="M 46 10V11H47V12H45V11H46Z" />
+        <path d="M 23 9H24V10H23Z" />
+        <path d="M 40 5H41V6H40Z" />
+        <path d="M 39 13V14H37V12H34V11H24V9H25V7H24V6H25V5H26V4H30V3H31V4H39V3H40V4H42V5H40V6H37V7H36V8H37V9H39V10H39V9H41V7H42H43V8H45V11H42V12H40V13Z" />
+        <path d="M 35 3H37V4H33V3H34V2H35Z" />
+        <path d="M 37 3V2H38V3Z" />
+        <path d="M 41 3H42V2H43V3H46H47V5H46V6H42V5H44V4H41V2H42V3Z" />
+        <path d="M 41 2V3H40V2Z" />
+        <path d="M 34 2H35V3H33V2Z" />
+        <path d="M 40 1V2H40Z" />
+        <path d="M 38 2H37V1H38Z" />
+        <path d="M 41 1H42V2H41Z" />
+        <path d="M 37 1H35V2H34V1Z" />
+        <path d="M 43 0H44V1H42V0Z" />
+        <path d="M 49 0H47V1H45V2H44V0Z" />
+    </g>
+    <path data-iso="CH" d="M 67 12Z" />
+    <g data-iso="CL">
+        <path d="M 43 53V54H42V53Z" />
+        <path d="M 40 49V50H39V49Z" />
+        <path d="M 40 41V42H39V45H40V50H41V52H42V53H41V52H40V48H39V40H40Z" />
+    </g>
+    <g data-iso="CN">
+        <path d="M 103 23V24H102V23Z" />
+        <path d="M 106 14H105V15H103V16H104V17H105V19H106V20H105V22H103V23H102V22H98V20H97V19H96V20H93V19H91V18H90V17H89V16H88V15H89V14H90V12H93V13H95V14H100V13H101V12H100V11H101V10H103V11H105V12H106Z" />
+    </g>
+    <path data-iso="CI" d="M 62 27H63V28H62V29H61V27Z" />
+    <path data-iso="CM" d="M 69 28V30H67V29H68V27H69Z" />
+    <path data-iso="CD" d="M 73 29H74V30H75V31H74V36H71V34H68V33H69V32H70V29H71V30H72V29Z" />
+    <path data-iso="CG" d="M 70 30V32H69V33H68V32H69V31H68V30Z" />
+    <path data-iso="CO" d="M 38 26V27H37V28H38V29H39V31H38V32H37V31H35V30H36V27H38Z" />
+    <path data-iso="CR" d="M 34 27V28H33V27Z" />
+    <path data-iso="CU" d="M 35 22Z" />
+    <path data-iso="DE" d="M 66 9H68V12H66V11H65V10H66Z" />
+    <path data-iso="DJ" d="M 79 27H78V26H79Z" />
+    <path data-iso="DK" d="M 66 9V8H67V9Z" />
+    <path data-iso="DO" d="M 38 23H39V24H38Z" />
+    <path data-iso="DZ" d="M 66 16V18H67V21H68V22H67V23H64V22H62V21H61V19H62V18H63V17H64V16Z" />
+    <path data-iso="EC" d="M 36 31V32H35V31Z" />
+    <path data-iso="EG" d="M 75 19H76V20H75V21H76V22H72V18H73V19Z" />
+    <path data-iso="ER" d="M 78 26Z" />
+    <path data-iso="ES" d="M 63 14H64V16H62V17H61V14Z" />
+    <path data-iso="EE" d="M 72 7V8H70V7Z" />
+    <path data-iso="ET" d="M 77 25H78V27H79V28H80V29H79V30H77V29H76V25Z" />
+    <path data-iso="FI" d="M 71 4V5H72V7H70V4Z" />
+    <path data-iso="FJ" d="M 127 38V39H126V38Z" />
+    <g data-iso="FR">
+        <path d="M 45 30H44V29H45Z" />
+        <path d="M 65 11H66V14H63V12H62V11Z" />
+    </g>
+    <path data-iso="GA" d="M 68 30V31H69V32H68V33H67V31H68Z" />
+    <path data-iso="GB" d="M 63 8V9H64V11H63V9H62V8Z" />
+    <path data-iso="GH" d="M 63 27H64V29H62V28H63Z" />
+    <path data-iso="GN" d="M 59 26H60V27H61V28H60V27H59Z" />
+    <path data-iso="GW" d="M 59 26V27H58V26Z" />
+    <path data-iso="GQ" d="M 68 31H67V30H68Z" />
+    <path data-iso="GR" d="M 72 15H71V16H70V15H71V14H72Z" />
+    <g data-iso="GL">
+        <path d="M 50 4H49V3H50Z" />
+        <path d="M 57 0H59V1H58V2H58V3H56V4H55V5H52V7H50V6H49V4H50V2H49V1H48V2H47V1H49V0Z" />
+    </g>
+    <path data-iso="GT" d="M 32 25V26H31V24H32Z" />
+    <path data-iso="GY" d="M 43 29V31H42V29Z" />
+    <path data-iso="HN" d="M 34 25H33V26H32V25Z" />
+    <path data-iso="HR" d="M 70 13H68V12H69V13Z" />
+    <path data-iso="HU" d="M 70 12V13H69V12Z" />
+    <g data-iso="ID">
+        <path d="M 102 34H105V35H103V34Z" />
+        <path d="M 110 32Z" />
+        <path d="M 114 32V35H113V33H111V32Z" />
+        <path d="M 108 31H107V34H106V32H107V31Z" />
+        <path d="M 106 30V32H105V33H103V31H105V29H106Z" />
+        <path d="M 98 29H99V30H100V31H101V32H102V34H101V33H100V31H99V30H98Z" />
+    </g>
+    <path data-iso="IN" d="M 91 18V20H96V19H97V22H96V21H95V22H94V23H93V25H92V28H91V26H90V25H89V23H88V22H87V21H88V20H89V17H90V18Z" />
+    <path data-iso="IE" d="M 62 9V10H61V9Z" />
+    <path data-iso="IR" d="M 79 15H80V16H84V18H85V21H83V20H81V19H80V18H79V16H78V15Z" />
+    <path data-iso="IQ" d="M 80 19H78V18H77V16H79V18H80Z" />
+    <path data-iso="IS" d="M 59 5H60V6H57V5Z" />
+    <path data-iso="IL" d="M 76 18V19H75V18Z" />
+    <path data-iso="IT" d="M 68 12V14H69V15H68V14H67V13H66V12Z" />
+    <path data-iso="JO" d="M 77 18Z" />
+    <g data-iso="JP">
+        <path d="M 108 18H109V19H108Z" />
+        <path d="M 109 17H108V16H109Z" />
+        <path d="M 110 14V15H111V17H109V16H110Z" />
+        <path d="M 110 13H111V14H109V13Z" />
+    </g>
+    <path data-iso="KZ" d="M 91 11V12H90V14H86V15H85V14H84V13H82V14H80V13H81V12H78V11H79V10H80V11H83V10H82V9H87V10H89V11Z" />
+    <path data-iso="KE" d="M 76 29H77V30H78V33H77V32H76Z" />
+    <path data-iso="KG" d="M 88 15H87V14H89V15Z" />
+    <path data-iso="KH" d="M 101 27H100V25H102V27Z" />
+    <path data-iso="KR" d="M 106 16H107V17H106Z" />
+    <path data-iso="LA" d="M 99 22H100V24H99Z" />
+    <path data-iso="LR" d="M 60 28H61V29H59V28Z" />
+    <path data-iso="LY" d="M 72 18V23H70V22H68V21H67V18H69V19H70V18Z" />
+    <path data-iso="LK" d="M 92 27V28H93V29H92Z" />
+    <path data-iso="LV" d="M 72 9H70V8H72Z" />
+    <path data-iso="MA" d="M 63 18H62V19H61V20H59V22H58V21H59V20H60V18H61V17H63Z" />
+    <path data-iso="MG" d="M 81 36V40H80V42H79V38H80V37H81Z" />
+    <path data-iso="MX" d="M 30 21H29V23H30V24H31V23H32V22H33V24H31V25H28V24H27V23H26V21H25V19H24V20H25V21H24V19H23V18H25V19H26V18H27V19H29V21Z" />
+    <path data-iso="MK" d="M 71 14V15H70V14Z" />
+    <path data-iso="ML" d="M 65 23V25H63V26H62V27H60V26H59V25H61V21H62V22H64V23Z" />
+    <path data-iso="MM" d="M 99 22V23H98V24H99V26H98V25H97V23H96V22H97V20H98V22Z" />
+    <path data-iso="MN" d="M 100 11V12H101V13H100V14H95V13H93V12H91V11H94V10H95V11Z" />
+    <path data-iso="MZ" d="M 75 42V38H74V37H76V36H78V38H77V39H76V41H75Z" />
+    <path data-iso="MR" d="M 62 25H58V23H59V21H60V20H61V25Z" />
+    <path data-iso="MW" d="M 76 36V37H75V36Z" />
+    <g data-iso="MY">
+        <path d="M 100 29H101V31H100Z" />
+        <path d="M 106 30V29H105V31H103V30H104V29H105V28H106Z" />
+    </g>
+    <path data-iso="NA" d="M 72 38V39H71V41H70V43H69V40H68V38H70V39H72Z" />
+    <path data-iso="NE" d="M 69 22V25H68V26H64V25H65V23H66V22Z" />
+    <path data-iso="NG" d="M 66 26H69V27H68V29H64V28H65V26Z" />
+    <path data-iso="NI" d="M 34 27H33V25H34Z" />
+    <g data-iso="NO">
+        <path d="M 72 4H68V5H67V7H66V8H65V6H66V5H67V4H70V3H71V4Z" />
+        <path d="M 67 0H68V1H67Z" />
+        <path d="M 68 0H69V1H68Z" />
+    </g>
+    <path data-iso="NP" d="M 94 20H91V19H93V20Z" />
+    <g data-iso="NZ">
+        <path d="M 121 48H120V49H119V50H118V49H120V48Z" />
+        <path d="M 122 45V46H123V47H122V48H121V47H122Z" />
+    </g>
+    <path data-iso="OM" d="M 83 21H84V24H82V23H83Z" />
+    <path data-iso="PK" d="M 89 17V20H88V22H87V21H85V19H87V17H88V16H89Z" />
+    <path data-iso="PA" d="M 36 28H35V27H36Z" />
+    <path data-iso="PE" d="M 37 34V35H38V36H39V39H38V38H37V37H36V35H35V34H34V33H35V32H36V31H37V32H38V33H37Z" />
+    <g data-iso="PH">
+        <path d="M 109 27V29H108V27Z" />
+        <path d="M 106 24H107V25H106Z" />
+    </g>
+    <g data-iso="PG">
+        <path d="M 118 33Z" />
+        <path d="M 114 35V32H115V33H116V34H117V35H116V34H115V35Z" />
+    </g>
+    <path data-iso="PL" d="M 71 9V11H68V9Z" />
+    <path data-iso="KP" d="M 106 14V16H105V14Z" />
+    <path data-iso="PT" d="M 61 16H60V15H61Z" />
+    <path data-iso="PY" d="M 43 39V40H44V42H43V41H42V39Z" />
+    <path data-iso="RO" d="M 73 13H70V12H73Z" />
+    <g data-iso="RU">
+        <path d="M 107 9V10H108V11H109V12H108V10H107Z" />
+        <path d="M 16 4H17V5H15V4Z" />
+        <path d="M 77 2H78V3H77Z" />
+        <path d="M 87 2H86V1H87Z" />
+        <path d="M 80 2H79V1H80Z" />
+        <path d="M 106 14V12H105V11H103V10H101V11H95V10H94V11H89V10H87V9H82V10H83V11H80V10H79V11H78V12H79V14H76V11H74V10H73V9H72V5H71V4H74H73V6H74V5H75V4H81V3H82V4H83V3H83V2H87V1H90V2H93V3H94V2H96V3H105V4H113V5H112V6H113V7H111V8H112V10H111V9H110V6H108V8H107V7H105V8H104V9H106V10H107V11H108V13H107V14Z" />
+        <path d="M 85 0H86V1H85Z" />
+    </g>
+    <path data-iso="EH" d="M 60 20V21H59V23H58V22H59V20Z" />
+    <path data-iso="SA" d="M 80 19V20H81V21H82V22H83V23H82V24H78V23H77V21H76V18H78V19Z" />
+    <path data-iso="SD" d="M 76 22H77V26H76V27H72V22Z" />
+    <path data-iso="SS" d="M 76 27V30H74V29H73V28H72V27Z" />
+    <path data-iso="SN" d="M 59 25V26H57V25Z" />
+    <path data-iso="SB" d="M 121 35H120V34H121Z" />
+    <path data-iso="SL" d="M 60 27V28H59V27Z" />
+    <path data-iso="SV" d="M 32 25Z" />
+    <path data-iso="SO" d="M 79 30V29H80V28H81V27H82V28H81V30H80V31H79V32H78V30Z" />
+    <path data-iso="RS" d="M 70 13H71V14H70Z" />
+    <path data-iso="SR" d="M 44 30H43V29H44Z" />
+    <path data-iso="SK" d="M 71 11V12H69V11Z" />
+    <path data-iso="SI" d="M 69 12Z" />
+    <path data-iso="SE" d="M 70 5H69V6H68V7H69V8H68V9H67V5H68V4H70Z" />
+    <path data-iso="SY" d="M 78 16H77V18H76V16Z" />
+    <path data-iso="TD" d="M 72 23V27H71V28H69V26H68V25H69V22H71V23Z" />
+    <path data-iso="TH" d="M 99 23V24H101V25H100V26H99V28H100V29H99V24H98V23Z" />
+    <path data-iso="TJ" d="M 87 15H88V16H86V15Z" />
+    <path data-iso="TM" d="M 86 16H85V17H84V16H81V15H82H84V15H85V16Z" />
+    <path data-iso="TN" d="M 67 18H66V16H67Z" />
+    <g data-iso="TR">
+        <path d="M 78 15V16H75V17H73V16H72V15H73V14V14H76V15H77V14H78Z" />
+        <path d="M 72 15V14H73V15Z" />
+    </g>
+    <path data-iso="TZ" d="M 76 32H77V33H78V36H76V35H74V33H75V32Z" />
+    <path data-iso="UG" d="M 74 32V31H75V30H76V32Z" />
+    <path data-iso="UA" d="M 76 12H75V13H74V12H71V10H74V11H76Z" />
+    <path data-iso="UY" d="M 44 44H45V45H44Z" />
+    <g data-iso="US">
+        <path d="M 34 11V12H37V14H39V13H41V12H42V13H41V14H39V15H38V17H37V18H36V21H35V19H30V21H29V19H27V18H26V19H25V18H23V17H22V15H23V13H24V12H25V11Z" />
+        <path d="M 24 8V9H23V8Z" />
+        <path d="M 27 4H26V5H25V6H24V7H25V9H24V8H23V7H19V8H16V8H17V6H19V5H20V4H22V3H26V4Z" />
+    </g>
+    <path data-iso="UZ" d="M 87 14V15H86V16H85V15H84V14H82V13H84V14H85V15H86V14Z" />
+    <path data-iso="VE" d="M 42 29H41V30H40V31H39V29H38V28H37V27H38V26H39V27H42Z" />
+    <path data-iso="VN" d="M 102 22V23H101V24H102V26H103V27H102V28H101V26V25H101V24H100V22Z" />
+    <path data-iso="VU" d="M 124 39V40H123V39Z" />
+    <path data-iso="YE" d="M 82 24V25H81V26H79V24Z" />
+    <path data-iso="ZA" d="M 75 42V43H74V44H73V45H70V44H69V43H70V41H71V42H72V41H73V40H75Z" />
+    <path data-iso="ZM" d="M 75 35H76V36H75V37H74V38H73V39H72V38H71V37H72V36H74V35Z" />
+    <path data-iso="ZW" d="M 75 40H73V38H75Z" />
+</svg>

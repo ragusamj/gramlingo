@@ -5,7 +5,7 @@ class WorldMapListener {
         this.worldMap = worldMap;
     }
 
-    attach() {
+    attach(selectedIso) {
         this.removeListeners = [
             this.browserEvent.on("click", this.onClick.bind(this)),
             this.browserEvent.on("mousedown", this.worldMap.startDrag.bind(this.worldMap)),
@@ -13,7 +13,7 @@ class WorldMapListener {
             this.browserEvent.on("mouseup", this.worldMap.endDrag.bind(this.worldMap)),
             this.browserEvent.on("wheel", this.worldMap.scroll.bind(this.worldMap))
         ];
-        this.worldMap.initialize();
+        this.worldMap.initialize(selectedIso);
     }
 
     detach() {

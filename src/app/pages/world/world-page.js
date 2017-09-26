@@ -1,3 +1,5 @@
+const defaultSelectedCountry = "SE";
+
 class WorldPage {
 
     constructor(browserEvent, worldMapListener) {
@@ -7,8 +9,8 @@ class WorldPage {
 
     attach(pageTemplate, onPageChanged) {
         onPageChanged();
-        this.worldMapListener.attach();
         this.removeListener = this.browserEvent.on("map-country-changed", this.onMapCountrySelected.bind(this));
+        this.worldMapListener.attach(defaultSelectedCountry);
     }
 
     detach() {
@@ -17,8 +19,12 @@ class WorldPage {
     }
 
     onMapCountrySelected(e) {
-        //console.log("onMapCountrySelected", e.detail);
-        return e;
+        this.setCountryFlag(e.detail);
+    }
+
+    setCountryFlag(iso) {
+        let image = document.getElementById("selected-country-flag");
+        image.src = "/images/flags/" + iso + ".png";
     }
 }
 

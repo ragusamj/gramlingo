@@ -15,7 +15,7 @@ class WorldMap {
         this.browserEvent = browserEvent;
     }
 
-    initialize() {
+    initialize(selectedIso) {
         this.map = document.getElementById("worldmap");
         this.initialWidth = this.map.viewBox.baseVal.width;
         this.initialHeight = this.map.viewBox.baseVal.height;
@@ -23,6 +23,7 @@ class WorldMap {
         this.clickTweens = this.createTweens("easeOutQuad", 0.2, clickstep);
         this.currentAnimationId = 0;
         this.scrollingEnabled = true;
+        this.selectCountry(document.querySelector("[data-iso='" + selectedIso + "']"));
     }
 
     selectCountry(element) {
@@ -80,15 +81,45 @@ class WorldMap {
     }
 
     drag(e) {
-        if(this.isMapEvent(e) && this.dragStartPoint) {
-            this.currentAnimationId++;
-            let mousePoint = this.createSVGPoint(e.clientX, e.clientY);
-            requestAnimationFrame(() => {
-                if(this.dragStartPoint) {
-                    this.map.viewBox.baseVal.x += (this.dragStartPoint.x - mousePoint.x);
-                    this.map.viewBox.baseVal.y += (this.dragStartPoint.y - mousePoint.y);
+        if(this.isMapEvent(e)) {
+            if(this.dragStartPoint) {
+                this.currentAnimationId++;
+                let mousePoint = this.createSVGPoint(e.clientX, e.clientY);
+                requestAnimationFrame(() => {
+                    if(this.dragStartPoint) {
+                        this.map.viewBox.baseVal.x += (this.dragStartPoint.x - mousePoint.x);
+                        this.map.viewBox.baseVal.y += (this.dragStartPoint.y - mousePoint.y);
+                    }
+                });
+            }
+            else {
+                let iso = e.target.getAttribute("data-iso") || e.target.parentElement.getAttribute("data-iso");
+                if(iso) {
+                    if(!this.isopop) {
+                        this.isopop = {
+                            elements: {
+                                container: document.getElementById("isopop"),
+                                flag: document.getElementById("popup-country-flag"),
+                                iso: document.getElementById("popup-iso")
+                            }
+                        };
+                    }
+                    if(this.isopop.iso !== iso) {
+                        this.isopop.iso = iso;
+                        this.isopop.elements.flag.src = "/images/flags/" + iso + ".png";
+                        this.isopop.elements.iso.innerHTML = iso;
+                        this.isopop.elements.container.style.opacity = 1;
+                    }
+                    this.isopop.elements.container.style.top = (e.clientY + 20) + "px";
+                    this.isopop.elements.container.style.left = (e.clientX + 20) + "px";
                 }
-            });
+                else {
+                    if(this.isopop && this.isopop.iso) {
+                        this.isopop.iso = undefined;
+                        this.isopop.elements.container.style.opacity = 0;
+                    }
+                }
+            }
         }
     }
 

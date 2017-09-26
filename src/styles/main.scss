@@ -185,16 +185,28 @@ input[type="number"] {
     }
 }
 
+$theme-color: "success";
+
 #worldmap {
-    fill: $gray-700;
-    stroke: $white;
-    stroke-width: 0.2;
-    path {
-        cursor: pointer;
-        transition: $transition-base;
+
+    g.disputed {
+        fill: theme-color-level($theme-color, 6);
     }
-    path:hover, g:hover, .selected {
-        fill: $cyan;
+
+    g.dark {
+        fill: theme-color-level($theme-color, 3);
+    }
+
+    g.normal {
+        fill: theme-color-level($theme-color, 0);
+    }
+
+    g.light {
+        fill: theme-color-level($theme-color, -6);
+    }
+
+    g.lighter {
+        fill: theme-color-level($theme-color, -10);
     }
 }
 
@@ -202,10 +214,10 @@ input[type="number"] {
     @extend .fixed-bottom;
     position: relative;
     padding: 0 1rem;
-    img {
+    span {
         cursor: pointer;
-        height: 32px;
-        width: 32px;
+        height: 30px;
+        width: 40px;
         margin: 0 12px;
     }
     .section {
@@ -234,10 +246,10 @@ input[type="number"] {
     }
     .footer {
         position: fixed;
-        img {
-            width: 24px;
-            height: 24px;
-            margin: inherit;
+        span {
+            height: 18px;
+            width: 30px;
+            margin: 3px;
         }
     }
 }

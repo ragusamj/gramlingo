@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+
+    <style>
+
+        button {
+            margin-bottom: 2em;
+        }
+
+        /* OPACITY TRANSITION */
+        #opacity {
+            position: relative;
+            height: 2em;
+        }
+        #opacity span {
+            position: absolute;
+            left: 0;
+        }
+        #opacity span.top {
+            background-color: #fff;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+        #opacity .top.active {
+            opacity: 1;
+        }
+
+        /* WIDTH TRANSITION */
+        #width {
+            position: relative;
+            height: 2em;
+        }
+        #width span {
+            position: absolute;
+            left: 0;
+        }
+        #width span.top {
+            background-color: #fff;
+            width: 0;
+            overflow: hidden;
+            transition: width 0.2s ease-in-out;
+        }
+        #width .top.active {
+            width: 1em;
+        }
+
+        /* NO TRANSITION */
+        #none {
+            position: relative;
+            height: 2em;
+        }
+        #none span {
+            position: absolute;
+            left: 0;
+        }
+        #none span.top {
+            background-color: #fff;
+            width: 0;
+            overflow: hidden;
+        }
+        #none .top.active {
+            width: 1em;
+        }
+    </style>
+
+<body>
+
+    <div id="opacity">
+        <span id="opacity-bottom" class="fa fa-toggle-off"></span>
+        <span id="opacity-top" class="fa fa-toggle-on top"></span>
+    </div>
+
+    <button id="opacity-button">Toggle</button>
+
+    <div id="width">
+        <span id="width-bottom" class="fa fa-toggle-off"></span>
+        <span id="width-top" class="fa fa-toggle-on top"></span>
+    </div>
+
+    <button id="width-button">Toggle</button>
+
+    <div id="none">
+        <span id="none-bottom" class="fa fa-toggle-off"></span>
+        <span id="none-top" class="fa fa-toggle-on top"></span>
+    </div>
+
+    <button id="none-button">Toggle</button>
+
+    <script>
+        document
+            .getElementById("opacity-button")
+            .addEventListener("click", () => {
+                document.getElementById("opacity-top").classList.toggle("active");
+            });
+
+        document
+            .getElementById("width-button")
+            .addEventListener("click", () => {
+                document.getElementById("width-top").classList.toggle("active");
+            });
+
+        document
+            .getElementById("none-button")
+            .addEventListener("click", () => {
+                document.getElementById("none-top").classList.toggle("active");
+            });
+    </script>
+
+</body>
+
+</html>

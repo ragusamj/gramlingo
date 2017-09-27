@@ -176,7 +176,7 @@ input[type="number"] {
 .fluid-svg-container {
     width: 100%;
     height: 0;
-    padding-top: 48%;
+    padding-top: 405 / 800 * 100%; // viewport height / width * container width
     position: relative;
     svg {
         position: absolute;
@@ -185,7 +185,7 @@ input[type="number"] {
     }
 }
 
-$theme-color: "success";
+$theme-color: "info";
 
 #worldmap {
 

@@ -19,12 +19,7 @@ class WorldPage {
     }
 
     onMapCountrySelected(e) {
-        this.setCountryFlag(e.detail);
-    }
-
-    setCountryFlag(iso) {
-        let image = document.getElementById("selected-country-flag");
-        image.src = "/images/flags/" + iso + ".png";
+        return e;
     }
 }
 

@@ -107,7 +107,7 @@ class WorldMap {
                     if(this.isopop.iso !== iso) {
                         this.isopop.iso = iso;
                         this.isopop.elements.flag.src = "/images/flags/" + iso + ".png";
-                        this.isopop.elements.iso.innerHTML = iso;
+                        this.isopop.elements.iso.innerHTML = this.getCountryNameTemp(iso);
                         this.isopop.elements.container.style.opacity = 1;
                     }
                     this.isopop.elements.container.style.top = (e.clientY + 20) + "px";
@@ -121,6 +121,19 @@ class WorldMap {
                 }
             }
         }
+    }
+
+    getCountryNameTemp(iso) {
+        // TODO: inject country data
+        switch(iso) {
+            case "BR": return "Brasil";
+            case "CD": return "República Democrática del Congo";
+            case "ES": return "España";
+            case "PG": return "Papúa Nueva Guinea";
+            case "SE": return "Suecia";
+            case "US": return "Estados Unidos";
+        }
+        return iso;
     }
 
     endDrag() {

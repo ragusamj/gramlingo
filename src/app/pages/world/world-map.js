@@ -92,48 +92,7 @@ class WorldMap {
                     }
                 });
             }
-            else {
-                let iso = e.target.getAttribute("data-iso") || e.target.parentElement.getAttribute("data-iso");
-                if(iso) {
-                    if(!this.isopop) {
-                        this.isopop = {
-                            elements: {
-                                container: document.getElementById("isopop"),
-                                flag: document.getElementById("popup-country-flag"),
-                                iso: document.getElementById("popup-iso")
-                            }
-                        };
-                    }
-                    if(this.isopop.iso !== iso) {
-                        this.isopop.iso = iso;
-                        this.isopop.elements.flag.src = "/images/flags/" + iso + ".png";
-                        this.isopop.elements.iso.innerHTML = this.getCountryNameTemp(iso);
-                        this.isopop.elements.container.style.opacity = 1;
-                    }
-                    this.isopop.elements.container.style.top = (e.clientY + 20) + "px";
-                    this.isopop.elements.container.style.left = (e.clientX + 20) + "px";
-                }
-                else {
-                    if(this.isopop && this.isopop.iso) {
-                        this.isopop.iso = undefined;
-                        this.isopop.elements.container.style.opacity = 0;
-                    }
-                }
-            }
         }
-    }
-
-    getCountryNameTemp(iso) {
-        // TODO: inject country data
-        switch(iso) {
-            case "BR": return "Brasil";
-            case "CD": return "República Democrática del Congo";
-            case "ES": return "España";
-            case "PG": return "Papúa Nueva Guinea";
-            case "SE": return "Suecia";
-            case "US": return "Estados Unidos";
-        }
-        return iso;
     }
 
     endDrag() {

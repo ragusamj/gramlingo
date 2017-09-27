@@ -185,6 +185,36 @@ input[type="number"] {
     }
 }
 
+#country-viewer {
+    position: absolute;
+    left: 15px;
+    bottom: 0;
+    z-index: 1000;
+    pointer-events: none;
+
+    #country-viewer-flag-container {
+        display: inline-block;
+        border: 1px solid rgba(0,0,0,0.125);
+        border-radius: .25rem;
+        background-color: #343a40;
+        padding: 0.5rem;
+
+        #country-viewer-flag {
+            width: 50px;
+        }
+    }
+
+    #country-viewer-iso {
+        margin-top: 0.25rem;
+        border: 1px solid rgba(0,0,0,0.125);
+        border-radius: .25rem;
+        background-color: #343a40;
+        color: #fff;
+        text-align: center;
+        padding: 0 0.5rem;
+    }
+}
+
 $theme-color: "info";
 
 #worldmap {

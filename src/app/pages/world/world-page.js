@@ -19,11 +19,14 @@ class WorldPage {
     }
 
     onMapCountrySelected(e) {
-        let flag = document.getElementById("country-viewer-flag");
+        let header = document.getElementById("world-info-header");
+        header.innerHTML = this.getCountryNameTemp(e.detail);
+
+        let flag = document.getElementById("flag-widget-flag");
         flag.src = "/images/flags/" + e.detail + ".png";
 
-        let iso = document.getElementById("country-viewer-iso");
-        iso.innerHTML = this.getCountryNameTemp(e.detail);
+        let iso = document.getElementById("flag-widget-iso");
+        iso.innerHTML = e.detail;
     }
 
     getCountryNameTemp(iso) {

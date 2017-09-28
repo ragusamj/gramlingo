@@ -62,7 +62,6 @@ export default {
         "<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. " +
         "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
         "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>",
-    "world-countries-header": "Länder",
 
     "error-404-header": "Vi ber om ursäkt...",
     "error-404-body": "404 - Sidan du försöker nå finns inte.",

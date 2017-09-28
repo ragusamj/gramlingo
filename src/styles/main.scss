@@ -185,26 +185,25 @@ input[type="number"] {
     }
 }
 
-#country-viewer {
+#flag-widget {
     position: absolute;
-    left: 15px;
     bottom: 0;
     z-index: 1000;
     pointer-events: none;
 
-    #country-viewer-flag-container {
+    #flag-widget-flag-container {
         display: inline-block;
         border: 1px solid rgba(0,0,0,0.125);
         border-radius: .25rem;
         background-color: #343a40;
         padding: 0.5rem;
 
-        #country-viewer-flag {
+        #flag-widget-flag {
             width: 50px;
         }
     }
 
-    #country-viewer-iso {
+    #flag-widget-iso {
         margin-top: 0.25rem;
         border: 1px solid rgba(0,0,0,0.125);
         border-radius: .25rem;

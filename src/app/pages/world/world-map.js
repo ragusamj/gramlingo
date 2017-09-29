@@ -9,6 +9,10 @@ const moves = {
     noop: (tween, start) => start
 };
 
+const mouseButtons = {
+    main: 0
+};
+
 class WorldMap {
 
     constructor(browserEvent) {
@@ -17,22 +21,40 @@ class WorldMap {
 
     initialize(selectedIso) {
         this.map = document.getElementById("worldmap");
+        this.container = document.querySelector("[class='fluid-svg-container']");
+        this.marker = document.getElementById("map-marker");
+        this.svgPoint = this.map.createSVGPoint();
         this.initialWidth = this.map.viewBox.baseVal.width;
         this.initialHeight = this.map.viewBox.baseVal.height;
         this.ratio = this.initialWidth / this.initialHeight;
         this.clickTweens = this.createTweens("easeOutQuad", 0.2, clickstep);
         this.currentAnimationId = 0;
-        this.scrollingEnabled = true;
+        //this.scrollingEnabled = true;
         this.selectCountry(document.querySelector("[data-iso='" + selectedIso + "']"));
     }
 
     selectCountry(element) {
-        if(this.selected) {
-            this.selected.classList.remove("selected");
+        let iso = element.getAttribute("data-iso");
+        if(iso !== "-99") {
+            this.setMarker(element);
+            this.positionMarker();
+            this.browserEvent.emit("map-country-changed", element.getAttribute("data-iso"));
         }
-        element.classList.add("selected");
-        this.selected = element;
-        this.browserEvent.emit("map-country-changed", element.getAttribute("data-iso"));
+    }
+
+    setMarker(element) {
+        const marker = element.getAttribute("data-marker");
+        const point = marker.split("x");
+        this.markerPoint = { x: point[0], y: point[1] };
+    }
+
+    positionMarker() {
+        const containerRect = this.container.getBoundingClientRect();
+        const domPoint = this.toDOMPoint(this.markerPoint.x, this.markerPoint.y);
+        const left = ((domPoint.x - containerRect.left - (this.marker.offsetWidth / 2)));
+        const top = (domPoint.y - containerRect.top - this.marker.offsetHeight);
+        this.marker.style.left = Math.round(left) + "px";
+        this.marker.style.top = Math.round(top) + "px";
     }
 
     zoomIn() {
@@ -70,39 +92,42 @@ class WorldMap {
             x: this.map.viewBox.baseVal.x * 2,
             y: this.map.viewBox.baseVal.y * (this.ratio * 2)
         };
-        const tweens = this.createTweens("easeOutElastic", 1, step);
+        const tweens = this.createTweens("easeInOutSine", 0.5, step);
         this.animate(moves.minus, moves.minus, moves.minus, moves.minus, tweens);
     }
 
-    startDrag(e) {
-        if(this.isMapEvent(e)) {
-            this.dragStartPoint = this.createSVGPoint(e.clientX, e.clientY);
+    onMousedown(e) {
+        if(this.isMapEvent(e) && e.button === mouseButtons.main) {
+            this.dragStartPoint = this.toSVGPoint(e.clientX, e.clientY);
         }
     }
 
-    drag(e) {
-        if(this.isMapEvent(e)) {
-            if(this.dragStartPoint) {
-                this.currentAnimationId++;
-                let mousePoint = this.createSVGPoint(e.clientX, e.clientY);
-                requestAnimationFrame(() => {
-                    if(this.dragStartPoint) {
-                        this.map.viewBox.baseVal.x += (this.dragStartPoint.x - mousePoint.x);
-                        this.map.viewBox.baseVal.y += (this.dragStartPoint.y - mousePoint.y);
-                    }
-                });
-            }
+    onMousemove(e) {
+        if(this.isMapEvent(e) && this.dragStartPoint) {
+            this.currentAnimationId++;
+            this.dragging = true;
+            let mousePoint = this.toSVGPoint(e.clientX, e.clientY);
+            requestAnimationFrame(() => {
+                this.map.viewBox.baseVal.x += (this.dragStartPoint.x - mousePoint.x);
+                this.map.viewBox.baseVal.y += (this.dragStartPoint.y - mousePoint.y);
+                this.positionMarker();
+            });
         }
     }
 
-    endDrag() {
+    onMouseup(e) {
+        if(!this.dragging && e.target.hasAttribute("data-iso")) {
+            this.selectCountry(e.target);
+        }
         this.dragStartPoint = undefined;
+        this.dragging = false;
     }
 
-    scroll(e) {
+    onWheel(e) {
         if(this.isMapEvent(e)) {
             e.preventDefault();
 
+            /*
             this.assertScrolling(e);
 
             if(!this.scrollingEnabled) {
@@ -111,19 +136,23 @@ class WorldMap {
 
             if(!this.assertZoomingBounds(e)){
                 return;
-            }
+            }*/
 
             this.currentAnimationId++;
-            const mousePoint = this.createSVGPoint(e.clientX, e.clientY);
+            //const mousePoint = this.toSVGPoint(e.clientX, e.clientY);
             requestAnimationFrame(() => {
                 this.map.viewBox.baseVal.height += e.deltaY / this.ratio;
                 this.map.viewBox.baseVal.width += e.deltaY;
-                this.map.viewBox.baseVal.x -= e.deltaY * (mousePoint.x / this.initialWidth);
-                this.map.viewBox.baseVal.y -= e.deltaY * ((mousePoint.y / this.initialHeight) / this.ratio);
+                this.map.viewBox.baseVal.x -= e.deltaY / 2;
+                this.map.viewBox.baseVal.y -= e.deltaY / (this.ratio * 4);
+                //this.map.viewBox.baseVal.x -= e.deltaY * (mousePoint.x / this.initialWidth);
+                //this.map.viewBox.baseVal.y -= e.deltaY * ((mousePoint.y / this.initialHeight) / this.ratio);
+                this.positionMarker();
             });
         }
     }
 
+    /*
     assertScrolling(e) {
 
         if(this.lastDeltaY !== undefined && this.lastDeltaY * e.deltaY <= 0) {
@@ -154,7 +183,7 @@ class WorldMap {
         }
 
         return true;
-    }
+    }*/
 
     createTweens(easing, duration, step) {
         const tweens = [];
@@ -172,11 +201,19 @@ class WorldMap {
         return tweens;
     }
 
-    createSVGPoint(x, y) {
-        let point = this.map.createSVGPoint();
-        point.x = x;
-        point.y = y;
-        return point.matrixTransform(this.map.getScreenCTM().inverse());
+    toSVGPoint(x, y) {
+        return this.transformPoint(x, y, false);
+    }
+
+    toDOMPoint(x, y) {
+        return this.transformPoint(x, y, true);
+    }
+
+    transformPoint(x, y, toDOM) {
+        this.svgPoint.x = x;
+        this.svgPoint.y = y;
+        const ctm = this.map.getScreenCTM();
+        return this.svgPoint.matrixTransform(toDOM ? ctm : ctm.inverse());
     }
 
     animate(zoomH, zoomW, panX, panY, tweens) {
@@ -200,6 +237,7 @@ class WorldMap {
                     this.map.viewBox.baseVal.y = panY(tween.y, start.y);
                 }
                 frame++;
+                this.positionMarker();
                 requestAnimationFrame(draw);
             }
         };
@@ -208,9 +246,7 @@ class WorldMap {
 
     isMapEvent(e) {
         if(e.target && e.target.hasAttribute) {
-            return e.target.id === "worldmap" ||
-                   e.target.hasAttribute("data-iso") ||
-                   e.target.parentElement.hasAttribute("data-iso");
+            return e.target.id === "worldmap" || e.target.hasAttribute("data-iso");
         }
         return false;
     }

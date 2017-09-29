@@ -8,10 +8,10 @@ class WorldMapListener {
     attach(selectedIso) {
         this.removeListeners = [
             this.browserEvent.on("click", this.onClick.bind(this)),
-            this.browserEvent.on("mousedown", this.worldMap.startDrag.bind(this.worldMap)),
-            this.browserEvent.on("mousemove", this.worldMap.drag.bind(this.worldMap)),
-            this.browserEvent.on("mouseup", this.worldMap.endDrag.bind(this.worldMap)),
-            this.browserEvent.on("wheel", this.worldMap.scroll.bind(this.worldMap))
+            this.browserEvent.on("mousedown", this.worldMap.onMousedown.bind(this.worldMap)),
+            this.browserEvent.on("mousemove", this.worldMap.onMousemove.bind(this.worldMap)),
+            this.browserEvent.on("mouseup", this.worldMap.onMouseup.bind(this.worldMap)),
+            this.browserEvent.on("wheel", this.worldMap.onWheel.bind(this.worldMap))
         ];
         this.worldMap.initialize(selectedIso);
     }
@@ -23,12 +23,6 @@ class WorldMapListener {
     }
 
     onClick(e) {
-        if(e.target.hasAttribute("data-iso")) {
-            this.worldMap.selectCountry(e.target);
-        }
-        if(e.target.parentElement.hasAttribute("data-iso")) {
-            this.worldMap.selectCountry(e.target.parentElement);
-        }
         if(e.target.hasAttribute("data-map-zoom-in")) {
             this.worldMap.zoomIn();
         }

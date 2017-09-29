@@ -88,8 +88,9 @@ input[type="number"] {
     .popup, .search-result {
         background-color: $white;
         background-clip: padding-box;
-        border: 1px solid $dropdown-border-color;
+        border: $dropdown-border-width solid $dropdown-border-color;
         border-radius: $border-radius;
+        box-shadow: $dropdown-box-shadow;
         position: absolute;
         width: 100%;
     }
@@ -178,6 +179,8 @@ input[type="number"] {
     height: 0;
     padding-top: 405 / 800 * 100%; // viewport height / viewport width * container width
     position: relative;
+    overflow: hidden;
+    
     svg {
         position: absolute;
         top: 0;
@@ -185,19 +188,52 @@ input[type="number"] {
     }
 }
 
+#worldmap {
+    
+    $worldmap-theme-color: "secondary";
+
+    g.disputed {
+        fill: theme-color-level($worldmap-theme-color, 6);
+    }
+
+    g.dark {
+        fill: theme-color-level($worldmap-theme-color, 3);
+    }
+
+    g.normal {
+        fill: theme-color-level($worldmap-theme-color, 0);
+    }
+
+    g.light {
+        fill: theme-color-level($worldmap-theme-color, -6);
+    }
+
+    g.lighter {
+        fill: theme-color-level($worldmap-theme-color, -10);
+    }
+}
+
+#map-marker {
+    position: absolute;
+    pointer-events: none;
+    color: #000;
+}
+
 #flag-widget {
     position: absolute;
+    pointer-events: none;
     bottom: 0;
     z-index: 1000;
-    pointer-events: none;
+
+    #flag-widget-flag-container, #flag-widget-iso {
+        border: $card-border-width solid $card-border-color;
+        border-radius: $border-radius;
+        background-color: $gray-800;
+    }
 
     #flag-widget-flag-container {
         display: inline-block;
-        border: 1px solid rgba(0,0,0,0.125);
-        border-radius: .25rem;
-        background-color: #343a40;
         padding: 0.5rem;
-
         #flag-widget-flag {
             width: 50px;
         }
@@ -205,37 +241,9 @@ input[type="number"] {
 
     #flag-widget-iso {
         margin-top: 0.25rem;
-        border: 1px solid rgba(0,0,0,0.125);
-        border-radius: .25rem;
-        background-color: #343a40;
-        color: #fff;
+        color: $white;
         text-align: center;
         padding: 0 0.5rem;
-    }
-}
-
-$theme-color: "info";
-
-#worldmap {
-
-    g.disputed {
-        fill: theme-color-level($theme-color, 6);
-    }
-
-    g.dark {
-        fill: theme-color-level($theme-color, 3);
-    }
-
-    g.normal {
-        fill: theme-color-level($theme-color, 0);
-    }
-
-    g.light {
-        fill: theme-color-level($theme-color, -6);
-    }
-
-    g.lighter {
-        fill: theme-color-level($theme-color, -10);
     }
 }
 

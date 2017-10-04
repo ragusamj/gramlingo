@@ -65,7 +65,6 @@
     "onchange": "^3.2.1",
     "pn": "^1.0.0",
     "postcss-cli": "^4.1.0",
-    "robust-point-in-polygon": "^1.0.3",
     "shapefile": "^0.6.6",
     "sinon": "^3.0.0",
     "svg2png": "^4.1.1",

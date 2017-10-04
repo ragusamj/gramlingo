@@ -1,5 +1,3 @@
-import classifyPoint from "robust-point-in-polygon";
-
 const defaultSelectedCountry = "SE";
 
 class WorldPage {
@@ -30,7 +28,7 @@ class WorldPage {
                 this.map = data;
                 callback();
             }, (event) => {
-                // console.log("loading verbs, recieved", event.loaded, "bytes of", event.total);
+                // console.log("loading world map, recieved", event.loaded, "bytes of", event.total);
                 return event;
             });
         }
@@ -40,37 +38,29 @@ class WorldPage {
         onPageChanged();
         
         this.colors = {
+            blue: ["#004085", "#005dc2", "#007bff", "#7abaff", "#cce5ff"],
             cyan: ["#117b8c", "#17a2b8", "#86cfda", "#d1ecf1"],
-            gray: ["#666c72", "#868e96", "#c0c4c8", "#e7e8ea"]
+            gray: ["#666c72", "#868e96", "#c0c4c8", "#e7e8ea"],
+            green: ["#155724", "#1e7f34", "#28a745", "#8fd19e", "#d4edda}"],
+            red: ["#721c24", "#a72834", "#dc3545", "#ed969e", "#f8d7da"]
         };
+
+        this.selectedColor = this.colors.gray;
 
         for(let geometry of this.map.objects.world.geometries) {
             geometry.polygons = [];
             for(let arcs of geometry.arcs) {
                 let coordinates = [];
-                this.resolve(arcs, coordinates);
+                this.transform(arcs, coordinates);
                 geometry.polygons.push(coordinates);
             }
 
             geometry.centroids = [];
             for(let polygon of geometry.polygons) {
-                let centroid = this.getPolygonCentroid(polygon.map((point) => {
-                    return { x: point[0], y: point[1] };
-                }));
+                let centroid = this.getPolygonCentroid(polygon);
                 geometry.centroids.push(centroid);
             }
         }
-
-        /*
-        this.shapes = [
-            [[416,288],[480,288],[480,352],[416,352]],
-            [[544,288],[608,288],[608,352],[544,352]],
-            [[480,352],[544,352],[544,416],[480,416]],
-            [[416,416],[480,416],[480,480],[416,480]],
-            [[544,416],[608,416],[608,480],[544,480]],
-            [[678,678],[690,599],[706,643],[544,502]],
-        ];
-        */
 
         this.canvas = document.getElementById("world-map");
         if (this.canvas.getContext) {
@@ -79,11 +69,12 @@ class WorldPage {
         }
         
         this.draw(0);
+        this.onMapCountrySelected({detail: defaultSelectedCountry});
         
         this.removeListener = this.browserEvent.on("map-country-changed", this.onMapCountrySelected.bind(this));
         this.browserEvent.on("click", this.onClick.bind(this));
         this.browserEvent.on("wheel", this.onWheel.bind(this));
-        this.worldMapListener.attach(defaultSelectedCountry);
+        //this.worldMapListener.attach(defaultSelectedCountry);
     }
 
     onClick(e) {
@@ -99,13 +90,11 @@ class WorldPage {
         }
 
         if(e.target && e.target.id === "world-map") {
+            let mousePoint = this.toCanvasPoint(e);
             for(let geometry of this.map.objects.world.geometries) {
                 for(let polygon of geometry.polygons) {
-                    // TODO: offset [e.clientX, e.clientY] to canvas
-                    let result = classifyPoint(polygon, [e.clientX, e.clientY]);
-                    if(result === -1) {
-                        //console.log(geometry.i, e.clientX, e.clientY, polygon);
-                        this.onMapCountrySelected({ detail: geometry.i });
+                    if(this.isInside(mousePoint, polygon)) {
+                        this.browserEvent.emit("map-country-changed", geometry.i);
                     }
                 }
             }
@@ -121,10 +110,10 @@ class WorldPage {
         }
     }
 
-    resolve(arcs, coordinates) {
+    transform(arcs, coordinates) {
         for(let item of arcs) {
             if(Array.isArray(item)) {
-                this.resolve(item, coordinates);
+                this.transform(item, coordinates);
             }
             else {
                 let buffer;
@@ -140,24 +129,48 @@ class WorldPage {
         }
     }
 
-    getPolygonCentroid(polygon) {
-        let first = polygon[0], last = polygon[polygon.length - 1];
-        if (first.x !== last.x || first.y !== last.y) {
-            polygon.push(first);
+    arcToCoordinates(topology, arc) {
+        let x = 0, y = 0;
+        return arc.map(function(point) {
+            return [
+                (x += point[0]) * topology.transform.scale[0] + topology.transform.translate[0],
+                (y += point[1]) * topology.transform.scale[1] + topology.transform.translate[1]
+            ];
+        });
+    }
+
+    toCanvasPoint(e) {
+        // TODO: adjust to zoom level
+        let rect = this.canvas.getBoundingClientRect();
+        let scaleX = this.canvas.width / rect.width;
+        let scaleY = this.canvas.height / rect.height;
+        return [(e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY];
+    }
+
+    getPolygonCentroid(polygon){
+        let xmin, xmax, ymin, ymax;
+        for(let point of polygon){
+            xmin = (point[0] < xmin || xmin === undefined) ? point[0] : xmin;
+            xmax = (point[0] > xmax || xmax === undefined) ? point[0] : xmax;
+            ymin = (point[1] < ymin || ymin === undefined) ? point[1] : ymin;
+            ymax = (point[1] > ymax || ymax === undefined) ? point[1] : ymax;
         }
-        let twicearea = 0,
-            x = 0, y = 0,
-            nPts = polygon.length,
-            p1, p2, f;
-        for (let i = 0, j = nPts - 1; i < nPts; j = i++ ) {
-            p1 = polygon[i]; p2 = polygon[j];
-            f = p1.x * p2.y - p2.x * p1.y;
-            twicearea += f;          
-            x += (p1.x + p2.x) * f;
-            y += (p1.y + p2.y) * f;
+        return [(xmin + xmax) / 2, (ymin + ymax) / 2];
+    }
+
+    isInside(point, polygon) {
+        // Ray casting, http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+        let inside = false;
+        for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+            let xi = polygon[i][0];
+            let yi = polygon[i][1];
+            let xj = polygon[j][0];
+            let yj = polygon[j][1];
+            if (((yi > point[1]) !== (yj > point[1])) && (point[0] < (xj - xi) * (point[1] - yi) / (yj - yi) + xi)) {
+                inside = !inside;
+            }
         }
-        f = twicearea * 3;
-        return { x:x / f, y:y / f };
+        return inside;
     }
     
     draw(step) {
@@ -182,35 +195,25 @@ class WorldPage {
                             this.context.lineTo(x, y);
                         }
                     }
-                    this.context.fillStyle = this.colors.cyan[geometry.c];
+                    this.context.fillStyle = this.selectedColor[geometry.c];
                     this.context.fill();
                 }
             }
 
-            if(this.scale >= 6) {
+            if(this.scale >= 4) {
                 for(let geometry of this.map.objects.world.geometries) {
                     this.context.fillStyle = "#000";
                     this.context.font = "28px 'Montserrat', sans-serif";
                     this.context.textAlign = "center";
                     for(let centroid of geometry.centroids) {
-                        if(centroid.x && centroid.y) {
+                        if(centroid[0] && centroid[1]) {
                             let name = this.getCountryNameTemp(geometry.i);
-                            this.context.fillText(name, (centroid.x * this.scale) - offsetX, (centroid.y * this.scale) - offsetY);
+                            this.context.fillText(name, (centroid[0] * this.scale) - offsetX, (centroid[1] * this.scale) - offsetY);
                         }
                     }
                 }
             }
         }
-    }
-
-    arcToCoordinates(topology, arc) {
-        let x = 0, y = 0;
-        return arc.map(function(point) {
-            return [
-                (x += point[0]) * topology.transform.scale[0] + topology.transform.translate[0],
-                (y += point[1]) * topology.transform.scale[1] + topology.transform.translate[1]
-            ];
-        });
     }
     
     onMapCountrySelected(e) {

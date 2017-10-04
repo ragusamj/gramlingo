@@ -1,18 +1,11 @@
-let fs = require("fs");
-let mapshaper = require("mapshaper");
+const d3GeoProjection = require("d3-geo-projection");
+const shapefile = require("shapefile");
 
-let root = "naturalearth/ne_50m_admin_0_countries/ne_50m_admin_0_countries";
+const shp = __dirname + "/naturalearth/ne_50m_admin_0_countries/ne_50m_admin_0_countries.shp";
 
-let input = {
-    "countries.dbf": fs.readFileSync(root + ".dbf"),
-    "countries.prj": fs.readFileSync(root + ".prj"),
-    "countries.shp": fs.readFileSync(root + ".shp")
-};
-
-function getCountries(data) {
+function getCountries(geojson) {
 
     let countries = {};
-    let geojson = JSON.parse(data);
 
     geojson.features.forEach(function(feature) {
 
@@ -144,7 +137,7 @@ function interpolate(polygon) {
 function offsetToGrid(point, bounds, scale) {
     return {
         x: Math.floor((((bounds.xmin) - point.xoriginal) / scale) * -1),
-        y: Math.floor((bounds.ymax - point.yorignal) / scale)
+        y: Math.floor(((bounds.ymax - point.yorignal - 512) / scale) * -1)
     };
 }
 
@@ -289,11 +282,12 @@ function draw(map) {
     return svg + "</svg>";
 }
 
-mapshaper.applyCommands("-i countries.shp -proj robin -o format=geojson", input, function(error, output) {
-    if(error) {
-        throw new Error(error);
-    }
-    let map = createMap(output["countries.json"], 128);
-    let svg = draw(map);
-    process.stdout.write(svg);
-});
+shapefile
+    .read(shp)
+    .then((geojson) => {
+        let projected = d3GeoProjection.geoProject(geojson, d3GeoProjection.geoRobinson());
+        let map = createMap(projected, 256);
+        let svg = draw(map);
+        process.stdout.write(svg);
+    })
+    .catch(error => process.stderr.write(error.stack));

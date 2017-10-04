@@ -1,9 +1,14 @@
 import dom from "jsdom-sandbox";
+import sinon from "sinon";
 import test from "tape";
+import BrowserEvent from "./browser-event";
 import I18n from "./i18n";
 
-let setup = () => {
-    let i18n = new I18n();
+const browserEvent = new BrowserEvent();
+sinon.spy(browserEvent, "emit");
+
+const setup = () => {
+    let i18n = new I18n(browserEvent);
     i18n.addTranslation("en-US", { "translation-key": "english translation" });
     i18n.addTranslation("es-ES", { "translation-key": "spanish translation" });
     return i18n;
@@ -16,6 +21,17 @@ test("I18n should set language", (t) => {
 
         let element = document.getElementById("test-element");
         t.equal(element.innerHTML, "spanish translation");
+
+        t.end();
+    });
+});
+
+test("I18n should set language and emit the event 'dom-content-changed'", (t) => {
+    dom.sandbox("<span id='test-element' data-translate='translation-key'></span>", {}, () => {
+        let i18n = setup();
+        i18n.setLanguage("es-ES");
+
+        t.deepEqual(browserEvent.emit.firstCall.args, ["dom-content-changed"]);
 
         t.end();
     });

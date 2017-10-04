@@ -10,7 +10,8 @@ const languageMap = {
 
 class I18n {
 
-    constructor() {
+    constructor(browserEvent) {
+        this.browserEvent = browserEvent;
         this.translationsMap = {};
         this.currentLanguage = localStorage.getItem("language") || this.getUserLanguage();
     }
@@ -23,6 +24,7 @@ class I18n {
         this.currentLanguage = language;
         localStorage.setItem("language", language);
         this.translateApplication();
+        this.browserEvent.emit("dom-content-changed");
     }
 
     translate(element, attribute, selector) {

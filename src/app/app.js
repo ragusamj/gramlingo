@@ -43,7 +43,7 @@ import WorldPage from "./pages/world/world-page";
 
 const browserEvent = new BrowserEvent();
 const http = new Http();
-const i18n = new I18n();
+const i18n = new I18n(browserEvent);
 const fieldGenerator = new FieldGenerator();
 
 class App {

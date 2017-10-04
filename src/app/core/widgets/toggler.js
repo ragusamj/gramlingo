@@ -1,24 +1,12 @@
 import debounce from "lodash.debounce";
 
-const resizeDelay = 500;
+const resizeDelay = 100;
 
 class Toggler {
 
     constructor(browserEvent) {
         this.browserEvent = browserEvent;
-
-        this.debouncedResize = debounce(() => {
-            for(let key of Object.keys(this.togglers)) {
-                let item = this.togglers[key];
-                if(item.expandArea) {
-                    item.expandArea.style.height = "";
-                    clearTimeout(item.timeoutId);
-                    item.timeoutId = setTimeout(() => {
-                        this.update(item);
-                    }, resizeDelay);
-                }
-            }
-        }, resizeDelay);
+        this.debouncedResize = debounce(this.onResize.bind(this), resizeDelay);
 
         this.browserEvent.on("click", this.onClick.bind(this));
         this.browserEvent.on("resize", this.debouncedResize);
@@ -30,6 +18,15 @@ class Toggler {
         if(e.target.hasAttribute("data-toggler")) {
             let id = e.target.getAttribute("data-toggler");
             this.toggle(this.togglers[id]);
+        }
+    }
+
+    onResize() {
+        for(let key of Object.keys(this.togglers)) {
+            let item = this.togglers[key];
+            if(item.expandArea) {
+                this.update(item);
+            }
         }
     }
 
@@ -73,7 +70,7 @@ class Toggler {
         }
         if(item.expandArea) {
             if(item.state === "on") {
-                item.expandArea.style.height = item.expandArea.scrollHeight + "px";
+                item.expandArea.style.height = this.getHeight(item.expandArea) + "px";
             }
             if (item.state === "off") {
                 item.expandArea.style.height = "";
@@ -98,6 +95,13 @@ class Toggler {
         };
         this.togglers[id] = item;
         return item;
+    }
+
+    getHeight(element) {
+        let range = document.createRange();
+        range.selectNodeContents(element);
+        let clientRect = range.getBoundingClientRect();
+        return clientRect.bottom - clientRect.top;
     }
 }
 

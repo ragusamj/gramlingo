@@ -1,3 +1,5 @@
+import classifyPoint from "robust-point-in-polygon";
+
 const defaultSelectedCountry = "SE";
 
 class WorldPage {
@@ -49,6 +51,14 @@ class WorldPage {
                 this.resolve(arcs, coordinates);
                 geometry.polygons.push(coordinates);
             }
+
+            geometry.centroids = [];
+            for(let polygon of geometry.polygons) {
+                let centroid = this.getPolygonCentroid(polygon.map((point) => {
+                    return { x: point[0], y: point[1] };
+                }));
+                geometry.centroids.push(centroid);
+            }
         }
 
         /*
@@ -87,6 +97,19 @@ class WorldPage {
                 }
             });
         }
+
+        if(e.target && e.target.id === "world-map") {
+            for(let geometry of this.map.objects.world.geometries) {
+                for(let polygon of geometry.polygons) {
+                    // TODO: offset [e.clientX, e.clientY] to canvas
+                    let result = classifyPoint(polygon, [e.clientX, e.clientY]);
+                    if(result === -1) {
+                        //console.log(geometry.i, e.clientX, e.clientY, polygon);
+                        this.onMapCountrySelected({ detail: geometry.i });
+                    }
+                }
+            }
+        }
     }
     
     onWheel(e) {
@@ -116,6 +139,26 @@ class WorldPage {
             }
         }
     }
+
+    getPolygonCentroid(polygon) {
+        let first = polygon[0], last = polygon[polygon.length - 1];
+        if (first.x !== last.x || first.y !== last.y) {
+            polygon.push(first);
+        }
+        let twicearea = 0,
+            x = 0, y = 0,
+            nPts = polygon.length,
+            p1, p2, f;
+        for (let i = 0, j = nPts - 1; i < nPts; j = i++ ) {
+            p1 = polygon[i]; p2 = polygon[j];
+            f = p1.x * p2.y - p2.x * p1.y;
+            twicearea += f;          
+            x += (p1.x + p2.x) * f;
+            y += (p1.y + p2.y) * f;
+        }
+        f = twicearea * 3;
+        return { x:x / f, y:y / f };
+    }
     
     draw(step) {
         if(this.context) {
@@ -141,46 +184,22 @@ class WorldPage {
                     }
                     this.context.fillStyle = this.colors.cyan[geometry.c];
                     this.context.fill();
-                //this.context.strokeStyle = "#000";
-                //this.context.stroke();
                 }
             }
 
-            /*
-
-            this.context.beginPath();
-            this.context.moveTo(this.canvas.width / 2, 0);
-            this.context.lineTo(this.canvas.width / 2, this.canvas.height);
-            this.context.strokeStyle = "red";
-            this.context.stroke();
-
-            this.context.beginPath();
-            this.context.moveTo(0, this.canvas.height / 2);
-            this.context.lineTo(this.canvas.width, this.canvas.height / 2);
-            this.context.strokeStyle = "red";
-            this.context.stroke();
-
-            let offsetX = ((this.canvas.width * this.scale) - this.canvas.width) / 2;
-            let offsetY = ((this.canvas.height * this.scale) - this.canvas.height) / 2;
-                
-            for(let shape of this.shapes) {
-                this.context.beginPath();
-                for(let i = 0; i < shape.length; i++) {
-                    let x = (shape[i][0] * this.scale) - offsetX;
-                    let y = (shape[i][1] * this.scale) - offsetY;
-                    if(i === 0) {
-                        this.context.moveTo(x, y);
-                    }
-                    else {
-                        this.context.lineTo(x, y);
+            if(this.scale >= 6) {
+                for(let geometry of this.map.objects.world.geometries) {
+                    this.context.fillStyle = "#000";
+                    this.context.font = "28px 'Montserrat', sans-serif";
+                    this.context.textAlign = "center";
+                    for(let centroid of geometry.centroids) {
+                        if(centroid.x && centroid.y) {
+                            let name = this.getCountryNameTemp(geometry.i);
+                            this.context.fillText(name, (centroid.x * this.scale) - offsetX, (centroid.y * this.scale) - offsetY);
+                        }
                     }
                 }
-                this.context.closePath();
-                this.context.fillStyle = "#17a2b8";
-                this.context.strokeStyle = "black";
-                this.context.stroke();
-                this.context.fill();
-            }*/
+            }
         }
     }
 

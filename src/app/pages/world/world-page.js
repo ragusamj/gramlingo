@@ -1,3 +1,6 @@
+import Polygon from "./canvas/polygon";
+import Topojson from "./canvas/topojson";
+
 const defaultSelectedCountry = "SE";
 
 class WorldPage {
@@ -20,12 +23,12 @@ class WorldPage {
     }
 
     loadMap(callback) {
-        if(this.map) {
+        if(this.topology) {
             callback();
         }
         else {
             this.http.getJSON("/data/world-map.json", (data) => {
-                this.map = data;
+                this.topology = data;
                 callback();
             }, (event) => {
                 // console.log("loading world map, recieved", event.loaded, "bytes of", event.total);
@@ -45,19 +48,19 @@ class WorldPage {
             red: ["#721c24", "#a72834", "#dc3545", "#ed969e", "#f8d7da"]
         };
 
-        this.selectedColor = this.colors.gray;
+        this.selectedColor = this.colors.cyan;
 
-        for(let geometry of this.map.objects.world.geometries) {
+        for(let geometry of this.topology.objects.world.geometries) {
             geometry.polygons = [];
             for(let arcs of geometry.arcs) {
                 let coordinates = [];
-                this.transform(arcs, coordinates);
+                Topojson.transform(this.topology, arcs, coordinates);
                 geometry.polygons.push(coordinates);
             }
 
             geometry.centroids = [];
             for(let polygon of geometry.polygons) {
-                let centroid = this.getPolygonCentroid(polygon);
+                let centroid = Polygon.centroid(polygon);
                 geometry.centroids.push(centroid);
             }
         }
@@ -91,10 +94,11 @@ class WorldPage {
 
         if(e.target && e.target.id === "world-map") {
             let mousePoint = this.toCanvasPoint(e);
-            for(let geometry of this.map.objects.world.geometries) {
+            for(let geometry of this.topology.objects.world.geometries) {
                 for(let polygon of geometry.polygons) {
-                    if(this.isInside(mousePoint, polygon)) {
+                    if(Polygon.inside(mousePoint, polygon)) {
                         this.browserEvent.emit("map-country-changed", geometry.i);
+                        return;
                     }
                 }
             }
@@ -110,67 +114,12 @@ class WorldPage {
         }
     }
 
-    transform(arcs, coordinates) {
-        for(let item of arcs) {
-            if(Array.isArray(item)) {
-                this.transform(item, coordinates);
-            }
-            else {
-                let buffer;
-                if(item < 0) {
-                    buffer = this.arcToCoordinates(this.map, this.map.arcs[~item]);
-                    buffer.reverse();
-                }
-                else {
-                    buffer = this.arcToCoordinates(this.map, this.map.arcs[item]);
-                }
-                coordinates.push(...buffer);
-            }
-        }
-    }
-
-    arcToCoordinates(topology, arc) {
-        let x = 0, y = 0;
-        return arc.map(function(point) {
-            return [
-                (x += point[0]) * topology.transform.scale[0] + topology.transform.translate[0],
-                (y += point[1]) * topology.transform.scale[1] + topology.transform.translate[1]
-            ];
-        });
-    }
-
     toCanvasPoint(e) {
         // TODO: adjust to zoom level
         let rect = this.canvas.getBoundingClientRect();
         let scaleX = this.canvas.width / rect.width;
         let scaleY = this.canvas.height / rect.height;
         return [(e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY];
-    }
-
-    getPolygonCentroid(polygon){
-        let xmin, xmax, ymin, ymax;
-        for(let point of polygon){
-            xmin = (point[0] < xmin || xmin === undefined) ? point[0] : xmin;
-            xmax = (point[0] > xmax || xmax === undefined) ? point[0] : xmax;
-            ymin = (point[1] < ymin || ymin === undefined) ? point[1] : ymin;
-            ymax = (point[1] > ymax || ymax === undefined) ? point[1] : ymax;
-        }
-        return [(xmin + xmax) / 2, (ymin + ymax) / 2];
-    }
-
-    isInside(point, polygon) {
-        // Ray casting, http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
-        let inside = false;
-        for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-            let xi = polygon[i][0];
-            let yi = polygon[i][1];
-            let xj = polygon[j][0];
-            let yj = polygon[j][1];
-            if (((yi > point[1]) !== (yj > point[1])) && (point[0] < (xj - xi) * (point[1] - yi) / (yj - yi) + xi)) {
-                inside = !inside;
-            }
-        }
-        return inside;
     }
     
     draw(step) {
@@ -182,7 +131,7 @@ class WorldPage {
             let offsetX = ((this.canvas.width * this.scale) - this.canvas.width) / 2;
             let offsetY = ((this.canvas.height * this.scale) - this.canvas.height) / 2;
 
-            for(let geometry of this.map.objects.world.geometries) {
+            for(let geometry of this.topology.objects.world.geometries) {
                 for(let polygon of geometry.polygons) {
                     this.context.beginPath();
                     for(let i = 0; i < polygon.length; i++) {
@@ -201,7 +150,7 @@ class WorldPage {
             }
 
             if(this.scale >= 4) {
-                for(let geometry of this.map.objects.world.geometries) {
+                for(let geometry of this.topology.objects.world.geometries) {
                     this.context.fillStyle = "#000";
                     this.context.font = "28px 'Montserrat', sans-serif";
                     this.context.textAlign = "center";

@@ -1,4 +1,4 @@
-class Polygon {
+class Shape {
 
     static centroid(polygon){
         let xmin, xmax, ymin, ymax;
@@ -27,4 +27,4 @@ class Polygon {
     }
 }
 
-export default Polygon;
+export default Shape;

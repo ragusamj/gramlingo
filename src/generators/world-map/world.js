@@ -21,10 +21,11 @@ shapefile
         let quantized = topojson.quantize(simplified, transform);
 
         for(let geometry of quantized.objects.world.geometries) {
-            geometry.i = geometry.properties.iso_a2;
-            geometry.c = colors[geometry.i];
-            delete geometry.properties;
-            delete geometry.type;
+            let iso = geometry.properties.iso_a2;
+            geometry.properties = {
+                iso: iso,
+                colorIndex: colors[iso] 
+            };
         }
 
         process.stdout.write(JSON.stringify(quantized, null, 2) + "\n");

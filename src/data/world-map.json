@@ -21,6 +21,7 @@
       "type": "GeometryCollection",
       "geometries": [
         {
+          "type": "Polygon",
           "arcs": [
             [
               0,
@@ -31,10 +32,13 @@
               5
             ]
           ],
-          "i": "AF",
-          "c": 3
+          "properties": {
+            "iso": "AF",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -53,10 +57,13 @@
               ]
             ]
           ],
-          "i": "AO",
-          "c": 2
+          "properties": {
+            "iso": "AO",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               14,
@@ -66,10 +73,13 @@
               18
             ]
           ],
-          "i": "AL",
-          "c": 0
+          "properties": {
+            "iso": "AL",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               19,
@@ -81,10 +91,13 @@
               -20
             ]
           ],
-          "i": "AE",
-          "c": 1
+          "properties": {
+            "iso": "AE",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -103,10 +116,13 @@
               ]
             ]
           ],
-          "i": "AR",
-          "c": 0
+          "properties": {
+            "iso": "AR",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               33,
@@ -116,10 +132,13 @@
               37
             ]
           ],
-          "i": "AM",
-          "c": 3
+          "properties": {
+            "iso": "AM",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -162,19 +181,25 @@
               ]
             ]
           ],
-          "i": "AQ",
-          "c": 3
+          "properties": {
+            "iso": "AQ",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               46
             ]
           ],
-          "i": "TF",
-          "c": 2
+          "properties": {
+            "iso": "TF",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -187,10 +212,13 @@
               ]
             ]
           ],
-          "i": "AU",
-          "c": 2
+          "properties": {
+            "iso": "AU",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               49,
@@ -202,10 +230,13 @@
               55
             ]
           ],
-          "i": "AT",
-          "c": 0
+          "properties": {
+            "iso": "AT",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -223,10 +254,13 @@
               ]
             ]
           ],
-          "i": "AZ",
-          "c": 1
+          "properties": {
+            "iso": "AZ",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               61,
@@ -234,10 +268,13 @@
               63
             ]
           ],
-          "i": "BI",
-          "c": 3
+          "properties": {
+            "iso": "BI",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               64,
@@ -247,10 +284,13 @@
               68
             ]
           ],
-          "i": "BE",
-          "c": 1
+          "properties": {
+            "iso": "BE",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               69,
@@ -260,10 +300,13 @@
               73
             ]
           ],
-          "i": "BJ",
-          "c": 1
+          "properties": {
+            "iso": "BJ",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               74,
@@ -274,10 +317,13 @@
               78
             ]
           ],
-          "i": "BF",
-          "c": 3
+          "properties": {
+            "iso": "BF",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               79,
@@ -285,10 +331,13 @@
               81
             ]
           ],
-          "i": "BD",
-          "c": 1
+          "properties": {
+            "iso": "BD",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               82,
@@ -299,10 +348,13 @@
               87
             ]
           ],
-          "i": "BG",
-          "c": 0
+          "properties": {
+            "iso": "BG",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -320,10 +372,13 @@
               ]
             ]
           ],
-          "i": "BS",
-          "c": 1
+          "properties": {
+            "iso": "BS",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               91,
@@ -331,10 +386,13 @@
               93
             ]
           ],
-          "i": "BA",
-          "c": 3
+          "properties": {
+            "iso": "BA",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               94,
@@ -344,10 +402,13 @@
               98
             ]
           ],
-          "i": "BY",
-          "c": 3
+          "properties": {
+            "iso": "BY",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               99,
@@ -355,10 +416,13 @@
               101
             ]
           ],
-          "i": "BZ",
-          "c": 1
+          "properties": {
+            "iso": "BZ",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               102,
@@ -368,10 +432,13 @@
               -33
             ]
           ],
-          "i": "BO",
-          "c": 3
+          "properties": {
+            "iso": "BO",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -29,
@@ -387,30 +454,39 @@
               114
             ]
           ],
-          "i": "BR",
-          "c": 2
+          "properties": {
+            "iso": "BR",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               115,
               116
             ]
           ],
-          "i": "BN",
-          "c": 0
+          "properties": {
+            "iso": "BN",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               117,
               118
             ]
           ],
-          "i": "BT",
-          "c": 3
+          "properties": {
+            "iso": "BT",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               119,
@@ -419,10 +495,13 @@
               122
             ]
           ],
-          "i": "BW",
-          "c": 0
+          "properties": {
+            "iso": "BW",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               123,
@@ -433,10 +512,13 @@
               128
             ]
           ],
-          "i": "CF",
-          "c": 2
+          "properties": {
+            "iso": "CF",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -592,10 +674,13 @@
               ]
             ]
           ],
-          "i": "CA",
-          "c": 1
+          "properties": {
+            "iso": "CA",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -53,
@@ -604,10 +689,13 @@
               164
             ]
           ],
-          "i": "CH",
-          "c": 1
+          "properties": {
+            "iso": "CH",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -624,10 +712,13 @@
               ]
             ]
           ],
-          "i": "CL",
-          "c": 2
+          "properties": {
+            "iso": "CL",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -657,10 +748,13 @@
               ]
             ]
           ],
-          "i": "CN",
-          "c": 1
+          "properties": {
+            "iso": "CN",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               185,
@@ -671,10 +765,13 @@
               189
             ]
           ],
-          "i": "CI",
-          "c": 2
+          "properties": {
+            "iso": "CI",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               190,
@@ -687,10 +784,13 @@
               196
             ]
           ],
-          "i": "CM",
-          "c": 0
+          "properties": {
+            "iso": "CM",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               197,
@@ -707,10 +807,13 @@
               204
             ]
           ],
-          "i": "CD",
-          "c": 0
+          "properties": {
+            "iso": "CD",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -13,
@@ -721,10 +824,13 @@
               -204
             ]
           ],
-          "i": "CG",
-          "c": 1
+          "properties": {
+            "iso": "CG",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               207,
@@ -736,10 +842,13 @@
               212
             ]
           ],
-          "i": "CO",
-          "c": 0
+          "properties": {
+            "iso": "CO",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               213,
@@ -748,19 +857,25 @@
               216
             ]
           ],
-          "i": "CR",
-          "c": 2
+          "properties": {
+            "iso": "CR",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               217
             ]
           ],
-          "i": "CU",
-          "c": 2
+          "properties": {
+            "iso": "CU",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               218,
@@ -770,9 +885,12 @@
               222
             ]
           ],
-          "i": "-99"
+          "properties": {
+            "iso": "-99"
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               219,
@@ -783,10 +901,13 @@
               -220
             ]
           ],
-          "i": "CY",
-          "c": 2
+          "properties": {
+            "iso": "CY",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -55,
@@ -795,10 +916,13 @@
               226
             ]
           ],
-          "i": "CZ",
-          "c": 3
+          "properties": {
+            "iso": "CZ",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               227,
@@ -814,10 +938,13 @@
               233
             ]
           ],
-          "i": "DE",
-          "c": 2
+          "properties": {
+            "iso": "DE",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               234,
@@ -826,10 +953,13 @@
               237
             ]
           ],
-          "i": "DJ",
-          "c": 0
+          "properties": {
+            "iso": "DJ",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -843,20 +973,26 @@
               ]
             ]
           ],
-          "i": "DK",
-          "c": 1
+          "properties": {
+            "iso": "DK",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               240,
               241
             ]
           ],
-          "i": "DO",
-          "c": 2
+          "properties": {
+            "iso": "DO",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               242,
@@ -869,10 +1005,13 @@
               249
             ]
           ],
-          "i": "DZ",
-          "c": 2
+          "properties": {
+            "iso": "DZ",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               250,
@@ -880,10 +1019,13 @@
               251
             ]
           ],
-          "i": "EC",
-          "c": 2
+          "properties": {
+            "iso": "EC",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               252,
@@ -893,10 +1035,13 @@
               256
             ]
           ],
-          "i": "EG",
-          "c": 2
+          "properties": {
+            "iso": "EG",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               257,
@@ -905,10 +1050,13 @@
               -238
             ]
           ],
-          "i": "ER",
-          "c": 1
+          "properties": {
+            "iso": "ER",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               260,
@@ -917,10 +1065,13 @@
               263
             ]
           ],
-          "i": "ES",
-          "c": 2
+          "properties": {
+            "iso": "ES",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               264,
@@ -928,10 +1079,13 @@
               266
             ]
           ],
-          "i": "EE",
-          "c": 1
+          "properties": {
+            "iso": "EE",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -237,
@@ -944,10 +1098,13 @@
               -258
             ]
           ],
-          "i": "ET",
-          "c": 2
+          "properties": {
+            "iso": "ET",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               273,
@@ -956,10 +1113,13 @@
               276
             ]
           ],
-          "i": "FI",
-          "c": 1
+          "properties": {
+            "iso": "FI",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -985,19 +1145,25 @@
               ]
             ]
           ],
-          "i": "FJ",
-          "c": 2
+          "properties": {
+            "iso": "FJ",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               282
             ]
           ],
-          "i": "FK",
-          "c": 1
+          "properties": {
+            "iso": "FK",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -1024,10 +1190,13 @@
               ]
             ]
           ],
-          "i": "FR",
-          "c": 0
+          "properties": {
+            "iso": "FR",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               290,
@@ -1036,10 +1205,13 @@
               -207
             ]
           ],
-          "i": "GA",
-          "c": 2
+          "properties": {
+            "iso": "GA",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -1053,10 +1225,13 @@
               ]
             ]
           ],
-          "i": "GB",
-          "c": 2
+          "properties": {
+            "iso": "GB",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               295,
@@ -1066,10 +1241,13 @@
               297
             ]
           ],
-          "i": "GE",
-          "c": 0
+          "properties": {
+            "iso": "GE",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               298,
@@ -1078,10 +1256,13 @@
               299
             ]
           ],
-          "i": "GH",
-          "c": 1
+          "properties": {
+            "iso": "GH",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               300,
@@ -1093,20 +1274,26 @@
               -188
             ]
           ],
-          "i": "GN",
-          "c": 0
+          "properties": {
+            "iso": "GN",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               306,
               307
             ]
           ],
-          "i": "GM",
-          "c": 0
+          "properties": {
+            "iso": "GM",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               308,
@@ -1114,10 +1301,13 @@
               -304
             ]
           ],
-          "i": "GW",
-          "c": 1
+          "properties": {
+            "iso": "GW",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               310,
@@ -1125,10 +1315,13 @@
               -292
             ]
           ],
-          "i": "GQ",
-          "c": 1
+          "properties": {
+            "iso": "GQ",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -1145,19 +1338,25 @@
               ]
             ]
           ],
-          "i": "GR",
-          "c": 2
+          "properties": {
+            "iso": "GR",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               315
             ]
           ],
-          "i": "GL",
-          "c": 2
+          "properties": {
+            "iso": "GL",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               316,
@@ -1168,10 +1367,13 @@
               320
             ]
           ],
-          "i": "GT",
-          "c": 0
+          "properties": {
+            "iso": "GT",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               321,
@@ -1180,10 +1382,13 @@
               323
             ]
           ],
-          "i": "GY",
-          "c": 0
+          "properties": {
+            "iso": "GY",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               324,
@@ -1193,10 +1398,13 @@
               327
             ]
           ],
-          "i": "HN",
-          "c": 2
+          "properties": {
+            "iso": "HN",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               328,
@@ -1207,20 +1415,26 @@
               332
             ]
           ],
-          "i": "HR",
-          "c": 0
+          "properties": {
+            "iso": "HR",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -242,
               333
             ]
           ],
-          "i": "HT",
-          "c": 0
+          "properties": {
+            "iso": "HT",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -50,
@@ -1232,10 +1446,13 @@
               338
             ]
           ],
-          "i": "HU",
-          "c": 3
+          "properties": {
+            "iso": "HU",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -1306,10 +1523,13 @@
               ]
             ]
           ],
-          "i": "ID",
-          "c": 1
+          "properties": {
+            "iso": "ID",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -178,
@@ -1323,20 +1543,26 @@
               358
             ]
           ],
-          "i": "IN",
-          "c": 0
+          "properties": {
+            "iso": "IN",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               359,
               -293
             ]
           ],
-          "i": "IE",
-          "c": 1
+          "properties": {
+            "iso": "IE",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               360,
@@ -1351,10 +1577,13 @@
               365
             ]
           ],
-          "i": "IR",
-          "c": 0
+          "properties": {
+            "iso": "IR",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               366,
@@ -1366,19 +1595,25 @@
               -364
             ]
           ],
-          "i": "IQ",
-          "c": 3
+          "properties": {
+            "iso": "IQ",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               372
             ]
           ],
-          "i": "IS",
-          "c": 1
+          "properties": {
+            "iso": "IS",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               373,
@@ -1390,10 +1625,13 @@
               378
             ]
           ],
-          "i": "IL",
-          "c": 0
+          "properties": {
+            "iso": "IL",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -1415,19 +1653,25 @@
               ]
             ]
           ],
-          "i": "IT",
-          "c": 2
+          "properties": {
+            "iso": "IT",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               383
             ]
           ],
-          "i": "JM",
-          "c": 1
+          "properties": {
+            "iso": "JM",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -374,
@@ -1439,10 +1683,13 @@
               387
             ]
           ],
-          "i": "JO",
-          "c": 1
+          "properties": {
+            "iso": "JO",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -1460,10 +1707,13 @@
               ]
             ]
           ],
-          "i": "JP",
-          "c": 1
+          "properties": {
+            "iso": "JP",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               391,
@@ -1474,10 +1724,13 @@
               395
             ]
           ],
-          "i": "KZ",
-          "c": 0
+          "properties": {
+            "iso": "KZ",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               396,
@@ -1488,10 +1741,13 @@
               400
             ]
           ],
-          "i": "KE",
-          "c": 0
+          "properties": {
+            "iso": "KE",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -396,
@@ -1500,10 +1756,13 @@
               402
             ]
           ],
-          "i": "KG",
-          "c": 3
+          "properties": {
+            "iso": "KG",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               403,
@@ -1512,20 +1771,26 @@
               406
             ]
           ],
-          "i": "KH",
-          "c": 1
+          "properties": {
+            "iso": "KH",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               407,
               408
             ]
           ],
-          "i": "KR",
-          "c": 2
+          "properties": {
+            "iso": "KR",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -19,
@@ -1534,9 +1799,12 @@
               411
             ]
           ],
-          "i": "-99"
+          "properties": {
+            "iso": "-99"
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               412,
@@ -1544,10 +1812,13 @@
               -368
             ]
           ],
-          "i": "KW",
-          "c": 1
+          "properties": {
+            "iso": "KW",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               414,
@@ -1557,10 +1828,13 @@
               -405
             ]
           ],
-          "i": "LA",
-          "c": 3
+          "properties": {
+            "iso": "LA",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -378,
@@ -1568,10 +1842,13 @@
               418
             ]
           ],
-          "i": "LB",
-          "c": 1
+          "properties": {
+            "iso": "LB",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               419,
@@ -1580,10 +1857,13 @@
               -187
             ]
           ],
-          "i": "LR",
-          "c": 1
+          "properties": {
+            "iso": "LR",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               421,
@@ -1595,28 +1875,37 @@
               425
             ]
           ],
-          "i": "LY",
-          "c": 1
+          "properties": {
+            "iso": "LY",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               426
             ]
           ],
-          "i": "LK",
-          "c": 1
+          "properties": {
+            "iso": "LK",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               427
             ]
           ],
-          "i": "LS",
-          "c": 1
+          "properties": {
+            "iso": "LS",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               428,
@@ -1626,10 +1915,13 @@
               431
             ]
           ],
-          "i": "LT",
-          "c": 1
+          "properties": {
+            "iso": "LT",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -231,
@@ -1637,10 +1929,13 @@
               -67
             ]
           ],
-          "i": "LU",
-          "c": 3
+          "properties": {
+            "iso": "LU",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               432,
@@ -1650,10 +1945,13 @@
               -431
             ]
           ],
-          "i": "LV",
-          "c": 0
+          "properties": {
+            "iso": "LV",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -247,
@@ -1661,10 +1959,13 @@
               435
             ]
           ],
-          "i": "MA",
-          "c": 1
+          "properties": {
+            "iso": "MA",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               436,
@@ -1673,19 +1974,25 @@
               439
             ]
           ],
-          "i": "MD",
-          "c": 3
+          "properties": {
+            "iso": "MD",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               440
             ]
           ],
-          "i": "MG",
-          "c": 2
+          "properties": {
+            "iso": "MG",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               441,
@@ -1695,10 +2002,13 @@
               443
             ]
           ],
-          "i": "MX",
-          "c": 2
+          "properties": {
+            "iso": "MX",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -412,
@@ -1708,10 +2018,13 @@
               -15
             ]
           ],
-          "i": "MK",
-          "c": 3
+          "properties": {
+            "iso": "MK",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               445,
@@ -1723,10 +2036,13 @@
               447
             ]
           ],
-          "i": "ML",
-          "c": 1
+          "properties": {
+            "iso": "ML",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               448,
@@ -1737,10 +2053,13 @@
               449
             ]
           ],
-          "i": "MM",
-          "c": 2
+          "properties": {
+            "iso": "MM",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               450,
@@ -1751,20 +2070,26 @@
               -18
             ]
           ],
-          "i": "ME",
-          "c": 2
+          "properties": {
+            "iso": "ME",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               452,
               -184
             ]
           ],
-          "i": "MN",
-          "c": 3
+          "properties": {
+            "iso": "MN",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               453,
@@ -1777,10 +2102,13 @@
               460
             ]
           ],
-          "i": "MZ",
-          "c": 0
+          "properties": {
+            "iso": "MZ",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               461,
@@ -1790,10 +2118,13 @@
               -446
             ]
           ],
-          "i": "MR",
-          "c": 0
+          "properties": {
+            "iso": "MR",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -461,
@@ -1801,10 +2132,13 @@
               465
             ]
           ],
-          "i": "MW",
-          "c": 3
+          "properties": {
+            "iso": "MW",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -1821,10 +2155,13 @@
               ]
             ]
           ],
-          "i": "MY",
-          "c": 2
+          "properties": {
+            "iso": "MY",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               470,
@@ -1834,19 +2171,25 @@
               472
             ]
           ],
-          "i": "NA",
-          "c": 1
+          "properties": {
+            "iso": "NA",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               473
             ]
           ],
-          "i": "NC",
-          "c": 0
+          "properties": {
+            "iso": "NC",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -77,
@@ -1859,10 +2202,13 @@
               -73
             ]
           ],
-          "i": "NE",
-          "c": 0
+          "properties": {
+            "iso": "NE",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               476,
@@ -1871,10 +2217,13 @@
               -194
             ]
           ],
-          "i": "NG",
-          "c": 2
+          "properties": {
+            "iso": "NG",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               477,
@@ -1884,10 +2233,13 @@
               -215
             ]
           ],
-          "i": "NI",
-          "c": 1
+          "properties": {
+            "iso": "NI",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -232,
@@ -1895,10 +2247,13 @@
               480
             ]
           ],
-          "i": "NL",
-          "c": 0
+          "properties": {
+            "iso": "NL",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -1924,20 +2279,26 @@
               ]
             ]
           ],
-          "i": "NO",
-          "c": 0
+          "properties": {
+            "iso": "NO",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -356,
               -177
             ]
           ],
-          "i": "NP",
-          "c": 3
+          "properties": {
+            "iso": "NP",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -1950,10 +2311,13 @@
               ]
             ]
           ],
-          "i": "NZ",
-          "c": 1
+          "properties": {
+            "iso": "NZ",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -1970,10 +2334,13 @@
               ]
             ]
           ],
-          "i": "OM",
-          "c": 0
+          "properties": {
+            "iso": "OM",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -179,
@@ -1983,10 +2350,13 @@
               -5
             ]
           ],
-          "i": "PK",
-          "c": 2
+          "properties": {
+            "iso": "PK",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               494,
@@ -1995,10 +2365,13 @@
               -210
             ]
           ],
-          "i": "PA",
-          "c": 1
+          "properties": {
+            "iso": "PA",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -168,
@@ -2009,10 +2382,13 @@
               -104
             ]
           ],
-          "i": "PE",
-          "c": 1
+          "properties": {
+            "iso": "PE",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -2050,10 +2426,13 @@
               ]
             ]
           ],
-          "i": "PH",
-          "c": 0
+          "properties": {
+            "iso": "PH",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -2077,10 +2456,13 @@
               ]
             ]
           ],
-          "i": "PG",
-          "c": 0
+          "properties": {
+            "iso": "PG",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -229,
@@ -2093,19 +2475,25 @@
               -226
             ]
           ],
-          "i": "PL",
-          "c": 0
+          "properties": {
+            "iso": "PL",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               512
             ]
           ],
-          "i": "PR",
-          "c": 1
+          "properties": {
+            "iso": "PR",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               513,
@@ -2115,20 +2503,26 @@
               -170
             ]
           ],
-          "i": "KP",
-          "c": 0
+          "properties": {
+            "iso": "KP",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -264,
               516
             ]
           ],
-          "i": "PT",
-          "c": 1
+          "properties": {
+            "iso": "PT",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -106,
@@ -2136,30 +2530,39 @@
               -28
             ]
           ],
-          "i": "PY",
-          "c": 1
+          "properties": {
+            "iso": "PY",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -388,
               -375
             ]
           ],
-          "i": "PS",
-          "c": 2
+          "properties": {
+            "iso": "PS",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               517,
               518
             ]
           ],
-          "i": "QA",
-          "c": 0
+          "properties": {
+            "iso": "QA",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               519,
@@ -2171,10 +2574,13 @@
               -337
             ]
           ],
-          "i": "RO",
-          "c": 2
+          "properties": {
+            "iso": "RO",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -2276,10 +2682,13 @@
               ]
             ]
           ],
-          "i": "RU",
-          "c": 2
+          "properties": {
+            "iso": "RU",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               544,
@@ -2288,10 +2697,13 @@
               545
             ]
           ],
-          "i": "RW",
-          "c": 1
+          "properties": {
+            "iso": "RW",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -246,
@@ -2300,10 +2712,13 @@
               -435
             ]
           ],
-          "i": "EH",
-          "c": 3
+          "properties": {
+            "iso": "EH",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               547,
@@ -2319,10 +2734,13 @@
               550
             ]
           ],
-          "i": "SA",
-          "c": 2
+          "properties": {
+            "iso": "SA",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               551,
@@ -2337,10 +2755,13 @@
               -552
             ]
           ],
-          "i": "SD",
-          "c": 0
+          "properties": {
+            "iso": "SD",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               555,
@@ -2353,10 +2774,13 @@
               -552
             ]
           ],
-          "i": "SS",
-          "c": 1
+          "properties": {
+            "iso": "SS",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               557,
@@ -2368,10 +2792,13 @@
               -308
             ]
           ],
-          "i": "SN",
-          "c": 2
+          "properties": {
+            "iso": "SN",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -2399,10 +2826,13 @@
               ]
             ]
           ],
-          "i": "SB",
-          "c": 2
+          "properties": {
+            "iso": "SB",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               564,
@@ -2410,10 +2840,13 @@
               -421
             ]
           ],
-          "i": "SL",
-          "c": 2
+          "properties": {
+            "iso": "SL",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               565,
@@ -2421,10 +2854,13 @@
               -326
             ]
           ],
-          "i": "SV",
-          "c": 1
+          "properties": {
+            "iso": "SV",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -268,
@@ -2433,9 +2869,12 @@
               567
             ]
           ],
-          "i": "-99"
+          "properties": {
+            "iso": "-99"
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -401,
@@ -2444,10 +2883,13 @@
               568
             ]
           ],
-          "i": "SO",
-          "c": 1
+          "properties": {
+            "iso": "SO",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -88,
@@ -2460,10 +2902,13 @@
               -523
             ]
           ],
-          "i": "RS",
-          "c": 1
+          "properties": {
+            "iso": "RS",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               569,
@@ -2472,10 +2917,13 @@
               -323
             ]
           ],
-          "i": "SR",
-          "c": 1
+          "properties": {
+            "iso": "SR",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -512,
@@ -2485,10 +2933,13 @@
               -227
             ]
           ],
-          "i": "SK",
-          "c": 2
+          "properties": {
+            "iso": "SK",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -51,
@@ -2497,10 +2948,13 @@
               -382
             ]
           ],
-          "i": "SI",
-          "c": 1
+          "properties": {
+            "iso": "SI",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -483,
@@ -2508,20 +2962,26 @@
               571
             ]
           ],
-          "i": "SE",
-          "c": 2
+          "properties": {
+            "iso": "SE",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               572,
               -457
             ]
           ],
-          "i": "SZ",
-          "c": 3
+          "properties": {
+            "iso": "SZ",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -385,
@@ -2532,10 +2992,13 @@
               -371
             ]
           ],
-          "i": "SY",
-          "c": 2
+          "properties": {
+            "iso": "SY",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -475,
@@ -2545,10 +3008,13 @@
               -196
             ]
           ],
-          "i": "TD",
-          "c": 3
+          "properties": {
+            "iso": "TD",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               575,
@@ -2557,10 +3023,13 @@
               -71
             ]
           ],
-          "i": "TG",
-          "c": 0
+          "properties": {
+            "iso": "TG",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               576,
@@ -2571,10 +3040,13 @@
               -404
             ]
           ],
-          "i": "TH",
-          "c": 0
+          "properties": {
+            "iso": "TH",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -402,
@@ -2583,10 +3055,13 @@
               578
             ]
           ],
-          "i": "TJ",
-          "c": 0
+          "properties": {
+            "iso": "TJ",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -361,
@@ -2596,29 +3071,38 @@
               -1
             ]
           ],
-          "i": "TM",
-          "c": 1
+          "properties": {
+            "iso": "TM",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               581,
               -341
             ]
           ],
-          "i": "TL",
-          "c": 2
+          "properties": {
+            "iso": "TL",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               582
             ]
           ],
-          "i": "TT",
-          "c": 1
+          "properties": {
+            "iso": "TT",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -249,
@@ -2626,10 +3110,13 @@
               -423
             ]
           ],
-          "i": "TN",
-          "c": 0
+          "properties": {
+            "iso": "TN",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -2649,19 +3136,25 @@
               ]
             ]
           ],
-          "i": "TR",
-          "c": 1
+          "properties": {
+            "iso": "TR",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               586
             ]
           ],
-          "i": "TW",
-          "c": 2
+          "properties": {
+            "iso": "TW",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -398,
@@ -2675,10 +3168,13 @@
               589
             ]
           ],
-          "i": "TZ",
-          "c": 2
+          "properties": {
+            "iso": "TZ",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -546,
@@ -2688,10 +3184,13 @@
               -590
             ]
           ],
-          "i": "UG",
-          "c": 3
+          "properties": {
+            "iso": "UG",
+            "colorIndex": 3
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -539,
@@ -2707,10 +3206,13 @@
               -98
             ]
           ],
-          "i": "UA",
-          "c": 1
+          "properties": {
+            "iso": "UA",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -115,
@@ -2718,10 +3220,13 @@
               -30
             ]
           ],
-          "i": "UY",
-          "c": 1
+          "properties": {
+            "iso": "UY",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -2778,10 +3283,13 @@
               ]
             ]
           ],
-          "i": "US",
-          "c": 0
+          "properties": {
+            "iso": "US",
+            "colorIndex": 0
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -581,
@@ -2791,10 +3299,13 @@
               -2
             ]
           ],
-          "i": "UZ",
-          "c": 2
+          "properties": {
+            "iso": "UZ",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               603,
@@ -2803,10 +3314,13 @@
               -212
             ]
           ],
-          "i": "VE",
-          "c": 1
+          "properties": {
+            "iso": "VE",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               604,
@@ -2815,10 +3329,13 @@
               -172
             ]
           ],
-          "i": "VN",
-          "c": 2
+          "properties": {
+            "iso": "VN",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "MultiPolygon",
           "arcs": [
             [
               [
@@ -2831,10 +3348,13 @@
               ]
             ]
           ],
-          "i": "VU",
-          "c": 1
+          "properties": {
+            "iso": "VU",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               607,
@@ -2842,10 +3362,13 @@
               -490
             ]
           ],
-          "i": "YE",
-          "c": 1
+          "properties": {
+            "iso": "YE",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -473,
@@ -2860,10 +3383,13 @@
               -428
             ]
           ],
-          "i": "ZA",
-          "c": 2
+          "properties": {
+            "iso": "ZA",
+            "colorIndex": 2
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -465,
@@ -2878,10 +3404,13 @@
               -589
             ]
           ],
-          "i": "ZM",
-          "c": 1
+          "properties": {
+            "iso": "ZM",
+            "colorIndex": 1
+          }
         },
         {
+          "type": "Polygon",
           "arcs": [
             [
               -609,
@@ -2890,8 +3419,10 @@
               -459
             ]
           ],
-          "i": "ZW",
-          "c": 3
+          "properties": {
+            "iso": "ZW",
+            "colorIndex": 3
+          }
         }
       ]
     }

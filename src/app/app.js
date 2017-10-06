@@ -37,14 +37,15 @@ import NumeralsSearchEngine from "./pages/numerals/numerals-search-engine";
 import VerbInflater from "./pages/verbs/verb-inflater";
 import VerbPage from "./pages/verbs/verb-page";
 
-import WorldMap from "./pages/world/world-map";
-import WorldMapListener from "./pages/world/world-map-listener";
+import WorldMap from "./pages/world/world-map/world-map";
+import WorldMapListener from "./pages/world/world-map/world-map-listener";
 import WorldPage from "./pages/world/world-page";
 
 const browserEvent = new BrowserEvent();
 const http = new Http();
 const i18n = new I18n(browserEvent);
 const fieldGenerator = new FieldGenerator();
+const worldMap = new WorldMap(browserEvent);
 
 class App {
 
@@ -83,7 +84,7 @@ class App {
             },
             {
                 paths: ["/world", "/world/:part"],
-                page: new WorldPage(browserEvent, http, new WorldMapListener(browserEvent, new WorldMap(browserEvent))),
+                page: new WorldPage(browserEvent, http, worldMap, new WorldMapListener(browserEvent, worldMap)),
                 template: "/app/pages/world/world-page.html"
             },
             {

@@ -21,13 +21,17 @@ class NumeralsPage {
 
     attach(pageTemplate, onPageChanged, parameters) {
         this.type = parameters.type.toLowerCase() || "integers";
-        this.removeClickListener = this.browserEvent.on("click", this.onClick.bind(this));
+        this.removeListeners = [
+            this.browserEvent.on("click", this.onClick.bind(this))
+        ];
         this.searchListener.attach();
         this.applyPageTemplate(pageTemplate, onPageChanged, parameters);
     }
 
     detach() {
-        this.removeClickListener();
+        for(let removeListener of this.removeListeners) {
+            removeListener();
+        }
         this.searchListener.detach();
     }
 

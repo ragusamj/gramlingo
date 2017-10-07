@@ -16,11 +16,16 @@ class VerbPage {
         this.loadVerbs(() => {
             this.loadPage(pageTemplate, onPageChanged, parameters);
         });
+        this.removeListeners = [
+            this.browserEvent.on("search-result-selected", this.onSearchResultSelected.bind(this))
+        ];
         this.searchListener.attach();
     }
 
     detach() {
-        this.removeListener();
+        for(let removeListener of this.removeListeners) {
+            removeListener();
+        }
         this.searchListener.detach();
     }
 
@@ -50,7 +55,6 @@ class VerbPage {
                 this.fields = this.fieldGenerator.build(pageTemplate, this.context);
             }
             onPageChanged();
-            this.removeListener = this.browserEvent.on("search-result-selected", this.onSearchResultSelected.bind(this));
             this.browserEvent.emit("page-searchable-data-updated", this.verbs);
             this.browserEvent.emit("page-field-list-updated", this.fields);
             this.onPageDataChanged(index);

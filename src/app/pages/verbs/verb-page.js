@@ -3,12 +3,13 @@ const defaultVerb = "Ir";
 
 class VerbPage {
 
-    constructor(browserEvent, http, i18n, fieldGenerator, verbInflater, searchListener) {
+    constructor(browserEvent, http, i18n, fieldGenerator, verbInflater, searchEngine, searchListener) {
         this.browserEvent = browserEvent;
         this.http = http;
         this.i18n = i18n;
         this.fieldGenerator = fieldGenerator;
         this.verbInflater = verbInflater;
+        this.searchEngine = searchEngine;
         this.searchListener = searchListener;
     }
 
@@ -55,7 +56,7 @@ class VerbPage {
                 this.fields = this.fieldGenerator.build(pageTemplate, this.context);
             }
             onPageChanged();
-            this.browserEvent.emit("page-searchable-data-updated", this.verbs);
+            this.searchEngine.initialize(this.verbs);
             this.browserEvent.emit("page-field-list-updated", this.fields);
             this.onPageDataChanged(index);
         }

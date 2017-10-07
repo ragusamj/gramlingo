@@ -32,6 +32,10 @@ const verbInflater = {
     inflate: sinon.stub().returns(verbs)
 };
 
+const searchEngine = {
+    initialize: sinon.stub()
+};
+
 const searchListener = {
     attach: sinon.stub(),
     detach: sinon.stub()
@@ -43,7 +47,7 @@ const onPageChanged = sinon.stub();
 const setup = () => {
     browserEvent = new BrowserEvent();
     sinon.spy(browserEvent, "emit");
-    return new VerbPage(browserEvent, http, i18n, fieldGenerator, verbInflater, searchListener);
+    return new VerbPage(browserEvent, http, i18n, fieldGenerator, verbInflater, searchEngine, searchListener);
 };
 
 test("VerbPage should load verb data on first page attach", (t) => {
@@ -108,10 +112,11 @@ test("VerbPage should attach search listener", (t) => {
 test("VerbPage should load page with default verb", (t) => {
     dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
+        searchEngine.initialize.reset();
 
         page.attach(pageTemplate, onPageChanged, {});
 
-        t.deepEqual(browserEvent.emit.firstCall.args, ["page-searchable-data-updated", verbs]);
+        t.deepEqual(searchEngine.initialize.firstCall.args, [verbs]);
         t.end();
     });
 });
@@ -119,10 +124,11 @@ test("VerbPage should load page with default verb", (t) => {
 test("VerbPage should load page with verb from parameter, uppercase", (t) => {
     dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
+        searchEngine.initialize.reset();
 
         page.attach(pageTemplate, onPageChanged, { name: "COMER" });
 
-        t.deepEqual(browserEvent.emit.firstCall.args, ["page-searchable-data-updated", verbs]);
+        t.deepEqual(searchEngine.initialize.firstCall.args, [verbs]);
         t.end();
     });
 });
@@ -130,10 +136,11 @@ test("VerbPage should load page with verb from parameter, uppercase", (t) => {
 test("VerbPage should load page with verb from parameter, lowercase", (t) => {
     dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
+        searchEngine.initialize.reset();
 
-        page.attach(pageTemplate, onPageChanged, { name: "comer" });
+        page.attach(pageTemplate, onPageChanged, {});
 
-        t.deepEqual(browserEvent.emit.firstCall.args, ["page-searchable-data-updated", verbs]);
+        t.deepEqual(searchEngine.initialize.firstCall.args, [verbs]);
         t.end();
     });
 });
@@ -198,24 +205,13 @@ test("VerbPage should cache generated page layout", (t) => {
     });
 });
 
-test("VerbPage should emit event 'page-searchable-data-updated' on page load", (t) => {
-    dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
-        let page = setup();
-
-        page.attach(pageTemplate, onPageChanged, {});
-
-        t.deepEqual(browserEvent.emit.firstCall.args, ["page-searchable-data-updated", verbs]);
-        t.end();
-    });
-});
-
 test("VerbPage should emit event 'page-field-list-updated' on page load", (t) => {
     dom.sandbox("<div id='verb-name'></div><div id='verb-mode'></div>", {}, () => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
 
-        t.deepEqual(browserEvent.emit.secondCall.args, ["page-field-list-updated", fields]);
+        t.deepEqual(browserEvent.emit.firstCall.args, ["page-field-list-updated", fields]);
         t.end();
     });
 });

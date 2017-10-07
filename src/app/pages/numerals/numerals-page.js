@@ -11,11 +11,12 @@ const placeholders = {
 
 class NumeralsPage {
 
-    constructor(browserEvent, i18n, fieldGenerator, numeralsGenerator, searchListener) {
+    constructor(browserEvent, i18n, fieldGenerator, numeralsGenerator, searchEngine, searchListener) {
         this.browserEvent = browserEvent;
         this.i18n = i18n;
         this.fieldGenerator = fieldGenerator;
         this.numeralsGenerator = numeralsGenerator;
+        this.searchEngine = searchEngine;
         this.searchListener = searchListener;
     }
 
@@ -97,7 +98,8 @@ class NumeralsPage {
         this.translateHeader();
         this.translateAskTheMachine();
 
-        this.browserEvent.emit("page-searchable-data-updated", this.type);
+        this.searchEngine.initialize(this.type);
+
         this.browserEvent.emit("page-field-list-updated", this.fields);
         this.browserEvent.emit("page-data-updated", this.context);
     }

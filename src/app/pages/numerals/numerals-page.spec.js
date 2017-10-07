@@ -37,6 +37,10 @@ const numeralsGenerator = {
     randomize: sinon.stub().returns(numerals)
 };
 
+const searchEngine = {
+    initialize: sinon.stub()
+};
+
 const searchListener = {
     attach: sinon.stub(),
     detach: sinon.stub()
@@ -48,7 +52,7 @@ const onPageChanged = sinon.stub();
 const setup = () => {
     browserEvent = new BrowserEvent();
     sinon.spy(browserEvent, "emit");
-    return new NumeralsPage(browserEvent, i18n, fieldGenerator, numeralsGenerator, searchListener);
+    return new NumeralsPage(browserEvent, i18n, fieldGenerator, numeralsGenerator, searchEngine, searchListener);
 };
 
 const setNumerals = (data) => {
@@ -127,14 +131,14 @@ test("NumeralsPage should add field filters for ordinals", (t) => {
     });
 });
 
-test("NumeralsPage should emit the event 'page-searchable-data-updated'", (t) => {
+test("NumeralsPage should initialize searchable type", (t) => {
     dom.sandbox(html, {}, () => {
         let page = setup();
         browserEvent.emit.reset();
 
         page.attach(pageTemplate, onPageChanged, { type: "time" });
 
-        t.deepEqual(browserEvent.emit.firstCall.args, ["page-searchable-data-updated", "time"]);
+        t.deepEqual(searchEngine.initialize.firstCall.args, ["time"]);
         t.end();
     });
 });
@@ -146,7 +150,7 @@ test("NumeralsPage should emit the event 'page-field-list-updated'", (t) => {
 
         page.attach(pageTemplate, onPageChanged, { type: "integers" });
 
-        t.deepEqual(browserEvent.emit.secondCall.args, ["page-field-list-updated", fields]);
+        t.deepEqual(browserEvent.emit.firstCall.args, ["page-field-list-updated", fields]);
         t.end();
     });
 });
@@ -158,7 +162,7 @@ test("NumeralsPage should emit the event 'page-data-updated'", (t) => {
 
         page.attach(pageTemplate, onPageChanged, { type: "fractions" });
 
-        t.deepEqual(browserEvent.emit.thirdCall.args, ["page-data-updated", { numerals: numerals, toggler: "toggle-numerals-data" }]);
+        t.deepEqual(browserEvent.emit.secondCall.args, ["page-data-updated", { numerals: numerals, toggler: "toggle-numerals-data" }]);
         t.end();
     });
 });
@@ -192,17 +196,17 @@ test("NumeralsPage should randomize numbers on the event 'click' from a 'data-nu
     });
 });
 
-test("NumeralsPage should emit the event 'page-searchable-data-updated' on the event 'click' from a 'data-numeral-button' button", (t) => {
+test("NumeralsPage should update searchable type on the event 'click' from a 'data-numeral-button' button", (t) => {
     dom.sandbox(html, {}, () => {
         let page = setup();
         let button = document.querySelector("[data-numeral-button]");
         button.setAttribute("data-numeral-button", "centuries");
 
         page.attach(pageTemplate, onPageChanged, { type: "integers" });
-        browserEvent.emit.reset();
+        searchEngine.initialize.reset();
         button.dispatchEvent(new Event("click"));
 
-        t.deepEqual(browserEvent.emit.firstCall.args, ["page-searchable-data-updated", "centuries"]);
+        t.deepEqual(searchEngine.initialize.firstCall.args, ["centuries"]);
         t.end();
     });
 });
@@ -216,7 +220,7 @@ test("NumeralsPage should emit the event 'page-field-list-updated' on the event 
         browserEvent.emit.reset();
         button.dispatchEvent(new Event("click"));
 
-        t.deepEqual(browserEvent.emit.secondCall.args, ["page-field-list-updated", fields]);
+        t.deepEqual(browserEvent.emit.firstCall.args, ["page-field-list-updated", fields]);
         t.end();
     });
 });
@@ -230,7 +234,7 @@ test("NumeralsPage should emit the event 'page-data-updated' on the event 'click
         browserEvent.emit.reset();
         button.dispatchEvent(new Event("click"));
 
-        t.deepEqual(browserEvent.emit.thirdCall.args, ["page-data-updated", { numerals: numerals, toggler: "toggle-numerals-data" }]);
+        t.deepEqual(browserEvent.emit.secondCall.args, ["page-data-updated", { numerals: numerals, toggler: "toggle-numerals-data" }]);
         t.end();
     });
 });

@@ -41,10 +41,17 @@ import WorldMap from "./pages/world/world-map/world-map";
 import WorldMapListener from "./pages/world/world-map/world-map-listener";
 import WorldPage from "./pages/world/world-page";
 
+// core
 const browserEvent = new BrowserEvent();
 const http = new Http();
 const i18n = new I18n(browserEvent);
+
+// pages/common
 const fieldGenerator = new FieldGenerator();
+
+// pages
+const searchEngine = new SearchEngine();
+const numeralsSearchEngine = new NumeralsSearchEngine();
 const worldMap = new WorldMap(browserEvent);
 
 class App {
@@ -69,7 +76,8 @@ class App {
                 page: new VerbPage(
                     browserEvent, http, i18n, fieldGenerator,
                     new VerbInflater(),
-                    new SearchListener(browserEvent, new SearchEngine(), new SearchResultVisualizer(browserEvent, new ElementWalker()))
+                    searchEngine,
+                    new SearchListener(browserEvent, searchEngine, new SearchResultVisualizer(browserEvent, new ElementWalker()))
                 ),
                 template: "/app/pages/verbs/verb-page.html"
             },
@@ -78,7 +86,8 @@ class App {
                 page: new NumeralsPage(
                     browserEvent, i18n, fieldGenerator,
                     new NumeralsGenerator(new IntegerGenerator()),
-                    new SearchListener(browserEvent, new NumeralsSearchEngine(), new SearchResultVisualizer(browserEvent, new ElementWalker()))
+                    numeralsSearchEngine,
+                    new SearchListener(browserEvent, numeralsSearchEngine, new SearchResultVisualizer(browserEvent, new ElementWalker()))
                 ),
                 template: "/app/pages/numerals/numerals-page.html"
             },

@@ -27,7 +27,7 @@ let setup = () => {
     let browserEvent = new BrowserEvent();
     searchListener = new SearchListener(browserEvent, searchEngine, searchResultVisualizer);
     searchListener.attach();
-    browserEvent.emit("page-searchable-data-updated", [{name:"test"}]);
+    searchEngine.initialize([{name:"test"}]);
 
     let input = document.querySelector("input");
     input.value = "test";

@@ -1,6 +1,6 @@
 import Template from "../../../core/template/template";
 
-class SearchResultVisualizer {
+class SearchResultPopup {
 
     constructor(browserEvent, walker) {
         this.browserEvent = browserEvent;
@@ -80,4 +80,4 @@ class SearchResultVisualizer {
     }
 }
 
-export default SearchResultVisualizer;
+export default SearchResultPopup;

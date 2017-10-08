@@ -52,7 +52,7 @@
     "d3-geo-projection": "^2.3.1",
     "eslint": "^4.4.0",
     "exorcist": "^0.4.0",
-    "flag-icon-css": "git+https://github.com/erikbarke/flag-icon-css.git#viewBox",
+    "flag-icon-css": "git+https://github.com/lipis/flag-icon-css.git",
     "glob": "^7.1.1",
     "html-minifier": "^3.5.3",
     "jsdom": "^11.1.0",

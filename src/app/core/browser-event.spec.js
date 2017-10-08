@@ -2,10 +2,9 @@ import dom from "jsdom-sandbox";
 import test from "tape";
 import BrowserEvent from "./browser-event";
 
-const browserEvent = new BrowserEvent();
-
 test("BrowserEvent should register event", (t) => {
     dom.sandbox("", {}, () => {
+        const browserEvent = new BrowserEvent();
         t.plan(1);
         browserEvent.on("keydown", () => {
             t.pass();
@@ -16,6 +15,7 @@ test("BrowserEvent should register event", (t) => {
 
 test("BrowserEvent should handle multiple listeners", (t) => {
     dom.sandbox("", {}, () => {
+        const browserEvent = new BrowserEvent();
         t.plan(2);
         browserEvent.on("mouseover", () => {
             t.pass();
@@ -29,6 +29,7 @@ test("BrowserEvent should handle multiple listeners", (t) => {
 
 test("BrowserEvent should remove listener", (t) => {
     dom.sandbox("", {}, () => {
+        const browserEvent = new BrowserEvent();
         let removeListener = browserEvent.on("mouseout", () => {
             t.fail();
         });
@@ -38,8 +39,31 @@ test("BrowserEvent should remove listener", (t) => {
     });
 });
 
+test("BrowserEvent should remove multiple listeners, regardless of in which order the were added", (t) => {
+    dom.sandbox("", {}, () => {
+        const browserEvent = new BrowserEvent();
+        t.plan(1);
+
+        let removeFirst = browserEvent.on("keydown", () => {
+            t.fail();
+        });
+        let removeSecond = browserEvent.on("keydown", () => {
+            t.fail();
+        });
+        browserEvent.on("keydown", () => {
+            t.pass();
+        });
+
+        removeFirst();
+        removeSecond();
+
+        document.dispatchEvent(new Event("keydown"));
+    });
+});
+
 test("BrowserEvent should emit event using CustomEvent", (t) => {
     dom.sandbox("", {}, () => {
+        const browserEvent = new BrowserEvent();
         t.plan(1);
         browserEvent.on("custom-event", () => {
             t.pass();
@@ -50,6 +74,7 @@ test("BrowserEvent should emit event using CustomEvent", (t) => {
 
 test("BrowserEvent should emit event using the old way", (t) => {
     dom.sandbox("", {}, () => {
+        const browserEvent = new BrowserEvent();
         t.plan(1);
         delete window.CustomEvent;
         browserEvent.on("custom-event-the-old-way", () => {

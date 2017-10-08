@@ -13,9 +13,10 @@ class BrowserEvent {
                 }
             }, true);
         }  
-        let listenerIndex = this.listeners[name].push(callback) -1;
+        this.listeners[name].push(callback);
         let removeListener = () => {
-            this.listeners[name].splice(listenerIndex, 1);
+            let index = this.listeners[name].indexOf(callback);
+            this.listeners[name].splice(index, 1);
         };
         return removeListener;
     }

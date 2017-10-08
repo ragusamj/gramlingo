@@ -1,7 +1,7 @@
 import dom from "jsdom-sandbox";
 import test from "tape";
 import FieldGenerator from "./field-generator";
-import Template from "../../core/template/template";
+import Template from "../../../core/template/template";
 
 const generator = new FieldGenerator();
 

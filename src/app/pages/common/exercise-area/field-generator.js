@@ -1,5 +1,5 @@
 import get from "lodash.get";
-import Template from "../../core/template/template";
+import Template from "../../../core/template/template";
 
 class FieldGenerator {
     build(pageTemplate, context) {

@@ -33,12 +33,12 @@ class PageBroker {
 
     getPageTemplate(route, callback) {
         if(this.pageTemplateCache[route.template]) {
-            return callback(this.pageTemplateCache[route.template]);
+            return callback(this.pageTemplateCache[route.template].clone());
         }
         else {
             this.http.getHTML(route.template, (html) => {
                 this.pageTemplateCache[route.template] = new Template(html);
-                callback(this.pageTemplateCache[route.template]);
+                callback(this.pageTemplateCache[route.template].clone());
             });
         }
     }

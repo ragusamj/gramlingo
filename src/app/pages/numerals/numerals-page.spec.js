@@ -14,12 +14,6 @@ const html =
     "<div id='ask-the-machine-body'></div>" +
     "<input id='ask-the-machine-input'>123</input>";
 
-const fields = {
-    input: {
-        dataPath: "numerals[0].a[0]"
-    }
-};
-
 let numerals = [{ q: [["q"]], a: [["a"]] }];
 
 let browserEvent = new BrowserEvent();
@@ -29,8 +23,19 @@ const i18n = {
     translate: sinon.stub()
 };
 
-const fieldGenerator = {
-    build: sinon.stub().returns(fields)
+const exerciseArea = {
+    build: sinon.stub(),
+    fields: {
+        input: {
+            dataPath: "numerals[0].a[0]"
+        }
+    },
+    updateContext: sinon.stub()
+};
+
+const exerciseAreaListener = {
+    attach: sinon.stub(),
+    detach: sinon.stub()
 };
 
 const numeralsGenerator = {
@@ -52,7 +57,7 @@ const onPageChanged = sinon.stub();
 const setup = () => {
     browserEvent = new BrowserEvent();
     sinon.spy(browserEvent, "emit");
-    return new NumeralsPage(browserEvent, i18n, fieldGenerator, numeralsGenerator, searchEngine, searchListener);
+    return new NumeralsPage(browserEvent, i18n, exerciseArea, exerciseAreaListener, numeralsGenerator, searchEngine, searchListener);
 };
 
 const setNumerals = (data) => {
@@ -62,7 +67,7 @@ const setNumerals = (data) => {
     }
 };
 
-test("NumeralsPage should use numeral type from parameters", (t) => {
+test("NumeralsPage should use the numeral type from the parameters", (t) => {
     dom.sandbox(html, {}, () => {
         let page = setup();
 
@@ -73,13 +78,24 @@ test("NumeralsPage should use numeral type from parameters", (t) => {
     });
 });
 
-test("NumeralsPage should default to numeral type 'integers'", (t) => {
+test("NumeralsPage should default to the numeral type 'integers'", (t) => {
     dom.sandbox(html, {}, () => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, { type: "" });
 
         t.equal(page.type, "integers");
+        t.end();
+    });
+});
+
+test("NumeralsPage should attach the exercise area listener", (t) => {
+    dom.sandbox(html, {}, () => {
+        let page = setup();
+
+        page.attach(pageTemplate, onPageChanged, { type: "" });
+
+        t.true(exerciseAreaListener.attach.called);
         t.end();
     });
 });
@@ -107,31 +123,7 @@ test("NumeralsPage should randomize numbers on page attach", (t) => {
     });
 });
 
-test("NumeralsPage should cache generated page layout", (t) => {
-    dom.sandbox(html, {}, () => {
-        fieldGenerator.build.resetHistory();
-        let page = setup();
-
-        page.attach(pageTemplate, onPageChanged, { type: "integers" });
-        page.attach(pageTemplate, onPageChanged, { type: "integers" });
-
-        t.equal(fieldGenerator.build.callCount, 1);
-        t.end();
-    });
-});
-
-test("NumeralsPage should add field filters for ordinals", (t) => {
-    dom.sandbox(html, {}, () => {
-        let page = setup();
-
-        page.attach(pageTemplate, onPageChanged, { type: "ordinals" });
-
-        t.equal(fields.input.filter, OrdinalFilter);
-        t.end();
-    });
-});
-
-test("NumeralsPage should initialize searchable type", (t) => {
+test("NumeralsPage should initialize the searchable type", (t) => {
     dom.sandbox(html, {}, () => {
         let page = setup();
         browserEvent.emit.reset();
@@ -143,26 +135,14 @@ test("NumeralsPage should initialize searchable type", (t) => {
     });
 });
 
-test("NumeralsPage should emit the event 'page-field-list-updated'", (t) => {
+test("NumeralsPage should update the exercise area context", (t) => {
     dom.sandbox(html, {}, () => {
         let page = setup();
-        browserEvent.emit.reset();
-
-        page.attach(pageTemplate, onPageChanged, { type: "integers" });
-
-        t.deepEqual(browserEvent.emit.firstCall.args, ["page-field-list-updated", fields]);
-        t.end();
-    });
-});
-
-test("NumeralsPage should emit the event 'page-data-updated'", (t) => {
-    dom.sandbox(html, {}, () => {
-        let page = setup();
-        browserEvent.emit.reset();
+        exerciseArea.updateContext.reset();
 
         page.attach(pageTemplate, onPageChanged, { type: "fractions" });
 
-        t.deepEqual(browserEvent.emit.secondCall.args, ["page-data-updated", { numerals: numerals, toggler: "toggle-numerals-data" }]);
+        t.deepEqual(exerciseArea.updateContext.firstCall.args, [{ numerals: numerals, toggler: "toggle-numerals-data" }]);
         t.end();
     });
 });
@@ -177,6 +157,31 @@ test("NumeralsPage should change the numeral type on the event 'click' from a 'd
         button.dispatchEvent(new Event("click"));
 
         t.equal(page.type, "fractions");
+        t.end();
+    });
+});
+
+test("NumeralsPage should add field filters for ordinals", (t) => {
+    dom.sandbox(html, {}, () => {
+        let page = setup();
+
+        page.attach(pageTemplate, onPageChanged, { type: "ordinals" });
+
+        t.equal(exerciseArea.fields.input.filter, OrdinalFilter);
+        t.end();
+    });
+});
+
+test("NumeralsPage should add field filters for ordinals on the event 'click' from a 'data-numeral-button' button", (t) => {
+    dom.sandbox(html, {}, () => {
+        let page = setup();
+        let button = document.querySelector("[data-numeral-button]");
+        button.setAttribute("data-numeral-button", "ordinals");
+
+        page.attach(pageTemplate, onPageChanged, { type: "integers" });
+        button.dispatchEvent(new Event("click"));
+
+        t.equal(exerciseArea.fields.input.filter, OrdinalFilter);
         t.end();
     });
 });
@@ -211,30 +216,16 @@ test("NumeralsPage should update searchable type on the event 'click' from a 'da
     });
 });
 
-test("NumeralsPage should emit the event 'page-field-list-updated' on the event 'click' from a 'data-numeral-button' button", (t) => {
+test("NumeralsPage should update the exercise area context on the event 'click' from a 'data-numeral-button' button", (t) => {
     dom.sandbox(html, {}, () => {
         let page = setup();
         let button = document.querySelector("[data-numeral-button]");
 
         page.attach(pageTemplate, onPageChanged, { type: "integers" });
-        browserEvent.emit.reset();
+        exerciseArea.updateContext.reset();
         button.dispatchEvent(new Event("click"));
 
-        t.deepEqual(browserEvent.emit.firstCall.args, ["page-field-list-updated", fields]);
-        t.end();
-    });
-});
-
-test("NumeralsPage should emit the event 'page-data-updated' on the event 'click' from a 'data-numeral-button' button", (t) => {
-    dom.sandbox(html, {}, () => {
-        let page = setup();
-        let button = document.querySelector("[data-numeral-button]");
-
-        page.attach(pageTemplate, onPageChanged, { type: "integers" });
-        browserEvent.emit.reset();
-        button.dispatchEvent(new Event("click"));
-
-        t.deepEqual(browserEvent.emit.secondCall.args, ["page-data-updated", { numerals: numerals, toggler: "toggle-numerals-data" }]);
+        t.deepEqual(exerciseArea.updateContext.firstCall.args, [{ numerals: numerals, toggler: "toggle-numerals-data" }]);
         t.end();
     });
 });
@@ -373,7 +364,7 @@ test("NumeralsPage should setup the 'ask the machine' input", (t) => {
     });
 });
 
-test("NumeralsPage should detach page and remove 'click' event listener", (t) => {
+test("NumeralsPage should detach and remove the 'click' event listener", (t) => {
     dom.sandbox(html, {}, () => {
 
         t.plan(1);
@@ -391,7 +382,19 @@ test("NumeralsPage should detach page and remove 'click' event listener", (t) =>
     });
 });
 
-test("NumeralsPage should detach page and detach search listener", (t) => {
+test("NumeralsPage should detach and detach the exercise area listener", (t) => {
+    dom.sandbox(html, {}, () => {
+        let page = setup();
+
+        page.attach(pageTemplate, onPageChanged, { type: "integers" });
+        page.detach();
+
+        t.true(exerciseAreaListener.detach.called);
+        t.end();
+    });
+});
+
+test("NumeralsPage should detach and detach the search listener", (t) => {
     dom.sandbox(html, {}, () => {
         let page = setup();
 

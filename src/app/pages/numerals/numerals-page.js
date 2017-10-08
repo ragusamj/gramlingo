@@ -11,47 +11,46 @@ const placeholders = {
 
 class NumeralsPage {
 
-    constructor(browserEvent, i18n, fieldGenerator, numeralsGenerator, searchEngine, searchListener) {
+    constructor(browserEvent, i18n, exerciseArea, exerciseAreaListener, numeralsGenerator, searchEngine, searchListener) {
         this.browserEvent = browserEvent;
         this.i18n = i18n;
-        this.fieldGenerator = fieldGenerator;
+        this.exerciseArea = exerciseArea;
+        this.exerciseAreaListener = exerciseAreaListener;
         this.numeralsGenerator = numeralsGenerator;
         this.searchEngine = searchEngine;
         this.searchListener = searchListener;
     }
 
     attach(pageTemplate, onPageChanged, parameters) {
-        this.type = parameters.type.toLowerCase() || "integers";
         this.removeListeners = [
             this.browserEvent.on("click", this.onClick.bind(this))
         ];
+        this.exerciseAreaListener.attach();
         this.searchListener.attach();
-        this.applyPageTemplate(pageTemplate, onPageChanged, parameters);
+        this.loadPage(pageTemplate, onPageChanged, parameters);
     }
 
     detach() {
         for(let removeListener of this.removeListeners) {
             removeListener();
         }
+        this.exerciseAreaListener.detach();
         this.searchListener.detach();
     }
 
-    applyPageTemplate(pageTemplate, onPageChanged) {
+    loadPage(pageTemplate, onPageChanged, parameters) {
+        this.type = parameters.type.toLowerCase() || "integers";
         this.createContext();
-        if(!this.fields) {
-            this.fields = this.fieldGenerator.build(pageTemplate, this.context);
-        }
-        this.addFieldFilters();
+        this.exerciseArea.build(pageTemplate, this.context);
         onPageChanged();
         this.onPageDataChanged();
     }
 
-    addFieldFilters() {
-        if(this.type === "ordinals") {
-            for(let key of Object.keys(this.fields)) {
-                this.fields[key].filter = ordinalFilter;
-            }
-        }
+    createContext() {
+        this.context = {
+            numerals: this.numeralsGenerator.randomize(this.type),
+            toggler: "toggle-numerals-data"
+        };
     }
 
     onClick(e) {
@@ -77,13 +76,6 @@ class NumeralsPage {
             this.onPageDataChanged();
         }
     }
-
-    createContext() {
-        this.context = {
-            numerals: this.numeralsGenerator.randomize(this.type),
-            toggler: "toggle-numerals-data"
-        };
-    }
     
     switch() {
         for(let field of this.context.numerals) {
@@ -97,11 +89,15 @@ class NumeralsPage {
         this.setQuestionHeaders();
         this.translateHeader();
         this.translateAskTheMachine();
-
+        this.addOrdinalFieldFilter();
         this.searchEngine.initialize(this.type);
+        this.exerciseArea.updateContext(this.context);
+    }
 
-        this.browserEvent.emit("page-field-list-updated", this.fields);
-        this.browserEvent.emit("page-data-updated", this.context);
+    addOrdinalFieldFilter() {
+        for(let key of Object.keys(this.exerciseArea.fields)) {
+            this.exerciseArea.fields[key].filter = this.type === "ordinals" ? ordinalFilter : undefined;
+        }
     }
 
     setQuestionHeaders() {

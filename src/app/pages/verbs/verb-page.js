@@ -3,11 +3,12 @@ const defaultVerb = "Ir";
 
 class VerbPage {
 
-    constructor(browserEvent, http, i18n, fieldGenerator, verbInflater, searchEngine, searchListener) {
+    constructor(browserEvent, http, i18n, exerciseArea, exerciseAreaListener, verbInflater, searchEngine, searchListener) {
         this.browserEvent = browserEvent;
         this.http = http;
         this.i18n = i18n;
-        this.fieldGenerator = fieldGenerator;
+        this.exerciseArea = exerciseArea;
+        this.exerciseAreaListener = exerciseAreaListener;
         this.verbInflater = verbInflater;
         this.searchEngine = searchEngine;
         this.searchListener = searchListener;
@@ -20,6 +21,7 @@ class VerbPage {
         this.removeListeners = [
             this.browserEvent.on("search-result-selected", this.onSearchResultSelected.bind(this))
         ];
+        this.exerciseAreaListener.attach();
         this.searchListener.attach();
     }
 
@@ -27,6 +29,7 @@ class VerbPage {
         for(let removeListener of this.removeListeners) {
             removeListener();
         }
+        this.exerciseAreaListener.detach();
         this.searchListener.detach();
     }
 
@@ -52,13 +55,11 @@ class VerbPage {
         }
         else {
             this.createContext(index);
-            if(!this.fields) {
-                this.fields = this.fieldGenerator.build(pageTemplate, this.context);
-            }
+            this.exerciseArea.build(pageTemplate, this.context);
             onPageChanged();
+            this.translateHeader();
             this.searchEngine.initialize(this.verbs);
-            this.browserEvent.emit("page-field-list-updated", this.fields);
-            this.onPageDataChanged(index);
+            this.exerciseArea.updateContext(this.context);
         }
     }
 
@@ -82,16 +83,12 @@ class VerbPage {
 
     onSearchResultSelected(e) {
         this.createContext(e.detail);
-        this.onPageDataChanged();
+        this.translateHeader();
+        this.exerciseArea.updateContext(this.context);
         this.browserEvent.emit("url-change", "/verbs/" + this.context.verb.name.toLowerCase());
     }
 
-    onPageDataChanged() {
-        this.setHeader();
-        this.browserEvent.emit("page-data-updated", this.context);
-    }
-
-    setHeader() {
+    translateHeader() {
         document.getElementById("verb-name").innerHTML = this.context.verb.name;
         let mode = document.getElementById("verb-mode");
         mode.setAttribute("data-translate", (this.context.verb.regular ? "verbs-regular-header" : "verbs-irregular-header"));

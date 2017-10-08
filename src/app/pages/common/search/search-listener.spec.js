@@ -2,39 +2,51 @@ import dom from "jsdom-sandbox";
 import sinon from "sinon";
 import test from "tape";
 import BrowserEvent from "../../../core/browser-event";
-import SearchEngine from "./search-engine";
 import SearchListener from "./search-listener";
-import KeyCode from "../walkers/key-code";
 
-const searchResultVisualizer = {
-    click: sinon.spy(),
-    selectCurrent: sinon.spy(),
-    show: sinon.spy(),
-    walk: sinon.spy()
+const search = {
+    onClick: sinon.stub(),
+    onKeydown: sinon.stub(),
+    onKeyup: sinon.stub()
 };
-
-const searchEngine = new SearchEngine();
 
 let searchListener;
 
 let setup = () => {
 
-    searchResultVisualizer.click.reset();
-    searchResultVisualizer.selectCurrent.reset();
-    searchResultVisualizer.show.reset();
-    searchResultVisualizer.walk.reset();
+    search.onClick.resetHistory();
+    search.onKeydown.resetHistory();
+    search.onKeyup.resetHistory();
 
-    let browserEvent = new BrowserEvent();
-    searchListener = new SearchListener(browserEvent, searchEngine, searchResultVisualizer);
+    searchListener = new SearchListener(new BrowserEvent(), search);
     searchListener.attach();
-    searchEngine.initialize([{name:"test"}]);
 
-    let input = document.querySelector("input");
-    input.value = "test";
-    return input;
+    return document.querySelector("input");
 };
 
-test("SearchListener should search on event 'keyup'", (t) => {
+test("SearchListener should call 'onClick' on the event 'click'", (t) => {
+    dom.sandbox("<input data-search-input/>", {}, () => {
+        let input = setup();
+
+        input.dispatchEvent(new Event("click"));
+
+        t.true(search.onClick.called);
+        t.end();
+    });
+});
+
+test("SearchListener should call 'onKeydown' on the event 'keydown'", (t) => {
+    dom.sandbox("<input data-search-input/>", {}, () => {
+        let input = setup();
+
+        input.dispatchEvent(new Event("keydown"));
+
+        t.true(search.onKeydown.called);
+        t.end();
+    });
+});
+
+test("SearchListener should call 'onKeyup' on the event 'keyup'", (t) => {
     dom.sandbox("<input data-search-input/>", {}, () => {
         let clock = sinon.useFakeTimers();
         let input = setup();
@@ -42,146 +54,21 @@ test("SearchListener should search on event 'keyup'", (t) => {
         input.dispatchEvent(new Event("keyup"));
         clock.tick(250);
 
-        t.true(searchResultVisualizer.show.called);
+        t.true(search.onKeyup.called);
         t.end();
     });
 });
 
-test("SearchListener should only search if the event is from an element with the attribute 'data-search-input'", (t) => {
-    dom.sandbox("<input />", {}, () => {
-        let clock = sinon.useFakeTimers();
-        let input = setup();
-
-        input.dispatchEvent(new Event("keyup"));
-        clock.tick(250);
-
-        t.false(searchResultVisualizer.show.called);
-        t.end();
-    });
-});
-
-test("SearchListener should not search if the enter key is pressed", (t) => {
-    dom.sandbox("<input data-search-input/>", {}, () => {
-        let clock = sinon.useFakeTimers();
-        let input = setup();
-
-        let e = new Event("keyup");
-        e.keyCode = KeyCode.enter;
-        input.dispatchEvent(e);
-        clock.tick(250);
-
-        t.false(searchResultVisualizer.show.called);
-        t.end();
-    });
-});
-
-test("SearchListener should not search if the down arrow is pressed", (t) => {
-    dom.sandbox("<input data-search-input/>", {}, () => {
-        let clock = sinon.useFakeTimers();
-        let input = setup();
-
-        let e = new Event("keyup");
-        e.keyCode = KeyCode.downArrow;
-        input.dispatchEvent(e);
-        clock.tick(250);
-
-        t.false(searchResultVisualizer.show.called);
-        t.end();
-    });
-});
-
-test("SearchListener should not search if the up arrow is pressed", (t) => {
-    dom.sandbox("<input data-search-input/>", {}, () => {
-        let clock = sinon.useFakeTimers();
-        let input = setup();
-
-        let e = new Event("keyup");
-        e.keyCode = KeyCode.upArrow;
-        input.dispatchEvent(e);
-        clock.tick(250);
-
-        t.false(searchResultVisualizer.show.called);
-        t.end();
-    });
-});
-
-test("SearchListener should select the clicked element", (t) => {
-    dom.sandbox("<input data-search-input/><div></div>", {}, () => {
-        setup();
-
-        let element = document.querySelector("div");
-        element.dispatchEvent(new Event("click"));
-
-        t.deepEqual(searchResultVisualizer.click.lastCall.args, [element]);
-        t.end();
-    });
-});
-
-test("SearchListener should ignore keydown events from elements without the attribute 'data-search-input'", (t) => {
-    dom.sandbox("<input data-search-input/><div></div>", {}, () => {
-        setup();
-
-        let element = document.querySelector("div");
-        element.dispatchEvent(new Event("keydown"));
-
-        t.false(searchResultVisualizer.walk.called);
-        t.false(searchResultVisualizer.click.called);
-        t.end();
-    });
-});
-
-test("SearchListener should walk down in the result on event 'keydown'", (t) => {
-    dom.sandbox("<input data-search-input/>", {}, () => {
-        let input = setup();
-
-        let e = new Event("keydown");
-        e.keyCode = KeyCode.downArrow;
-        input.dispatchEvent(e);
-
-        t.deepEqual(searchResultVisualizer.walk.lastCall.args, [KeyCode.downArrow]);
-        t.end();
-    });
-});
-
-test("SearchListener should walk up in the result on event 'keydown'", (t) => {
-    dom.sandbox("<input data-search-input/>", {}, () => {
-        let input = setup();
-
-        let e = new Event("keydown");
-        e.keyCode = KeyCode.upArrow;
-        input.dispatchEvent(e);
-
-        t.deepEqual(searchResultVisualizer.walk.lastCall.args, [KeyCode.upArrow]);
-        t.end();
-    });
-});
-
-test("SearchListener should select current item in search result when the enter key is pressed", (t) => {
-    dom.sandbox("<input data-search-input/>", {}, () => {
-        let input = setup();
-
-        let e = new Event("keydown");
-        e.keyCode = KeyCode.enter;
-        input.dispatchEvent(e);
-
-        t.true(searchResultVisualizer.selectCurrent.called);
-        t.end();
-    });
-});
-
-
-test("SearchListener should remove event listeners on detach", (t) => {
+test("SearchListener should detach and remove event listeners", (t) => {
     dom.sandbox("<input data-search-input/>", {}, () => {
         
         let input = setup();
 
         searchListener.detach();
 
-        let e = new Event("keydown");
-        e.keyCode = KeyCode.enter;
-        input.dispatchEvent(e);
+        input.dispatchEvent(new Event("keydown"));
 
-        t.false(searchResultVisualizer.selectCurrent.called);
+        t.false(search.onKeydown.called);
         t.end();
     });
 });

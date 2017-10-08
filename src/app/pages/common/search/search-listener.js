@@ -1,21 +1,19 @@
 import debounce from "lodash.debounce";
-import KeyCode from "../walkers/key-code";
 
 const searchTypingDelay = 250;
 
 class SearchListener {
 
-    constructor(browserEvent, engine, visualizer) {
+    constructor(browserEvent, search) {
         this.browserEvent = browserEvent;
-        this.engine = engine;
-        this.visualizer = visualizer;
-        this.debouncedKeyup = debounce(this.onKeyup.bind(this), searchTypingDelay);
+        this.search = search;
+        this.debouncedKeyup = debounce(this.search.onKeyup.bind(this.search), searchTypingDelay);
     }
 
     attach() {
         this.removeListeners = [
-            this.browserEvent.on("click", this.onClick.bind(this)),
-            this.browserEvent.on("keydown", this.onKeydown.bind(this)),
+            this.browserEvent.on("click", this.search.onClick.bind(this.search)),
+            this.browserEvent.on("keydown", this.search.onKeydown.bind(this.search)),
             this.browserEvent.on("keyup", this.debouncedKeyup)
         ];
     }
@@ -24,32 +22,6 @@ class SearchListener {
         for(let removeListener of this.removeListeners) {
             removeListener();
         }
-    }
-
-    onClick(e) {
-        this.visualizer.click(e.target);
-    }
-
-    onKeydown(e) {
-        if(e.target.hasAttribute("data-search-input")) {
-            if(this.isWalkerKey(e.keyCode)) {
-                this.visualizer.walk(e.keyCode);
-            }
-            if(e.keyCode === KeyCode.enter) {
-                this.visualizer.selectCurrent();
-            }
-        }
-    }
-
-    onKeyup(e) {
-        if(e.target.hasAttribute("data-search-input") && !(this.isWalkerKey(e.keyCode) || e.keyCode === KeyCode.enter)) {
-            let result = this.engine.search(e.target.value);
-            this.visualizer.show(result);
-        }
-    }
-
-    isWalkerKey(key) {
-        return key === KeyCode.downArrow || key === KeyCode.upArrow;
     }
 }
 

@@ -1,17 +1,37 @@
-import Template from "../../../core/template/template";
-
-const type = 0;
-const data = 1;
-const deleted = -1;
-const equal = 0;
-const insert = 1;
+import get from "lodash.get";
 
 class ExerciseArea {
 
-    constructor() {
-        this.popupTemplate = Template.fromElementId("popup-template");
-        this.trafficLightTemplate = Template.fromElementId("popup-traffic-light-template");
-        this.alternativesTemplate = Template.fromElementId("popup-alternatives-template");
+    constructor(checker, exerciseAreaPopup, fieldGenerator, walker) {
+        this.checker = checker;
+        this.exerciseAreaPopup = exerciseAreaPopup;
+        this.fieldGenerator = fieldGenerator;
+        this.walker = walker;
+    }
+
+    build(pageTemplate, context) {
+        // TODO: cache page template and fields per context.id?
+        this.fields = this.fieldGenerator.build(pageTemplate, context);
+        this.fieldsByIconId = {};
+        for(let id of Object.keys(this.fields)) {
+            let field = this.fields[id];
+            this.fieldsByIconId[field.iconId] = field;
+        }
+    }
+
+    updateContext(context) {
+        this.context = context;
+        this.context.toggleState = localStorage.getItem(this.context.toggler); 
+        this.updateFields();
+        this.walker.link(Object.keys(this.fields));
+    }
+
+    updateFields() {
+        for(let id of Object.keys(this.fields)) {
+            let field = this.fields[id];
+            let solutions = get(this.context, field.dataPath);
+            this.updateField(field, solutions, this.context.toggleState);
+        }
     }
 
     updateField(field, solutions, toggleState) {
@@ -24,105 +44,53 @@ class ExerciseArea {
         else {
             input.value = (!toggleState || toggleState === "on") ? solutions[0] : "";
         }
-        this.hide(field.iconId);
-        this.hide(field.popupId);
+        this.exerciseAreaPopup.hideElement(field.iconId);
+        this.exerciseAreaPopup.hideElement(field.popupId);
     }
 
-    showAnswer(field, result) {
-        if(result.accepted && result.alternatives.length === 0) {
-            this.hide(field.iconId);
-            this.hide(field.popupId);
-        }
-        else {
-            this.createIcon(field, result);
-            this.createMessage(field, result);
-            this.showPopup(field.popupId);
-            setTimeout(() => {
-                this.hide(field.popupId);
-            }, 3000);
+    onBlur(e) {
+        if(this.isKnownEvent(e, "INPUT", this.fields)) {
+            let field = this.fields[e.target.id];
+            let solutions = get(this.context, field.dataPath);
+            if(typeof field.filter === "function") {
+                field.filter(e.target, solutions);
+            }
+            let result = this.checker.check(solutions, e.target.value);
+            this.exerciseAreaPopup.showAnswer(field, result);
         }
     }
 
-    createIcon(field, result) {
-        let icon = document.getElementById(field.iconId);
-        if(result.accepted) {
-            icon.classList.remove("fa-exclamation-circle");
-            icon.classList.remove("text-danger"); 
-            icon.classList.add("fa-plus-circle");
-            icon.classList.add("text-info");
-        }
-        else {
-            icon.classList.remove("fa-plus-circle");
-            icon.classList.remove("text-info");
-            icon.classList.add("fa-exclamation-circle");
-            icon.classList.add("text-danger");
-        }
-        this.show(field.iconId);
-    }
-
-    createMessage(field, result) {
-        let template = this.popupTemplate.clone();
-        let tbody = template.querySelector("tbody");
-        this.createTrafficLight(result, tbody);
-        this.addSolutions(result, tbody);
-        template.replaceContent(field.popupId);
-    }
-
-    createTrafficLight(result, tbody) {
-        if(!result.accepted) {
-            let trafficLightTemplate = this.trafficLightTemplate.clone();
-            trafficLightTemplate.set("answer", { innerHTML: result.answer });
-            this.visualizeDiff(trafficLightTemplate, result);
-            trafficLightTemplate.set("solution", { innerHTML: result.solution });
-            tbody.appendChild(trafficLightTemplate.fragment());
-        }
-    }
-
-    visualizeDiff(errorTemplate, result) {
-        let td = errorTemplate.set("diff");
-        for(let diff of result.diff) {
-            switch(diff[type]) {
-                case deleted:
-                    errorTemplate.add(td, "span", { innerHTML: diff[data], className: "missing-letter" });
-                    break;
-                case equal:
-                    errorTemplate.add(td, "span", { innerHTML: diff[data] });
-                    break;
-                case insert:
-                    errorTemplate.add(td, "span", { innerHTML: diff[data], className: "text-danger alien-letter" });
-                    break;
+    onKeydown(e) {
+        if(e.target.hasAttribute("data-walkable-field")) {
+            if(this.walker.walk(e.keyCode, e.target.id)) {
+                e.preventDefault();
             }
         }
     }
 
-    addSolutions(result, tbody) {
-        for(let alternative of result.alternatives) {
-            if(alternative !== result.solution) {
-                let altTemplate = this.alternativesTemplate.clone();
-                altTemplate.set("alternative", { innerHTML: alternative });
-                tbody.appendChild(altTemplate.fragment());
-            }
+    onMouseover(e) {
+        if(this.isKnownEvent(e, "DIV", this.fieldsByIconId)) {
+            let field = this.fieldsByIconId[e.target.id];
+            this.exerciseAreaPopup.show(field.popupId);
         }
     }
 
-    hide(id) {
-        let element = document.getElementById(id);
-        if(element) {
-            element.classList.remove("show");
+    onMouseout(e) {
+        if(this.isKnownEvent(e, "DIV", this.fieldsByIconId)) {
+            let field = this.fieldsByIconId[e.target.id];
+            this.exerciseAreaPopup.hideElement(field.popupId);
         }
     }
 
-    show(id) {
-        let element = document.getElementById(id);
-        element.classList.add("show");
+    onToggleSuccess(e) {
+        if(e.detail.id === this.context.toggler) {
+            this.context.toggleState = e.detail.state;
+            this.updateFields();
+        }
     }
 
-    showPopup(id) {
-        if(this.lastPopup) {
-            this.hide(this.lastPopup);
-        }
-        this.lastPopup = id;
-        this.show(id);
+    isKnownEvent(e, name, fields) {
+        return e.target.nodeName === name && e.target.id && fields && fields[e.target.id];
     }
 
     isNumeric(n) {

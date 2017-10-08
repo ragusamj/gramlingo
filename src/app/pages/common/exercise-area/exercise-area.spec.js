@@ -3,60 +3,284 @@ import sinon from "sinon";
 import test from "tape";
 import ExerciseArea from "./exercise-area";
 
-const html = 
-    "<script id='popup-template'><table><tbody></tbody></table></script>" +
+const html = "<input id='input-1' value='value'/>";
 
-    "<script id='popup-traffic-light-template'>" +
-        "<tr>" +
-            "<td id='answer'></td>" +
-            "<td id='diff'></td>" +
-            "<td id='solution'></td>" +
-        "</tr>" +
-    "</script>" +
+const checker = {
+    check: sinon.stub().returns({ accepted: true })
+};
 
-    "<script id='popup-alternatives-template'>" +
-        "<tr>" +
-            "<td id='alternative'></td>" +
-        "</tr>" +
-    "</script>" +
+const exerciseAreaPopup = {
+    show: sinon.stub(),
+    hideElement: sinon.stub()
+};
 
-    "<div id='icon-1'></div>" +
-    "<div id='popup-1'></div>" +
-    "<input id='input-1'/>";
+const fieldGenerator = {
+    build: sinon.stub()
+};
+
+const walker = {
+    link: sinon.stub(),
+    walk: sinon.stub().returns(true)
+};
 
 const field = { iconId: "icon-1", inputId: "input-1", popupId: "popup-1" };
 const solutions = ["alternative 1"];
-
-test("ExerciseArea should update field and set input value", (t) => {
+const exerciseArea = new ExerciseArea(checker, exerciseAreaPopup, fieldGenerator, walker);
+/*
+test("ExerciseArea should check input value on the event 'blur'", (t) => {
     dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
+        checker.check.resetHistory();
+        
+        let input = document.getElementById("id");
+        exerciseArea.onBlur();
+
+        t.deepEqual(checker.check.lastCall.args, [["alternative"], "value"]);
+        t.end();
+    });
+});
+*/
+/*
+const field = { dataPath: "path", iconId: "icon-id", popupId: "popup-id" };
+
+const setup = () => {
+    let exerciseAreaListener = new ExerciseAreaListener(new BrowserEvent(), exerciseArea);
+    exerciseAreaListener.onPageFieldListUpdated({ detail: { "id": field } });
+    exerciseAreaListener.onPageDataUpdated({ detail: { "path": ["alternative"], toggler: "toggler" } } );
+    return exerciseAreaListener;
+};
+
+test("ExerciseAreaListener should show answer on the event 'blur'", (t) => {
+    dom.sandbox("<input type='text' id='id' value='value'/>", {}, () => {
+
+        setup();
+        let input = document.getElementById("id");
+
+        input.dispatchEvent(new Event("blur"));
+
+        t.deepEqual(exerciseArea.showAnswer.lastCall.args, [
+            { dataPath: "path", iconId: "icon-id", popupId: "popup-id" }, { accepted: true }]);
+        t.end();
+    });
+});
+
+test("ExerciseAreaListener should execute field filters on the event 'blur'", (t) => {
+    dom.sandbox("<input type='text' id='id' value='value'/>", {}, () => {
+
+        setup();
+        let input = document.getElementById("id");
+        let filter = sinon.spy();
+        field.filter = filter;
+
+        input.dispatchEvent(new Event("blur"));
+
+        t.deepEqual(filter.lastCall.args, [input, ["alternative"]]);
+
+        delete field.filter;
+        t.end();
+    });
+});
+
+test("ExerciseAreaListener should ignore unknown blur events", (t) => {
+    dom.sandbox("", {}, () => {
+
+        setup();
+        checker.check.reset();
+        new ExerciseAreaListener(new BrowserEvent(), checker, exerciseArea, walker);
+
+        document.dispatchEvent(new Event("blur"));
+
+        t.false(checker.check.called);
+        t.end();
+    });
+});
+
+test("ExerciseAreaListener should move to adjacent input on the event 'keydown'", (t) => {
+    dom.sandbox("<input id='input-id' data-walkable-field />", {}, () => {
+
+        setup();
+        let event = document.createEvent("Event");
+        event.initEvent("keydown", true, true);
+        event.keyCode = 38;
+        let input = document.getElementById("input-id");
+
+        input.dispatchEvent(event);
+
+        t.deepEqual(walker.walk.lastCall.args, [38, "input-id"]);
+        t.end();
+    });
+});
+
+test("ExerciseAreaListener should prevent default if the walker walked on the event 'keydown'", (t) => {
+    dom.sandbox("<input id='input-id' data-walkable-field />", {}, () => {
+
+        setup();
+        let event = document.createEvent("Event");
+        event.initEvent("keydown", true, true);
+        event.keyCode = 38;
+        sinon.spy(event, "preventDefault");
+        let input = document.getElementById("input-id");
+
+        input.dispatchEvent(event);
+
+        t.true(event.preventDefault.called);
+        t.end();
+    });
+});
+
+test("ExerciseAreaListener should not prevent default if the walker didn't walk on the event 'keydown'", (t) => {
+    dom.sandbox("<input id='input-id' data-walkable-field />", {}, () => {
+
+        walker.walk.returns(false);
+        setup();
+        let event = document.createEvent("Event");
+        event.initEvent("keydown", true, true);
+        event.keyCode = 38;
+        sinon.spy(event, "preventDefault");
+        let input = document.getElementById("input-id");
+
+        input.dispatchEvent(event);
+
+        t.false(event.preventDefault.called);
+        t.end();
+
+        walker.walk.returns(true);
+    });
+});
+
+test("ExerciseAreaListener should ignore 'keydown' events from unknown targets", (t) => {
+    dom.sandbox("<input id='input-id' />", {}, () => {
+
+        setup();
+        walker.walk.reset();
+        let input = document.getElementById("input-id");
+
+        input.dispatchEvent(new Event("keydown"));
+
+        t.false(walker.walk.called);
+        t.end();
+    });
+});
+
+test("ExerciseAreaListener should show popup on the event 'mouseover' from an icon", (t) => {
+    dom.sandbox("<div id='icon-id' />", {}, () => {
+
+        setup();
+        let icon = document.getElementById("icon-id");
+
+        icon.dispatchEvent(new Event("mouseover"));
+
+        t.deepEqual(exerciseArea.showPopup.lastCall.args, ["popup-id"]);
+        t.end();
+    });
+});
+
+test("ExerciseAreaListener should ignore 'mouseover' events from unknown targets", (t) => {
+    dom.sandbox("<div id='unknown-id' />", {}, () => {
+
+        setup();
+        exerciseArea.showPopup.reset();
+        let icon = document.getElementById("unknown-id");
+
+        icon.dispatchEvent(new Event("mouseover"));
+
+        t.false(exerciseArea.showPopup.called);
+        t.end();
+    });
+});
+
+test("ExerciseAreaListener should show popup on the 'mouseout' event from an icon", (t) => {
+    dom.sandbox("<div id='icon-id' />", {}, () => {
+
+        setup();
+        let icon = document.getElementById("icon-id");
+
+        icon.dispatchEvent(new Event("mouseout"));
+
+        t.deepEqual(exerciseArea.hide.lastCall.args, ["popup-id"]);
+        t.end();
+    });
+});
+
+test("ExerciseAreaListener should ignore 'mouseout' events from unknown targets", (t) => {
+    dom.sandbox("<div id='unknown-id' />", {}, () => {
+
+        setup();
+        exerciseArea.hide.reset();
+        let icon = document.getElementById("unknown-id");
+
+        icon.dispatchEvent(new Event("mouseout"));
+
+        t.false(exerciseArea.hide.called);
+        t.end();
+    });
+});
+
+test("ExerciseAreaListener should link the walker when page data is updated", (t) => {
+    dom.sandbox("", {}, () => {
+
+        let exerciseAreaListener = setup();
+        walker.link.reset();
+
+        exerciseAreaListener.onPageDataUpdated({ detail: { "path": ["alternative"] }});
+
+        t.deepEqual(walker.link.firstCall.args, [["id"]]);
+        t.end();
+    });
+});
+
+test("ExerciseAreaListener should update fields on the event 'toggle-success'", (t) => {
+    dom.sandbox("", {}, () => {
+
+        let exerciseAreaListener = setup();
+        exerciseArea.updateField.resetHistory();
+
+        exerciseAreaListener.onToggleSuccess({ detail: { id: "toggler", state: "on" }});
+
+        t.deepEqual(exerciseArea.updateField.firstCall.args, [ field, [ "alternative" ], "on" ]);
+        t.end();
+    });
+});
+
+test("ExerciseAreaListener should ignore the event 'toggle-success' from unknown togglers", (t) => {
+    dom.sandbox("", {}, () => {
+
+        let exerciseAreaListener = setup();
+        exerciseArea.updateField.resetHistory();
+
+        exerciseAreaListener.onToggleSuccess({ detail: { id: "unknown", state: "on" }});
+
+        t.false(exerciseArea.called);
+        t.end();
+    });
+});
+*/
+
+test("ExerciseArea should update a field and set its input value", (t) => {
+    dom.sandbox(html, {}, () => {
         exerciseArea.updateField(field, solutions, "on");
         t.equal(document.getElementById("input-1").value, "alternative 1");
         t.end();
     });
 });
 
-test("ExerciseArea should update field and treat undefined state as 'on'", (t) => {
+test("ExerciseArea should update a field and treat undefined state as 'on'", (t) => {
     dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
         exerciseArea.updateField(field, solutions, undefined);
         t.equal(document.getElementById("input-1").value, "alternative 1");
         t.end();
     });
 });
 
-test("ExerciseArea should update field and set input value to empty string if inputs shouldn't be filled", (t) => {
+test("ExerciseArea should update a field and set its input value to an empty string if inputs shouldn't be filled", (t) => {
     dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
         exerciseArea.updateField(field, solutions, "off");
         t.equal(document.getElementById("input-1").value, "");
         t.end();
     });
 });
 
-test("ExerciseArea should update field and disable input if there are no solutions", (t) => {
+test("ExerciseArea should update a field and disable its input if there are no solutions", (t) => {
     dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
         let noSolutions = [];
         exerciseArea.updateField(field, noSolutions, "on");
         t.true(document.getElementById("input-1").disabled);
@@ -64,9 +288,8 @@ test("ExerciseArea should update field and disable input if there are no solutio
     });
 });
 
-test("ExerciseArea should update field and set input value to '-' if there are no solutions", (t) => {
+test("ExerciseArea should update a field and set its input value to '-' if there are no solutions", (t) => {
     dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
         let noSolutions = [];
         exerciseArea.updateField(field, noSolutions, "on");
         t.equal(document.getElementById("input-1").value, "-");
@@ -74,205 +297,26 @@ test("ExerciseArea should update field and set input value to '-' if there are n
     });
 });
 
-test("ExerciseArea should update field and set input type to 'text' if the value is a string", (t) => {
+test("ExerciseArea should update a field and set its input type to 'text' if the value is a string", (t) => {
     dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
         exerciseArea.updateField(field, solutions, "on");
         t.equal(document.getElementById("input-1").type, "text");
         t.end();
     });
 });
 
-test("ExerciseArea should update field and set input type to 'number' if the value is numeric", (t) => {
+test("ExerciseArea should update a field and set its input type to 'number' if the value is numeric", (t) => {
     dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
         exerciseArea.updateField(field, [123], "on");
         t.equal(document.getElementById("input-1").type, "number");
         t.end();
     });
 });
 
-test("ExerciseArea should update field and set input type to 'number' if the value is numeric and the input shouldn't be filled", (t) => {
+test("ExerciseArea should update a field and set its input type to 'number' if the value is numeric and the input shouldn't be filled", (t) => {
     dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
         exerciseArea.updateField(field, [123], "off");
         t.equal(document.getElementById("input-1").type, "number");
-        t.end();
-    });
-});
-
-test("ExerciseArea should update field and hide icon", (t) => {
-    dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
-        exerciseArea.show("icon-1");
-        exerciseArea.updateField(field, solutions, "on");
-        t.equal(document.getElementById("icon-1").className, "");
-        t.end();
-    });
-});
-
-test("ExerciseArea should update field and hide popup", (t) => {
-    dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
-        exerciseArea.showPopup("popup-1");
-        exerciseArea.updateField(field, solutions, "on");
-        t.equal(document.getElementById("popup-1").className, "");
-        t.end();
-    });
-});
-
-test("ExerciseArea should show accepted answer and hide icon if there are no solutions", (t) => {
-    dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
-        exerciseArea.show("icon-1");
-        exerciseArea.showAnswer(field, { accepted: true, alternatives: [] });
-        t.equal(document.getElementById("icon-1").className, "");
-        t.end();
-    });
-});
-
-test("ExerciseArea should show accepted answer and hide popup if there are no solutions", (t) => {
-    dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
-        exerciseArea.showPopup("popup-1");
-        exerciseArea.showAnswer(field, { accepted: true, alternatives: [] });
-        t.equal(document.getElementById("popup-1").className, "");
-        t.end();
-    });
-});
-
-test("ExerciseArea should show accepted answer and show icon if there are solutions", (t) => {
-    dom.sandbox(html, {}, () => {
-        let clock = sinon.useFakeTimers();
-        let exerciseArea = new ExerciseArea();
-        exerciseArea.hide("icon-1");
-        exerciseArea.showAnswer(field, { accepted: true, alternatives: ["alternative 2"], diff: [] });
-        t.equal(document.getElementById("icon-1").className, "fa-plus-circle text-info show");
-        clock.tick(3000);
-        t.end();
-    });
-});
-
-test("ExerciseArea should show rejected answer and show icon", (t) => {
-    dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
-        exerciseArea.hide("icon-1");
-        exerciseArea.showAnswer(field, { accepted: false, alternatives: [], diff: [] });
-        t.equal(document.getElementById("icon-1").className, "fa-exclamation-circle text-danger show");
-        t.end();
-    });
-});
-
-test("ExerciseArea should show rejected answer and show popup", (t) => {
-    dom.sandbox(html, {}, () => {
-        let clock = sinon.useFakeTimers();
-        let exerciseArea = new ExerciseArea();
-        exerciseArea.hide("popup-1");
-        exerciseArea.showAnswer(field, { accepted: false, alternatives: [], diff: [] });
-        t.equal(document.getElementById("popup-1").className, "show");
-        clock.tick(3000);
-        t.end();
-    });
-});
-
-test("ExerciseArea should show rejected answer and hide popup automatically", (t) => {
-    dom.sandbox(html, {}, () => {
-        let clock = sinon.useFakeTimers();
-        let exerciseArea = new ExerciseArea();
-        exerciseArea.showPopup("popup-1");
-        exerciseArea.showAnswer(field, { accepted: false, alternatives: [], diff: [] });
-        clock.tick(3000);
-        t.equal(document.getElementById("popup-1").className, "");
-        t.end();
-    });
-});
-
-test("ExerciseArea should show rejected answer and display the answer", (t) => {
-    dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
-        exerciseArea.showAnswer(field, { accepted: false, alternatives: [], answer: "answer", diff: [] });
-        t.equal(document.querySelectorAll("td")[0].innerHTML, "answer");
-        t.end();
-    });
-});
-
-test("ExerciseArea should show rejected answer and display the diff between the answer and the solution", (t) => {
-    dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
-        exerciseArea.showAnswer(field, { accepted: false, alternatives: [], diff: [[0, "vamo"], [-1, "s"], [1, "z"]], });
-        t.equal(document.querySelectorAll("td")[1].innerHTML,
-            "<span>vamo</span><span class=\"missing-letter\">s</span><span class=\"text-danger alien-letter\">z</span>");
-        t.end();
-    });
-});
-
-test("ExerciseArea should show rejected answer and display the solution", (t) => {
-    dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
-        exerciseArea.showAnswer(field, { accepted: false, alternatives: [], diff: [], solution: "solution" });
-        t.equal(document.querySelectorAll("td")[2].innerHTML, "solution");
-        t.end();
-    });
-});
-
-test("ExerciseArea should show popup and display solutions", (t) => {
-    dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
-        exerciseArea.showAnswer(field, { accepted: false, alternatives: ["solution", "solution 2"], diff: [], solution: "solution" });
-        t.equal(document.querySelectorAll("td")[3].innerHTML, "solution 2");
-        t.end();
-    });
-});
-
-test("ExerciseArea should hide popup and handle non existing element", (t) => {
-    dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
-        exerciseArea.hide("does-not-exist");
-        t.equal(document.getElementById("does-not-exist"), null);
-        t.end();
-    });
-});
-
-test("ExerciseArea should show element", (t) => {
-    dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
-        exerciseArea.show("icon-1");
-        t.equal(document.getElementById("icon-1").className, "show");
-        t.end();
-    });
-});
-
-test("ExerciseArea should hide element", (t) => {
-    dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
-        exerciseArea.hide("icon-1");
-        t.equal(document.getElementById("icon-1").className, "");
-        t.end();
-    });
-});
-
-test("ExerciseArea should show popup", (t) => {
-    dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
-        exerciseArea.showPopup("popup-1");
-        t.equal(document.getElementById("popup-1").className, "show");
-        t.end();
-    });
-});
-
-test("ExerciseArea should hide last shown popup before showing popup", (t) => {
-    dom.sandbox(html, {}, () => {
-        let exerciseArea = new ExerciseArea();
-
-        let lastPopup = document.createElement("div");
-        lastPopup.id = "popup-2";
-        document.body.appendChild(lastPopup);
-
-        exerciseArea.showPopup("popup-1");
-        exerciseArea.showPopup("popup-2");
-
-        t.equal(document.getElementById("popup-1").className, "");
-        t.equal(document.getElementById("popup-2").className, "show");
         t.end();
     });
 });

@@ -18,14 +18,16 @@ import Menu from "./menu";
 
 import Checker from "./pages/common/exercise-area/checker";
 import ExerciseAreaListener from "./pages/common/exercise-area/exercise-area-listener";
+import ExerciseAreaPopup from "./pages/common/exercise-area/exercise-area-popup";
 import ExerciseArea from "./pages/common/exercise-area/exercise-area";
+import FieldGenerator from "./pages/common/exercise-area/field-generator";
 import ElementWalker from "./pages/common/walkers/element-walker";
 import InputWalker from "./pages/common/walkers/input-walker";
-import FieldGenerator from "./pages/common/field-generator";
 import IntegerGenerator from "./pages/common/integer-generator";
-import SearchEngine from "./pages/common/search/search-engine";
+import Search from "./pages/common/search/search";
+import SearchEngine from "./pages/common/search/engine/search-engine";
 import SearchListener from "./pages/common/search/search-listener";
-import SearchResultVisualizer from "./pages/common/search/search-result-visualizer";
+import SearchResultPopup from "./pages/common/search/search-result-popup";
 
 import Erro404Page from "./pages/error/error-404-page";
 import HomePage from "./pages/home/home-page";
@@ -46,10 +48,9 @@ const browserEvent = new BrowserEvent();
 const http = new Http();
 const i18n = new I18n(browserEvent);
 
-// pages/common
-const fieldGenerator = new FieldGenerator();
-
 // pages
+const exerciseArea = new ExerciseArea(new Checker(), new ExerciseAreaPopup(), new FieldGenerator(), new InputWalker());
+const exerciseAreaListener = new ExerciseAreaListener(browserEvent, exerciseArea);
 const searchEngine = new SearchEngine();
 const numeralsSearchEngine = new NumeralsSearchEngine();
 const worldMap = new WorldMap(browserEvent);
@@ -74,20 +75,20 @@ class App {
             {
                 paths: ["/verbs", "/verbs/:name"],
                 page: new VerbPage(
-                    browserEvent, http, i18n, fieldGenerator,
+                    browserEvent, http, i18n, exerciseArea, exerciseAreaListener,
                     new VerbInflater(),
                     searchEngine,
-                    new SearchListener(browserEvent, searchEngine, new SearchResultVisualizer(browserEvent, new ElementWalker()))
+                    new SearchListener(browserEvent, new Search(searchEngine, new SearchResultPopup(browserEvent, new ElementWalker())))
                 ),
                 template: "/app/pages/verbs/verb-page.html"
             },
             {
                 paths: ["/numerals", "/numerals/:type"],
                 page: new NumeralsPage(
-                    browserEvent, i18n, fieldGenerator,
+                    browserEvent, i18n, exerciseArea, exerciseAreaListener,
                     new NumeralsGenerator(new IntegerGenerator()),
                     numeralsSearchEngine,
-                    new SearchListener(browserEvent, numeralsSearchEngine, new SearchResultVisualizer(browserEvent, new ElementWalker()))
+                    new SearchListener(browserEvent, new Search(numeralsSearchEngine, new SearchResultPopup(browserEvent, new ElementWalker())))
                 ),
                 template: "/app/pages/numerals/numerals-page.html"
             },
@@ -103,7 +104,6 @@ class App {
             }
         ];
 
-        new ExerciseAreaListener(browserEvent, new Checker(), new ExerciseArea(), new InputWalker());
         new Menu(browserEvent);
         new Router(browserEvent, new PathFinder(routes), new PageBroker(browserEvent, http, "page-placeholder"));
         new Toggler(browserEvent);

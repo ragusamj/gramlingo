@@ -3,6 +3,10 @@ import Shape from "./shape";
 
 const defaultSelectedCountry = "SE";
 
+const mouseButtons = {
+    main: 0
+};
+
 const colorsSchemes = {
     blue:  ["#004085", "#005dc2", "#007bff", "#7abaff"],
     cyan:  ["#117b8c", "#17a2b8", "#86cfda", "#d1ecf1"],
@@ -15,7 +19,6 @@ class WorldMap {
 
     constructor(browserEvent) {
         this.browserEvent = browserEvent;
-        this.scale = 1;
     }
 
     initialize(geometries, countries) {
@@ -23,7 +26,7 @@ class WorldMap {
         this.geometries = geometries;
         
         for(let geometry of this.geometries) {
-            geometry.color = colorsSchemes.cyan[geometry.colorIndex];
+            geometry.color = colorsSchemes.gray[geometry.colorIndex];
             geometry.name = countries[geometry.iso] ? countries[geometry.iso].name : geometry.iso;
             geometry.centroids = [];
             for(let polygon of geometry.polygons) {
@@ -33,7 +36,7 @@ class WorldMap {
         }
 
         this.canvas = new Canvas(document.getElementById("world-map"), this.geometries);
-        this.canvas.draw(this.scale);
+        this.reset();
         this.onCountrychanged(defaultSelectedCountry);
     }
 
@@ -41,15 +44,80 @@ class WorldMap {
         if(e.target) {
             requestAnimationFrame(() => {
                 if(e.target.hasAttribute("data-map-zoom-in")) {
-                    this.zoom(0.5);
+                    this.move(0, 0, 0.5);
                 }
                 if(e.target.hasAttribute("data-map-zoom-out")) {
-                    this.zoom(-0.5);
+                    this.move(0, 0, -0.5);
+                }
+                if(e.target.hasAttribute("data-map-pan-up")) {
+                    this.move(0, -50, 0);
+                }
+                if(e.target.hasAttribute("data-map-pan-down")) {
+                    this.move(0, 50, 0);
+                }
+                if(e.target.hasAttribute("data-map-pan-left")) {
+                    this.move(-50, 0, 0);
+                }
+                if(e.target.hasAttribute("data-map-pan-right")) {
+                    this.move(50, 0, 0);
+                }
+                if(e.target.hasAttribute("data-map-reset")) {
+                    this.reset();
                 }
             });
         }
+    }
 
-        if(e.target && e.target.id === "world-map") {
+    onMousedown(e) {
+        this.beginDrag(e);
+    }
+
+    onMousemove(e) {
+        this.drag(e);
+    }
+
+    onMouseup(e) {
+        this.selectCountry(e);
+        this.endDrag();
+    }
+    
+    onWheel(e) {
+        if(this.isMapEvent(e)) {
+            e.preventDefault();
+            requestAnimationFrame(() => {
+                this.move(0, 0, e.deltaY / 100 * -1);
+            });
+        }
+    }
+
+    beginDrag(e) {
+        if(this.isMapEvent(e) && e.button === mouseButtons.main) {
+            this.dragStartPoint = this.canvas.toCanvasPoint(e.clientX, e.clientY);
+        }
+    }
+
+    drag(e) {
+        if(this.isMapEvent(e) && this.dragStartPoint) {
+            this.dragging = true;
+            let mousePoint = this.canvas.toCanvasPoint(e.clientX, e.clientY);
+            requestAnimationFrame(() => {
+                this.move(
+                    (this.dragStartPoint[0] - mousePoint[0]) * 2,
+                    (this.dragStartPoint[1] - mousePoint[1]) * 2,
+                    0
+                );
+                this.dragStartPoint = mousePoint;
+            });
+        }
+    }
+
+    endDrag() {
+        this.dragStartPoint = undefined;
+        this.dragging = false;
+    }
+
+    selectCountry(e) {
+        if(!this.dragging && this.isMapEvent(e)) {
             let mousePoint = this.canvas.toCanvasPoint(e.clientX, e.clientY);
             for(let geometry of this.geometries) {
                 for(let polygon of geometry.polygons) {
@@ -61,29 +129,28 @@ class WorldMap {
             }
         }
     }
-    
-    onWheel(e) {
-        if(e.target && e.target.id === "world-map") {
-            e.preventDefault();
-            requestAnimationFrame(() => {
-                this.zoom(e.deltaY / 100 * -1);
-            });
-        }
-    }
 
     onCountrychanged(iso) {
         // TODO: position marker
         this.browserEvent.emit("map-country-changed", iso);
     }
 
-    zoom(step) {
-        this.scale += step;
-        this.canvas.draw(this.scale);
+    move(x, y, z) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
+        this.canvas.draw(this.x, this.y, this.z);
     }
 
-    pan(step) {
-        this.pan += step;
-        this.canvas.draw(this.scale);
+    reset() {
+        this.x = 0;
+        this.y = 0;
+        this.z = 1;
+        this.canvas.draw(this.x, this.y, this.z);
+    }
+
+    isMapEvent(e) {
+        return e.target && e.target.id === "world-map";
     }
 }
     

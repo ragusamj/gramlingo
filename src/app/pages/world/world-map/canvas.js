@@ -14,20 +14,19 @@ class Canvas {
         return [(x - rect.left) * scaleX, (y - rect.top) * scaleY];
     }
     
-    draw(scale) {
+    draw(x, y, z) {
 
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // TODO: use pan value
-        let offsetX = ((this.canvas.width * scale) - this.canvas.width) / 2;
-        let offsetY = ((this.canvas.height * scale) - this.canvas.height) / 2;
+        let offsetX = (((this.canvas.width + x) * z) - this.canvas.width) / 2;  // 1=right,  2=middle, 1600=left
+        let offsetY = (((this.canvas.height + y) * z) - this.canvas.height) / 2; // 1=bottom, 2=middle, 810=top
 
         for(let geometry of this.geometries) {
             for(let polygon of geometry.polygons) {
                 this.context.beginPath();
                 for(let i = 0; i < polygon.length; i++) {
-                    let x = (polygon[i][0] * scale) - offsetX;
-                    let y = (polygon[i][1] * scale) - offsetY;
+                    let x = (polygon[i][0] * z) - offsetX;
+                    let y = (polygon[i][1] * z) - offsetY;
                     if(i === 0) {
                         this.context.moveTo(x, y);
                     }
@@ -40,14 +39,14 @@ class Canvas {
             }
         }
 
-        if(scale >= 4) {
+        if(z >= 4) {
             for(let geometry of this.geometries) {
                 this.context.fillStyle = "#000";
                 this.context.font = "28px 'Montserrat', sans-serif";
                 this.context.textAlign = "center";
                 for(let centroid of geometry.centroids) {
                     if(centroid[0] && centroid[1]) {
-                        this.context.fillText(geometry.name, (centroid[0] * scale) - offsetX, (centroid[1] * scale) - offsetY);
+                        this.context.fillText(geometry.name, (centroid[0] * z) - offsetX, (centroid[1] * z) - offsetY);
                     }
                 }
             }

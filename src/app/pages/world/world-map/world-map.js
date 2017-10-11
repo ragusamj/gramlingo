@@ -44,22 +44,22 @@ class WorldMap {
         if(e.target) {
             requestAnimationFrame(() => {
                 if(e.target.hasAttribute("data-map-zoom-in")) {
-                    this.move(0, 0, 0.5);
+                    this.move(0, 0, this.z / 2);
                 }
                 if(e.target.hasAttribute("data-map-zoom-out")) {
                     this.move(0, 0, -0.5);
                 }
                 if(e.target.hasAttribute("data-map-pan-up")) {
-                    this.move(0, -50, 0);
+                    this.move(0, -100, 0);
                 }
                 if(e.target.hasAttribute("data-map-pan-down")) {
-                    this.move(0, 50, 0);
+                    this.move(0, 100, 0);
                 }
                 if(e.target.hasAttribute("data-map-pan-left")) {
-                    this.move(-50, 0, 0);
+                    this.move(-100, 0, 0);
                 }
                 if(e.target.hasAttribute("data-map-pan-right")) {
-                    this.move(50, 0, 0);
+                    this.move(100, 0, 0);
                 }
                 if(e.target.hasAttribute("data-map-reset")) {
                     this.reset();
@@ -85,7 +85,10 @@ class WorldMap {
         if(this.isMapEvent(e)) {
             e.preventDefault();
             requestAnimationFrame(() => {
-                this.move(0, 0, e.deltaY / 100 * -1);
+                // step = e.deltaY / 100 // set the zooming speed, 100 seems reasonable
+                // step / z              // maintain the same speed regardless of scale (otherwise it would go slower and slower when zooming in and vice versa)
+                // * -1                  // reverse the zoom gesture
+                this.move(0, 0, e.deltaY / (100 / this.z) * -1);
             });
         }
     }
@@ -101,12 +104,17 @@ class WorldMap {
             this.dragging = true;
             let mousePoint = this.canvas.toCanvasPoint(e.clientX, e.clientY);
             requestAnimationFrame(() => {
-                this.move(
-                    (this.dragStartPoint[0] - mousePoint[0]) * 2,
-                    (this.dragStartPoint[1] - mousePoint[1]) * 2,
-                    0
-                );
-                this.dragStartPoint = mousePoint;
+                if(this.dragStartPoint) {
+                    this.move(
+                        // step = dragStartPoint - mousePoint // delta, how many pixels did the mouse move
+                        // step / z                           // make the step smaller when the scale increases (zoomed in) and vice versa
+                        // * 4.65                             // keep the image centered around the mouse pointer
+                        ((this.dragStartPoint[0] - mousePoint[0]) / this.z) * 2,
+                        ((this.dragStartPoint[1] - mousePoint[1]) / this.z) * 2,
+                        0
+                    );
+                    this.dragStartPoint = mousePoint;
+                }
             });
         }
     }
@@ -119,6 +127,8 @@ class WorldMap {
     selectCountry(e) {
         if(!this.dragging && this.isMapEvent(e)) {
             let mousePoint = this.canvas.toCanvasPoint(e.clientX, e.clientY);
+            mousePoint[0] = (mousePoint[0] + this.canvas.offsetX) / this.z;
+            mousePoint[1] = (mousePoint[1] + this.canvas.offsetY) / this.z;
             for(let geometry of this.geometries) {
                 for(let polygon of geometry.polygons) {
                     if(Shape.inside(mousePoint, polygon)) {
@@ -135,10 +145,10 @@ class WorldMap {
         this.browserEvent.emit("map-country-changed", iso);
     }
 
-    move(x, y, z) {
-        this.x += x;
-        this.y += y;
-        this.z += z;
+    move(xstep, ystep, zstep) {
+        this.x += xstep;
+        this.y += ystep;
+        this.z += zstep;
         this.canvas.draw(this.x, this.y, this.z);
     }
 

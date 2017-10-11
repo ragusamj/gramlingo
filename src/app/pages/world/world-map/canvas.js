@@ -7,26 +7,30 @@ class Canvas {
     }
     
     toCanvasPoint(x, y) {
-        // TODO: adjust to zoom level
+        // TODO: cache getBoundingClientRect, window resize
         let rect = this.canvas.getBoundingClientRect();
-        let scaleX = this.canvas.width / rect.width;
-        let scaleY = this.canvas.height / rect.height;
-        return [(x - rect.left) * scaleX, (y - rect.top) * scaleY];
+        let scaleX = (this.canvas.width / rect.width);
+        let scaleY = (this.canvas.height / rect.height);
+        return [
+            ((x - rect.left) * scaleX),
+            ((y - rect.top) * scaleY)
+        ];
     }
     
     draw(x, y, z) {
 
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        let offsetX = (((this.canvas.width + x) * z) - this.canvas.width) / 2;  // 1=right,  2=middle, 1600=left
-        let offsetY = (((this.canvas.height + y) * z) - this.canvas.height) / 2; // 1=bottom, 2=middle, 810=top
+        // (((w + x) * z) - w) / 2
+        this.offsetX = (((this.canvas.width + x) * z) - this.canvas.width) / 2;  // 1=right,  2=middle, 1600=left
+        this.offsetY = (((this.canvas.height + y) * z) - this.canvas.height) / 2; // 1=bottom, 2=middle, 810=top
 
         for(let geometry of this.geometries) {
             for(let polygon of geometry.polygons) {
                 this.context.beginPath();
                 for(let i = 0; i < polygon.length; i++) {
-                    let x = (polygon[i][0] * z) - offsetX;
-                    let y = (polygon[i][1] * z) - offsetY;
+                    let x = (polygon[i][0] * z) - this.offsetX;
+                    let y = (polygon[i][1] * z) - this.offsetY;
                     if(i === 0) {
                         this.context.moveTo(x, y);
                     }
@@ -46,7 +50,7 @@ class Canvas {
                 this.context.textAlign = "center";
                 for(let centroid of geometry.centroids) {
                     if(centroid[0] && centroid[1]) {
-                        this.context.fillText(geometry.name, (centroid[0] * z) - offsetX, (centroid[1] * z) - offsetY);
+                        this.context.fillText(geometry.name, (centroid[0] * z) - this.offsetX, (centroid[1] * z) - this.offsetY);
                     }
                 }
             }

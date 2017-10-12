@@ -3,10 +3,10 @@ class Shape {
     static centroid(polygon){
         let xmin, xmax, ymin, ymax;
         for(let point of polygon){
-            xmin = (point[0] < xmin || xmin === undefined) ? point[0] : xmin;
-            xmax = (point[0] > xmax || xmax === undefined) ? point[0] : xmax;
-            ymin = (point[1] < ymin || ymin === undefined) ? point[1] : ymin;
-            ymax = (point[1] > ymax || ymax === undefined) ? point[1] : ymax;
+            xmin = (!xmin || point[0] < xmin) ? point[0] : xmin;
+            xmax = (!xmax || point[0] > xmax) ? point[0] : xmax;
+            ymin = (!ymin || point[1] < ymin) ? point[1] : ymin;
+            ymax = (!ymax || point[1] > ymax) ? point[1] : ymax;
         }
         return [(xmin + xmax) / 2, (ymin + ymax) / 2];
     }

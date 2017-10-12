@@ -22,7 +22,7 @@ class WorldMap {
         this.geometries = geometries;
         
         for(let geometry of this.geometries) {
-            geometry.color = colorsSchemes.gray[geometry.colorIndex];
+            geometry.color = colorsSchemes.green[geometry.colorIndex];
             geometry.name = countries[geometry.iso] ? countries[geometry.iso].name : geometry.iso;
             geometry.centroids = [];
             for(let polygon of geometry.polygons) {
@@ -46,16 +46,16 @@ class WorldMap {
                     this.canvas.zoom(50);
                 }
                 if(e.target.hasAttribute("data-map-pan-up")) {
-                    this.canvas.move(0, -100, 0);
+                    this.canvas.move(0, -100, 0, 2, 2);
                 }
                 if(e.target.hasAttribute("data-map-pan-down")) {
-                    this.canvas.move(0, 100, 0);
+                    this.canvas.move(0, 100, 0, 2, 2);
                 }
                 if(e.target.hasAttribute("data-map-pan-left")) {
-                    this.canvas.move(-100, 0, 0);
+                    this.canvas.move(-100, 0, 0, 2, 2);
                 }
                 if(e.target.hasAttribute("data-map-pan-right")) {
-                    this.canvas.move(100, 0, 0);
+                    this.canvas.move(100, 0, 0, 2, 2);
                 }
                 if(e.target.hasAttribute("data-map-reset")) {
                     this.canvas.reset();
@@ -89,15 +89,10 @@ class WorldMap {
     }
 
     selectCountry(e) {
-        if(!this.canvas.dragging && this.isMapEvent(e)) {
-            let point = this.canvas.offsetPointToOrigin(e.clientX, e.clientY);
-            for(let geometry of this.geometries) {
-                for(let polygon of geometry.polygons) {
-                    if(Shape.inside(point, polygon)) {
-                        this.onCountrychanged(geometry.iso);
-                        return;
-                    }
-                }
+        if(this.isMapEvent(e)) {
+            let geometry = this.canvas.select(e);
+            if(geometry) {
+                this.onCountrychanged(geometry.iso);
             }
         }
     }

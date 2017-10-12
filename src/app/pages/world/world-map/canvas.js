@@ -1,3 +1,5 @@
+import Shape from "./shape";
+
 const mouseButtons = {
     main: 0
 };
@@ -12,6 +14,20 @@ class Canvas {
 
     resize() {
         this.boundingClientRect = this.canvas.getBoundingClientRect();
+    }
+
+    select(e) {
+        if(!this.dragging) {
+            let point = this.offsetPointToOrigin(e.clientX, e.clientY);
+            for(let geometry of this.geometries) {
+                for(let polygon of geometry.polygons) {
+                    if(Shape.inside(point, polygon)) {
+                        return geometry;
+                    }
+                }
+            }
+        }
+        return undefined;
     }
 
     beginDrag(e) {
@@ -32,7 +48,7 @@ class Canvas {
                         // * 2                                 // keep the image centered around the mouse pointer
                         ((this.dragStartPoint[0] - mousePoint[0]) / this.z) * 2,
                         ((this.dragStartPoint[1] - mousePoint[1]) / this.z) * 2,
-                        0
+                        0, 2, 2
                     );
                     this.dragStartPoint = mousePoint;
                 }
@@ -49,7 +65,8 @@ class Canvas {
         requestAnimationFrame(() => {
             // (speed / scale) // set the zooming speed and maintain the same speed regardless of scale
             // * -1            // reverse the zoom gesture
-            this.move(0, 0, delta / (100 / this.z) * -1);
+            // TODO, use dynamic values for h,v
+            this.move(0, 0, delta / (100 / this.z) * -1, 2, 2);
         });
     }
     
@@ -80,22 +97,21 @@ class Canvas {
     }
 
     calculateOffset() {
-        // h and v, where is the center point when zooming:
-        // h: 1=right,  2=middle, canvas.width=left
-        // v: 1=bottom, 2=middle, canvas.height=top
         this.offset = [
             (((this.canvas.width + this.x) * this.z) - this.canvas.width) / this.h,
             (((this.canvas.height + this.y) * this.z) - this.canvas.height) / this.v
         ];
     }
 
-    move(x, y, z) {
+    // h and v, where is the center point when zooming:
+    // h: 1=right,  2=middle, canvas.width=left
+    // v: 1=bottom, 2=middle, canvas.height=top
+    move(x, y, z, h, v) {
         this.x += x;
         this.y += y;
         this.z += z;
-        // TODO, use dynamic values for h,v
-        this.h = 2;
-        this.v = 2;
+        this.h = h;
+        this.v = v;
         this.calculateOffset();
         this.draw();
     }

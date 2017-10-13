@@ -32,7 +32,7 @@ class WorldMap {
         }
 
         this.canvas = new Canvas(document.getElementById("world-map"), this.geometries);
-        this.canvas.reset();
+        this.canvas.resize();
         this.onCountrychanged(defaultSelectedCountry);
     }
 
@@ -79,6 +79,10 @@ class WorldMap {
     onMouseup(e) {
         this.selectCountry(e);
         this.canvas.endDrag();
+    }
+
+    onResize(e) {
+        this.canvas.resize(e);
     }
     
     onWheel(e) {

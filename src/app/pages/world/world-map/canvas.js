@@ -10,10 +10,18 @@ class Canvas {
         this.canvas = canvas;
         this.geometries = geometries;
         this.context = this.canvas.getContext("2d");
+        this.originalWidth = this.canvas.width;
+        this.originalHeight = this.canvas.height;
     }
 
     resize() {
-        this.boundingClientRect = this.canvas.getBoundingClientRect();
+        let aspectRatio = this.canvas.height / this.canvas.width;
+        let parentClientRect = this.canvas.parentElement.getBoundingClientRect();
+        this.canvas.width = parentClientRect.width * 2;
+        this.canvas.height = (parentClientRect.width * aspectRatio) * 2;
+        this.canvas.style.width = parentClientRect.width + "px";
+        this.canvas.style.height = (parentClientRect.width * aspectRatio) + "px";
+        this.reset();
     }
 
     select(e) {
@@ -71,7 +79,6 @@ class Canvas {
     }
     
     toCanvasPoint(x, y) {
-        // TODO: cache getBoundingClientRect, window resize
         let rect = this.canvas.getBoundingClientRect();
         let scaleX = (this.canvas.width / rect.width);
         let scaleY = (this.canvas.height / rect.height);
@@ -112,23 +119,22 @@ class Canvas {
         this.z += z;
         this.h = h;
         this.v = v;
-        this.calculateOffset();
         this.draw();
     }
 
     reset() {
-        this.x = 0;
-        this.y = 0;
-        this.z = 1;
+        this.x = this.originalWidth - this.canvas.width;
+        this.y = this.originalHeight - this.canvas.height;
+        this.z = this.canvas.width / this.originalWidth;
         this.h = 2;
         this.v = 2;
-        this.calculateOffset();
         this.draw();
     }
     
     draw() {
 
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.calculateOffset();
 
         for(let geometry of this.geometries) {
             for(let polygon of geometry.polygons) {
@@ -149,7 +155,7 @@ class Canvas {
 
         if(this.z >= 4) {
             for(let geometry of this.geometries) {
-                this.context.fillStyle = "#000";
+                this.context.fillStyle = "#fff";
                 this.context.font = "28px 'Montserrat', sans-serif";
                 this.context.textAlign = "center";
                 for(let centroid of geometry.centroids) {

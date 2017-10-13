@@ -11,6 +11,7 @@ class WorldMapListener {
             this.browserEvent.on("mousedown", this.worldMap.onMousedown.bind(this.worldMap)),
             this.browserEvent.on("mousemove", this.worldMap.onMousemove.bind(this.worldMap)),
             this.browserEvent.on("mouseup", this.worldMap.onMouseup.bind(this.worldMap)),
+            this.browserEvent.on("resize", this.worldMap.onResize.bind(this.worldMap)),
             this.browserEvent.on("wheel", this.worldMap.onWheel.bind(this.worldMap))
         ];
     }

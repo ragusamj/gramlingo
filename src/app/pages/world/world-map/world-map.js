@@ -1,5 +1,4 @@
 import Canvas from "./canvas";
-import polylabel from "polylabel";
 
 const defaultSelectedCountry = "SE";
 
@@ -24,16 +23,6 @@ class WorldMap {
         for(let geometry of this.geometries) {
             geometry.color = colorsSchemes.cyan[geometry.colorIndex];
             geometry.label = countries[geometry.iso] ? countries[geometry.iso].name[0] : geometry.iso;
-
-            let largestPolygon = geometry.polygons[0];
-            for (let i = 0; i < geometry.polygons.length; i++) {
-                if (geometry.polygons[i].length > largestPolygon.length) {
-                    largestPolygon = geometry.polygons[i];
-                }
-            }
-
-            geometry.centroid = polylabel([largestPolygon], 0.01);
-            geometry.size = largestPolygon.length;
         }
 
         this.canvas = new Canvas(document.getElementById("world-map"), this.geometries);

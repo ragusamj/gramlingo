@@ -1,6 +1,7 @@
+import polylabel from "polylabel";
 import Shape from "./shape";
 
-const nameVisibleThreshold = 30;
+const nameVisibleThreshold = 25;
 
 const mouseButtons = {
     main: 0
@@ -14,10 +15,15 @@ class Canvas {
         this.context = this.canvas.getContext("2d");
         this.originalWidth = this.canvas.width;
         this.originalHeight = this.canvas.height;
-        this.fontSize = parseFloat(getComputedStyle(document.documentElement).fontSize) * 1.5;
+        this.fontSize = parseFloat(getComputedStyle(document.documentElement).fontSize) * 2;
         this.labelFont = this.fontSize + "px 'Montserrat', sans-serif";
         this.labelColor = "#000";
         this.labelAlign = "center";
+    
+        for(let geometry of this.geometries) {
+            geometry.max = Shape.max(geometry.polygons);
+            geometry.centroid = polylabel([geometry.max], 0.01);
+        }
     }
 
     resize() {
@@ -33,10 +39,12 @@ class Canvas {
     select(e) {
         if(!this.dragging) {
             let point = this.offsetPointToOrigin(e.clientX, e.clientY);
-            for(let geometry of this.geometries) {
-                for(let polygon of geometry.polygons) {
+            let i = this.geometries.length;
+            // Loop backwards to try smaller polygons drawn on top of larger ones first
+            while(i--) {
+                for(let polygon of this.geometries[i].polygons) {
                     if(Shape.inside(point, polygon)) {
-                        return geometry;
+                        return this.geometries[i];
                     }
                 }
             }
@@ -165,7 +173,7 @@ class Canvas {
     label() {
         if(this.z > 1) {
             for(let geometry of this.geometries) {
-                if((geometry.size * this.z) / geometry.label.length > nameVisibleThreshold) {
+                if((geometry.max.length * this.z) / geometry.label.length > nameVisibleThreshold) {
                     this.context.fillStyle = this.labelColor;
                     this.context.font = this.labelFont;
                     this.context.textAlign = this.labelAlign;

@@ -1,3 +1,5 @@
+import Shape from "./shape";
+
 class Topology {
 
     static inflate(topology) {
@@ -17,7 +19,11 @@ class Topology {
                 geometries.push(transformed);
             }
         }
-        return geometries;
+        // Sort the geometries by polygon size to maker sure the
+        // smaller ones get drawn on top of the bigger ones, ie last
+        return geometries.sort((a, b) => {
+            return Shape.max(a.polygons) > Shape.max(b.polygons) ? 1 : -1;
+        });
     }
 
     static copy(geometry, transformed) {

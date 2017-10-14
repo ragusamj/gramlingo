@@ -1,16 +1,5 @@
 class Shape {
-
-    static centroid(polygon){
-        let xmin, xmax, ymin, ymax;
-        for(let point of polygon){
-            xmin = (!xmin || point[0] < xmin) ? point[0] : xmin;
-            xmax = (!xmax || point[0] > xmax) ? point[0] : xmax;
-            ymin = (!ymin || point[1] < ymin) ? point[1] : ymin;
-            ymax = (!ymax || point[1] > ymax) ? point[1] : ymax;
-        }
-        return [(xmin + xmax) / 2, (ymin + ymax) / 2];
-    }
-
+    
     static inside(point, polygon) {
         // Ray casting, http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
         let inside = false;
@@ -26,5 +15,5 @@ class Shape {
         return inside;
     }
 }
-
+    
 export default Shape;

@@ -1,5 +1,7 @@
 import Shape from "./shape";
 
+const nameVisibleThreshold = 30;
+
 const mouseButtons = {
     main: 0
 };
@@ -12,6 +14,7 @@ class Canvas {
         this.context = this.canvas.getContext("2d");
         this.originalWidth = this.canvas.width;
         this.originalHeight = this.canvas.height;
+        this.fontSize = parseFloat(getComputedStyle(document.documentElement).fontSize) * 2;
     }
 
     resize() {
@@ -153,17 +156,13 @@ class Canvas {
             }
         }
 
-        if(this.z >= 4) {
-            for(let geometry of this.geometries) {
-                this.context.fillStyle = "#fff";
-                this.context.font = "28px 'Montserrat', sans-serif";
+        for(let geometry of this.geometries) {
+            if((geometry.size * this.z) / geometry.name.length > nameVisibleThreshold) {
+                this.context.fillStyle = "#000";
+                this.context.font = this.fontSize + "px 'Montserrat', sans-serif";
                 this.context.textAlign = "center";
-                for(let centroid of geometry.centroids) {
-                    if(centroid[0] && centroid[1]) {
-                        let point = this.offsetPointToCanvas(centroid);
-                        this.context.fillText(geometry.name, point[0], point[1]);
-                    }
-                }
+                let point = this.offsetPointToCanvas(geometry.centroid);
+                this.context.fillText(geometry.name, point[0], point[1]);
             }
         }
     }

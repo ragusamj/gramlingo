@@ -14,7 +14,10 @@ class Canvas {
         this.context = this.canvas.getContext("2d");
         this.originalWidth = this.canvas.width;
         this.originalHeight = this.canvas.height;
-        this.fontSize = parseFloat(getComputedStyle(document.documentElement).fontSize) * 2;
+        this.fontSize = parseFloat(getComputedStyle(document.documentElement).fontSize) * 1.5;
+        this.labelFont = this.fontSize + "px 'Montserrat', sans-serif";
+        this.labelColor = "#000";
+        this.labelAlign = "center";
     }
 
     resize() {
@@ -156,13 +159,19 @@ class Canvas {
             }
         }
 
-        for(let geometry of this.geometries) {
-            if((geometry.size * this.z) / geometry.name.length > nameVisibleThreshold) {
-                this.context.fillStyle = "#000";
-                this.context.font = this.fontSize + "px 'Montserrat', sans-serif";
-                this.context.textAlign = "center";
-                let point = this.offsetPointToCanvas(geometry.centroid);
-                this.context.fillText(geometry.name, point[0], point[1]);
+        this.label();
+    }
+
+    label() {
+        if(this.z > 1) {
+            for(let geometry of this.geometries) {
+                if((geometry.size * this.z) / geometry.label.length > nameVisibleThreshold) {
+                    this.context.fillStyle = this.labelColor;
+                    this.context.font = this.labelFont;
+                    this.context.textAlign = this.labelAlign;
+                    let point = this.offsetPointToCanvas(geometry.centroid);
+                    this.context.fillText(geometry.label, point[0], point[1]);
+                }
             }
         }
     }

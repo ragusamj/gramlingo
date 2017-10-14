@@ -23,7 +23,7 @@ class WorldMap {
         
         for(let geometry of this.geometries) {
             geometry.color = colorsSchemes.cyan[geometry.colorIndex];
-            geometry.name = countries[geometry.iso] ? countries[geometry.iso].name : geometry.iso;
+            geometry.label = countries[geometry.iso] ? countries[geometry.iso].name[0] : geometry.iso;
 
             let largestPolygon = geometry.polygons[0];
             for (let i = 0; i < geometry.polygons.length; i++) {

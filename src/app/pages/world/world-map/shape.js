@@ -14,6 +14,16 @@ class Shape {
         }
         return inside;
     }
+
+    static max(polygons) {
+        let max = polygons[0];
+        for (let i = 0; i < polygons.length; i++) {
+            if (polygons[i].length > max.length) {
+                max = polygons[i];
+            }
+        }
+        return max;
+    }
 }
     
 export default Shape;

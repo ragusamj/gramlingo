@@ -1,6 +1,6 @@
 class Topology {
 
-    static transform(topology) {
+    static inflate(topology) {
         let geometries = [];
         for(let key of Object.keys(topology.objects)) {
             for(let geometry of topology.objects[key].geometries) {

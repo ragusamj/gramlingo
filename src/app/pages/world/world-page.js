@@ -1,3 +1,4 @@
+import CountryInflater from "./country-inflater";
 import Topology from "./world-map/topology";
 
 class WorldPage {
@@ -7,23 +8,13 @@ class WorldPage {
         this.http = http;
         this.worldMap = worldMap;
         this.worldMapListener = worldMapListener;
-
-        // TODO: fetch real country data
-        this.countries = {
-            BR: { name: "Brasil" },
-            CD: { name: "República Democrática del Congo" },
-            ES: { name: "España" },
-            GB: { name: "Reino Unido" },
-            NO: { name: "Noruega" },
-            PG: { name: "Papúa Nueva Guinea" },
-            SE: { name: "Suecia" },
-            US: { name: "Estados Unidos" }
-        };
     }
     
     attach(pageTemplate, onPageChanged, parameters) {
         this.loadTopology(() => {
-            this.loadPage(pageTemplate, onPageChanged, parameters);
+            this.loadCountries(() => {
+                this.loadPage(pageTemplate, onPageChanged, parameters);
+            });
         });
     }
     
@@ -38,10 +29,26 @@ class WorldPage {
         }
         else {
             this.http.getJSON("/data/world-map.json", (data) => {
-                this.geometries = Topology.transform(data);
+                this.geometries = Topology.inflate(data);
                 callback();
             }, (event) => {
                 // console.log("loading world map topology, recieved", event.loaded, "bytes of", event.total);
+                return event;
+            });
+        }
+    }
+
+    loadCountries(callback) {
+        // TODO: create a generic data loader for verbs, topologies, countries etc
+        if(this.countries) {
+            callback();
+        }
+        else {
+            this.http.getJSON("/data/countries.json", (data) => {
+                this.countries = new CountryInflater().inflate(data);
+                callback();
+            }, (event) => {
+                // console.log("loading countries, recieved", event.loaded, "bytes of", event.total);
                 return event;
             });
         }

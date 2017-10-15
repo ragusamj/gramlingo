@@ -1,6 +1,7 @@
 import Canvas from "../../common/2d/canvas/canvas";
 
 const defaultSelectedCountry = "SE";
+const disputed = "-99";
 
 const colorsSchemes = {
     blue:  ["#004085", "#005dc2", "#007bff", "#7abaff"],
@@ -21,8 +22,14 @@ class WorldMap {
         this.geometries = geometries;
         
         for(let geometry of this.geometries) {
-            geometry.color = colorsSchemes.cyan[geometry.colorIndex];
-            geometry.label = countries[geometry.iso] ? countries[geometry.iso].name[0] : geometry.iso;
+            if(geometry.iso === disputed) {
+                geometry.color = "#333";
+                geometry.label = "";
+            }
+            else {
+                geometry.color = colorsSchemes.cyan[geometry.colorIndex];
+                geometry.label = countries[geometry.iso] ? countries[geometry.iso].name[0] : geometry.iso;
+            }
         }
 
         this.canvas = new Canvas(document.getElementById("world-map"), this.geometries);
@@ -85,7 +92,7 @@ class WorldMap {
     selectCountry(e) {
         if(this.isMapEvent(e)) {
             let geometry = this.canvas.select(e);
-            if(geometry) {
+            if(geometry && geometry.iso !== disputed) {
                 this.onCountrychanged(geometry.iso);
             }
         }

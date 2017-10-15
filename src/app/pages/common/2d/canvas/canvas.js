@@ -168,7 +168,7 @@ class Canvas {
     label() {
         if(this.z > 1) {
             for(let geometry of this.geometries) {
-                if((geometry.max.length * this.z) / geometry.label.length > nameVisibleThreshold) {
+                if(geometry.label && (geometry.max.length * this.z) / geometry.label.length > nameVisibleThreshold) {
                     let point = this.offsetPointToCanvas(geometry.centroid);
                     this.countryLabel.draw(point, geometry.label);
                 }

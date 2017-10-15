@@ -1,7 +1,8 @@
 import polylabel from "polylabel";
+import Label from "./label";
 import Shape from "./shape";
 
-const nameVisibleThreshold = 25;
+const nameVisibleThreshold = 20;
 
 const mouseButtons = {
     main: 0
@@ -15,14 +16,11 @@ class Canvas {
         this.context = this.canvas.getContext("2d");
         this.originalWidth = this.canvas.width;
         this.originalHeight = this.canvas.height;
-        this.fontSize = parseFloat(getComputedStyle(document.documentElement).fontSize) * 2;
-        this.labelFont = this.fontSize + "px 'Montserrat', sans-serif";
-        this.labelColor = "#000";
-        this.labelAlign = "center";
+        this.countryLabel = new Label(this.context, "'Montserrat', sans-serif", 75, "#fff", "rgba(0, 0, 0, 0.5");
     
         for(let geometry of this.geometries) {
             geometry.max = Shape.max(geometry.polygons);
-            geometry.centroid = polylabel([geometry.max], 0.01);
+            geometry.centroid = polylabel([geometry.max], 0.5);
         }
     }
 
@@ -38,7 +36,7 @@ class Canvas {
 
     select(e) {
         if(!this.dragging) {
-            let point = this.offsetPointToOrigin(e.clientX, e.clientY);
+            let point = this.offsetPointToOrigin([e.clientX, e.clientY]);
             let i = this.geometries.length;
             // Loop backwards to try smaller polygons drawn on top of larger ones first
             while(i--) {
@@ -109,11 +107,11 @@ class Canvas {
         ];
     }
 
-    offsetPointToOrigin(x, y) {
-        let point = this.toCanvasPoint(x, y);
+    offsetPointToOrigin(point) {
+        let canvasPoint = this.toCanvasPoint(point[0], point[1]);
         return [
-            (point[0] + this.offset[0]) / this.z,
-            (point[1] + this.offset[1]) / this.z
+            (canvasPoint[0] + this.offset[0]) / this.z,
+            (canvasPoint[1] + this.offset[1]) / this.z
         ];
     }
 
@@ -146,10 +144,8 @@ class Canvas {
     }
     
     draw() {
-
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.calculateOffset();
-
         for(let geometry of this.geometries) {
             for(let polygon of geometry.polygons) {
                 this.context.beginPath();
@@ -166,7 +162,6 @@ class Canvas {
                 this.context.fill();
             }
         }
-
         this.label();
     }
 
@@ -174,11 +169,8 @@ class Canvas {
         if(this.z > 1) {
             for(let geometry of this.geometries) {
                 if((geometry.max.length * this.z) / geometry.label.length > nameVisibleThreshold) {
-                    this.context.fillStyle = this.labelColor;
-                    this.context.font = this.labelFont;
-                    this.context.textAlign = this.labelAlign;
                     let point = this.offsetPointToCanvas(geometry.centroid);
-                    this.context.fillText(geometry.label, point[0], point[1]);
+                    this.countryLabel.draw(point, geometry.label);
                 }
             }
         }

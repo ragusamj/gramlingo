@@ -1,18 +1,21 @@
 import CountryInflater from "./country-inflater";
-import Topology from "../common/2d/topology";
+import TopologyInflater from "../common/2d/topology-inflater";
 
 class WorldPage {
     
-    constructor(browserEvent, http, worldMap, worldMapListener) {
+    constructor(browserEvent, http, cachedInflater, worldMap, worldMapListener) {
         this.browserEvent = browserEvent;
         this.http = http;
+        this.cachedInflater = cachedInflater;
         this.worldMap = worldMap;
         this.worldMapListener = worldMapListener;
     }
     
     attach(pageTemplate, onPageChanged, parameters) {
-        this.loadTopology(() => {
-            this.loadCountries(() => {
+        this.cachedInflater.get("/data/world-map.json", TopologyInflater, (data) => {
+            this.geometries = data;
+            this.cachedInflater.get("/data/countries.json", CountryInflater, (data) => {
+                this.countries = data;
                 this.loadPage(pageTemplate, onPageChanged, parameters);
             });
         });
@@ -21,37 +24,6 @@ class WorldPage {
     detach() {
         this.removeListener();
         this.worldMapListener.detach();
-    }
-
-    loadTopology(callback) {
-        if(this.geometries) {
-            callback();
-        }
-        else {
-            this.http.getJSON("/data/world-map.json", (data) => {
-                this.geometries = Topology.inflate(data);
-                callback();
-            }, (event) => {
-                // console.log("loading world map topology, recieved", event.loaded, "bytes of", event.total);
-                return event;
-            });
-        }
-    }
-
-    loadCountries(callback) {
-        // TODO: create a generic data loader for verbs, topologies, countries etc
-        if(this.countries) {
-            callback();
-        }
-        else {
-            this.http.getJSON("/data/countries.json", (data) => {
-                this.countries = new CountryInflater().inflate(data);
-                callback();
-            }, (event) => {
-                // console.log("loading countries, recieved", event.loaded, "bytes of", event.total);
-                return event;
-            });
-        }
     }
 
     loadPage(pageTemplate, onPageChanged) {

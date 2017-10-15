@@ -1,5 +1,5 @@
 import test from "tape";
-import Topology from "./topology";
+import TopologyInflater from "./topology-inflater";
 
 const topojson = {
     "transform": {
@@ -29,14 +29,14 @@ const topojson = {
 
 test("Topology should stitch the coordinates of an arc", (t) => {
     let coordinates = [];
-    Topology.stitch(topojson, topojson.objects.world.geometries[0].arcs[0], coordinates);
+    TopologyInflater.stitch(topojson, topojson.objects.world.geometries[0].arcs[0], coordinates);
     t.deepEqual(coordinates, [[3, 3], [7, 7], [13, 3]]);
     t.end();
 });
 
 test("Topology should stitch the coordinates of a reversed arc (negative index, ones' complement)", (t) => {
     let coordinates = [];
-    Topology.stitch(topojson, topojson.objects.world.geometries[0].arcs[1], coordinates);
+    TopologyInflater.stitch(topojson, topojson.objects.world.geometries[0].arcs[1], coordinates);
     t.deepEqual(coordinates, [[13, 3], [7, 7], [3, 3]]);
     t.end();
 });

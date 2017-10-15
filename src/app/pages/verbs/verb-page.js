@@ -1,21 +1,22 @@
+import VerbInflater from "./verb-inflater";
 
 const defaultVerb = "Ir";
 
 class VerbPage {
 
-    constructor(browserEvent, http, i18n, exerciseArea, exerciseAreaListener, verbInflater, searchEngine, searchListener) {
+    constructor(browserEvent, i18n, cachedInflater, exerciseArea, exerciseAreaListener, searchEngine, searchListener) {
         this.browserEvent = browserEvent;
-        this.http = http;
         this.i18n = i18n;
+        this.cachedInflater = cachedInflater;
         this.exerciseArea = exerciseArea;
         this.exerciseAreaListener = exerciseAreaListener;
-        this.verbInflater = verbInflater;
         this.searchEngine = searchEngine;
         this.searchListener = searchListener;
     }
 
     attach(pageTemplate, onPageChanged, parameters) {
-        this.loadVerbs(() => {
+        this.cachedInflater.get("/data/verbs.json", VerbInflater, (data) => {
+            this.verbs = data;
             this.loadPage(pageTemplate, onPageChanged, parameters);
         });
         this.removeListeners = [
@@ -31,21 +32,6 @@ class VerbPage {
         }
         this.exerciseAreaListener.detach();
         this.searchListener.detach();
-    }
-
-    loadVerbs(callback) {
-        if(this.verbs) {
-            callback();
-        }
-        else {
-            this.http.getJSON("/data/verbs.json", (data) => {
-                this.verbs = this.verbInflater.inflate(data);
-                callback();
-            }, (event) => {
-                // console.log("loading verbs, recieved", event.loaded, "bytes of", event.total);
-                return event;
-            });
-        }
     }
 
     loadPage(pageTemplate, onPageChanged, parameters) {

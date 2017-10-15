@@ -1,6 +1,6 @@
 import Shape from "./shape";
 
-class Topology {
+class TopologyInflater {
 
     static inflate(topology) {
         let geometries = [];
@@ -62,5 +62,5 @@ class Topology {
     }
 }
     
-export default Topology;
+export default TopologyInflater;
     

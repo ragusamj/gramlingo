@@ -16,6 +16,7 @@ import svSE from "./translations/sv-SE";
 
 import Menu from "./menu";
 
+import CachedInflater from "./pages/common/cached-inflater";
 import Checker from "./pages/common/exercise-area/checker";
 import ExerciseAreaListener from "./pages/common/exercise-area/exercise-area-listener";
 import ExerciseAreaPopup from "./pages/common/exercise-area/exercise-area-popup";
@@ -36,7 +37,6 @@ import NumeralsGenerator from "./pages/numerals/numerals-generator";
 import NumeralsPage from "./pages/numerals/numerals-page";
 import NumeralsSearchEngine from "./pages/numerals/numerals-search-engine";
 
-import VerbInflater from "./pages/verbs/verb-inflater";
 import VerbPage from "./pages/verbs/verb-page";
 
 import WorldMap from "./pages/world/world-map/world-map";
@@ -49,6 +49,7 @@ const http = new Http();
 const i18n = new I18n(browserEvent);
 
 // pages
+const cachedInflater = new CachedInflater(http);
 const exerciseArea = new ExerciseArea(new Checker(), new ExerciseAreaPopup(), new FieldGenerator(), new InputWalker());
 const exerciseAreaListener = new ExerciseAreaListener(browserEvent, exerciseArea);
 const searchEngine = new SearchEngine();
@@ -75,9 +76,7 @@ class App {
             {
                 paths: ["/verbs", "/verbs/:name"],
                 page: new VerbPage(
-                    browserEvent, http, i18n, exerciseArea, exerciseAreaListener,
-                    new VerbInflater(),
-                    searchEngine,
+                    browserEvent, i18n, cachedInflater, exerciseArea, exerciseAreaListener, searchEngine,
                     new SearchListener(browserEvent, new Search(searchEngine, new SearchResultPopup(browserEvent, new ElementWalker())))
                 ),
                 template: "/app/pages/verbs/verb-page.html"
@@ -94,7 +93,7 @@ class App {
             },
             {
                 paths: ["/world", "/world/:part"],
-                page: new WorldPage(browserEvent, http, worldMap, new WorldMapListener(browserEvent, worldMap)),
+                page: new WorldPage(browserEvent, http, cachedInflater, worldMap, new WorldMapListener(browserEvent, worldMap)),
                 template: "/app/pages/world/world-page.html"
             },
             {

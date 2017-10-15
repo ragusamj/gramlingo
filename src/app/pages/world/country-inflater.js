@@ -1,6 +1,6 @@
 class CountryInflater {
     
-    inflate(data) {
+    static inflate(data) {
 
         let countries = {};
 

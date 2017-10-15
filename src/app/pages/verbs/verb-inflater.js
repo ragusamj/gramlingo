@@ -1,6 +1,6 @@
 class VerbInflater {
 
-    inflate(data) {
+    static inflate(data) {
         return data
             .map((verb) => {
                 return {

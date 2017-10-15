@@ -1,4 +1,4 @@
-import Canvas from "./canvas";
+import Canvas from "../../common/2d/canvas/canvas";
 
 const defaultSelectedCountry = "SE";
 

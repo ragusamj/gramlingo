@@ -1,5 +1,5 @@
 import CountryInflater from "./country-inflater";
-import Topology from "./world-map/topology";
+import Topology from "../common/2d/topology";
 
 class WorldPage {
     

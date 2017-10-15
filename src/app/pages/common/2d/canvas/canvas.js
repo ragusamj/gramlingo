@@ -1,6 +1,6 @@
 import polylabel from "polylabel";
 import Label from "./label";
-import Shape from "./shape";
+import Shape from "../shape";
 
 const nameVisibleThreshold = 20;
 

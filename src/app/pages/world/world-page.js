@@ -1,12 +1,15 @@
 import CountryInflater from "./country-inflater";
 import TopologyInflater from "../common/2d/topology-inflater";
 
+const defaultSelectedCountry = "SE";
+
 class WorldPage {
     
-    constructor(browserEvent, http, cachedInflater, worldMap, worldMapListener) {
+    constructor(browserEvent, cachedInflater, exerciseArea, exerciseAreaListener, worldMap, worldMapListener) {
         this.browserEvent = browserEvent;
-        this.http = http;
         this.cachedInflater = cachedInflater;
+        this.exerciseArea = exerciseArea;
+        this.exerciseAreaListener = exerciseAreaListener;
         this.worldMap = worldMap;
         this.worldMapListener = worldMapListener;
     }
@@ -19,29 +22,58 @@ class WorldPage {
                 this.loadPage(pageTemplate, onPageChanged, parameters);
             });
         });
-    }
-    
-    detach() {
-        this.removeListener();
-        this.worldMapListener.detach();
-    }
-
-    loadPage(pageTemplate, onPageChanged) {
-        onPageChanged();        
-        this.removeListener = this.browserEvent.on("map-country-changed", this.onMapCountrySelected.bind(this));
-        this.worldMap.initialize(this.geometries, this.countries);
+        this.removeListeners = [
+            this.browserEvent.on("map-country-changed", this.onMapCountrySelected.bind(this))
+        ];
+        this.exerciseAreaListener.attach();
         this.worldMapListener.attach();
     }
     
-    onMapCountrySelected(e) {
-        let header = document.getElementById("world-info-header");
-        header.innerHTML = this.countries[e.detail] ? this.countries[e.detail].name : e.detail;
+    detach() {
+        for(let removeListener of this.removeListeners) {
+            removeListener();
+        }
+        this.exerciseAreaListener.detach();
+        this.worldMapListener.detach();
+    }
+
+    loadPage(pageTemplate, onPageChanged, parameters) {
+        this.createContext(parameters.iso || defaultSelectedCountry);
+        this.exerciseArea.build(pageTemplate, this.context);
+        onPageChanged();
+        this.setHeader();
+        this.setFlagWidget();
+        this.exerciseArea.updateContext(this.context);
+        this.worldMap.initialize(this.geometries, this.countries);
+    }
+
+    createContext(iso) {
+        this.context = {
+            country: this.countries[iso.toUpperCase()],
+            iso: iso.toUpperCase(),
+            toggler: "toggle-country-data"
+        };
+    }
     
+    onMapCountrySelected(e) {
+        this.createContext(e.detail);
+        this.setHeader();
+        this.setFlagWidget();
+        this.exerciseArea.updateContext(this.context);
+        this.browserEvent.emit("url-change", "/world/" + e.detail.toLowerCase());
+    }
+
+    setHeader() {
+        let header = document.getElementById("world-info-header");
+        header.innerHTML = this.countries[this.context.iso].name;
+    }
+
+    setFlagWidget() {
         let flag = document.getElementById("flag-widget-flag");
-        flag.src = "/images/flags/" + e.detail + ".png";
+        flag.src = "/images/flags/" + this.context.iso + ".png";
     
         let iso = document.getElementById("flag-widget-iso");
-        iso.innerHTML = e.detail;
+        iso.innerHTML = this.context.iso;
     }
 }
     

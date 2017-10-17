@@ -92,8 +92,9 @@ class App {
                 template: "/app/pages/numerals/numerals-page.html"
             },
             {
-                paths: ["/world", "/world/:part"],
-                page: new WorldPage(browserEvent, http, cachedInflater, worldMap, new WorldMapListener(browserEvent, worldMap)),
+                paths: ["/world", "/world/:iso"],
+                page: new WorldPage(browserEvent, cachedInflater, exerciseArea, exerciseAreaListener,
+                    worldMap, new WorldMapListener(browserEvent, worldMap)),
                 template: "/app/pages/world/world-page.html"
             },
             {

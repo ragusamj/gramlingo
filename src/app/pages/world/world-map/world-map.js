@@ -1,6 +1,5 @@
 import Canvas from "../../common/2d/canvas/canvas";
 
-const defaultSelectedCountry = "SE";
 const disputed = "-99";
 
 const colorsSchemes = {
@@ -34,7 +33,6 @@ class WorldMap {
 
         this.canvas = new Canvas(document.getElementById("world-map"), this.geometries);
         this.canvas.resize();
-        this.onCountrychanged(defaultSelectedCountry);
     }
 
     onMousedown(e) {

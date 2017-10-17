@@ -5,7 +5,7 @@ class CountryInflater {
         for(let country of data) {
             countries[country[0]] = {
                 name: country[1],
-                capitol: [country[2]],
+                capital: [country[2]],
                 language: [country[3]],
                 demonym: [this.flattenDemonyms(country[4])]
             };

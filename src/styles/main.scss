@@ -142,11 +142,8 @@ input[type="number"] {
         opacity: 1;
         transition: $transition-base;       
     }
-    .icon.show {
-        z-index: 998;  
-    }
-    .popup.show, .search-result {
-        z-index: 999;  
+    .icon.show, .popup.show, .search-result {
+        z-index: 2000;  
     }
     .icon, .popup, .search-result.hide {
         visibility: hidden;

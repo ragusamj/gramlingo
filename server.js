@@ -1,3 +1,4 @@
+let fs = require("fs");
 let glob = require("glob");
 let http = require("http");
 let log4js = require("log4js");
@@ -32,6 +33,7 @@ function setResponseHeaders(res, fullpath) {
     res.setHeader("Content-Encoding", "gzip");
     res.setHeader("Content-Type", type + (charset ? "; charset=" + charset : ""));
     res.setHeader("Vary", "Accept-Encoding");
+    res.setHeader("X-Content-Length", fs.statSync(fullpath).size);
 }
 
 function sendGzippedVersion(req, res, fullpath) {

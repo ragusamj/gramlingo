@@ -20,28 +20,29 @@ class Toggler {
     }
 
     onResize() {
-        for(let key of Object.keys(this.togglers)) {
-            let item = this.togglers[key];
-            if(item.expandArea) {
-                this.update(item);
+        if(this.togglers) {
+            for(let key of Object.keys(this.togglers)) {
+                let item = this.togglers[key];
+                if(item.expandArea) {
+                    this.update(item);
+                }
             }
         }
     }
 
     onTransitionend(e) {
-        if(!this.togglers) {
-            return;
-        }
-        for(let key of Object.keys(this.togglers)) {
-            let item = this.togglers[key];
-            if(item.expandArea && item.expandArea.id === e.target.id) {
-                if(item.state === "on") {
-                    item.expandArea.style.overflow = "initial";
+        if(this.togglers) {
+            for(let key of Object.keys(this.togglers)) {
+                let item = this.togglers[key];
+                if(item.expandArea && item.expandArea.id === e.target.id) {
+                    if(item.state === "on") {
+                        item.expandArea.style.overflow = "initial";
+                    }
+                    if (item.state === "off") {
+                        item.expandArea.style.overflow = "";
+                    }
+                    this.update(item); // one last update to make sure expanding areas get the correct height, can't test scrollHeight with jsdom
                 }
-                if (item.state === "off") {
-                    item.expandArea.style.overflow = "";
-                }
-                this.update(item); // one last update to make sure expanding areas get the correct height, can't test scrollHeight with jsdom
             }
         }
     }

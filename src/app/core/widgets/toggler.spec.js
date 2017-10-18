@@ -325,3 +325,20 @@ test("Toggler should ignore items without expand areas on the window event 'resi
         t.end();
     });
 });
+
+test("Toggler should an undefined toggler list on the window event 'resize'", (t) => {
+    dom.sandbox(html, {}, () => {
+        setup(document);
+        let expand = document.getElementById("expand");
+        expand.style.height = "1px";
+        let clock = sinon.useFakeTimers();
+
+        new Toggler(browserEvent);
+        window.dispatchEvent(new Event("resize"));
+
+        clock.tick(100);
+        t.equal(expand.style.height, "1px");
+
+        t.end();
+    });
+});

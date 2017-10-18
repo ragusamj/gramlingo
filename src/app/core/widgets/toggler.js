@@ -31,6 +31,9 @@ class Toggler {
     }
 
     onTransitionend(e) {
+        if(!this.togglers) {
+            return;
+        }
         for(let key of Object.keys(this.togglers)) {
             let item = this.togglers[key];
             if(item.expandArea && item.expandArea.id === e.target.id) {

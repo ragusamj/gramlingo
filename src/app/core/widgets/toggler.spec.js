@@ -227,6 +227,19 @@ test("Toggler should set expand area overflow to '' on the event 'transitionend'
     });
 });
 
+test("Toggler should handle an undefined toggler list on the event 'transitionend'", (t) => {
+    dom.sandbox(html, {}, () => {
+        setup(document);
+        let expand = document.getElementById("expand");
+
+        new Toggler(browserEvent);
+        expand.dispatchEvent(new Event("transitionend"));
+
+        t.equal(expand.style.overflow, "");
+        t.end();
+    });
+});
+
 test("Toggler should set expand area overflow to '' on the event 'click' if state is 'off'", (t) => {
     dom.sandbox(html, {}, () => {
         setup(document);

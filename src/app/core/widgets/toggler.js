@@ -6,10 +6,8 @@ class Toggler {
 
     constructor(browserEvent) {
         this.browserEvent = browserEvent;
-        this.debouncedResize = debounce(this.onResize.bind(this), resizeDelay);
-
         this.browserEvent.on("click", this.onClick.bind(this));
-        this.browserEvent.on("resize", this.debouncedResize);
+        this.browserEvent.on("resize", debounce(this.onResize.bind(this), resizeDelay));
         this.browserEvent.on("transitionend", this.onTransitionend.bind(this));
         this.browserEvent.on("dom-content-changed", this.onDomContentChanged.bind(this));
     }

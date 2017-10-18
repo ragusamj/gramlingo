@@ -36,6 +36,7 @@ export default {
     "numerals-ask-the-machine-ordinals-body": "Type an ordinal (0 - 10000) to see how it's spelled:",
     "numerals-ask-the-machine-time-body": "Type a time (00:00 - 23:59) to see how it's spelled:",
 
+    "verbs-loader-popup-loading-verbs": "Loading verbs",
     "verbs-header": "Verbs",
     "verbs-info-header": "One metric ton of verb forms",
     "verbs-info-body":
@@ -52,6 +53,8 @@ export default {
 
     "verbs-search-input-placeholder": "Search",
 
+    "world-loader-popup-loading-map": "Loading map",
+    "world-loader-popup-loading-countries": "Loading countries",
     "world-header": "The world",
     "world-info-header": "The world is yours",
     "world-info-body":

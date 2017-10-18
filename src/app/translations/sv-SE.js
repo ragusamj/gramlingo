@@ -36,6 +36,7 @@ export default {
     "numerals-ask-the-machine-ordinals-body": "Skriv ett ordningstal (0 - 10000) för att se hur det stavas:",
     "numerals-ask-the-machine-time-body": "Skriv ett klockslag (00:00 - 23:59) för att se hur det stavas:",
 
+    "verbs-loader-popup-loading-verbs": "Laddar verb",
     "verbs-header": "Verb",
     "verbs-info-header": "Tre ton verbformer",
     "verbs-info-body":
@@ -52,6 +53,8 @@ export default {
 
     "verbs-search-input-placeholder": "Sök",
 
+    "world-loader-popup-loading-map": "Laddar karta",
+    "world-loader-popup-loading-countries": "Laddar länder",
     "world-header": "Världen",
     "world-info-header": "Världen är din",
     "world-info-body":

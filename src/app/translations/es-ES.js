@@ -36,6 +36,7 @@ export default {
     "numerals-ask-the-machine-ordinals-body": "Type an ordinal (0 - 10000) to see how it's spelled:",
     "numerals-ask-the-machine-time-body": "Type a time (00:00 - 23:59) to see how it's spelled:",
 
+    "verbs-loader-popup-loading-verbs": "Cargando verbos",
     "verbs-header": "Verbos",
     "verbs-info-header": "Un montón de formas",
     "verbs-info-body":
@@ -52,6 +53,8 @@ export default {
 
     "verbs-search-input-placeholder": "Buscar",
 
+    "world-loader-popup-loading-map": "Cargando mapa",
+    "world-loader-popup-loading-countries": "Cargando países",
     "world-header": "El mundo",
     "world-info-header": "El mundo es tuyo",
     "world-info-body":

@@ -7,7 +7,6 @@ class WorldMapListener {
     constructor(browserEvent, worldMap) {
         this.browserEvent = browserEvent;
         this.worldMap = worldMap;
-        this.debouncedResize = debounce(this.worldMap.onResize.bind(this.worldMap), resizeDelay);
     }
 
     attach() {
@@ -15,7 +14,7 @@ class WorldMapListener {
             this.browserEvent.on("mousedown", this.worldMap.onMousedown.bind(this.worldMap)),
             this.browserEvent.on("mousemove", this.worldMap.onMousemove.bind(this.worldMap)),
             this.browserEvent.on("mouseup", this.worldMap.onMouseup.bind(this.worldMap)),
-            this.browserEvent.on("resize", this.debouncedResize),
+            this.browserEvent.on("resize", debounce(this.worldMap.onResize.bind(this.worldMap), resizeDelay)),
             this.browserEvent.on("wheel", this.worldMap.onWheel.bind(this.worldMap))
         ];
     }

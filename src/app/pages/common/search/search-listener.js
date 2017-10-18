@@ -7,14 +7,13 @@ class SearchListener {
     constructor(browserEvent, search) {
         this.browserEvent = browserEvent;
         this.search = search;
-        this.debouncedKeyup = debounce(this.search.onKeyup.bind(this.search), searchTypingDelay);
     }
 
     attach() {
         this.removeListeners = [
             this.browserEvent.on("click", this.search.onClick.bind(this.search)),
             this.browserEvent.on("keydown", this.search.onKeydown.bind(this.search)),
-            this.browserEvent.on("keyup", this.debouncedKeyup)
+            this.browserEvent.on("keyup", debounce(this.search.onKeyup.bind(this.search), searchTypingDelay))
         ];
     }
 

@@ -30,7 +30,7 @@ class Http {
         let xhr = new XMLHttpRequest();
         let uncompressedSize;
         xhr.addEventListener("progress", (e) => {
-            onProgress(e, uncompressedSize);
+            onProgress(e.loaded, e.total || uncompressedSize);
         });
         xhr.onreadystatechange = () => {
             if(xhr.status === State.OK) {

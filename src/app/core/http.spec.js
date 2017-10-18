@@ -3,9 +3,11 @@ import test from "tape";
 import Http from "./http";
 
 const http = new Http();
+const mockProgressEvent = {};
 
 class MockXMLHttpRequest {}
 MockXMLHttpRequest.prototype.addEventListener = sinon.stub();
+MockXMLHttpRequest.prototype.getResponseHeader = sinon.stub().returns(1234);
 MockXMLHttpRequest.prototype.open = sinon.stub();
 MockXMLHttpRequest.prototype.overrideMimeType = sinon.stub();
 MockXMLHttpRequest.prototype.send = sinon.stub();
@@ -113,4 +115,21 @@ test("Http should get JSON and callback with data only if status is ok", (t) => 
     xhr.onreadystatechange();
 
     t.end();
+});
+
+test("Http should get JSON and call the progress callback with the event and the uncompressed file size", (t) => {
+    t.plan(2);
+    global.XMLHttpRequest = MockXMLHttpRequest;
+
+    let xhr = http.getJSON("http://snapgram.net", () => {/**/},
+        (event, uncompressedSize) => {
+            t.equal(event, mockProgressEvent);
+            t.equal(uncompressedSize, 1234);
+        });
+
+    xhr.readyState = http.ReadyState.HEADERS_RECEIVED;
+    xhr.status = http.State.OK;
+    xhr.responseText = "[\"data\"]";
+    xhr.onreadystatechange();
+    xhr.addEventListener.yield(mockProgressEvent);
 });

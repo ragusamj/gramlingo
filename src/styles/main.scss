@@ -50,6 +50,27 @@ input[type="number"] {
     }
 }
 
+#loader-popup {
+    position: fixed;
+    width: 18rem;
+    top: 33%;
+    left: 50%;
+    margin-left: -9rem;
+    border-radius: $border-radius;
+    box-shadow: $dropdown-box-shadow;
+    background-color: $cyan;
+    color: #fff;
+    padding: 1rem;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+    z-index: 3000;
+    pointer-events: none;
+}
+
+#loader-popup.show {
+    opacity: 1;
+}
+
 .expandable-box-sm, .expandable-box-lg, .navbar-items {
     height: 0;
     overflow: hidden;

@@ -15,7 +15,7 @@ class VerbPage {
     }
 
     attach(pageTemplate, onPageChanged, parameters) {
-        this.cachedInflater.get("/data/verbs.json", VerbInflater, (data) => {
+        this.cachedInflater.get("/data/verbs.json", VerbInflater, "verbs-loader-popup-loading-verbs", (data) => {
             this.verbs = data;
             this.loadPage(pageTemplate, onPageChanged, parameters);
         });

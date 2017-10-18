@@ -25,6 +25,7 @@ import FieldGenerator from "./pages/common/exercise-area/field-generator";
 import ElementWalker from "./pages/common/walkers/element-walker";
 import InputWalker from "./pages/common/walkers/input-walker";
 import IntegerGenerator from "./pages/common/integer-generator";
+import LoaderPopup from "./pages/common/loader-popup";
 import Search from "./pages/common/search/search";
 import SearchEngine from "./pages/common/search/engine/search-engine";
 import SearchListener from "./pages/common/search/search-listener";
@@ -49,7 +50,7 @@ const http = new Http();
 const i18n = new I18n(browserEvent);
 
 // pages
-const cachedInflater = new CachedInflater(http);
+const cachedInflater = new CachedInflater(http, new LoaderPopup(i18n));
 const exerciseArea = new ExerciseArea(new Checker(), new ExerciseAreaPopup(), new FieldGenerator(), new InputWalker());
 const exerciseAreaListener = new ExerciseAreaListener(browserEvent, exerciseArea);
 const searchEngine = new SearchEngine();

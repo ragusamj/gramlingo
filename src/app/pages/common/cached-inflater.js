@@ -1,21 +1,26 @@
 class CachedInflater {
 
-    constructor(http) {
+    constructor(http, popup) {
         this.http = http;
+        this.popup = popup;
         this.cache = {};
     }
 
-    get(url, inflater, callback) {
+    get(url, inflater, translationKey, callback) {
         if(this.cache[url]) {
             return callback(this.cache[url]);
         }
-        this.http.getJSON(url, (data) => {
-            this.cache[url] = inflater.inflate(data);
-            callback(this.cache[url]);
-        }, (event) => {
-            //console.log("loading " + url + ", recieved", event.loaded, "bytes of", event.total);
-            return event;
-        });
+        this.popup.show(translationKey);
+        this.popup.progress(0);
+        this.http.getJSON(url,
+            (data) => {
+                this.cache[url] = inflater.inflate(data);
+                this.popup.hide();
+                callback(this.cache[url]);
+            }, 
+            (loaded, total) => {
+                this.popup.progress(Math.round(loaded / total * 100));
+            });
     }
 }
 

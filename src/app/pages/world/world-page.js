@@ -15,9 +15,9 @@ class WorldPage {
     }
     
     attach(pageTemplate, onPageChanged, parameters) {
-        this.cachedInflater.get("/data/world-map.json", TopologyInflater, (data) => {
+        this.cachedInflater.get("/data/world-map.json", TopologyInflater, "world-loader-popup-loading-map", (data) => {
             this.geometries = data;
-            this.cachedInflater.get("/data/countries.json", CountryInflater, (data) => {
+            this.cachedInflater.get("/data/countries.json", CountryInflater, "world-loader-popup-loading-countries", (data) => {
                 this.countries = data;
                 this.loadPage(pageTemplate, onPageChanged, parameters);
             });

@@ -38,7 +38,6 @@ test("SearchResultVisualizer should ignore empty results", (t) => {
     });
 });
 
-
 test("SearchResultVisualizer should show result property 'pre'", (t) => {
     dom.sandbox(html, {}, () => {
         let result = { matches: [{ pre: "pre" }] };

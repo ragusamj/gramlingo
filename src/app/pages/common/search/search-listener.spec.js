@@ -25,7 +25,7 @@ let setup = () => {
 };
 
 test("SearchListener should call 'onClick' on the event 'click'", (t) => {
-    dom.sandbox("<input data-search-input/>", {}, () => {
+    dom.sandbox("<input/>", {}, () => {
         let input = setup();
 
         input.dispatchEvent(new Event("click"));
@@ -36,7 +36,7 @@ test("SearchListener should call 'onClick' on the event 'click'", (t) => {
 });
 
 test("SearchListener should call 'onKeydown' on the event 'keydown'", (t) => {
-    dom.sandbox("<input data-search-input/>", {}, () => {
+    dom.sandbox("<input/>", {}, () => {
         let input = setup();
 
         input.dispatchEvent(new Event("keydown"));
@@ -47,7 +47,7 @@ test("SearchListener should call 'onKeydown' on the event 'keydown'", (t) => {
 });
 
 test("SearchListener should call 'onKeyup' on the event 'keyup'", (t) => {
-    dom.sandbox("<input data-search-input/>", {}, () => {
+    dom.sandbox("<input/>", {}, () => {
         let clock = sinon.useFakeTimers();
         let input = setup();
 
@@ -60,7 +60,7 @@ test("SearchListener should call 'onKeyup' on the event 'keyup'", (t) => {
 });
 
 test("SearchListener should detach and remove event listeners", (t) => {
-    dom.sandbox("<input data-search-input/>", {}, () => {
+    dom.sandbox("<input/>", {}, () => {
         
         let input = setup();
 

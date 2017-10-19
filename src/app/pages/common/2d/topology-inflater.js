@@ -1,3 +1,4 @@
+import polylabel from "polylabel";
 import Shape from "./shape";
 
 class TopologyInflater {
@@ -5,25 +6,22 @@ class TopologyInflater {
     static inflate(topology) {
         let geometries = [];
         for(let key of Object.keys(topology.objects)) {
-            for(let geometry of topology.objects[key].geometries) {
-                let polygons = [];
-                for(let arcs of geometry.arcs) {
+            for(let item of topology.objects[key].geometries) {
+                let geometry = {
+                    polygons: []
+                };
+                for(let arcs of item.arcs) {
                     let polygon = [];
                     this.stitch(topology, arcs, polygon);
-                    polygons.push(polygon);
+                    geometry.polygons.push(polygon);
                 }
-                let transformed = {
-                    polygons: polygons
-                };
-                this.copy(geometry, transformed);
-                geometries.push(transformed);
+                this.copy(item, geometry);
+                geometry.max = Shape.max(geometry.polygons);
+                geometry.centroid = polylabel([geometry.max], 0.5);
+                geometries.push(geometry);
             }
         }
-        // Sort the geometries by polygon size to maker sure the
-        // smaller ones get drawn on top of the bigger ones, ie last
-        return geometries.sort((a, b) => {
-            return Shape.max(a.polygons) > Shape.max(b.polygons) ? 1 : -1;
-        });
+        return geometries;
     }
 
     static copy(geometry, transformed) {

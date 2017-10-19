@@ -1,4 +1,3 @@
-import polylabel from "polylabel";
 import Label from "./label";
 import Shape from "../shape";
 
@@ -17,11 +16,6 @@ class Canvas {
         this.originalWidth = this.canvas.width;
         this.originalHeight = this.canvas.height;
         this.countryLabel = new Label(this.context, "'Montserrat', sans-serif", 75, "#fff", "rgba(0, 0, 0, 0.5");
-    
-        for(let geometry of this.geometries) {
-            geometry.max = Shape.max(geometry.polygons);
-            geometry.centroid = polylabel([geometry.max], 0.5);
-        }
     }
 
     resize() {
@@ -37,12 +31,10 @@ class Canvas {
     select(e) {
         if(!this.dragging) {
             let point = this.offsetPointToOrigin([e.clientX, e.clientY]);
-            let i = this.geometries.length;
-            // Loop backwards to try smaller polygons drawn on top of larger ones first
-            while(i--) {
-                for(let polygon of this.geometries[i].polygons) {
+            for(let geometry of this.geometries) {
+                for(let polygon of geometry.polygons) {
                     if(Shape.inside(point, polygon)) {
-                        return this.geometries[i];
+                        return geometry;
                     }
                 }
             }
@@ -147,8 +139,8 @@ class Canvas {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.calculateOffset();
         for(let geometry of this.geometries) {
+            this.context.beginPath();
             for(let polygon of geometry.polygons) {
-                this.context.beginPath();
                 for(let i = 0; i < polygon.length; i++) {
                     let point = this.offsetPointToCanvas(polygon[i]);
                     if(i === 0) {
@@ -158,9 +150,9 @@ class Canvas {
                         this.context.lineTo(point[0], point[1]);
                     }
                 }
-                this.context.fillStyle = geometry.color;
-                this.context.fill();
             }
+            this.context.fillStyle = geometry.color;
+            this.context.fill();
         }
         this.label();
     }

@@ -10,6 +10,7 @@ class Checker {
             answer: answer
         };
 
+        solutions = this.map(solutions);
         answer = Sanitizer
             .sanitize(answer)
             .toLocaleLowerCase();
@@ -20,18 +21,27 @@ class Checker {
         return result;
     }
 
+    map(solutions) {
+        return solutions.map((solution) => {
+            return {
+                original: solution,
+                lower: solution.toString().toLocaleLowerCase()
+            };
+        });
+    }
+
     compareSolutionsWithAnswer(solutions, answer, result) {
         if(!answer) {
             result.accepted = true;
         }
         else {
             for(let solution of solutions) {
-                if(answer === solution.toString()) {
-                    result.solution = solution;
+                if(answer === solution.lower) {
+                    result.solution = solution.original;
                     result.accepted = true;
                 }
                 else if(solutions.length > 1) {
-                    result.alternatives.push(solution);
+                    result.alternatives.push(solution.original);
                 }
             }
         }
@@ -40,10 +50,10 @@ class Checker {
     diffMostSimilarSolution(solutions, answer, result) {
         if(!result.accepted) {
             for(let solution of solutions) {
-                let diff = fastdiff(solution.toString(), answer);
+                let diff = fastdiff(solution.lower, answer);
                 if(!(result.diff && result.diff.length < diff.length)) {
                     result.diff = diff;
-                    result.solution = solution;
+                    result.solution = solution.original;
                 }
             }
         }

@@ -4,7 +4,7 @@ import Checker from "./checker";
 
 const checker = new Checker();
 
-test("Checker should mark empty answer", (t) => {
+test("Checker should mark an empty answer", (t) => {
     dom.sandbox("", {}, () => {
         let result = checker.check([], "");
         t.deepEqual(result, {
@@ -16,7 +16,7 @@ test("Checker should mark empty answer", (t) => {
     });
 });
 
-test("Checker should accept correct answer with no solutions", (t) => {
+test("Checker should accept a correct answer with no solutions", (t) => {
     dom.sandbox("", {}, () => {
         let result = checker.check(["voy"], "voy");
         t.deepEqual(result, {
@@ -29,7 +29,7 @@ test("Checker should accept correct answer with no solutions", (t) => {
     });
 });
 
-test("Checker should accept correct answer with solutions", (t) => {
+test("Checker should accept a correct answer with solutions", (t) => {
     dom.sandbox("", {}, () => {
         let result = checker.check(["fuera", "fuese"], "fuera");
         t.deepEqual(result, {
@@ -42,7 +42,7 @@ test("Checker should accept correct answer with solutions", (t) => {
     });
 });
 
-test("Checker should accept correct answer of type number with solutions", (t) => {
+test("Checker should accept a correct answer of the type 'number' with solutions", (t) => {
     dom.sandbox("", {}, () => {
         let result = checker.check([123], "123");
         t.deepEqual(result, {
@@ -55,7 +55,7 @@ test("Checker should accept correct answer of type number with solutions", (t) =
     });
 });
 
-test("Checker should ignore case", (t) => {
+test("Checker should ignore the case in an answer", (t) => {
     dom.sandbox("", {}, () => {
         let result = checker.check(["voy"], "Voy");
         t.deepEqual(result, {
@@ -68,7 +68,20 @@ test("Checker should ignore case", (t) => {
     });
 });
 
-test("Checker should accept correct answer with extra whitespace", (t) => {
+test("Checker should ignore and preserve the case in a solution", (t) => {
+    dom.sandbox("", {}, () => {
+        let result = checker.check(["Voy"], "voy");
+        t.deepEqual(result, {
+            accepted: true,
+            alternatives: [],
+            answer: "voy",
+            solution: "Voy"
+        });
+        t.end();
+    });
+});
+
+test("Checker should accept a correct answer with extra whitespace", (t) => {
     dom.sandbox("", {}, () => {
         let result = checker.check(["cuarenta y cinco"], "  cuarenta  y  cinco   ");
         t.deepEqual(result, {
@@ -81,7 +94,7 @@ test("Checker should accept correct answer with extra whitespace", (t) => {
     });
 });
 
-test("Checker should sanitize input and accept correct answer", (t) => {
+test("Checker should sanitize the input and accept a correct answer", (t) => {
     dom.sandbox("", {}, () => {
         let result = checker.check(["bañé"], "#&bañé..,");
         t.deepEqual(result, {
@@ -94,7 +107,7 @@ test("Checker should sanitize input and accept correct answer", (t) => {
     });
 });
 
-test("Checker should sanitize input and accept time spans", (t) => {
+test("Checker should sanitize the input and accept time spans", (t) => {
     dom.sandbox("", {}, () => {
         let result = checker.check(["12:34"], "12:34");
         t.deepEqual(result, {
@@ -107,7 +120,7 @@ test("Checker should sanitize input and accept time spans", (t) => {
     });
 });
 
-test("Checker should sanitize input and accept fractions", (t) => {
+test("Checker should sanitize the input and accept fractions", (t) => {
     dom.sandbox("", {}, () => {
         let result = checker.check(["1/2"], "1/2");
         t.deepEqual(result, {
@@ -120,7 +133,7 @@ test("Checker should sanitize input and accept fractions", (t) => {
     });
 });
 
-test("Checker should reject incorrect answer", (t) => {
+test("Checker should reject an incorrect answer", (t) => {
     dom.sandbox("", {}, () => {
         let result = checker.check(["vamos"], "vamo");
         t.deepEqual(result, {
@@ -134,7 +147,7 @@ test("Checker should reject incorrect answer", (t) => {
     });
 });
 
-test("Checker should reject incorrect answer with solutions", (t) => {
+test("Checker should reject an incorrect answer with solutions", (t) => {
     dom.sandbox("", {}, () => {
         let result = checker.check(["vayamos", "vamos"], "vamo");
         t.deepEqual(result, {
@@ -148,7 +161,7 @@ test("Checker should reject incorrect answer with solutions", (t) => {
     });
 });
 
-test("Checker should reject incorrect answer with solutions and choose most similar correct solution", (t) => {
+test("Checker should reject incorrect an answer with solutions and choose the most similar correct solution", (t) => {
     dom.sandbox("", {}, () => {
         let result = checker.check(["fuese", "fuera"], "fueses");
         t.deepEqual(result, {

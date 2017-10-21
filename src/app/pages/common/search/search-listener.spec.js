@@ -52,7 +52,7 @@ test("SearchListener should call 'onKeyup' on the event 'keyup'", (t) => {
         let input = setup();
 
         input.dispatchEvent(new Event("keyup"));
-        clock.tick(250);
+        clock.tick(100);
 
         t.true(search.onKeyup.called);
         t.end();

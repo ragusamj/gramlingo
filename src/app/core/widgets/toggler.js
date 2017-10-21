@@ -1,4 +1,4 @@
-import debounce from "lodash.debounce";
+import debounce from "../event/debounce";
 
 const resizeDelay = 100;
 

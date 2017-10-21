@@ -1,6 +1,6 @@
-import debounce from "lodash.debounce";
+import debounce from "../../../core/event/debounce";
 
-const searchTypingDelay = 250;
+const searchTypingDelay = 100;
 
 class SearchListener {
 

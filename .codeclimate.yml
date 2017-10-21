@@ -4,9 +4,11 @@ engines:
   duplication:
     enabled: true
     config:
+    checks:
+      Similar code:
+        enabled: false
       languages:
       - javascript:
-        mass_threshold: 100
 ratings:
   paths:
   - "**/*.js"

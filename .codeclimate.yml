@@ -8,7 +8,10 @@ engines:
       - javascript:
 ratings:
   paths:
-  - src/app/core/**
-  - src/app/pages/**
+  - "**.js"
 exclude_paths:
-- src/**/*.spec.js
+- "**/node_modules/"
+- "**.spec.js"
+- "src/app/translations/"
+- "src/generators/world-map/"
+- "!src/generators/world-map/world.js"

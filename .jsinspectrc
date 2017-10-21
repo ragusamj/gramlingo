@@ -1,0 +1,10 @@
+{
+  "threshold":     35,
+  "identifiers":   true,
+  "literals":      true,
+  "color":         true,
+  "minInstances":  2,
+  "ignore":        "spec|generators|animator",
+  "reporter":      "default",
+  "truncate":      100
+}

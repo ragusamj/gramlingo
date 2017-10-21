@@ -18,9 +18,10 @@
     "build:worldmap": "node src/generators/world-map/world.js > src/data/world-map.json",
     "build:flags": "node src/generators/country-flags/flags.js",
     "dev": "node server.js & concurrently -p \"{time} {name}\" --names \"HTML,SCSS,JS,JSON,SERVER\" -c \"magenta.bgBlack,green.bgBlack,yellow.bgBlack,cyan.bgBlack\" \"npm run build:html:watch\" \"npm run build:scss:watch\" \"npm run build:js:watch\" \"npm run build:json:watch\"",
+    "inspect": "jsinspect ./src",
     "lint": "eslint ./src",
     "test": "tape -r babel-register 'src/**/*.spec.js' | tap-nyan",
-    "test:coverage": "nyc --reporter=lcov npm test"
+    "test:coverage": "nyc npm test"
   },
   "nyc": {
     "exclude": [
@@ -47,7 +48,6 @@
     "babel-register": "^6.24.1",
     "babelify": "^7.3.0",
     "browserify": "^14.3.0",
-    "codacy-coverage": "^2.0.3",
     "concurrently": "^3.5.0",
     "core-js": "^2.5.1",
     "d3-geo-projection": "^2.3.1",
@@ -58,6 +58,7 @@
     "html-minifier": "^3.5.3",
     "jsdom": "^11.1.0",
     "jsdom-sandbox": "^1.0.0",
+    "jsinspect": "^0.12.7",
     "log4js": "^2.3.3",
     "mkdirp": "^0.5.1",
     "ncp": "^2.0.0",

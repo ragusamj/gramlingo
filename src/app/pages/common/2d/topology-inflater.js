@@ -36,17 +36,21 @@ class TopologyInflater {
                 this.stitch(topology, item, polygon);
             }
             else {
-                let coordinates;
-                if(item < 0) {
-                    coordinates = this.arcToCoordinates(topology, topology.arcs[~item]);
-                    coordinates.reverse();
-                }
-                else {
-                    coordinates = this.arcToCoordinates(topology, topology.arcs[item]);
-                }
-                polygon.push(...coordinates);
+                this.add(topology, item, polygon);
             }
         }
+    }
+
+    static add(topology, index, polygon) {
+        let coordinates;
+        if(index < 0) {
+            coordinates = this.arcToCoordinates(topology, topology.arcs[~index]);
+            coordinates.reverse();
+        }
+        else {
+            coordinates = this.arcToCoordinates(topology, topology.arcs[index]);
+        }
+        polygon.push(...coordinates);
     }
 
     static arcToCoordinates(topology, arc) {

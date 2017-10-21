@@ -47,6 +47,7 @@
     "babel-register": "^6.24.1",
     "babelify": "^7.3.0",
     "browserify": "^14.3.0",
+    "codacy-coverage": "^2.0.3",
     "concurrently": "^3.5.0",
     "core-js": "^2.5.1",
     "d3-geo-projection": "^2.3.1",

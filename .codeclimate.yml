@@ -3,10 +3,10 @@ engines:
     enabled: true
   duplication:
     enabled: true
-    config:
     checks:
       Similar code:
         enabled: false
+    config:
       languages:
       - javascript:
 ratings:

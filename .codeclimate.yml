@@ -12,4 +12,4 @@ ratings:
 exclude_paths:
 - "**/*.spec.js"
 - "src/app/translations/"
-- "src/generators/world-map"
+- "src/generators/world-map/"

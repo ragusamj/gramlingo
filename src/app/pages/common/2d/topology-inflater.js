@@ -7,41 +7,40 @@ class TopologyInflater {
         let geometries = [];
         for(let key of Object.keys(topology.objects)) {
             for(let item of topology.objects[key].geometries) {
-                let geometry = {
-                    polygons: []
-                };
-                for(let arcs of item.arcs) {
-                    let polygon = [];
-                    this.stitch(topology, arcs, polygon);
-                    geometry.polygons.push(polygon);
-                }
-                this.copy(item, geometry);
-                geometry.max = Shape.max(geometry.polygons);
-                geometry.centroid = polylabel([geometry.max], 0.5);
+                let geometry = this.inflateGeometry(topology, item);
                 geometries.push(geometry);
             }
         }
         return geometries;
     }
 
-    static copy(geometry, transformed) {
-        for(let key of Object.keys(geometry.properties)) {
-            transformed[key] = geometry.properties[key];
+    static inflateGeometry(topology, item) {
+        let geometry = { polygons: [] };
+        this.inflateArcs(geometry, topology, item);
+        this.addProperties(geometry, item);
+        return geometry;
+    }
+
+    static inflateArcs(geometry, topology, item) {
+        for(let arcs of item.arcs) {
+            let polygon = [];
+            this.recurse(topology, arcs, polygon);
+            geometry.polygons.push(polygon);
         }
     }
     
-    static stitch(topology, arcs, polygon) {
+    static recurse(topology, arcs, polygon) {
         for(let item of arcs) {
             if(Array.isArray(item)) {
-                this.stitch(topology, item, polygon);
+                this.recurse(topology, item, polygon);
             }
             else {
-                this.add(topology, item, polygon);
+                this.stitch(topology, item, polygon);
             }
         }
     }
 
-    static add(topology, index, polygon) {
+    static stitch(topology, index, polygon) {
         let coordinates;
         if(index < 0) {
             coordinates = this.arcToCoordinates(topology, topology.arcs[~index]);
@@ -61,6 +60,14 @@ class TopologyInflater {
                 (y += point[1]) * topology.transform.scale[1] + topology.transform.translate[1]
             ];
         });
+    }
+
+    static addProperties(geometry, item) {
+        geometry.max = Shape.max(geometry.polygons);
+        geometry.centroid = polylabel([geometry.max], 0.5);
+        for(let key of Object.keys(item.properties)) {
+            geometry[key] = item.properties[key];
+        }
     }
 }
     

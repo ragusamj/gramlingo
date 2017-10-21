@@ -9,9 +9,3 @@ engines:
 ratings:
   paths:
   - "**/*.js"
-exclude_paths:
-- "**/node_modules/"
-- "src/app/translations/"
-- "src/generators/world-map/"
-- "!src/generators/world-map/world.js",
-- "**/*.spec.js"

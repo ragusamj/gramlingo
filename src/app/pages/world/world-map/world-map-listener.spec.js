@@ -64,10 +64,8 @@ test("WorldMapListener should call 'onMouseup' on the event 'mouseup'", (t) => {
 test("WorldMapListener should call 'onResize' on the event 'resize'", (t) => {
     dom.sandbox("<div><div>", {}, () => {
         let input = setup();
-        let clock = sinon.useFakeTimers();
 
         input.dispatchEvent(new Event("resize"));
-        clock.tick(25);
 
         t.true(worldMap.onResize.called);
         t.end();

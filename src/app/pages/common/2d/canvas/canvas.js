@@ -1,6 +1,10 @@
+import debounce from "../../../../core/event/debounce";
+import throttle from "../../../../core/event/throttle";
 import Label from "./label";
 import Shape from "../shape";
 
+const resizeDelay = 100;
+const zoomDelay = 16; // Just below 1000ms / 60fps, doesn't throttle Chrome at all but throttles Safari, Firefox etc
 const nameVisibleThreshold = 20;
 
 const mouseButtons = {
@@ -16,16 +20,29 @@ class Canvas {
         this.originalWidth = this.canvas.width;
         this.originalHeight = this.canvas.height;
         this.countryLabel = new Label(this.context, "'Montserrat', sans-serif", 75, "#fff", "rgba(0, 0, 0, 0.5");
+
+        this.debouncedResize = debounce(() => {
+            let aspectRatio = this.canvas.height / this.canvas.width;
+            let parentClientRect = this.canvas.parentElement.getBoundingClientRect();
+            this.canvas.width = parentClientRect.width * 2;
+            this.canvas.height = (parentClientRect.width * aspectRatio) * 2;
+            this.canvas.style.width = parentClientRect.width + "px";
+            this.canvas.style.height = (parentClientRect.width * aspectRatio) + "px";
+            this.reset();
+        }, resizeDelay);
+
+        this.throttledZoom = throttle((delta) => {
+            requestAnimationFrame(() => {
+                // (speed / scale) // set the zooming speed and maintain the same speed regardless of scale
+                // * -1            // reverse the zoom gesture
+                // TODO, use dynamic values for h,v
+                this.move(0, 0, delta / (100 / this.z) * -1, 2, 2);
+            });
+        }, zoomDelay);
     }
 
     resize() {
-        let aspectRatio = this.canvas.height / this.canvas.width;
-        let parentClientRect = this.canvas.parentElement.getBoundingClientRect();
-        this.canvas.width = parentClientRect.width * 2;
-        this.canvas.height = (parentClientRect.width * aspectRatio) * 2;
-        this.canvas.style.width = parentClientRect.width + "px";
-        this.canvas.style.height = (parentClientRect.width * aspectRatio) + "px";
-        this.reset();
+        this.debouncedResize();
     }
 
     select(e) {
@@ -74,12 +91,7 @@ class Canvas {
     }
 
     zoom(delta) {
-        requestAnimationFrame(() => {
-            // (speed / scale) // set the zooming speed and maintain the same speed regardless of scale
-            // * -1            // reverse the zoom gesture
-            // TODO, use dynamic values for h,v
-            this.move(0, 0, delta / (100 / this.z) * -1, 2, 2);
-        });
+        this.throttledZoom(delta);
     }
     
     toCanvasPoint(x, y) {
@@ -138,7 +150,10 @@ class Canvas {
     draw() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.calculateOffset();
-        for(let geometry of this.geometries) {
+
+        let visibleGeometries = this.filterVisibleGeometries();
+
+        for(let geometry of visibleGeometries) {
             this.context.beginPath();
             for(let polygon of geometry.polygons) {
                 for(let i = 0; i < polygon.length; i++) {
@@ -154,18 +169,41 @@ class Canvas {
             this.context.fillStyle = geometry.color;
             this.context.fill();
         }
-        this.label();
+        this.label(visibleGeometries);
     }
 
-    label() {
+    label(geometries) {
         if(this.z > 1) {
-            for(let geometry of this.geometries) {
+            for(let geometry of geometries) {
                 if(geometry.label && (geometry.max.length * this.z) / geometry.label.length > nameVisibleThreshold) {
                     let point = this.offsetPointToCanvas(geometry.centroid);
                     this.countryLabel.draw(point, geometry.label);
                 }
             }
         }
+    }
+
+    filterVisibleGeometries() {
+        let visibleGeometries = [];
+        for(let geometry of this.geometries) {
+            let visible = false;
+            for(let polygon of geometry.polygons) {
+                for(let i = 0; i < polygon.length; i++) {
+                    let point = this.offsetPointToCanvas(polygon[i]);
+                    if(this.isVisible(point)) {
+                        visible = true;
+                    }
+                }
+            }
+            if(visible) {
+                visibleGeometries.push(geometry);
+            }
+        }
+        return visibleGeometries; 
+    }
+
+    isVisible(point) {
+        return point[0] >= 0 && point[1] >= 0 && point[0] <= this.canvas.width && point[1] <= this.canvas.height;
     }
 }
     

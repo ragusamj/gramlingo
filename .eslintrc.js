@@ -10,6 +10,8 @@ module.exports = {
     },
     "rules": {
 
+        "complexity": ["error", 10],
+
         // syntax
         "curly": ["error"],
         "dot-notation": ["error"],

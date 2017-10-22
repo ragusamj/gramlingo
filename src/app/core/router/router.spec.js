@@ -1,7 +1,7 @@
 import dom from "jsdom-sandbox";
 import sinon from "sinon";
 import test from "tape";
-import BrowserEvent from "../browser-event";
+import BrowserEvent from "../event/browser-event";
 import Router from "./router";
 
 const route = {

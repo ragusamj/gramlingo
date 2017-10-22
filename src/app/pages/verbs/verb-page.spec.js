@@ -1,7 +1,7 @@
 import dom from "jsdom-sandbox";
 import sinon from "sinon";
 import test from "tape";
-import BrowserEvent from "../../core/browser-event";
+import BrowserEvent from "../../core/event/browser-event";
 import VerbPage from "./verb-page";
 import VerbInflater from "./verb-inflater";
 

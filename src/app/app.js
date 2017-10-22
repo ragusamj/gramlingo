@@ -2,7 +2,7 @@ import "core-js/modules/es6.string.ends-with";
 import "core-js/modules/es6.symbol";
 import "core-js/modules/web.dom.iterable";
 
-import BrowserEvent from "./core/browser-event";
+import BrowserEvent from "./core/event/browser-event";
 import Http from "./core/http";
 import I18n from "./core/i18n";
 import PageBroker from "./core/router/page-broker";

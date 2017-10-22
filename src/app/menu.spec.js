@@ -1,6 +1,6 @@
 import dom from "jsdom-sandbox";
 import test from "tape";
-import BrowserEvent from "./core/browser-event";
+import BrowserEvent from "./core/event/browser-event";
 import Menu from "./menu";
 
 test("Menu should set inactive item", (t) => {

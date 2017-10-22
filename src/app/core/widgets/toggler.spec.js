@@ -1,7 +1,7 @@
 import dom from "jsdom-sandbox";
 import test from "tape";
 import sinon from "sinon";
-import BrowserEvent from "../browser-event";
+import BrowserEvent from "../event/browser-event";
 import Toggler from "./toggler";
 
 let browserEvent;

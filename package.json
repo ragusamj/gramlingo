@@ -7,7 +7,7 @@
     "build": "npm run build:html && npm run build:scss && npm run build:fonts && npm run build:images && npm run build:js && npm run build:json",
     "build:html": "html-minifier --collapse-whitespace --file-ext html --input-dir src --output-dir dist && node gzip.js 'dist/**/*.html'",
     "build:html:watch": "onchange 'src/**/*.html' -- npm run build:html",
-    "build:scss": "node-sass src/styles/main.scss --output-style compressed --source-map-embed true --source-map-contents true | postcss --use autoprefixer --map -o dist/bundle.css && node gzip.js 'dist/*.css'",
+    "build:scss": "node-sass src/styles/main.scss --output-style compressed --source-map-embed true --source-map-contents true > dist/bundle.css && postcss dist/bundle.css --use autoprefixer --map -o dist/bundle.css && node gzip.js 'dist/*.css'",
     "build:scss:watch": "onchange 'src/**/*.scss' -- npm run build:scss",
     "build:fonts": "ncp node_modules/font-awesome/fonts/ dist/fonts/",
     "build:images": "ncp src/images/ dist/images/",
@@ -43,7 +43,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "autoprefixer": "^6.7.7",
+    "autoprefixer": "^7.1.6",
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.24.1",
     "babelify": "^7.3.0",

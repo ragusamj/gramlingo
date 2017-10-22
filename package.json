@@ -21,7 +21,7 @@
     "inspect": "jsinspect ./src",
     "lint": "eslint ./src",
     "test": "tape -r babel-register 'src/**/*.spec.js' | tap-nyan",
-    "test:coverage": "nyc npm test"
+    "test:coverage": "nyc --reporter=lcov npm test"
   },
   "nyc": {
     "exclude": [
@@ -52,7 +52,7 @@
     "core-js": "^2.5.1",
     "d3-geo-projection": "^2.3.1",
     "eslint": "^4.4.0",
-    "exorcist": "^0.4.0",
+    "exorcist": "^1.0.0",
     "flag-icon-css": "git+https://github.com/lipis/flag-icon-css.git",
     "glob": "^7.1.1",
     "html-minifier": "^3.5.3",
@@ -68,7 +68,7 @@
     "pn": "^1.0.0",
     "postcss-cli": "^4.1.0",
     "shapefile": "^0.6.6",
-    "sinon": "^3.0.0",
+    "sinon": "^4.0.1",
     "svg2png": "^4.1.1",
     "tap-nyan": "^1.1.0",
     "tape": "^4.8.0",
@@ -76,7 +76,7 @@
     "uglify-js": "^3.0.27"
   },
   "dependencies": {
-    "bootstrap": "4.0.0-beta",
+    "bootstrap": "^4.0.0-beta.2",
     "fast-diff": "^1.1.1",
     "font-awesome": "^4.7.0",
     "lodash.get": "^4.4.2",

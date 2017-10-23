@@ -1,5 +1,3 @@
-import Canvas from "../../common/2d/canvas/canvas";
-
 const disputed = "-99";
 
 const colorsSchemes = {
@@ -12,97 +10,34 @@ const colorsSchemes = {
 
 class WorldMap {
 
-    constructor(browserEvent) {
+    constructor(browserEvent, canvas, canvasListener) {
         this.browserEvent = browserEvent;
+        this.canvas = canvas;
+        this.canvasListener = canvasListener;
     }
 
     initialize(geometries, countries) {
-
         this.geometries = geometries;
-        
         for(let geometry of this.geometries) {
             if(geometry.iso === disputed) {
                 geometry.color = "#333";
                 geometry.label = "";
             }
             else {
+                geometry.id = geometry.iso;
                 geometry.color = colorsSchemes.cyan[geometry.colorIndex];
-                geometry.label = countries[geometry.iso] ? countries[geometry.iso].name[0] : geometry.iso;
+                geometry.label = countries[geometry.iso].name[0];
             }
         }
-
-        this.canvas = new Canvas(document.getElementById("world-map"), this.geometries);
-        this.canvas.resize();
+        this.canvas.initialize(this.geometries);
     }
 
-    onMousedown(e) {
-        if(this.isMapEvent(e)) {
-            this.canvas.beginDrag(e);
-        }
+    attach() {
+        this.canvasListener.attach();
     }
 
-    onMousemove(e) {
-        if(this.isMapEvent(e)) {
-            this.canvas.drag(e);
-        }
-    }
-
-    onMouseup(e) {
-        this.selectCountry(e);
-        this.canvas.endDrag();
-
-        if(e.target) {
-            if(e.target.hasAttribute("data-map-zoom-in")) {
-                this.canvas.zoom(-50);
-            }
-            if(e.target.hasAttribute("data-map-zoom-out")) {
-                this.canvas.zoom(50);
-            }
-            if(e.target.hasAttribute("data-map-pan-up")) {
-                this.canvas.move(0, -100, 0, 2, 2);
-            }
-            if(e.target.hasAttribute("data-map-pan-down")) {
-                this.canvas.move(0, 100, 0, 2, 2);
-            }
-            if(e.target.hasAttribute("data-map-pan-left")) {
-                this.canvas.move(-100, 0, 0, 2, 2);
-            }
-            if(e.target.hasAttribute("data-map-pan-right")) {
-                this.canvas.move(100, 0, 0, 2, 2);
-            }
-            if(e.target.hasAttribute("data-map-reset")) {
-                this.canvas.reset();
-            }
-        }
-    }
-
-    onResize(e) {
-        this.canvas.resize(e);
-    }
-    
-    onWheel(e) {
-        if(this.isMapEvent(e)) {
-            e.preventDefault();
-            this.canvas.zoom(e.deltaY);
-        }
-    }
-
-    selectCountry(e) {
-        if(this.isMapEvent(e)) {
-            let geometry = this.canvas.select(e);
-            if(geometry && geometry.iso !== disputed) {
-                this.onCountrychanged(geometry.iso);
-            }
-        }
-    }
-
-    onCountrychanged(iso) {
-        // TODO: position marker
-        this.browserEvent.emit("map-country-changed", iso);
-    }
-
-    isMapEvent(e) {
-        return e.target && e.target.id === "world-map";
+    detach() {
+        this.canvasListener.detach();
     }
 }
     

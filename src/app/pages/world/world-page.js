@@ -5,13 +5,12 @@ const defaultSelectedCountry = "SE";
 
 class WorldPage {
     
-    constructor(browserEvent, cachedInflater, exerciseArea, exerciseAreaListener, worldMap, worldMapListener) {
+    constructor(browserEvent, cachedInflater, exerciseArea, exerciseAreaListener, worldMap) {
         this.browserEvent = browserEvent;
         this.cachedInflater = cachedInflater;
         this.exerciseArea = exerciseArea;
         this.exerciseAreaListener = exerciseAreaListener;
         this.worldMap = worldMap;
-        this.worldMapListener = worldMapListener;
     }
     
     attach(pageTemplate, onPageChanged, parameters) {
@@ -23,10 +22,10 @@ class WorldPage {
             });
         });
         this.removeListeners = [
-            this.browserEvent.on("map-country-changed", this.onMapCountrySelected.bind(this))
+            this.browserEvent.on("canvas-geometry-clicked", this.onMapCountrySelected.bind(this))
         ];
         this.exerciseAreaListener.attach();
-        this.worldMapListener.attach();
+        this.worldMap.attach();
     }
     
     detach() {
@@ -34,7 +33,7 @@ class WorldPage {
             removeListener();
         }
         this.exerciseAreaListener.detach();
-        this.worldMapListener.detach();
+        this.worldMap.detach();
     }
 
     loadPage(pageTemplate, onPageChanged, parameters) {
@@ -56,11 +55,11 @@ class WorldPage {
     }
     
     onMapCountrySelected(e) {
-        this.createContext(e.detail);
+        this.createContext(e.detail.id);
         this.setHeader();
         this.setFlagWidget();
         this.exerciseArea.updateContext(this.context);
-        this.browserEvent.emit("url-change", "/world/" + e.detail.toLowerCase());
+        this.browserEvent.emit("url-change", "/world/" + e.detail.id.toLowerCase());
     }
 
     setHeader() {

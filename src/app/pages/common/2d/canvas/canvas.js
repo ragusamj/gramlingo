@@ -1,103 +1,37 @@
-import debounce from "../../../../core/event/debounce";
-import throttle from "../../../../core/event/throttle";
 import Label from "./label";
-import Shape from "../shape";
 
-const resizeDelay = 100;
-const zoomDelay = 16; // Just below 1000ms / 60fps, doesn't throttle Chrome at all but throttles Safari, Firefox etc
 const nameVisibleThreshold = 20;
-
-const mouseButtons = {
-    main: 0
-};
 
 class Canvas {
 
-    constructor(canvas, geometries) {
-        this.canvas = canvas;
+    constructor(id) {
+        this.id = id;
+    }
+
+    initialize(geometries) {
         this.geometries = geometries;
-        this.context = this.canvas.getContext("2d");
-        this.originalWidth = this.canvas.width;
-        this.originalHeight = this.canvas.height;
+        this.element = document.getElementById(this.id);
+        this.context = this.element.getContext("2d");
+        this.originalWidth = this.element.width;
+        this.originalHeight = this.element.height;
         this.countryLabel = new Label(this.context, "'Montserrat', sans-serif", 75, "#fff", "rgba(0, 0, 0, 0.5");
-
-        this.debouncedResize = debounce(() => {
-            let aspectRatio = this.canvas.height / this.canvas.width;
-            let parentClientRect = this.canvas.parentElement.getBoundingClientRect();
-            this.canvas.width = parentClientRect.width * 2;
-            this.canvas.height = (parentClientRect.width * aspectRatio) * 2;
-            this.canvas.style.width = parentClientRect.width + "px";
-            this.canvas.style.height = (parentClientRect.width * aspectRatio) + "px";
-            this.reset();
-        }, resizeDelay);
-
-        this.throttledZoom = throttle((delta) => {
-            requestAnimationFrame(() => {
-                // (speed / scale) // set the zooming speed and maintain the same speed regardless of scale
-                // * -1            // reverse the zoom gesture
-                // TODO, use dynamic values for h,v
-                this.move(0, 0, delta / (100 / this.z) * -1, 2, 2);
-            });
-        }, zoomDelay);
+        this.resize();
     }
 
     resize() {
-        this.debouncedResize();
-    }
-
-    select(e) {
-        if(!this.dragging) {
-            let point = this.offsetPointToOrigin([e.clientX, e.clientY]);
-            for(let geometry of this.geometries) {
-                for(let polygon of geometry.polygons) {
-                    if(Shape.inside(point, polygon)) {
-                        return geometry;
-                    }
-                }
-            }
-        }
-        return undefined;
-    }
-
-    beginDrag(e) {
-        if(e.button === mouseButtons.main) {
-            this.dragStartPoint = this.toCanvasPoint(e.clientX, e.clientY);
-        }
-    }
-
-    drag(e) {
-        if(this.dragStartPoint) {
-            this.dragging = true;
-            let mousePoint = this.toCanvasPoint(e.clientX, e.clientY);
-            requestAnimationFrame(() => {
-                if(this.dragStartPoint) {
-                    this.move(
-                        // delta = dragStartPoint - mousePoint // how many pixels did the mouse move
-                        // delta / z                           // make the delta smaller when the scale increases (zooming in) and vice versa
-                        // * 2                                 // keep the image centered around the mouse pointer
-                        ((this.dragStartPoint[0] - mousePoint[0]) / this.z) * 2,
-                        ((this.dragStartPoint[1] - mousePoint[1]) / this.z) * 2,
-                        0, 2, 2
-                    );
-                    this.dragStartPoint = mousePoint;
-                }
-            });
-        }
-    }
-
-    endDrag() {
-        this.dragStartPoint = undefined;
-        this.dragging = false;
-    }
-
-    zoom(delta) {
-        this.throttledZoom(delta);
+        let aspectRatio = this.element.height / this.element.width;
+        let parentClientRect = this.element.parentElement.getBoundingClientRect();
+        this.element.width = parentClientRect.width * 2;
+        this.element.height = (parentClientRect.width * aspectRatio) * 2;
+        this.element.style.width = parentClientRect.width + "px";
+        this.element.style.height = (parentClientRect.width * aspectRatio) + "px";
+        this.reset();
     }
     
     toCanvasPoint(x, y) {
-        let rect = this.canvas.getBoundingClientRect();
-        let scaleX = (this.canvas.width / rect.width);
-        let scaleY = (this.canvas.height / rect.height);
+        let rect = this.element.getBoundingClientRect();
+        let scaleX = (this.element.width / rect.width);
+        let scaleY = (this.element.height / rect.height);
         return [
             ((x - rect.left) * scaleX),
             ((y - rect.top) * scaleY)
@@ -121,8 +55,8 @@ class Canvas {
 
     calculateOffset() {
         this.offset = [
-            (((this.canvas.width + this.x) * this.z) - this.canvas.width) / this.h,
-            (((this.canvas.height + this.y) * this.z) - this.canvas.height) / this.v
+            (((this.element.width + this.x) * this.z) - this.element.width) / this.h,
+            (((this.element.height + this.y) * this.z) - this.element.height) / this.v
         ];
     }
 
@@ -139,16 +73,16 @@ class Canvas {
     }
 
     reset() {
-        this.x = this.originalWidth - this.canvas.width;
-        this.y = this.originalHeight - this.canvas.height;
-        this.z = this.canvas.width / this.originalWidth;
+        this.x = this.originalWidth - this.element.width;
+        this.y = this.originalHeight - this.element.height;
+        this.z = this.element.width / this.originalWidth;
         this.h = 2;
         this.v = 2;
         this.draw();
     }
     
     draw() {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.context.clearRect(0, 0, this.element.width, this.element.height);
         this.calculateOffset();
 
         let visibleGeometries = this.filterVisibleGeometries();
@@ -203,7 +137,7 @@ class Canvas {
     }
 
     isVisible(point) {
-        return point[0] >= 0 && point[1] >= 0 && point[0] <= this.canvas.width && point[1] <= this.canvas.height;
+        return point[0] >= 0 && point[1] >= 0 && point[0] <= this.element.width && point[1] <= this.element.height;
     }
 }
     

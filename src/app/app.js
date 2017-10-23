@@ -17,6 +17,9 @@ import svSE from "./translations/sv-SE";
 import Menu from "./menu";
 
 import CachedInflater from "./pages/common/cached-inflater";
+import Canvas from "./pages/common/2d/canvas/canvas";
+import CanvasListener from "./pages/common/2d/canvas/canvas-listener";
+import CanvasWorker from "./pages/common/2d/canvas/canvas-worker";
 import Checker from "./pages/common/exercise-area/checker";
 import ExerciseAreaListener from "./pages/common/exercise-area/exercise-area-listener";
 import ExerciseAreaPopup from "./pages/common/exercise-area/exercise-area-popup";
@@ -41,7 +44,6 @@ import NumeralsSearchEngine from "./pages/numerals/numerals-search-engine";
 import VerbPage from "./pages/verbs/verb-page";
 
 import WorldMap from "./pages/world/world-map/world-map";
-import WorldMapListener from "./pages/world/world-map/world-map-listener";
 import WorldPage from "./pages/world/world-page";
 
 // core
@@ -55,7 +57,10 @@ const exerciseArea = new ExerciseArea(new Checker(), new ExerciseAreaPopup(), ne
 const exerciseAreaListener = new ExerciseAreaListener(browserEvent, exerciseArea);
 const searchEngine = new SearchEngine();
 const numeralsSearchEngine = new NumeralsSearchEngine();
-const worldMap = new WorldMap(browserEvent);
+
+const canvas = new Canvas("world-map"); 
+const canvasListener = new CanvasListener(browserEvent, new CanvasWorker(browserEvent, canvas));
+const worldMap = new WorldMap(browserEvent, canvas, canvasListener);
 
 class App {
 
@@ -94,8 +99,7 @@ class App {
             },
             {
                 paths: ["/world", "/world/:iso"],
-                page: new WorldPage(browserEvent, cachedInflater, exerciseArea, exerciseAreaListener,
-                    worldMap, new WorldMapListener(browserEvent, worldMap)),
+                page: new WorldPage(browserEvent, cachedInflater, exerciseArea, exerciseAreaListener, worldMap),
                 template: "/app/pages/world/world-page.html"
             },
             {

@@ -1,4 +1,5 @@
 import fastdiff from "fast-diff";
+import dice from "../search/fuzzy/dice-coefficient";
 import Sanitizer from "../sanitizer";
 
 class Checker {
@@ -49,13 +50,17 @@ class Checker {
 
     diffMostSimilarSolution(solutions, answer, result) {
         if(!result.accepted) {
+            let last = 0;
+            let mostSimilar;
             for(let solution of solutions) {
-                let diff = fastdiff(solution.lower, answer);
-                if(!(result.diff && result.diff.length < diff.length)) {
-                    result.diff = diff;
-                    result.solution = solution.original;
+                let similarity = dice(answer, solution.lower);
+                if(similarity > last) {
+                    mostSimilar = solution;
+                    last = similarity;
                 }
             }
+            result.diff = fastdiff(mostSimilar.lower, answer);
+            result.solution = mostSimilar.original;
         }
     }
 }

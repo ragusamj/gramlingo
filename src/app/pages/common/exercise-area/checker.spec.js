@@ -163,13 +163,13 @@ test("Checker should reject an incorrect answer with solutions", (t) => {
 
 test("Checker should reject incorrect an answer with solutions and choose the most similar correct solution", (t) => {
     dom.sandbox("", {}, () => {
-        let result = checker.check(["fuese", "fuera"], "fueses");
+        let result = checker.check(["afrikáans", "tsonga", "zulú"], "afrikáan");
         t.deepEqual(result, {
             accepted: false,
-            alternatives: ["fuese", "fuera"],
-            answer: "fueses",
-            diff: [[0, "fuese"], [1, "s"]],
-            solution: "fuese"
+            alternatives: ["afrikáans", "tsonga", "zulú"],
+            answer: "afrikáan",
+            diff: [[0, "afrikáan"], [-1, "s"]],
+            solution: "afrikáans"
         });
         t.end();
     });

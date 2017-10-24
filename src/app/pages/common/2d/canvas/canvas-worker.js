@@ -1,7 +1,7 @@
 import throttle from "../../../../core/event/throttle";
 import Shape from "../shape";
 
-const zoomDelay = 16; // Just below 1000ms / 60fps, doesn't throttle Chrome at all but throttles Safari, Firefox etc
+const zoomDelay = 1000 / 60 / 2;
 const mouseButtons = {
     main: 0
 };

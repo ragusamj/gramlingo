@@ -30,7 +30,7 @@ import InputWalker from "./pages/common/walkers/input-walker";
 import IntegerGenerator from "./pages/common/integer-generator";
 import LoaderPopup from "./pages/common/loader-popup";
 import Search from "./pages/common/search/search";
-import SearchEngine from "./pages/common/search/engine/search-engine";
+import SearchEngine from "./pages/common/search/search-engine";
 import SearchListener from "./pages/common/search/search-listener";
 import SearchResultPopup from "./pages/common/search/search-result-popup";
 

@@ -125,6 +125,21 @@
             </div>
         </div>
     </footer>
+    <script>
+        try {
+            window.dispatchEvent(new CustomEvent("test"));
+        }
+        catch(error) {
+            document.body.innerHTML =
+            "<div class='bg-danger mt-5 p-5 text-white text-center'>" +
+                "<h1>¡Tu navegador está obsoleto!</h1>" +
+                "Actualiza tu navegador para ver esta página correctamente." +
+                "<div class='mt-5'>" +
+                    "<a class='bg-dark p-2 text-white' href='http://outdatedbrowser.com/es'>Actualizar mi navegador ahora</a>" +
+                "</div>" + 
+            "</div>";
+        }
+    </script>
     <script src="/bundle.js"></script>
 </body>
 </html>

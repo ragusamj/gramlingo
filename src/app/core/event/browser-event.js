@@ -22,17 +22,9 @@ class BrowserEvent {
     }
 
     emit(eventName, data) {
-        let event;
-        if(window.CustomEvent) {
-            event = new CustomEvent(eventName, {
-                detail: data
-            });
-        }
-        else {
-            event = document.createEvent("CustomEvent");
-            event.initCustomEvent(eventName, true, true, data);
-        }
-        window.dispatchEvent(event);
+        window.dispatchEvent(new CustomEvent(eventName, {
+            detail: data
+        }));
     }
 }
 

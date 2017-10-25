@@ -147,6 +147,20 @@ test("Checker should reject an incorrect answer", (t) => {
     });
 });
 
+test("Checker should reject an incorrect number answer", (t) => {
+    dom.sandbox("", {}, () => {
+        let result = checker.check(["28"], "2");
+        t.deepEqual(result, {
+            accepted: false,
+            alternatives: [],
+            answer: "2",
+            diff: [[ 0, "2" ], [-1, "8"]],
+            solution: "28"
+        });
+        t.end();
+    });
+});
+
 test("Checker should reject an incorrect answer with solutions", (t) => {
     dom.sandbox("", {}, () => {
         let result = checker.check(["vayamos", "vamos"], "vamo");

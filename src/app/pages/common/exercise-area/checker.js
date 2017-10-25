@@ -50,7 +50,7 @@ class Checker {
 
     diffMostSimilarSolution(solutions, answer, result) {
         if(!result.accepted) {
-            let last = 0;
+            let last = -1;
             let mostSimilar;
             for(let solution of solutions) {
                 let similarity = dice(answer, solution.lower);

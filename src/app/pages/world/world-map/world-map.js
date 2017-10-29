@@ -1,11 +1,16 @@
 const disputed = "-99";
 
-const colorsSchemes = {
-    blue:  ["#004085", "#005dc2", "#007bff", "#7abaff"],
-    cyan:  ["#117b8c", "#17a2b8", "#86cfda", "#d1ecf1"],
-    gray:  ["#666c72", "#868e96", "#c0c4c8", "#e7e8ea"],
-    green: ["#155724", "#1e7f34", "#28a745", "#8fd19e"],
-    red:   ["#721c24", "#a72834", "#dc3545", "#ed969e"]
+const colors = {
+    blue:    "#007bff",
+    indigo:  "#6610f2",
+    purple:  "#6f42c1",
+    pink:    "#e83e8c",
+    red:     "#dc3545",
+    orange:  "#fd7e14",
+    yellow:  "#ffc107",
+    green:   "#28a745",
+    teal:    "#20c997",
+    cyan:    "#17a2b8",
 };
 
 class WorldMap {
@@ -24,8 +29,16 @@ class WorldMap {
                 geometry.label = "";
             }
             else {
+                let shade;
+                let color = colors.cyan;
+                switch(geometry.colorIndex) {
+                    case 0: shade = this.shadeColor(color, -0.4); break;
+                    case 1: shade = this.shadeColor(color, -0.1); break;
+                    case 2: shade = this.shadeColor(color, 0.2); break;
+                    default: shade = this.shadeColor(color, 0.6);
+                }
                 geometry.id = geometry.iso;
-                geometry.color = colorsSchemes.cyan[geometry.colorIndex];
+                geometry.color = shade;
                 geometry.label = countries[geometry.iso].name[0];
             }
         }
@@ -38,6 +51,16 @@ class WorldMap {
 
     detach() {
         this.canvasListener.detach();
+    }
+
+    shadeColor(color, percent) {   
+        let f = parseInt(color.slice(1), 16);
+        let t = percent < 0 ? 0 : 255;
+        let p = percent < 0 ? percent * -1 : percent;
+        let R = f >> 16;
+        let G = f >> 8 & 0x00FF;
+        let B = f & 0x0000FF;
+        return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000+ (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
     }
 }
     

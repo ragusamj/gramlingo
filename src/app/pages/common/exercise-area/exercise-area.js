@@ -60,6 +60,10 @@ class ExerciseArea {
         }
     }
 
+    onClick(e) {
+        this.exerciseAreaPopup.click(e);
+    }
+
     onKeydown(e) {
         if(e.target.hasAttribute("data-walkable-field")) {
             if(this.walker.walk(e.keyCode, e.target.id)) {

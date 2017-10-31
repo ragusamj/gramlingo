@@ -6,6 +6,7 @@ import ExerciseAreaListener from "./exercise-area-listener";
 
 const exerciseArea = {
     onBlur: sinon.stub(),
+    onClick: sinon.stub(),
     onKeydown: sinon.stub(),
     onMouseout: sinon.stub(),
     onMouseover: sinon.stub(),
@@ -17,6 +18,7 @@ let exerciseAreaListener = new ExerciseAreaListener(new BrowserEvent(), exercise
 const setup = () => {
     
     exerciseArea.onBlur.resetHistory();
+    exerciseArea.onClick.resetHistory();
     exerciseArea.onKeydown.resetHistory();
     exerciseArea.onMouseout.resetHistory();
     exerciseArea.onMouseover.resetHistory();
@@ -35,6 +37,17 @@ test("ExerciseAreaListener should call 'onBlur' on the event 'blur'", (t) => {
         input.dispatchEvent(new Event("blur"));
 
         t.true(exerciseArea.onBlur.called);
+        t.end();
+    });
+});
+
+test("ExerciseAreaListener should call 'onClick' on the event 'click'", (t) => {
+    dom.sandbox("<input/>", {}, () => {
+        let input = setup();
+
+        input.dispatchEvent(new Event("click"));
+
+        t.true(exerciseArea.onClick.called);
         t.end();
     });
 });

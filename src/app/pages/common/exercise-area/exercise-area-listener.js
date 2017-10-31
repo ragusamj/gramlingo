@@ -8,6 +8,7 @@ class ExerciseAreaListener {
     attach() {
         this.removeListeners = [
             this.browserEvent.on("blur", this.exerciseArea.onBlur.bind(this.exerciseArea)),
+            this.browserEvent.on("click", this.exerciseArea.onClick.bind(this.exerciseArea)),
             this.browserEvent.on("keydown", this.exerciseArea.onKeydown.bind(this.exerciseArea)),
             this.browserEvent.on("mouseout", this.exerciseArea.onMouseout.bind(this.exerciseArea)),
             this.browserEvent.on("mouseover", this.exerciseArea.onMouseover.bind(this.exerciseArea)),

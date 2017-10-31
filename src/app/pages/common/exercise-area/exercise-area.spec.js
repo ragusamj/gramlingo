@@ -31,6 +31,7 @@ const checker = {
 };
 
 const exerciseAreaPopup = {
+    click: sinon.stub(),
     show: sinon.stub(),
     showAnswer: sinon.stub(),
     hideElement: sinon.stub()
@@ -216,6 +217,18 @@ test("ExerciseArea should ignore unknown 'blur' events", (t) => {
         exerciseArea.onBlur({ target: document.getElementById("input-unknown") });
 
         t.false(checker.check.called);
+        t.end();
+    });
+});
+
+test("ExerciseArea should send click events to the excerise popup on the event 'click'", (t) => {
+    dom.sandbox(html, {}, () => {
+        let exerciseArea = setup();
+        let mockEvent = {};
+        
+        exerciseArea.onClick(mockEvent);
+
+        t.true(exerciseAreaPopup.click.calledWith(mockEvent));
         t.end();
     });
 });

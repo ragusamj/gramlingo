@@ -118,6 +118,9 @@ input[type="number"] {
     .popup {
         bottom: 2em;
         padding: 0.5em;
+        table, td {
+            pointer-events: none;
+        }
         .missing-letter {
             text-decoration: underline;
         }

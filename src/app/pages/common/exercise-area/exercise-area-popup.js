@@ -23,7 +23,7 @@ class ExerciseAreaPopup {
             this.createIcon(field, result);
             this.createMessage(field, result);
             this.show(field.popupId);
-            setTimeout(() => {
+            this.timeout = setTimeout(() => {
                 this.hideElement(field.popupId);
             }, 3000);
         }
@@ -91,17 +91,36 @@ class ExerciseAreaPopup {
         }
     }
 
+    click(e) {
+        if(this.isInsideClick(e)) {
+            clearTimeout(this.timeout);
+            return;
+        }
+        if(this.allowOutsideClick) {
+            this.hideElement(this.lastPopup);
+        }
+    }
+
+    isInsideClick(e) {
+        return e.target && e.target.id === this.lastPopup;
+    }
+
     show(id) {
         if(this.lastPopup) {
             this.hideElement(this.lastPopup);
         }
         this.lastPopup = id;
+        this.allowOutsideClick = false;
         this.showElement(id);
+        setTimeout(() => {
+            this.allowOutsideClick = true;
+        }, 100);
     }
 
     hideElement(id) {
         let element = document.getElementById(id);
         if(element) {
+            clearTimeout(this.timeout);
             element.classList.remove("show");
         }
     }

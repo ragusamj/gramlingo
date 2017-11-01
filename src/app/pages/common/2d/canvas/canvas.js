@@ -1,4 +1,5 @@
 import Label from "./label";
+import Marker from "./marker";
 
 const nameVisibleThreshold = 20;
 
@@ -8,13 +9,14 @@ class Canvas {
         this.id = id;
     }
 
-    initialize(geometries) {
+    initialize(geometries, styles) {
         this.geometries = geometries;
         this.element = document.getElementById(this.id);
         this.context = this.element.getContext("2d");
         this.originalWidth = this.element.width;
         this.originalHeight = this.element.height;
-        this.countryLabel = new Label(this.context, "'Montserrat', sans-serif", 75, "#fff", "rgba(0, 0, 0, 0.5");
+        this.countryLabel = new Label(this.context, styles.label);
+        this.marker = new Marker(this.context, styles.marker);
         this.resize();
     }
 
@@ -26,6 +28,10 @@ class Canvas {
         this.element.style.width = parentClientRect.width + "px";
         this.element.style.height = (parentClientRect.width * aspectRatio) + "px";
         this.reset();
+    }
+
+    setMarker(point) {
+        this.markerPoint = point;
     }
     
     toCanvasPoint(x, y) {
@@ -103,6 +109,8 @@ class Canvas {
             this.context.fillStyle = geometry.color;
             this.context.fill();
         }
+
+        this.mark();
         this.label(visibleGeometries);
     }
 
@@ -115,6 +123,11 @@ class Canvas {
                 }
             }
         }
+    }
+
+    mark() {
+        let point = this.offsetPointToCanvas(this.markerPoint);
+        this.marker.draw(point, this.z);
     }
 
     filterVisibleGeometries() {

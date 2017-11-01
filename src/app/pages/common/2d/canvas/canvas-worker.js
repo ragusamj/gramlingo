@@ -21,6 +21,8 @@ class CanvasWorker {
                 for(let polygon of geometry.polygons) {
                     if(Shape.inside(point, polygon) && geometry.id) {
                         this.browserEvent.emit("canvas-geometry-clicked", { canvas: this.canvas.id, id: geometry.id });
+                        this.canvas.setMarker(geometry.centroid);
+                        this.canvas.draw();
                     }
                 }
             }

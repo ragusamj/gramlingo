@@ -43,7 +43,7 @@ class WorldPage {
         this.setHeader();
         this.setFlagWidget();
         this.exerciseArea.updateContext(this.context);
-        this.worldMap.initialize(this.geometries, this.countries);
+        this.worldMap.initialize(this.geometries, this.countries, this.context.iso);
     }
 
     createContext(iso) {

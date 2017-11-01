@@ -225,6 +225,7 @@ input[type="number"] {
 
 .footer {
     @extend .fixed-bottom;
+    z-index: 3000;
     position: relative;
     padding: 0 1rem;
     .language, .social-media, .copyright {

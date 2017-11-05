@@ -1,7 +1,7 @@
 import Label from "./label";
 import Marker from "./marker";
 
-const nameVisibleThreshold = 20;
+const nameVisibleThreshold = 1.5;
 
 class Canvas {
 
@@ -15,9 +15,19 @@ class Canvas {
         this.context = this.element.getContext("2d");
         this.originalWidth = this.element.width;
         this.originalHeight = this.element.height;
-        this.countryLabel = new Label(this.context, styles.label);
         this.marker = new Marker(this.context, styles.marker);
+        this.renderLabels(styles.label);
         this.resize();
+    }
+
+    renderLabels(style) {
+        this.labels = {};
+        for(let geometry of this.geometries) {
+            if(geometry.label) {
+                let label = new Label(geometry.label, style);
+                this.labels[geometry.id] = label;
+            }
+        }
     }
 
     resize() {
@@ -119,9 +129,12 @@ class Canvas {
     label(geometries) {
         if(this.z > 1) {
             for(let geometry of geometries) {
-                if(geometry.label && (geometry.max.length * this.z) / geometry.label.length > nameVisibleThreshold) {
+                let label = this.labels[geometry.id];
+                if(label && (geometry.max.length * this.z) / label.width > nameVisibleThreshold) {
                     let point = this.offsetPointToCanvas(geometry.centroid);
-                    this.countryLabel.draw(point, geometry.label);
+                    point[0] -= label.width / 2;
+                    point[1] += 8;
+                    this.context.drawImage(label.canvas, point[0], point[1]);
                 }
             }
         }

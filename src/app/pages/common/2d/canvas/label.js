@@ -1,33 +1,40 @@
 import Rectangle from "./rectangle";
 
-const offsetY = 8;
-
 class Label {
 
-    constructor(context, style) {
-        this.context = context;
+    constructor(text, style) {
+        this.text = text;
         this.style = style;
 
         this.fontSize = parseFloat(getComputedStyle(document.documentElement).fontSize) * 2 * style.font.size / 100;
         this.font = this.fontSize + "px " + style.font.family;
         this.padding = this.fontSize / 2;
+
+        this.canvas = document.createElement("canvas");
+        this.context = this.canvas.getContext("2d");
+        this.context.font = this.font;
+
+        this.measure();
+        this.draw();
     }
 
-    draw(point, text) {
-        let metrics = this.context.measureText(text);
-        let width = metrics.width + this.padding;
-        let height = this.fontSize + this.padding;
-        point[0] -= width / 2;
-        point[1] += offsetY;
+    measure() {
+        let metrics = this.context.measureText(this.text);
+        this.width = metrics.width + this.padding;
+        this.height = this.fontSize + this.padding;
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
+    }
 
-        Rectangle.draw(this.context, point, width, height, 5);
-        this.context.fillStyle = this.style.background;
+    draw() {
+        Rectangle.draw(this.context, [0, 0], this.width, this.height, 5);
+        this.context.fillStyle = "#333";
         this.context.fill();
 
         this.context.fillStyle = this.style.color;
         this.context.font = this.font;
         this.context.textBaseline = "middle";
-        this.context.fillText(text, point[0] + (this.padding / 2), point[1] + (this.padding / 2) + (this.fontSize / 2));
+        this.context.fillText(this.text, (this.padding / 2), (this.padding / 2) + (this.fontSize / 2));
     }
 }
 

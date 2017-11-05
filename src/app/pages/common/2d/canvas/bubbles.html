@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <style>
+            body {
+                background-color: #333;
+            }
+        </style>
+    </head>
+<body>
+    <div id="canvas-container">
+        <canvas id="canvas" width="1600" height="810"></canvas>
+    </div>
+    <script>
+
+        const randomize = (min, max) => {
+            return min + Math.random() * (max - min);
+        }
+
+        const getRandomColor = () => {
+            let h = randomize(0, 360);  // Hue, 0 - 360 degrees
+            let s = randomize(70, 100); // Saturation, 0 - 100%
+            let l = randomize(30, 70);  // Lightness, 0 - 100% (0 black, 100 white)
+            return "hsl(" + h + "," + s + "%," + l + "%)";
+        }
+
+        let speed = 2;
+
+        const canvas = document.getElementById("canvas");
+        const context = canvas.getContext("2d");
+
+        canvas.addEventListener("wheel", (e) => {
+            e.preventDefault();
+            speed += e.deltaY / 120 * -1;
+        });
+
+        const originalWidth = canvas.width;
+        const originalHeight = canvas.height;
+
+        const aspectRatio = canvas.height / canvas.width;
+        const parentClientRect = canvas.parentElement.getBoundingClientRect();
+
+        canvas.width = parentClientRect.width * 2;
+        canvas.height = (parentClientRect.width * aspectRatio) * 2;
+        canvas.style.width = parentClientRect.width + "px";
+        canvas.style.height = (parentClientRect.width * aspectRatio) + "px";
+
+        const bubbles = [];
+
+        for(let i = 0; i < 100; i++) {
+
+            const radius = randomize(25, 100);
+            const border = 8;
+            const bubble = document.createElement('canvas');
+            bubble.width = (radius + border) * 2;
+            bubble.height = bubble.width;
+
+            const bubblecontext = bubble.getContext("2d");
+            bubblecontext.arc(radius + border, radius + border, radius, 0, 2 * Math.PI);
+            bubblecontext.fillStyle = getRandomColor();
+            bubblecontext.fill();
+            bubblecontext.strokeStyle = "#fff";
+            bubblecontext.lineWidth = border;
+            bubblecontext.stroke();
+
+            bubbles.push({
+                dx: Math.random(),
+                dy: Math.random(),
+                image: bubble,
+                x: randomize(1, canvas.width - bubble.width),
+                y: randomize(1, canvas.height - bubble.height)
+            });
+        }
+
+        let render = () => {
+
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.beginPath();
+
+            for(bubble of bubbles) {
+                if(Math.random() < 0.01) {
+                    bubble.dx = (bubble.dx > 0.5) ? 0 : 1;
+                }
+                if(Math.random() < 0.01) {
+                    bubble.dy = (bubble.dy > 0.5) ? 0 : 1;
+                }
+
+                bubble.x += bubble.dx >= 0.5 ? speed : -speed;
+                bubble.y += bubble.dy >= 0.5 ? speed : -speed;
+
+                bubble.x = bubble.x < 0 || bubble.x > canvas.width ? canvas.width / 2 : bubble.x;
+                bubble.y = bubble.y < 0 || bubble.y > canvas.height ? canvas.height / 2 : bubble.y;
+
+                context.drawImage(bubble.image, bubble.x, bubble.y);
+            }
+
+            requestAnimationFrame(render);
+        };
+
+        requestAnimationFrame(render);
+    </script>
+</body>
+</html>

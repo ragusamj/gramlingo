@@ -48,7 +48,7 @@ class CanvasWorker {
                         // delta / z                           // make the delta smaller when the scale increases (zooming in) and vice versa
                         // * this.canvas.h|v                   // keep the image centered around the zooming center
                         ((this.dragStartPoint[0] - mousePoint[0]) / this.canvas.z) * this.canvas.h,
-                        ((this.dragStartPoint[1] - mousePoint[1]) / this.canvas.z) * this.canvas.z,
+                        ((this.dragStartPoint[1] - mousePoint[1]) / this.canvas.z) * this.canvas.v,
                         0
                     );
                     this.dragStartPoint = mousePoint;

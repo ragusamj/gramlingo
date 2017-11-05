@@ -4,7 +4,7 @@ let http = require("http");
 let log4js = require("log4js");
 let parseUrl = require("parseurl");
 let path = require("path");
-let send = require("send");
+let send = require("send-throttle");
 let serveStatic = require("serve-static");
 
 let port = process.env.PORT || 8080;
@@ -38,7 +38,8 @@ function setResponseHeaders(res, fullpath) {
 
 function sendGzippedVersion(req, res, fullpath) {
     setResponseHeaders(res, fullpath);
-    send(req, fullpath + ".gz").pipe(res);
+    let options = fullpath.endsWith(".json") ? { throttle: { bps: 1024 * 16 }} : undefined;
+    send(req, fullpath + ".gz", options).pipe(res);
 }
 
 let server = http.createServer(function(req, res) {

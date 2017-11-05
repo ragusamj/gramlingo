@@ -40,16 +40,16 @@ class CanvasWorker {
     onMousemove(e) {
         if(this.dragStartPoint && this.isCanvasEvent(e)) {
             this.dragging = true;
-            let mousePoint = this.canvas.toCanvasPoint(e.clientX, e.clientY);
             requestAnimationFrame(() => {
+                let mousePoint = this.canvas.toCanvasPoint(e.clientX, e.clientY);
                 if(this.dragStartPoint) {
                     this.canvas.move(
                         // delta = dragStartPoint - mousePoint // how many pixels did the mouse move
                         // delta / z                           // make the delta smaller when the scale increases (zooming in) and vice versa
-                        // * 2                                 // keep the image centered around the mouse pointer
-                        ((this.dragStartPoint[0] - mousePoint[0]) / this.canvas.z) * 2,
-                        ((this.dragStartPoint[1] - mousePoint[1]) / this.canvas.z) * 2,
-                        0, 2, 2
+                        // * this.canvas.h|v                   // keep the image centered around the zooming center
+                        ((this.dragStartPoint[0] - mousePoint[0]) / this.canvas.z) * this.canvas.h,
+                        ((this.dragStartPoint[1] - mousePoint[1]) / this.canvas.z) * this.canvas.z,
+                        0
                     );
                     this.dragStartPoint = mousePoint;
                 }
@@ -71,16 +71,16 @@ class CanvasWorker {
                 this.zoom(50);
             }
             if(e.target.hasAttribute("data-map-pan-up")) {
-                this.canvas.move(0, -100, 0, 2, 2);
+                this.canvas.move(0, -100, 0);
             }
             if(e.target.hasAttribute("data-map-pan-down")) {
-                this.canvas.move(0, 100, 0, 2, 2);
+                this.canvas.move(0, 100, 0);
             }
             if(e.target.hasAttribute("data-map-pan-left")) {
-                this.canvas.move(-100, 0, 0, 2, 2);
+                this.canvas.move(-100, 0, 0);
             }
             if(e.target.hasAttribute("data-map-pan-right")) {
-                this.canvas.move(100, 0, 0, 2, 2);
+                this.canvas.move(100, 0, 0);
             }
             if(e.target.hasAttribute("data-map-reset")) {
                 this.canvas.reset();
@@ -95,6 +95,13 @@ class CanvasWorker {
     onWheel(e) {
         if(this.isCanvasEvent(e)) {
             e.preventDefault();
+            /*
+            let mousePoint = this.canvas.toCanvasPoint(e.clientX, e.clientY);
+            this.canvas.center(
+                this.canvas.element.width / mousePoint[0],
+                this.canvas.element.height / mousePoint[1]
+            );
+            */
             this.throttledZoom(e.deltaY);
         }
     }
@@ -104,7 +111,7 @@ class CanvasWorker {
             // (speed / scale) // set the zooming speed and maintain the same speed regardless of scale
             // * -1            // reverse the zoom gesture
             // TODO, use dynamic values for h,v
-            this.canvas.move(0, 0, delta / (100 / this.canvas.z) * -1, 2, 2);
+            this.canvas.move(0, 0, delta / (100 / this.canvas.z) * -1);
         });
     }
 

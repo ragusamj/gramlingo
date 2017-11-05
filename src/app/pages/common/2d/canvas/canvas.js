@@ -69,12 +69,15 @@ class Canvas {
     // h and v, where is the center point when zooming:
     // h: 1=right,  2=middle, canvas.width=left
     // v: 1=bottom, 2=middle, canvas.height=top
-    move(x, y, z, h, v) {
+    center(h, v) {
+        this.h = h;
+        this.v = v;
+    }
+
+    move(x, y, z) {
         this.x += x;
         this.y += y;
         this.z += z;
-        this.h = h;
-        this.v = v;
         this.draw();
     }
 
@@ -82,8 +85,7 @@ class Canvas {
         this.x = this.originalWidth - this.element.width;
         this.y = this.originalHeight - this.element.height;
         this.z = this.element.width / this.originalWidth;
-        this.h = 2;
-        this.v = 2;
+        this.center(2, 2);
         this.draw();
     }
     

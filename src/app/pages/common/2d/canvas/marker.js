@@ -6,32 +6,34 @@ const legHeight = 64;
 
 class Marker {
 
-    constructor(context, style) {
-        this.context = context;
+    constructor(style) {
         this.style = style;
+
+        this.canvas = document.createElement("canvas");
+        this.context = this.canvas.getContext("2d");
+
+        this.width = (headRadius * 2) + (this.style.border.width * 2);
+        this.height = this.width + legHeight - this.style.border.width;
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
+
+        this.drawLeg();
+        this.drawHead();
     }
 
-    draw(point) {
-        this.drawLeg(point);
-        this.drawHead(point);
-    }
-
-    drawLeg(point) {
-        let legPosition = [
-            point[0] - legWidth / 2,
-            point[1] - legHeight
+    drawLeg() {
+        let point = [
+            (this.width / 2) - (legWidth / 2),
+            (legHeight - headRadius) + (this.style.border.width * 2)
         ];
-
-        Rectangle.draw(this.context, legPosition, legWidth, legHeight, 4);
+        Rectangle.draw(this.context, point, legWidth, legHeight, 4);
         this.paint();
     }
 
-    drawHead(point) {
-        let headPositionX = point[0];
-        let headPositionY = point[1] - (headRadius / 2) - legHeight;
-
+    drawHead() {
+        let center = this.width / 2;
         this.context.beginPath();
-        this.context.arc(headPositionX, headPositionY, headRadius, 0, 2 * Math.PI);
+        this.context.arc(center, center, headRadius, 0, 2 * Math.PI);
         this.paint();
     }
 

@@ -15,7 +15,7 @@ class Canvas {
         this.context = this.element.getContext("2d");
         this.originalWidth = this.element.width;
         this.originalHeight = this.element.height;
-        this.marker = new Marker(this.context, styles.marker);
+        this.marker = new Marker(styles.marker);
         this.renderLabels(styles.label);
         this.resize();
     }
@@ -142,7 +142,9 @@ class Canvas {
 
     mark() {
         let point = this.offsetPointToCanvas(this.markerPoint);
-        this.marker.draw(point, this.z);
+        point[0] -= this.marker.width / 2;
+        point[1] -= this.marker.height + this.z - (this.marker.style.border.width * 2);
+        this.context.drawImage(this.marker.canvas, point[0], point[1]);
     }
 
     filterVisibleGeometries() {

@@ -1,7 +1,5 @@
-import throttle from "../../../../core/event/throttle";
 import Shape from "../shape";
 
-const zoomDelay = 1000 / 60 / 2;
 const mouseButtons = {
     main: 0
 };
@@ -11,7 +9,9 @@ class CanvasWorker {
     constructor(browserEvent, canvas) {
         this.browserEvent = browserEvent;
         this.canvas = canvas;
-        this.throttledZoom = throttle(this.zoom.bind(this), zoomDelay);
+
+        this.direction = 1;
+        this.lastScrollEvent = Date.now();
     }
 
     select(e) {
@@ -65,10 +65,10 @@ class CanvasWorker {
         
         if(e.target) {
             if(e.target.hasAttribute("data-map-zoom-in")) {
-                this.zoom(-50);
+                this.zoom(-2);
             }
             if(e.target.hasAttribute("data-map-zoom-out")) {
-                this.zoom(50);
+                this.zoom(2);
             }
             if(e.target.hasAttribute("data-map-pan-up")) {
                 this.canvas.move(0, -100, 0);
@@ -83,6 +83,7 @@ class CanvasWorker {
                 this.canvas.move(100, 0, 0);
             }
             if(e.target.hasAttribute("data-map-reset")) {
+                cancelAnimationFrame(this.animationId);
                 this.canvas.reset();
             }
         }
@@ -102,17 +103,49 @@ class CanvasWorker {
                 this.canvas.element.height / mousePoint[1]
             );
             */
-            this.throttledZoom(e.deltaY);
+            this.zoom(e.deltaY);
         }
     }
 
     zoom(delta) {
-        requestAnimationFrame(() => {
-            // (speed / scale) // set the zooming speed and maintain the same speed regardless of scale
-            // * -1            // reverse the zoom gesture
-            // TODO, use dynamic values for h,v
-            this.canvas.move(0, 0, delta / (100 / this.canvas.z) * -1);
-        });
+
+        let direction = delta < 0 ? 1 : 0;
+        delta = delta < 0 ? delta * -1 : delta;
+
+        if(delta <= 1) {
+            return;
+        }
+
+        if(this.scrollTimeDelta() < 60) {
+            if(this.direction === direction) {
+                return;
+            }
+            else {
+                this.direction = direction;
+                cancelAnimationFrame(this.animationId);
+            }
+        }
+
+        this.direction = direction;
+        cancelAnimationFrame(this.animationId);
+
+        let frames = delta * 10;
+        let step = delta / (100 / this.canvas.z);
+        let animate = () => {
+            frames--;
+            if(frames >= 0) {
+                this.canvas.move(0, 0, direction ? step : -step);
+                this.animationId = requestAnimationFrame(animate);
+            }
+        };
+        this.animationId = requestAnimationFrame(animate);
+    }
+
+    scrollTimeDelta() {
+        let now = Date.now();
+        let delta = now - this.lastScrollEvent;
+        this.lastScrollEvent = now;
+        return delta;
     }
 
     isCanvasEvent(e) {

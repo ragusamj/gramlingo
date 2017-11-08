@@ -1,6 +1,8 @@
 import easings from "../../../../core/animation/easings";
 import Shape from "../shape";
 
+const fps = 60;
+
 const mouseButtons = {
     main: 0
 };
@@ -10,9 +12,6 @@ class CanvasWorker {
     constructor(browserEvent, canvas) {
         this.browserEvent = browserEvent;
         this.canvas = canvas;
-
-        this.direction = 1;
-        this.lastScrollEvent = Date.now();
     }
 
     select(e) {
@@ -109,51 +108,48 @@ class CanvasWorker {
     }
 
     zoom(delta) {
-
         let direction = delta < 0 ? 1 : 0;
         delta = delta < 0 ? delta * -1 : delta;
 
-        if(delta <= 1) {
-            return;
+        if(this.needsNewAnimation(delta, direction)) {
+            this.direction = direction;
+            cancelAnimationFrame(this.animationId);
+            this.animateZoom(delta, direction);
         }
+    }
 
-        if(this.scrollTimeDelta() < 60) {
-            if(this.direction === direction) {
-                return;
-            }
-            else {
-                this.direction = direction;
-                cancelAnimationFrame(this.animationId);
-            }
-        }
+    needsNewAnimation(delta, direction) {
+        return delta > 1 && (this.scrollTimeDelta() > fps || this.direction !== direction);
+    }
 
-        this.direction = direction;
-        cancelAnimationFrame(this.animationId);
+    scrollTimeDelta() {
+        let now = Date.now();
+        let delta = now - this.lastScrollEvent || now;
+        this.lastScrollEvent = now;
+        return delta;
+    }
 
+    animateZoom(delta, direction) {
         let frames = delta * 10;
-        let tweens = [];
-
-        for(let frame = 0; frame < frames; frame++) {
-            let t = (frame / 60) / delta;
-            let factor = easings.easeInOutSine(t);
-            tweens.push(factor * this.canvas.z);
-        }
-
+        let tweens = this.tween(frames, delta, "easeInOutSine");
         let animate = () => {
             frames--;
             if(frames >= 0) {
-                this.canvas.move(0, 0, direction ? tweens[frames] : -tweens[frames]);
+                this.canvas.move(0, 0, (direction ? tweens[frames] : -tweens[frames]) * this.canvas.z);
                 this.animationId = requestAnimationFrame(animate);
             }
         };
         this.animationId = requestAnimationFrame(animate);
     }
 
-    scrollTimeDelta() {
-        let now = Date.now();
-        let delta = now - this.lastScrollEvent;
-        this.lastScrollEvent = now;
-        return delta;
+    tween(frames, duration, easing) {
+        let tweens = [];
+        for(let frame = 0; frame < frames; frame++) {
+            let t = (frame / fps) / duration;
+            let factor = easings[easing](t);
+            tweens.push(factor);
+        }
+        return tweens;
     }
 
     isCanvasEvent(e) {

@@ -18,6 +18,7 @@ import Menu from "./menu";
 
 import CachedInflater from "./pages/common/cached-inflater";
 import Canvas from "./pages/common/2d/canvas/canvas";
+import CanvasAnimator from "./pages/common/2d/canvas/canvas-animator";
 import CanvasListener from "./pages/common/2d/canvas/canvas-listener";
 import CanvasWorker from "./pages/common/2d/canvas/canvas-worker";
 import Checker from "./pages/common/exercise-area/checker";
@@ -58,8 +59,9 @@ const exerciseAreaListener = new ExerciseAreaListener(browserEvent, exerciseArea
 const searchEngine = new SearchEngine();
 const numeralsSearchEngine = new NumeralsSearchEngine();
 
-const canvas = new Canvas("world-map"); 
-const canvasListener = new CanvasListener(browserEvent, new CanvasWorker(browserEvent, canvas));
+const canvas = new Canvas("world-map");
+const canvasAnimator = new CanvasAnimator(canvas);
+const canvasListener = new CanvasListener(browserEvent, new CanvasWorker(browserEvent, canvasAnimator, canvas));
 const worldMap = new WorldMap(browserEvent, canvas, canvasListener);
 
 class App {

@@ -1,3 +1,4 @@
+import easings from "../../../../core/animation/easings";
 import Shape from "../shape";
 
 const mouseButtons = {
@@ -130,11 +131,18 @@ class CanvasWorker {
         cancelAnimationFrame(this.animationId);
 
         let frames = delta * 10;
-        let step = delta / (100 / this.canvas.z);
+        let tweens = [];
+
+        for(let frame = 0; frame < frames; frame++) {
+            let t = (frame / 60) / delta;
+            let factor = easings.easeInOutSine(t);
+            tweens.push(factor * this.canvas.z);
+        }
+
         let animate = () => {
             frames--;
             if(frames >= 0) {
-                this.canvas.move(0, 0, direction ? step : -step);
+                this.canvas.move(0, 0, direction ? tweens[frames] : -tweens[frames]);
                 this.animationId = requestAnimationFrame(animate);
             }
         };

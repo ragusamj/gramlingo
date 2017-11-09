@@ -8,10 +8,48 @@ class CanvasAnimator {
         this.canvas = canvas;
     }
 
-    zoom(delta) {
-        let direction = delta < 0 ? 1 : 0;
-        delta = delta < 0 ? delta * -1 : delta;
+    reset() {
+        cancelAnimationFrame(this.animationId);
+        this.canvas.center(2, 2);
 
+        let duration = 0.5;
+        let tweens = [];
+        let frames = (1000 * duration) / (1000 / fps);
+
+        for(let frame = 0; frame < frames; frame++) {
+            let t = (frame / fps) / duration;
+            let factor = easings.easeInOutSine(t);
+            tweens.push(factor);
+        }  
+        
+        let target = this.canvas.getInitialBounds();
+        let x = this.canvas.x;
+        let y = this.canvas.y;
+        let z = this.canvas.z;
+        let frame = 0; 
+
+        let animate = () => {
+            if(frame < tweens.length) {
+                this.canvas.x = x + (target.x - x) * tweens[frame];
+                this.canvas.y = y + (target.y - y) * tweens[frame];
+                this.canvas.z = z + (target.z - z) * tweens[frame];
+                this.canvas.draw();
+                frame++;
+                this.animationId = requestAnimationFrame(animate);
+            }
+            else {
+                this.canvas.reset();
+            }
+        };
+        this.animationId = requestAnimationFrame(animate);
+    }
+
+    zoom(delta) {
+        let direction = 0;
+        if(delta < 0) {
+            direction = 1;
+            delta *= -1;
+        }
         if(this.needsNewAnimation(delta, direction)) {
             this.direction = direction;
             cancelAnimationFrame(this.animationId);
@@ -32,7 +70,7 @@ class CanvasAnimator {
 
     animateZoom(delta, direction) {
         let frames = delta * 10;
-        let tweens = this.tween(frames, delta, "easeInOutSine");
+        let tweens = this.tween(frames, delta, easings.easeInOutSine);
         let animate = () => {
             frames--;
             if(frames >= 0) {
@@ -47,7 +85,7 @@ class CanvasAnimator {
         let tweens = [];
         for(let frame = 0; frame < frames; frame++) {
             let t = (frame / fps) / duration;
-            let factor = easings[easing](t);
+            let factor = easing(t);
             tweens.push(factor);
         }
         return tweens;

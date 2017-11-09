@@ -63,10 +63,10 @@ class CanvasWorker {
         
         if(e.target) {
             if(e.target.hasAttribute("data-map-zoom-in")) {
-                this.zoom(-2);
+                this.animator.zoom(-2);
             }
             if(e.target.hasAttribute("data-map-zoom-out")) {
-                this.zoom(2);
+                this.animator.zoom(2);
             }
             if(e.target.hasAttribute("data-map-pan-up")) {
                 this.canvas.move(0, -100, 0);
@@ -81,8 +81,7 @@ class CanvasWorker {
                 this.canvas.move(100, 0, 0);
             }
             if(e.target.hasAttribute("data-map-reset")) {
-                cancelAnimationFrame(this.animationId);
-                this.canvas.reset();
+                this.animator.reset();
             }
         }
     }

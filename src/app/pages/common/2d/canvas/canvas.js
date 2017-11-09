@@ -92,11 +92,20 @@ class Canvas {
     }
 
     reset() {
-        this.x = this.originalWidth - this.element.width;
-        this.y = this.originalHeight - this.element.height;
-        this.z = this.element.width / this.originalWidth;
+        let bounds = this.getInitialBounds();
+        this.x = bounds.x;
+        this.y = bounds.y;
+        this.z = bounds.z;
         this.center(2, 2);
         this.draw();
+    }
+
+    getInitialBounds() {
+        return {
+            x: this.originalWidth - this.element.width,
+            y: this.originalHeight - this.element.height,
+            z: this.element.width / this.originalWidth
+        };
     }
     
     draw() {

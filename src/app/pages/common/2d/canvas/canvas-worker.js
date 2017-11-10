@@ -69,16 +69,16 @@ class CanvasWorker {
                 this.animator.zoom(2);
             }
             if(e.target.hasAttribute("data-map-pan-up")) {
-                this.canvas.move(0, -100, 0);
+                this.animator.pan(0, -100);
             }
             if(e.target.hasAttribute("data-map-pan-down")) {
-                this.canvas.move(0, 100, 0);
+                this.animator.pan(0, 100);
             }
             if(e.target.hasAttribute("data-map-pan-left")) {
-                this.canvas.move(-100, 0, 0);
+                this.animator.pan(-100, 0);
             }
             if(e.target.hasAttribute("data-map-pan-right")) {
-                this.canvas.move(100, 0, 0);
+                this.animator.pan(100, 0);
             }
             if(e.target.hasAttribute("data-map-reset")) {
                 this.animator.reset();

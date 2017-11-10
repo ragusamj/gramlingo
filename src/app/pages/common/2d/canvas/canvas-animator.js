@@ -15,7 +15,8 @@ class CanvasAnimator {
         this.resetTweens = this.tween(frames, duration, easings.easeInOutSine);
     }
 
-    reset() {        
+    reset() {
+        cancelAnimationFrame(this.animationId); 
         const target = this.canvas.getInitialBounds();
         const x = this.canvas.x;
         const y = this.canvas.y;
@@ -35,6 +36,11 @@ class CanvasAnimator {
             }
         };
         this.animationId = requestAnimationFrame(animate);
+    }
+
+    pan(x, y) {
+        cancelAnimationFrame(this.animationId);
+        this.canvas.move(x, y, 0);
     }
 
     zoom(delta) {

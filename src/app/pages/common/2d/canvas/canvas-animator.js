@@ -10,32 +10,7 @@ class CanvasAnimator {
     }
 
     initializeReset() {
-        const duration = 0.5;
-        const frames = (1000 * duration) / (1000 / fps);
-        this.resetTweens = this.tween(frames, duration, easings.easeInOutSine);
-    }
-
-    reset() {
-        cancelAnimationFrame(this.animationId); 
-        const target = this.canvas.getInitialBounds();
-        const x = this.canvas.x;
-        const y = this.canvas.y;
-        const z = this.canvas.z;
-        let frame = 0; 
-        const animate = () => {
-            if(frame < this.resetTweens.length) {
-                this.canvas.x = x + (target.x - x) * this.resetTweens[frame];
-                this.canvas.y = y + (target.y - y) * this.resetTweens[frame];
-                this.canvas.z = z + (target.z - z) * this.resetTweens[frame];
-                this.canvas.draw();
-                frame++;
-                this.animationId = requestAnimationFrame(animate);
-            }
-            else {
-                this.canvas.reset();
-            }
-        };
-        this.animationId = requestAnimationFrame(animate);
+        this.resetTweens = this.tween(fps * 0.5, easings.easeInOutSine);
     }
 
     pan(x, y) {
@@ -44,7 +19,7 @@ class CanvasAnimator {
     }
 
     zoom(delta) {
-        let direction = 0;
+        let direction = -1;
         if(delta < 0) {
             direction = 1;
             delta *= -1;
@@ -69,21 +44,48 @@ class CanvasAnimator {
 
     animateZoom(delta, direction) {
         let frames = delta * 10;
-        const tweens = this.tween(frames, delta, easings.easeInOutSine);
+        const tweens = this.tween(frames, easings.easeInOutSine);
+        const z = this.canvas.z;
+        const target = z + delta;
+        let frame = 0;
         const animate = () => {
-            frames--;
-            if(frames >= 0) {
-                this.canvas.move(0, 0, (direction ? tweens[frames] : -tweens[frames]) * this.canvas.z);
+            if(frame < tweens.length) {
+                this.canvas.z = z + (target - z) * tweens[frame] * direction;
+                this.canvas.draw();
+                frame++;
                 this.animationId = requestAnimationFrame(animate);
             }
         };
         this.animationId = requestAnimationFrame(animate);
     }
 
-    tween(frames, duration, easing) {
+    reset() {
+        cancelAnimationFrame(this.animationId); 
+        const target = this.canvas.getInitialBounds();
+        const x = this.canvas.x;
+        const y = this.canvas.y;
+        const z = this.canvas.z;
+        let frame = 0;
+        const animate = () => {
+            if(frame < this.resetTweens.length) {
+                this.canvas.x = x + (target.x - x) * this.resetTweens[frame];
+                this.canvas.y = y + (target.y - y) * this.resetTweens[frame];
+                this.canvas.z = z + (target.z - z) * this.resetTweens[frame];
+                this.canvas.draw();
+                frame++;
+                this.animationId = requestAnimationFrame(animate);
+            }
+            else {
+                this.canvas.reset();
+            }
+        };
+        this.animationId = requestAnimationFrame(animate);
+    }
+
+    tween(frames, easing) {
         const tweens = [];
         for(let frame = 0; frame < frames; frame++) {
-            const t = (frame / fps) / duration;
+            const t = frame / frames;
             const factor = easing(t);
             tweens.push(factor);
         }

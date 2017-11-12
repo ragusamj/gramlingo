@@ -100,7 +100,10 @@ class CanvasWorker {
                 this.canvas.element.height / mousePoint[1]
             );
             */
-            this.animator.zoom(e.deltaY);
+            requestAnimationFrame(() => {
+                let step = e.deltaY / (100 / this.canvas.z) * -1;
+                this.canvas.zoom(step, step);
+            });
         }
     }
 

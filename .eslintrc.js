@@ -24,7 +24,7 @@ module.exports = {
         "no-empty-function": ["error"],
         "no-unused-expressions": ["error"],
         "no-var": ["error"],
-        "quotes": ["error", "double"],
+        "quotes": ["error", "double", { "allowTemplateLiterals": true }],
         "semi": ["error", "always"],
 
         // style

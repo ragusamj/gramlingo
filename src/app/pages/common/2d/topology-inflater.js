@@ -54,7 +54,7 @@ class TopologyInflater {
 
     static arcToCoordinates(topology, arc) {
         let x = 0, y = 0;
-        return arc.map(function(point) {
+        return arc.map((point) => {
             return [
                 (x += point[0]) * topology.transform.scale[0] + topology.transform.translate[0],
                 (y += point[1]) * topology.transform.scale[1] + topology.transform.translate[1]

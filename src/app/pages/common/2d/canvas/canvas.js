@@ -31,16 +31,14 @@ class Canvas {
         const gl = canvas.getContext("webgl");
         this.gl = gl;
 
-        //this.resize();
-
         const vertexShader = this.createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
         const fragmentShader = this.createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
 
         let program = this.createProgram(gl, vertexShader, fragmentShader);
         
-        let positionAttributeLocation = gl.getAttribLocation(program, "a_position");
-        let colorLocation = gl.getUniformLocation(program, "u_color");
-        let matrixLocation = gl.getUniformLocation(program, "u_matrix");
+        this.positionAttributeLocation = gl.getAttribLocation(program, "a_position");
+        this.colorLocation = gl.getUniformLocation(program, "u_color");
+        this.matrixLocation = gl.getUniformLocation(program, "u_matrix");
 
         let positionBuffer = gl.createBuffer();
 
@@ -66,37 +64,25 @@ class Canvas {
             }
         }
 
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW);
+        this.data = data;
 
-        let translation = [0, 0];
-        let angleInRadians = 0;
-        let scale = [0.5, 0.5];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW);
 
         gl.clearColor(0, 0, 0, 0);
         gl.clear(gl.COLOR_BUFFER_BIT);
         
         gl.useProgram(program);
-        gl.enableVertexAttribArray(positionAttributeLocation);
+        gl.enableVertexAttribArray(this.positionAttributeLocation);
 
-        let matrix = M3.projection(gl.canvas.clientWidth, gl.canvas.clientHeight);
-        matrix = M3.translate(matrix, translation[0], translation[1]);
-        matrix = M3.rotate(matrix, angleInRadians);
-        matrix = M3.scale(matrix, scale[0], scale[1]);
-
-        gl.uniformMatrix3fv(matrixLocation, false, matrix);
-        
         // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
         let size = 2;          // 2 components per iteration
         let type = gl.FLOAT;   // the data is 32bit floats
         let normalize = false; // don't normalize the data
         let stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
         let offset = 0;        // start at the beginning of the buffer
-        gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
+        gl.vertexAttribPointer(this.positionAttributeLocation, size, type, normalize, stride, offset);
 
-        for(let i = 0; i < data.length / size; i += 3) {
-            gl.uniform4fv(colorLocation, [Math.random(), Math.random(), Math.random(), 1]);
-            gl.drawArrays(gl.TRIANGLES, i, 3);
-        }
+        this.resize();
     }
 
     createShader(gl, type, source) {
@@ -133,13 +119,31 @@ class Canvas {
     }
 
     resize() {
-        let aspectRatio = this.gl.canvas.height / this.gl.canvas.width;
+
         let parentClientRect = this.gl.canvas.parentElement.getBoundingClientRect();
-        this.gl.canvas.width = parentClientRect.width * 2;
-        this.gl.canvas.height = (parentClientRect.width * aspectRatio) * 2;
+        let aspectRatio = this.gl.canvas.height / this.gl.canvas.width;
+
         this.gl.canvas.style.width = parentClientRect.width + "px";
         this.gl.canvas.style.height = (parentClientRect.width * aspectRatio) + "px";
-        this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+
+        this.draw(this.gl, this.data);
+    }
+
+    draw(gl, data) {
+
+        let translation = [0, 0];
+        let scale = [0.43, 0.43];
+
+        let matrix = M3.projection(gl.canvas.clientWidth, gl.canvas.clientHeight);
+        matrix = M3.translate(matrix, translation[0], translation[1]);
+        matrix = M3.scale(matrix, scale[0], scale[1]);
+
+        gl.uniformMatrix3fv(this.matrixLocation, false, matrix);
+
+        for(let i = 0; i < data.length / 2; i += 3) {
+            gl.uniform4fv(this.colorLocation, [0, Math.random(), 0, 1]);
+            gl.drawArrays(gl.TRIANGLES, i, 3);
+        }
     }
 
     setMarker(point) {

@@ -24,63 +24,55 @@ class Canvas {
     }
 
     initialize(geometries) {
-
         this.geometries = geometries;
+        this.gl = document
+            .getElementById(this.id)
+            .getContext("webgl");
 
-        const canvas = document.getElementById(this.id);
-        const gl = canvas.getContext("webgl");
-        this.gl = gl;
-
-        const vertexShader = this.createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
-        const fragmentShader = this.createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
-
-        let program = this.createProgram(gl, vertexShader, fragmentShader);
+        const vertexShader = this.createShader(this.gl, this.gl.VERTEX_SHADER, vertexShaderSource);
+        const fragmentShader = this.createShader(this.gl, this.gl.FRAGMENT_SHADER, fragmentShaderSource);
+        const program = this.createProgram(this.gl, vertexShader, fragmentShader);
+        this.gl.useProgram(program);
         
-        this.positionAttributeLocation = gl.getAttribLocation(program, "a_position");
-        this.colorLocation = gl.getUniformLocation(program, "u_color");
-        this.matrixLocation = gl.getUniformLocation(program, "u_matrix");
+        const positionAttributeLocation = this.gl.getAttribLocation(program, "a_position");
+        this.colorLocation = this.gl.getUniformLocation(program, "u_color");
+        this.matrixLocation = this.gl.getUniformLocation(program, "u_matrix");
 
-        let positionBuffer = gl.createBuffer();
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        let positionBuffer = this.gl.createBuffer();
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, positionBuffer);
         
         let data = [];
 
         for(let geometry of geometries) {
             for(let polygon of geometry.polygons) {
 
-                let positions = [];
+                let points = [];
 
                 for(let point of polygon) {
-                    positions.push(point[0], point[1]);
+                    points.push(point[0], point[1]);
                 }
 
-                let triangles = earcut(positions);
+                let triangles = earcut(points);
             
                 for(let t of triangles) {
                     let i = t * 2;
-                    data.push(positions[i], positions[i + 1]);
+                    data.push(points[i], points[i + 1]);
                 }
             }
         }
 
         this.data = data;
 
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW);
-
-        gl.clearColor(0, 0, 0, 0);
-        gl.clear(gl.COLOR_BUFFER_BIT);
-        
-        gl.useProgram(program);
-        gl.enableVertexAttribArray(this.positionAttributeLocation);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(data), this.gl.STATIC_DRAW);
 
         // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
         let size = 2;          // 2 components per iteration
-        let type = gl.FLOAT;   // the data is 32bit floats
+        let type = this.gl.FLOAT;   // the data is 32bit floats
         let normalize = false; // don't normalize the data
         let stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
         let offset = 0;        // start at the beginning of the buffer
-        gl.vertexAttribPointer(this.positionAttributeLocation, size, type, normalize, stride, offset);
+        this.gl.enableVertexAttribArray(positionAttributeLocation);
+        this.gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
 
         this.resize();
     }
@@ -119,15 +111,12 @@ class Canvas {
     }
 
     resize() {
-
         let aspectRatio = this.gl.canvas.height / this.gl.canvas.width;
         let width = this.gl.canvas.parentElement.clientWidth;
         let height = (width * aspectRatio);
-
         this.gl.canvas.style.width = width + "px";
         this.gl.canvas.style.height = height + "px";
         this.gl.canvas.parentElement.style.height = height + "px";
-
         this.draw();
     }
 

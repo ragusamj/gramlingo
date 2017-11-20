@@ -21,10 +21,10 @@ shapefile
         let quantized = topojson.quantize(simplified, transform);
 
         for(let geometry of quantized.objects.world.geometries) {
-            let iso = geometry.properties.iso_a2;
+            let id = geometry.properties.iso_a2;
             geometry.properties = {
-                iso: iso,
-                colorIndex: colors[iso] 
+                id: id,
+                color: colors[id] 
             };
         }
 

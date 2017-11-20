@@ -33,8 +33,8 @@
             ]
           ],
           "properties": {
-            "iso": "AF",
-            "colorIndex": 3
+            "id": "AF",
+            "color": 3
           }
         },
         {
@@ -58,8 +58,8 @@
             ]
           ],
           "properties": {
-            "iso": "AO",
-            "colorIndex": 2
+            "id": "AO",
+            "color": 2
           }
         },
         {
@@ -74,8 +74,8 @@
             ]
           ],
           "properties": {
-            "iso": "AL",
-            "colorIndex": 0
+            "id": "AL",
+            "color": 0
           }
         },
         {
@@ -92,8 +92,8 @@
             ]
           ],
           "properties": {
-            "iso": "AE",
-            "colorIndex": 1
+            "id": "AE",
+            "color": 1
           }
         },
         {
@@ -117,8 +117,8 @@
             ]
           ],
           "properties": {
-            "iso": "AR",
-            "colorIndex": 0
+            "id": "AR",
+            "color": 0
           }
         },
         {
@@ -133,8 +133,8 @@
             ]
           ],
           "properties": {
-            "iso": "AM",
-            "colorIndex": 3
+            "id": "AM",
+            "color": 3
           }
         },
         {
@@ -182,8 +182,8 @@
             ]
           ],
           "properties": {
-            "iso": "AQ",
-            "colorIndex": 3
+            "id": "AQ",
+            "color": 3
           }
         },
         {
@@ -194,8 +194,8 @@
             ]
           ],
           "properties": {
-            "iso": "TF",
-            "colorIndex": 2
+            "id": "TF",
+            "color": 2
           }
         },
         {
@@ -213,8 +213,8 @@
             ]
           ],
           "properties": {
-            "iso": "AU",
-            "colorIndex": 2
+            "id": "AU",
+            "color": 2
           }
         },
         {
@@ -231,8 +231,8 @@
             ]
           ],
           "properties": {
-            "iso": "AT",
-            "colorIndex": 0
+            "id": "AT",
+            "color": 0
           }
         },
         {
@@ -255,8 +255,8 @@
             ]
           ],
           "properties": {
-            "iso": "AZ",
-            "colorIndex": 1
+            "id": "AZ",
+            "color": 1
           }
         },
         {
@@ -269,8 +269,8 @@
             ]
           ],
           "properties": {
-            "iso": "BI",
-            "colorIndex": 3
+            "id": "BI",
+            "color": 3
           }
         },
         {
@@ -285,8 +285,8 @@
             ]
           ],
           "properties": {
-            "iso": "BE",
-            "colorIndex": 1
+            "id": "BE",
+            "color": 1
           }
         },
         {
@@ -301,8 +301,8 @@
             ]
           ],
           "properties": {
-            "iso": "BJ",
-            "colorIndex": 1
+            "id": "BJ",
+            "color": 1
           }
         },
         {
@@ -318,8 +318,8 @@
             ]
           ],
           "properties": {
-            "iso": "BF",
-            "colorIndex": 3
+            "id": "BF",
+            "color": 3
           }
         },
         {
@@ -332,8 +332,8 @@
             ]
           ],
           "properties": {
-            "iso": "BD",
-            "colorIndex": 1
+            "id": "BD",
+            "color": 1
           }
         },
         {
@@ -349,8 +349,8 @@
             ]
           ],
           "properties": {
-            "iso": "BG",
-            "colorIndex": 0
+            "id": "BG",
+            "color": 0
           }
         },
         {
@@ -373,8 +373,8 @@
             ]
           ],
           "properties": {
-            "iso": "BS",
-            "colorIndex": 1
+            "id": "BS",
+            "color": 1
           }
         },
         {
@@ -387,8 +387,8 @@
             ]
           ],
           "properties": {
-            "iso": "BA",
-            "colorIndex": 3
+            "id": "BA",
+            "color": 3
           }
         },
         {
@@ -403,8 +403,8 @@
             ]
           ],
           "properties": {
-            "iso": "BY",
-            "colorIndex": 3
+            "id": "BY",
+            "color": 3
           }
         },
         {
@@ -417,8 +417,8 @@
             ]
           ],
           "properties": {
-            "iso": "BZ",
-            "colorIndex": 1
+            "id": "BZ",
+            "color": 1
           }
         },
         {
@@ -433,8 +433,8 @@
             ]
           ],
           "properties": {
-            "iso": "BO",
-            "colorIndex": 3
+            "id": "BO",
+            "color": 3
           }
         },
         {
@@ -455,8 +455,8 @@
             ]
           ],
           "properties": {
-            "iso": "BR",
-            "colorIndex": 2
+            "id": "BR",
+            "color": 2
           }
         },
         {
@@ -468,8 +468,8 @@
             ]
           ],
           "properties": {
-            "iso": "BN",
-            "colorIndex": 0
+            "id": "BN",
+            "color": 0
           }
         },
         {
@@ -481,8 +481,8 @@
             ]
           ],
           "properties": {
-            "iso": "BT",
-            "colorIndex": 3
+            "id": "BT",
+            "color": 3
           }
         },
         {
@@ -496,8 +496,8 @@
             ]
           ],
           "properties": {
-            "iso": "BW",
-            "colorIndex": 0
+            "id": "BW",
+            "color": 0
           }
         },
         {
@@ -513,8 +513,8 @@
             ]
           ],
           "properties": {
-            "iso": "CF",
-            "colorIndex": 2
+            "id": "CF",
+            "color": 2
           }
         },
         {
@@ -675,8 +675,8 @@
             ]
           ],
           "properties": {
-            "iso": "CA",
-            "colorIndex": 1
+            "id": "CA",
+            "color": 1
           }
         },
         {
@@ -690,8 +690,8 @@
             ]
           ],
           "properties": {
-            "iso": "CH",
-            "colorIndex": 1
+            "id": "CH",
+            "color": 1
           }
         },
         {
@@ -713,8 +713,8 @@
             ]
           ],
           "properties": {
-            "iso": "CL",
-            "colorIndex": 2
+            "id": "CL",
+            "color": 2
           }
         },
         {
@@ -749,8 +749,8 @@
             ]
           ],
           "properties": {
-            "iso": "CN",
-            "colorIndex": 1
+            "id": "CN",
+            "color": 1
           }
         },
         {
@@ -766,8 +766,8 @@
             ]
           ],
           "properties": {
-            "iso": "CI",
-            "colorIndex": 2
+            "id": "CI",
+            "color": 2
           }
         },
         {
@@ -785,8 +785,8 @@
             ]
           ],
           "properties": {
-            "iso": "CM",
-            "colorIndex": 0
+            "id": "CM",
+            "color": 0
           }
         },
         {
@@ -808,8 +808,8 @@
             ]
           ],
           "properties": {
-            "iso": "CD",
-            "colorIndex": 0
+            "id": "CD",
+            "color": 0
           }
         },
         {
@@ -825,8 +825,8 @@
             ]
           ],
           "properties": {
-            "iso": "CG",
-            "colorIndex": 1
+            "id": "CG",
+            "color": 1
           }
         },
         {
@@ -843,8 +843,8 @@
             ]
           ],
           "properties": {
-            "iso": "CO",
-            "colorIndex": 0
+            "id": "CO",
+            "color": 0
           }
         },
         {
@@ -858,8 +858,8 @@
             ]
           ],
           "properties": {
-            "iso": "CR",
-            "colorIndex": 2
+            "id": "CR",
+            "color": 2
           }
         },
         {
@@ -870,8 +870,8 @@
             ]
           ],
           "properties": {
-            "iso": "CU",
-            "colorIndex": 2
+            "id": "CU",
+            "color": 2
           }
         },
         {
@@ -886,7 +886,7 @@
             ]
           ],
           "properties": {
-            "iso": "-99"
+            "id": "-99"
           }
         },
         {
@@ -902,8 +902,8 @@
             ]
           ],
           "properties": {
-            "iso": "CY",
-            "colorIndex": 2
+            "id": "CY",
+            "color": 2
           }
         },
         {
@@ -917,8 +917,8 @@
             ]
           ],
           "properties": {
-            "iso": "CZ",
-            "colorIndex": 3
+            "id": "CZ",
+            "color": 3
           }
         },
         {
@@ -939,8 +939,8 @@
             ]
           ],
           "properties": {
-            "iso": "DE",
-            "colorIndex": 2
+            "id": "DE",
+            "color": 2
           }
         },
         {
@@ -954,8 +954,8 @@
             ]
           ],
           "properties": {
-            "iso": "DJ",
-            "colorIndex": 0
+            "id": "DJ",
+            "color": 0
           }
         },
         {
@@ -974,8 +974,8 @@
             ]
           ],
           "properties": {
-            "iso": "DK",
-            "colorIndex": 1
+            "id": "DK",
+            "color": 1
           }
         },
         {
@@ -987,8 +987,8 @@
             ]
           ],
           "properties": {
-            "iso": "DO",
-            "colorIndex": 2
+            "id": "DO",
+            "color": 2
           }
         },
         {
@@ -1006,8 +1006,8 @@
             ]
           ],
           "properties": {
-            "iso": "DZ",
-            "colorIndex": 2
+            "id": "DZ",
+            "color": 2
           }
         },
         {
@@ -1020,8 +1020,8 @@
             ]
           ],
           "properties": {
-            "iso": "EC",
-            "colorIndex": 2
+            "id": "EC",
+            "color": 2
           }
         },
         {
@@ -1036,8 +1036,8 @@
             ]
           ],
           "properties": {
-            "iso": "EG",
-            "colorIndex": 2
+            "id": "EG",
+            "color": 2
           }
         },
         {
@@ -1051,8 +1051,8 @@
             ]
           ],
           "properties": {
-            "iso": "ER",
-            "colorIndex": 1
+            "id": "ER",
+            "color": 1
           }
         },
         {
@@ -1066,8 +1066,8 @@
             ]
           ],
           "properties": {
-            "iso": "ES",
-            "colorIndex": 2
+            "id": "ES",
+            "color": 2
           }
         },
         {
@@ -1080,8 +1080,8 @@
             ]
           ],
           "properties": {
-            "iso": "EE",
-            "colorIndex": 1
+            "id": "EE",
+            "color": 1
           }
         },
         {
@@ -1099,8 +1099,8 @@
             ]
           ],
           "properties": {
-            "iso": "ET",
-            "colorIndex": 2
+            "id": "ET",
+            "color": 2
           }
         },
         {
@@ -1114,8 +1114,8 @@
             ]
           ],
           "properties": {
-            "iso": "FI",
-            "colorIndex": 1
+            "id": "FI",
+            "color": 1
           }
         },
         {
@@ -1146,8 +1146,8 @@
             ]
           ],
           "properties": {
-            "iso": "FJ",
-            "colorIndex": 2
+            "id": "FJ",
+            "color": 2
           }
         },
         {
@@ -1158,8 +1158,8 @@
             ]
           ],
           "properties": {
-            "iso": "FK",
-            "colorIndex": 1
+            "id": "FK",
+            "color": 1
           }
         },
         {
@@ -1191,8 +1191,8 @@
             ]
           ],
           "properties": {
-            "iso": "FR",
-            "colorIndex": 0
+            "id": "FR",
+            "color": 0
           }
         },
         {
@@ -1206,8 +1206,8 @@
             ]
           ],
           "properties": {
-            "iso": "GA",
-            "colorIndex": 2
+            "id": "GA",
+            "color": 2
           }
         },
         {
@@ -1226,8 +1226,8 @@
             ]
           ],
           "properties": {
-            "iso": "GB",
-            "colorIndex": 2
+            "id": "GB",
+            "color": 2
           }
         },
         {
@@ -1242,8 +1242,8 @@
             ]
           ],
           "properties": {
-            "iso": "GE",
-            "colorIndex": 0
+            "id": "GE",
+            "color": 0
           }
         },
         {
@@ -1257,8 +1257,8 @@
             ]
           ],
           "properties": {
-            "iso": "GH",
-            "colorIndex": 1
+            "id": "GH",
+            "color": 1
           }
         },
         {
@@ -1275,8 +1275,8 @@
             ]
           ],
           "properties": {
-            "iso": "GN",
-            "colorIndex": 0
+            "id": "GN",
+            "color": 0
           }
         },
         {
@@ -1288,8 +1288,8 @@
             ]
           ],
           "properties": {
-            "iso": "GM",
-            "colorIndex": 0
+            "id": "GM",
+            "color": 0
           }
         },
         {
@@ -1302,8 +1302,8 @@
             ]
           ],
           "properties": {
-            "iso": "GW",
-            "colorIndex": 1
+            "id": "GW",
+            "color": 1
           }
         },
         {
@@ -1316,8 +1316,8 @@
             ]
           ],
           "properties": {
-            "iso": "GQ",
-            "colorIndex": 1
+            "id": "GQ",
+            "color": 1
           }
         },
         {
@@ -1339,8 +1339,8 @@
             ]
           ],
           "properties": {
-            "iso": "GR",
-            "colorIndex": 2
+            "id": "GR",
+            "color": 2
           }
         },
         {
@@ -1351,8 +1351,8 @@
             ]
           ],
           "properties": {
-            "iso": "GL",
-            "colorIndex": 2
+            "id": "GL",
+            "color": 2
           }
         },
         {
@@ -1368,8 +1368,8 @@
             ]
           ],
           "properties": {
-            "iso": "GT",
-            "colorIndex": 0
+            "id": "GT",
+            "color": 0
           }
         },
         {
@@ -1383,8 +1383,8 @@
             ]
           ],
           "properties": {
-            "iso": "GY",
-            "colorIndex": 0
+            "id": "GY",
+            "color": 0
           }
         },
         {
@@ -1399,8 +1399,8 @@
             ]
           ],
           "properties": {
-            "iso": "HN",
-            "colorIndex": 2
+            "id": "HN",
+            "color": 2
           }
         },
         {
@@ -1416,8 +1416,8 @@
             ]
           ],
           "properties": {
-            "iso": "HR",
-            "colorIndex": 0
+            "id": "HR",
+            "color": 0
           }
         },
         {
@@ -1429,8 +1429,8 @@
             ]
           ],
           "properties": {
-            "iso": "HT",
-            "colorIndex": 0
+            "id": "HT",
+            "color": 0
           }
         },
         {
@@ -1447,8 +1447,8 @@
             ]
           ],
           "properties": {
-            "iso": "HU",
-            "colorIndex": 3
+            "id": "HU",
+            "color": 3
           }
         },
         {
@@ -1524,8 +1524,8 @@
             ]
           ],
           "properties": {
-            "iso": "ID",
-            "colorIndex": 1
+            "id": "ID",
+            "color": 1
           }
         },
         {
@@ -1544,8 +1544,8 @@
             ]
           ],
           "properties": {
-            "iso": "IN",
-            "colorIndex": 0
+            "id": "IN",
+            "color": 0
           }
         },
         {
@@ -1557,8 +1557,8 @@
             ]
           ],
           "properties": {
-            "iso": "IE",
-            "colorIndex": 1
+            "id": "IE",
+            "color": 1
           }
         },
         {
@@ -1578,8 +1578,8 @@
             ]
           ],
           "properties": {
-            "iso": "IR",
-            "colorIndex": 0
+            "id": "IR",
+            "color": 0
           }
         },
         {
@@ -1596,8 +1596,8 @@
             ]
           ],
           "properties": {
-            "iso": "IQ",
-            "colorIndex": 3
+            "id": "IQ",
+            "color": 3
           }
         },
         {
@@ -1608,8 +1608,8 @@
             ]
           ],
           "properties": {
-            "iso": "IS",
-            "colorIndex": 1
+            "id": "IS",
+            "color": 1
           }
         },
         {
@@ -1626,8 +1626,8 @@
             ]
           ],
           "properties": {
-            "iso": "IL",
-            "colorIndex": 0
+            "id": "IL",
+            "color": 0
           }
         },
         {
@@ -1654,8 +1654,8 @@
             ]
           ],
           "properties": {
-            "iso": "IT",
-            "colorIndex": 2
+            "id": "IT",
+            "color": 2
           }
         },
         {
@@ -1666,8 +1666,8 @@
             ]
           ],
           "properties": {
-            "iso": "JM",
-            "colorIndex": 1
+            "id": "JM",
+            "color": 1
           }
         },
         {
@@ -1684,8 +1684,8 @@
             ]
           ],
           "properties": {
-            "iso": "JO",
-            "colorIndex": 1
+            "id": "JO",
+            "color": 1
           }
         },
         {
@@ -1708,8 +1708,8 @@
             ]
           ],
           "properties": {
-            "iso": "JP",
-            "colorIndex": 1
+            "id": "JP",
+            "color": 1
           }
         },
         {
@@ -1725,8 +1725,8 @@
             ]
           ],
           "properties": {
-            "iso": "KZ",
-            "colorIndex": 0
+            "id": "KZ",
+            "color": 0
           }
         },
         {
@@ -1742,8 +1742,8 @@
             ]
           ],
           "properties": {
-            "iso": "KE",
-            "colorIndex": 0
+            "id": "KE",
+            "color": 0
           }
         },
         {
@@ -1757,8 +1757,8 @@
             ]
           ],
           "properties": {
-            "iso": "KG",
-            "colorIndex": 3
+            "id": "KG",
+            "color": 3
           }
         },
         {
@@ -1772,8 +1772,8 @@
             ]
           ],
           "properties": {
-            "iso": "KH",
-            "colorIndex": 1
+            "id": "KH",
+            "color": 1
           }
         },
         {
@@ -1785,8 +1785,8 @@
             ]
           ],
           "properties": {
-            "iso": "KR",
-            "colorIndex": 2
+            "id": "KR",
+            "color": 2
           }
         },
         {
@@ -1800,7 +1800,7 @@
             ]
           ],
           "properties": {
-            "iso": "-99"
+            "id": "-99"
           }
         },
         {
@@ -1813,8 +1813,8 @@
             ]
           ],
           "properties": {
-            "iso": "KW",
-            "colorIndex": 1
+            "id": "KW",
+            "color": 1
           }
         },
         {
@@ -1829,8 +1829,8 @@
             ]
           ],
           "properties": {
-            "iso": "LA",
-            "colorIndex": 3
+            "id": "LA",
+            "color": 3
           }
         },
         {
@@ -1843,8 +1843,8 @@
             ]
           ],
           "properties": {
-            "iso": "LB",
-            "colorIndex": 1
+            "id": "LB",
+            "color": 1
           }
         },
         {
@@ -1858,8 +1858,8 @@
             ]
           ],
           "properties": {
-            "iso": "LR",
-            "colorIndex": 1
+            "id": "LR",
+            "color": 1
           }
         },
         {
@@ -1876,8 +1876,8 @@
             ]
           ],
           "properties": {
-            "iso": "LY",
-            "colorIndex": 1
+            "id": "LY",
+            "color": 1
           }
         },
         {
@@ -1888,8 +1888,8 @@
             ]
           ],
           "properties": {
-            "iso": "LK",
-            "colorIndex": 1
+            "id": "LK",
+            "color": 1
           }
         },
         {
@@ -1900,8 +1900,8 @@
             ]
           ],
           "properties": {
-            "iso": "LS",
-            "colorIndex": 0
+            "id": "LS",
+            "color": 0
           }
         },
         {
@@ -1916,8 +1916,8 @@
             ]
           ],
           "properties": {
-            "iso": "LT",
-            "colorIndex": 1
+            "id": "LT",
+            "color": 1
           }
         },
         {
@@ -1930,8 +1930,8 @@
             ]
           ],
           "properties": {
-            "iso": "LU",
-            "colorIndex": 3
+            "id": "LU",
+            "color": 3
           }
         },
         {
@@ -1946,8 +1946,8 @@
             ]
           ],
           "properties": {
-            "iso": "LV",
-            "colorIndex": 0
+            "id": "LV",
+            "color": 0
           }
         },
         {
@@ -1960,8 +1960,8 @@
             ]
           ],
           "properties": {
-            "iso": "MA",
-            "colorIndex": 1
+            "id": "MA",
+            "color": 1
           }
         },
         {
@@ -1975,8 +1975,8 @@
             ]
           ],
           "properties": {
-            "iso": "MD",
-            "colorIndex": 3
+            "id": "MD",
+            "color": 3
           }
         },
         {
@@ -1987,8 +1987,8 @@
             ]
           ],
           "properties": {
-            "iso": "MG",
-            "colorIndex": 2
+            "id": "MG",
+            "color": 2
           }
         },
         {
@@ -2003,8 +2003,8 @@
             ]
           ],
           "properties": {
-            "iso": "MX",
-            "colorIndex": 2
+            "id": "MX",
+            "color": 2
           }
         },
         {
@@ -2019,8 +2019,8 @@
             ]
           ],
           "properties": {
-            "iso": "MK",
-            "colorIndex": 3
+            "id": "MK",
+            "color": 3
           }
         },
         {
@@ -2037,8 +2037,8 @@
             ]
           ],
           "properties": {
-            "iso": "ML",
-            "colorIndex": 1
+            "id": "ML",
+            "color": 1
           }
         },
         {
@@ -2054,8 +2054,8 @@
             ]
           ],
           "properties": {
-            "iso": "MM",
-            "colorIndex": 2
+            "id": "MM",
+            "color": 2
           }
         },
         {
@@ -2071,8 +2071,8 @@
             ]
           ],
           "properties": {
-            "iso": "ME",
-            "colorIndex": 2
+            "id": "ME",
+            "color": 2
           }
         },
         {
@@ -2084,8 +2084,8 @@
             ]
           ],
           "properties": {
-            "iso": "MN",
-            "colorIndex": 3
+            "id": "MN",
+            "color": 3
           }
         },
         {
@@ -2103,8 +2103,8 @@
             ]
           ],
           "properties": {
-            "iso": "MZ",
-            "colorIndex": 0
+            "id": "MZ",
+            "color": 0
           }
         },
         {
@@ -2119,8 +2119,8 @@
             ]
           ],
           "properties": {
-            "iso": "MR",
-            "colorIndex": 0
+            "id": "MR",
+            "color": 0
           }
         },
         {
@@ -2133,8 +2133,8 @@
             ]
           ],
           "properties": {
-            "iso": "MW",
-            "colorIndex": 3
+            "id": "MW",
+            "color": 3
           }
         },
         {
@@ -2156,8 +2156,8 @@
             ]
           ],
           "properties": {
-            "iso": "MY",
-            "colorIndex": 2
+            "id": "MY",
+            "color": 2
           }
         },
         {
@@ -2172,8 +2172,8 @@
             ]
           ],
           "properties": {
-            "iso": "NA",
-            "colorIndex": 1
+            "id": "NA",
+            "color": 1
           }
         },
         {
@@ -2184,8 +2184,8 @@
             ]
           ],
           "properties": {
-            "iso": "NC",
-            "colorIndex": 0
+            "id": "NC",
+            "color": 0
           }
         },
         {
@@ -2203,8 +2203,8 @@
             ]
           ],
           "properties": {
-            "iso": "NE",
-            "colorIndex": 0
+            "id": "NE",
+            "color": 0
           }
         },
         {
@@ -2218,8 +2218,8 @@
             ]
           ],
           "properties": {
-            "iso": "NG",
-            "colorIndex": 2
+            "id": "NG",
+            "color": 2
           }
         },
         {
@@ -2234,8 +2234,8 @@
             ]
           ],
           "properties": {
-            "iso": "NI",
-            "colorIndex": 1
+            "id": "NI",
+            "color": 1
           }
         },
         {
@@ -2248,8 +2248,8 @@
             ]
           ],
           "properties": {
-            "iso": "NL",
-            "colorIndex": 0
+            "id": "NL",
+            "color": 0
           }
         },
         {
@@ -2280,8 +2280,8 @@
             ]
           ],
           "properties": {
-            "iso": "NO",
-            "colorIndex": 0
+            "id": "NO",
+            "color": 0
           }
         },
         {
@@ -2293,8 +2293,8 @@
             ]
           ],
           "properties": {
-            "iso": "NP",
-            "colorIndex": 3
+            "id": "NP",
+            "color": 3
           }
         },
         {
@@ -2312,8 +2312,8 @@
             ]
           ],
           "properties": {
-            "iso": "NZ",
-            "colorIndex": 1
+            "id": "NZ",
+            "color": 1
           }
         },
         {
@@ -2335,8 +2335,8 @@
             ]
           ],
           "properties": {
-            "iso": "OM",
-            "colorIndex": 0
+            "id": "OM",
+            "color": 0
           }
         },
         {
@@ -2351,8 +2351,8 @@
             ]
           ],
           "properties": {
-            "iso": "PK",
-            "colorIndex": 2
+            "id": "PK",
+            "color": 2
           }
         },
         {
@@ -2366,8 +2366,8 @@
             ]
           ],
           "properties": {
-            "iso": "PA",
-            "colorIndex": 1
+            "id": "PA",
+            "color": 1
           }
         },
         {
@@ -2383,8 +2383,8 @@
             ]
           ],
           "properties": {
-            "iso": "PE",
-            "colorIndex": 1
+            "id": "PE",
+            "color": 1
           }
         },
         {
@@ -2427,8 +2427,8 @@
             ]
           ],
           "properties": {
-            "iso": "PH",
-            "colorIndex": 0
+            "id": "PH",
+            "color": 0
           }
         },
         {
@@ -2457,8 +2457,8 @@
             ]
           ],
           "properties": {
-            "iso": "PG",
-            "colorIndex": 0
+            "id": "PG",
+            "color": 0
           }
         },
         {
@@ -2476,8 +2476,8 @@
             ]
           ],
           "properties": {
-            "iso": "PL",
-            "colorIndex": 0
+            "id": "PL",
+            "color": 0
           }
         },
         {
@@ -2488,8 +2488,8 @@
             ]
           ],
           "properties": {
-            "iso": "PR",
-            "colorIndex": 1
+            "id": "PR",
+            "color": 1
           }
         },
         {
@@ -2504,8 +2504,8 @@
             ]
           ],
           "properties": {
-            "iso": "KP",
-            "colorIndex": 0
+            "id": "KP",
+            "color": 0
           }
         },
         {
@@ -2517,8 +2517,8 @@
             ]
           ],
           "properties": {
-            "iso": "PT",
-            "colorIndex": 1
+            "id": "PT",
+            "color": 1
           }
         },
         {
@@ -2531,8 +2531,8 @@
             ]
           ],
           "properties": {
-            "iso": "PY",
-            "colorIndex": 1
+            "id": "PY",
+            "color": 1
           }
         },
         {
@@ -2544,8 +2544,8 @@
             ]
           ],
           "properties": {
-            "iso": "PS",
-            "colorIndex": 2
+            "id": "PS",
+            "color": 2
           }
         },
         {
@@ -2557,8 +2557,8 @@
             ]
           ],
           "properties": {
-            "iso": "QA",
-            "colorIndex": 0
+            "id": "QA",
+            "color": 0
           }
         },
         {
@@ -2575,8 +2575,8 @@
             ]
           ],
           "properties": {
-            "iso": "RO",
-            "colorIndex": 2
+            "id": "RO",
+            "color": 2
           }
         },
         {
@@ -2683,8 +2683,8 @@
             ]
           ],
           "properties": {
-            "iso": "RU",
-            "colorIndex": 2
+            "id": "RU",
+            "color": 2
           }
         },
         {
@@ -2698,8 +2698,8 @@
             ]
           ],
           "properties": {
-            "iso": "RW",
-            "colorIndex": 1
+            "id": "RW",
+            "color": 1
           }
         },
         {
@@ -2713,8 +2713,8 @@
             ]
           ],
           "properties": {
-            "iso": "EH",
-            "colorIndex": 3
+            "id": "EH",
+            "color": 3
           }
         },
         {
@@ -2735,8 +2735,8 @@
             ]
           ],
           "properties": {
-            "iso": "SA",
-            "colorIndex": 2
+            "id": "SA",
+            "color": 2
           }
         },
         {
@@ -2756,8 +2756,8 @@
             ]
           ],
           "properties": {
-            "iso": "SD",
-            "colorIndex": 0
+            "id": "SD",
+            "color": 0
           }
         },
         {
@@ -2775,8 +2775,8 @@
             ]
           ],
           "properties": {
-            "iso": "SS",
-            "colorIndex": 1
+            "id": "SS",
+            "color": 1
           }
         },
         {
@@ -2793,8 +2793,8 @@
             ]
           ],
           "properties": {
-            "iso": "SN",
-            "colorIndex": 2
+            "id": "SN",
+            "color": 2
           }
         },
         {
@@ -2827,8 +2827,8 @@
             ]
           ],
           "properties": {
-            "iso": "SB",
-            "colorIndex": 2
+            "id": "SB",
+            "color": 2
           }
         },
         {
@@ -2841,8 +2841,8 @@
             ]
           ],
           "properties": {
-            "iso": "SL",
-            "colorIndex": 2
+            "id": "SL",
+            "color": 2
           }
         },
         {
@@ -2855,8 +2855,8 @@
             ]
           ],
           "properties": {
-            "iso": "SV",
-            "colorIndex": 1
+            "id": "SV",
+            "color": 1
           }
         },
         {
@@ -2870,7 +2870,7 @@
             ]
           ],
           "properties": {
-            "iso": "-99"
+            "id": "-99"
           }
         },
         {
@@ -2884,8 +2884,8 @@
             ]
           ],
           "properties": {
-            "iso": "SO",
-            "colorIndex": 1
+            "id": "SO",
+            "color": 1
           }
         },
         {
@@ -2903,8 +2903,8 @@
             ]
           ],
           "properties": {
-            "iso": "RS",
-            "colorIndex": 1
+            "id": "RS",
+            "color": 1
           }
         },
         {
@@ -2918,8 +2918,8 @@
             ]
           ],
           "properties": {
-            "iso": "SR",
-            "colorIndex": 1
+            "id": "SR",
+            "color": 1
           }
         },
         {
@@ -2934,8 +2934,8 @@
             ]
           ],
           "properties": {
-            "iso": "SK",
-            "colorIndex": 2
+            "id": "SK",
+            "color": 2
           }
         },
         {
@@ -2949,8 +2949,8 @@
             ]
           ],
           "properties": {
-            "iso": "SI",
-            "colorIndex": 1
+            "id": "SI",
+            "color": 1
           }
         },
         {
@@ -2963,8 +2963,8 @@
             ]
           ],
           "properties": {
-            "iso": "SE",
-            "colorIndex": 2
+            "id": "SE",
+            "color": 2
           }
         },
         {
@@ -2976,8 +2976,8 @@
             ]
           ],
           "properties": {
-            "iso": "SZ",
-            "colorIndex": 3
+            "id": "SZ",
+            "color": 3
           }
         },
         {
@@ -2993,8 +2993,8 @@
             ]
           ],
           "properties": {
-            "iso": "SY",
-            "colorIndex": 2
+            "id": "SY",
+            "color": 2
           }
         },
         {
@@ -3009,8 +3009,8 @@
             ]
           ],
           "properties": {
-            "iso": "TD",
-            "colorIndex": 3
+            "id": "TD",
+            "color": 3
           }
         },
         {
@@ -3024,8 +3024,8 @@
             ]
           ],
           "properties": {
-            "iso": "TG",
-            "colorIndex": 0
+            "id": "TG",
+            "color": 0
           }
         },
         {
@@ -3041,8 +3041,8 @@
             ]
           ],
           "properties": {
-            "iso": "TH",
-            "colorIndex": 0
+            "id": "TH",
+            "color": 0
           }
         },
         {
@@ -3056,8 +3056,8 @@
             ]
           ],
           "properties": {
-            "iso": "TJ",
-            "colorIndex": 0
+            "id": "TJ",
+            "color": 0
           }
         },
         {
@@ -3072,8 +3072,8 @@
             ]
           ],
           "properties": {
-            "iso": "TM",
-            "colorIndex": 1
+            "id": "TM",
+            "color": 1
           }
         },
         {
@@ -3085,8 +3085,8 @@
             ]
           ],
           "properties": {
-            "iso": "TL",
-            "colorIndex": 2
+            "id": "TL",
+            "color": 2
           }
         },
         {
@@ -3097,8 +3097,8 @@
             ]
           ],
           "properties": {
-            "iso": "TT",
-            "colorIndex": 1
+            "id": "TT",
+            "color": 1
           }
         },
         {
@@ -3111,8 +3111,8 @@
             ]
           ],
           "properties": {
-            "iso": "TN",
-            "colorIndex": 0
+            "id": "TN",
+            "color": 0
           }
         },
         {
@@ -3137,8 +3137,8 @@
             ]
           ],
           "properties": {
-            "iso": "TR",
-            "colorIndex": 1
+            "id": "TR",
+            "color": 1
           }
         },
         {
@@ -3149,8 +3149,8 @@
             ]
           ],
           "properties": {
-            "iso": "TW",
-            "colorIndex": 2
+            "id": "TW",
+            "color": 2
           }
         },
         {
@@ -3169,8 +3169,8 @@
             ]
           ],
           "properties": {
-            "iso": "TZ",
-            "colorIndex": 2
+            "id": "TZ",
+            "color": 2
           }
         },
         {
@@ -3185,8 +3185,8 @@
             ]
           ],
           "properties": {
-            "iso": "UG",
-            "colorIndex": 3
+            "id": "UG",
+            "color": 3
           }
         },
         {
@@ -3207,8 +3207,8 @@
             ]
           ],
           "properties": {
-            "iso": "UA",
-            "colorIndex": 1
+            "id": "UA",
+            "color": 1
           }
         },
         {
@@ -3221,8 +3221,8 @@
             ]
           ],
           "properties": {
-            "iso": "UY",
-            "colorIndex": 1
+            "id": "UY",
+            "color": 1
           }
         },
         {
@@ -3284,8 +3284,8 @@
             ]
           ],
           "properties": {
-            "iso": "US",
-            "colorIndex": 0
+            "id": "US",
+            "color": 0
           }
         },
         {
@@ -3300,8 +3300,8 @@
             ]
           ],
           "properties": {
-            "iso": "UZ",
-            "colorIndex": 2
+            "id": "UZ",
+            "color": 2
           }
         },
         {
@@ -3315,8 +3315,8 @@
             ]
           ],
           "properties": {
-            "iso": "VE",
-            "colorIndex": 1
+            "id": "VE",
+            "color": 1
           }
         },
         {
@@ -3330,8 +3330,8 @@
             ]
           ],
           "properties": {
-            "iso": "VN",
-            "colorIndex": 2
+            "id": "VN",
+            "color": 2
           }
         },
         {
@@ -3349,8 +3349,8 @@
             ]
           ],
           "properties": {
-            "iso": "VU",
-            "colorIndex": 1
+            "id": "VU",
+            "color": 1
           }
         },
         {
@@ -3363,8 +3363,8 @@
             ]
           ],
           "properties": {
-            "iso": "YE",
-            "colorIndex": 1
+            "id": "YE",
+            "color": 1
           }
         },
         {
@@ -3384,8 +3384,8 @@
             ]
           ],
           "properties": {
-            "iso": "ZA",
-            "colorIndex": 2
+            "id": "ZA",
+            "color": 2
           }
         },
         {
@@ -3405,8 +3405,8 @@
             ]
           ],
           "properties": {
-            "iso": "ZM",
-            "colorIndex": 1
+            "id": "ZM",
+            "color": 1
           }
         },
         {
@@ -3420,8 +3420,8 @@
             ]
           ],
           "properties": {
-            "iso": "ZW",
-            "colorIndex": 3
+            "id": "ZW",
+            "color": 3
           }
         }
       ]

@@ -35,27 +35,23 @@ class WorldMap {
 
         this.geometries = geometries;
         for(let geometry of this.geometries) {
-            if(geometry.iso === disputed) {
+            if(geometry.id === disputed) {
                 geometry.color = "#333";
                 geometry.label = "";
             }
             else {
                 let shade;
-                switch(geometry.colorIndex) {
+                switch(geometry.color) {
                     case 0: shade = Color.shade(style.country.background, -0.4); break;
                     case 1: shade = Color.shade(style.country.background, -0.1); break;
                     case 2: shade = Color.shade(style.country.background, 0.2); break;
                     default: shade = Color.shade(style.country.background, 0.6);
                 }
-                geometry.id = geometry.iso;
                 geometry.color = shade;
-                geometry.label = countries[geometry.iso].name[0];
-                if(geometry.iso === selected) {
-                    this.canvas.setMarker(geometry.centroid);
-                }
+                geometry.label = countries[geometry.id].name[0];
             }
         }
-        this.canvas.initialize(this.geometries, style);
+        this.canvas.initialize(this.geometries, style, selected);
     }
 
     attach() {

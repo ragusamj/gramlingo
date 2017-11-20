@@ -63,8 +63,8 @@ class TopologyInflater {
     }
 
     static addProperties(geometry, item) {
-        geometry.max = Shape.max(geometry.polygons);
-        geometry.centroid = polylabel([geometry.max], 0.5);
+        const max = Shape.max(geometry.polygons);
+        geometry.centroid = polylabel([max], 0.5);
         for(let key of Object.keys(item.properties)) {
             geometry[key] = item.properties[key];
         }

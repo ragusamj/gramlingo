@@ -54,19 +54,16 @@ test("Topology should inflate a topology into an array of geometries", (t) => {
         {
             polygons: [[[3, 3], [7, 7], [13, 3]], [[13, 3], [7, 7], [3, 3]]],
             iso: "XX",
-            max: [[3, 3], [7, 7], [13, 3]],
             centroid: [7.25, 4.75]
         },
         {
             polygons: [[[17, 17], [35, 35]]],
             iso: "YY",
-            max: [[17, 17], [35, 35]],
             centroid: [17, 17]
         },
         { 
             polygons: [[[3, 3], [7, 7], [13, 3]], [[9, 9], [19, 19], [31, 31], [45, 45]]],
             iso: "ZZ",
-            max: [[9, 9], [19, 19], [31, 31], [45, 45]],
             centroid: [9, 9]
         }
     ]);

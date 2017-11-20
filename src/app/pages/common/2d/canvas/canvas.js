@@ -32,14 +32,12 @@ class Canvas {
         const vertexShader = this.createShader(this.gl, this.gl.VERTEX_SHADER, vertexShaderSource);
         const fragmentShader = this.createShader(this.gl, this.gl.FRAGMENT_SHADER, fragmentShaderSource);
         const program = this.createProgram(this.gl, vertexShader, fragmentShader);
-        this.gl.useProgram(program);
-        
         const positionAttributeLocation = this.gl.getAttribLocation(program, "a_position");
         this.colorLocation = this.gl.getUniformLocation(program, "u_color");
         this.matrixLocation = this.gl.getUniformLocation(program, "u_matrix");
 
-        let positionBuffer = this.gl.createBuffer();
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, positionBuffer);
+        this.gl.useProgram(program);
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.gl.createBuffer());
         
         let data = [];
 
@@ -64,15 +62,8 @@ class Canvas {
         this.data = data;
 
         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(data), this.gl.STATIC_DRAW);
-
-        // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-        let size = 2;          // 2 components per iteration
-        let type = this.gl.FLOAT;   // the data is 32bit floats
-        let normalize = false; // don't normalize the data
-        let stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
-        let offset = 0;        // start at the beginning of the buffer
         this.gl.enableVertexAttribArray(positionAttributeLocation);
-        this.gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
+        this.gl.vertexAttribPointer(positionAttributeLocation, 2, this.gl.FLOAT, false, 0, 0);
 
         this.resize();
     }
@@ -117,20 +108,28 @@ class Canvas {
         this.gl.canvas.style.width = width + "px";
         this.gl.canvas.style.height = height + "px";
         this.gl.canvas.parentElement.style.height = height + "px";
+        this.scale = this.gl.canvas.clientWidth / (this.gl.canvas.width);
+        this.translation = [0, 0];
+        this.h = 2;
+        this.v = 2;
+        this.draw();
+    }
+
+    zoom(z) {
+        this.scale += z;
+        this.translation[0] -= z * (this.gl.canvas.width / this.h);
+        this.translation[1] -= z * (this.gl.canvas.height / this.v);
         this.draw();
     }
 
     draw() {
 
-        let zoomPercentage = this.gl.canvas.clientWidth / (this.gl.canvas.width);
-        let translation = [0, 0];
-        let scale = [zoomPercentage, zoomPercentage];
-
         let matrix = M3.projection(this.gl.canvas.clientWidth, this.gl.canvas.clientHeight);
-        matrix = M3.translate(matrix, translation[0], translation[1]);
-        matrix = M3.scale(matrix, scale[0], scale[1]);
+        matrix = M3.translate(matrix, this.translation[0], this.translation[1]);
+        matrix = M3.scale(matrix, this.scale, this.scale);
         this.gl.uniformMatrix3fv(this.matrixLocation, false, matrix);
 
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
         this.gl.uniform4fv(this.colorLocation, [0, 0.7, 0, 1]);
         this.gl.drawArrays(this.gl.TRIANGLES, 0, this.data.length / 2);
     }

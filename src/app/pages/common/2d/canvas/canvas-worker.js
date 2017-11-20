@@ -101,8 +101,7 @@ class CanvasWorker {
             );
             */
             requestAnimationFrame(() => {
-                let step = e.deltaY / (100 / this.canvas.z) * -1;
-                this.canvas.zoom(step, step);
+                this.canvas.zoom(e.deltaY / (100 / this.canvas.scale) * -1);
             });
         }
     }

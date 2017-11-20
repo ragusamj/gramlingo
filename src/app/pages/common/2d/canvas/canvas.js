@@ -120,30 +120,30 @@ class Canvas {
 
     resize() {
 
-        let parentClientRect = this.gl.canvas.parentElement.getBoundingClientRect();
         let aspectRatio = this.gl.canvas.height / this.gl.canvas.width;
+        let width = this.gl.canvas.parentElement.clientWidth;
+        let height = (width * aspectRatio);
 
-        this.gl.canvas.style.width = parentClientRect.width + "px";
-        this.gl.canvas.style.height = (parentClientRect.width * aspectRatio) + "px";
+        this.gl.canvas.style.width = width + "px";
+        this.gl.canvas.style.height = height + "px";
+        this.gl.canvas.parentElement.style.height = height + "px";
 
-        this.draw(this.gl, this.data);
+        this.draw();
     }
 
-    draw(gl, data) {
+    draw() {
 
+        let zoomPercentage = this.gl.canvas.clientWidth / (this.gl.canvas.width);
         let translation = [0, 0];
-        let scale = [0.43, 0.43];
+        let scale = [zoomPercentage, zoomPercentage];
 
-        let matrix = M3.projection(gl.canvas.clientWidth, gl.canvas.clientHeight);
+        let matrix = M3.projection(this.gl.canvas.clientWidth, this.gl.canvas.clientHeight);
         matrix = M3.translate(matrix, translation[0], translation[1]);
         matrix = M3.scale(matrix, scale[0], scale[1]);
+        this.gl.uniformMatrix3fv(this.matrixLocation, false, matrix);
 
-        gl.uniformMatrix3fv(this.matrixLocation, false, matrix);
-
-        for(let i = 0; i < data.length / 2; i += 3) {
-            gl.uniform4fv(this.colorLocation, [0, Math.random(), 0, 1]);
-            gl.drawArrays(gl.TRIANGLES, i, 3);
-        }
+        this.gl.uniform4fv(this.colorLocation, [0, 0.7, 0, 1]);
+        this.gl.drawArrays(this.gl.TRIANGLES, 0, this.data.length / 2);
     }
 
     setMarker(point) {

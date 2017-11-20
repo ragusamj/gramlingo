@@ -42,19 +42,12 @@ class Canvas {
         let data = [];
 
         for(let geometry of geometries) {
-            for(let polygon of geometry.polygons) {
-
-                let points = [];
-
-                for(let point of polygon) {
-                    points.push(point[0], point[1]);
-                }
-
-                let triangles = earcut(points);
-            
-                for(let t of triangles) {
-                    let i = t * 2;
-                    data.push(points[i], points[i + 1]);
+            if(geometry.type === "Polygon") {
+                this.triangulate(geometry.polygons, data);
+            }
+            if(geometry.type === "MultiPolygon") {
+                for(let polygons of geometry.polygons) {
+                    this.triangulate(polygons, data);
                 }
             }
         }
@@ -99,6 +92,15 @@ class Canvas {
         console.log(gl.getProgramInfoLog(program));
         gl.deleteProgram(program);
         */
+    }
+
+    triangulate(polygons, data) {
+        let points = earcut.flatten(polygons);
+        let triangles = earcut(points.vertices, points.holes, points.dimensions);
+        for(let t of triangles) {
+            let i = t * 2;
+            data.push(points.vertices[i], points.vertices[i + 1]);
+        }
     }
 
     resize() {

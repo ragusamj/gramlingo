@@ -13,22 +13,38 @@ const scheme = {
 
 class Color {
 
-    constructor() {
-        this.foo = "";
-    }
-
     static scheme() {
         return scheme;
     }
 
     static shade(color, percent) {   
-        let f = parseInt(color.slice(1), 16);
         let t = percent < 0 ? 0 : 255;
         let p = percent < 0 ? percent * -1 : percent;
-        let R = f >> 16;
-        let G = f >> 8 & 0x00FF;
-        let B = f & 0x0000FF;
-        return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000+ (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
+        let rgb = this.rgb(color);
+        return "#" + (0x1000000 +
+            (Math.round((t - rgb.r) * p) + rgb.r) * 0x10000 +
+            (Math.round((t - rgb.g) * p) + rgb.g) * 0x100 +
+            (Math.round((t - rgb.b) * p) + rgb.b)
+        ).toString(16).slice(1);
+    }
+
+    static rgb(color) {
+        let i = parseInt(color.slice(1), 16);
+        return {
+            r: i >> 16,
+            g: i >> 8 & 0x00FF,
+            b: i & 0x0000FF
+        };
+    }
+
+    static vec4(color, a) {
+        let rgb = this.rgb(color);
+        return [
+            rgb.r / 255,
+            rgb.g / 255,
+            rgb.b / 255,
+            a || 1
+        ];
     }
 }
 

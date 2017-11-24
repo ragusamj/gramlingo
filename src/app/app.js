@@ -17,10 +17,11 @@ import svSE from "./translations/sv-SE";
 import Menu from "./menu";
 
 import CachedInflater from "./pages/common/cached-inflater";
+
 import Canvas from "./pages/common/2d/canvas/canvas";
-import CanvasAnimator from "./pages/common/2d/canvas/canvas-animator";
 import CanvasListener from "./pages/common/2d/canvas/canvas-listener";
-import CanvasWorker from "./pages/common/2d/canvas/canvas-worker";
+import WebglContext from "./pages/common/2d/canvas/webgl-context";
+
 import Checker from "./pages/common/exercise-area/checker";
 import ExerciseAreaListener from "./pages/common/exercise-area/exercise-area-listener";
 import ExerciseAreaPopup from "./pages/common/exercise-area/exercise-area-popup";
@@ -30,6 +31,7 @@ import ElementWalker from "./pages/common/walkers/element-walker";
 import InputWalker from "./pages/common/walkers/input-walker";
 import IntegerGenerator from "./pages/common/integer-generator";
 import LoaderPopup from "./pages/common/loader-popup";
+
 import Search from "./pages/common/search/search";
 import SearchEngine from "./pages/common/search/search-engine";
 import SearchListener from "./pages/common/search/search-listener";
@@ -59,9 +61,9 @@ const exerciseAreaListener = new ExerciseAreaListener(browserEvent, exerciseArea
 const searchEngine = new SearchEngine();
 const numeralsSearchEngine = new NumeralsSearchEngine();
 
-const canvas = new Canvas("world-map");
-const canvasAnimator = new CanvasAnimator(canvas);
-const canvasListener = new CanvasListener(browserEvent, new CanvasWorker(browserEvent, canvasAnimator, canvas));
+const webglContext = new WebglContext();
+const canvas = new Canvas("world-map", webglContext);
+const canvasListener = new CanvasListener(browserEvent, canvas);
 const worldMap = new WorldMap(browserEvent, canvas, canvasListener);
 
 class App {

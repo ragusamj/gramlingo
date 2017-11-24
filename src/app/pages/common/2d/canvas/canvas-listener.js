@@ -4,18 +4,18 @@ const resizeDelay = 100;
 
 class CanvasListener {
 
-    constructor(browserEvent, worker) {
+    constructor(browserEvent, canvas) {
         this.browserEvent = browserEvent;
-        this.worker = worker;
+        this.canvas = canvas;
     }
 
     attach() {
         this.removeListeners = [
-            this.browserEvent.on("mousedown", this.worker.onMousedown.bind(this.worker)),
-            this.browserEvent.on("mousemove", this.worker.onMousemove.bind(this.worker)),
-            this.browserEvent.on("mouseup", this.worker.onMouseup.bind(this.worker)),
-            this.browserEvent.on("resize", debounce(this.worker.onResize.bind(this.worker), resizeDelay)),
-            this.browserEvent.on("wheel", this.worker.onWheel.bind(this.worker))
+            this.browserEvent.on("mousedown", this.canvas.onMousedown.bind(this.canvas)),
+            this.browserEvent.on("mousemove", this.canvas.onMousemove.bind(this.canvas)),
+            this.browserEvent.on("mouseup", this.canvas.onMouseup.bind(this.canvas)),
+            this.browserEvent.on("resize", debounce(this.canvas.onResize.bind(this.canvas), resizeDelay)),
+            this.browserEvent.on("wheel", this.canvas.onWheel.bind(this.canvas))
         ];
     }
 

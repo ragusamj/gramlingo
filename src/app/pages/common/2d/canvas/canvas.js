@@ -1,109 +1,39 @@
-import earcut from "earcut";
+import Buffer from "./buffer";
 import M3 from "./m3";
 
-const vertexShaderSource = `
-attribute vec2 a_position;
-uniform mat3 u_matrix;
-void main() {
-  gl_Position = vec4((u_matrix * vec3(a_position, 1)).xy, 0, 1);
-}
-`;
-
-const fragmentShaderSource = `
-precision mediump float;
-uniform vec4 u_color;
-void main() {
-   gl_FragColor = u_color;
-}
-`;
+const mouseButtons = {
+    main: 0
+};
 
 class Canvas {
 
-    constructor(id) {
+    constructor(id, context) {
         this.id = id;
+        this.context = context;
     }
 
     initialize(geometries) {
         this.geometries = geometries;
-        this.gl = document
-            .getElementById(this.id)
-            .getContext("webgl");
 
-        const vertexShader = this.createShader(this.gl, this.gl.VERTEX_SHADER, vertexShaderSource);
-        const fragmentShader = this.createShader(this.gl, this.gl.FRAGMENT_SHADER, fragmentShaderSource);
-        const program = this.createProgram(this.gl, vertexShader, fragmentShader);
-        const positionAttributeLocation = this.gl.getAttribLocation(program, "a_position");
-        this.colorLocation = this.gl.getUniformLocation(program, "u_color");
-        this.matrixLocation = this.gl.getUniformLocation(program, "u_matrix");
-
-        this.gl.useProgram(program);
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.gl.createBuffer());
+        const buffer = Buffer.create(geometries);
+        this.bufferByColor = buffer.byColor;
+        this.context.initialize(this.id, buffer.data);
+        this.gl = this.context.gl;
         
-        let data = [];
-
-        for(let geometry of geometries) {
-            if(geometry.type === "Polygon") {
-                this.triangulate(geometry.polygons, data);
-            }
-            if(geometry.type === "MultiPolygon") {
-                for(let polygons of geometry.polygons) {
-                    this.triangulate(polygons, data);
-                }
-            }
-        }
-
-        this.data = data;
-
-        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(data), this.gl.STATIC_DRAW);
-        this.gl.enableVertexAttribArray(positionAttributeLocation);
-        this.gl.vertexAttribPointer(positionAttributeLocation, 2, this.gl.FLOAT, false, 0, 0);
-
-        this.resize();
+        this.onResize();
     }
 
-    createShader(gl, type, source) {
-        let shader = gl.createShader(type);
-        gl.shaderSource(shader, source);
-        gl.compileShader(shader);
-        gl.getShaderParameter(shader, gl.COMPILE_STATUS);
-        return shader;
-        /*
-        let success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
-        if (success) {
-            return shader;
-        }
-        console.log(gl.getShaderInfoLog(shader));
-        gl.deleteShader(shader);
-        */
+    toCanvasPoint(x, y) {
+        let rect = this.gl.canvas.getBoundingClientRect();
+        let scaleX = (this.gl.canvas.width / rect.width);
+        let scaleY = (this.gl.canvas.height / rect.height);
+        return [
+            ((x - rect.left) * scaleX),
+            ((y - rect.top) * scaleY)
+        ];
     }
 
-    createProgram(gl, vertexShader, fragmentShader) {
-        let program = gl.createProgram();
-        gl.attachShader(program, vertexShader);
-        gl.attachShader(program, fragmentShader);
-        gl.linkProgram(program);
-        gl.getProgramParameter(program, gl.LINK_STATUS);
-        return program;
-        /*
-        let success = gl.getProgramParameter(program, gl.LINK_STATUS);
-        if (success) {
-            return program;
-        }
-        console.log(gl.getProgramInfoLog(program));
-        gl.deleteProgram(program);
-        */
-    }
-
-    triangulate(polygons, data) {
-        let points = earcut.flatten(polygons);
-        let triangles = earcut(points.vertices, points.holes, points.dimensions);
-        for(let t of triangles) {
-            let i = t * 2;
-            data.push(points.vertices[i], points.vertices[i + 1]);
-        }
-    }
-
-    resize() {
+    onResize() {
         let aspectRatio = this.gl.canvas.height / this.gl.canvas.width;
         let width = this.gl.canvas.parentElement.clientWidth;
         let height = (width * aspectRatio);
@@ -111,10 +41,46 @@ class Canvas {
         this.gl.canvas.style.height = height + "px";
         this.gl.canvas.parentElement.style.height = height + "px";
         this.scale = this.gl.canvas.clientWidth / (this.gl.canvas.width);
+        this.viewportScale = this.scale;
         this.translation = [0, 0];
         this.h = 2;
         this.v = 2;
         this.draw();
+    }
+
+    onMousedown(e) {
+        if(this.isCanvasEvent(e) && e.button === mouseButtons.main) {
+            this.dragStartPoint = this.toCanvasPoint(e.clientX, e.clientY);
+        }
+    }
+
+    onMousemove(e) {
+        if(this.dragStartPoint && this.isCanvasEvent(e)) {
+            this.dragging = true;
+            requestAnimationFrame(() => {
+                let mousePoint = this.toCanvasPoint(e.clientX, e.clientY);
+                if(this.dragStartPoint) {
+                    this.translation[0] -= (this.dragStartPoint[0] - mousePoint[0]) * this.viewportScale;
+                    this.translation[1] -= (this.dragStartPoint[1] - mousePoint[1]) * this.viewportScale;
+                    this.dragStartPoint = mousePoint;
+                    this.draw();
+                }
+            });
+        }
+    }
+
+    onMouseup() {
+        this.dragStartPoint = undefined;
+        this.dragging = false;
+    }
+
+    onWheel(e) {
+        if(this.isCanvasEvent(e)) {
+            e.preventDefault();
+            requestAnimationFrame(() => {
+                this.zoom(e.deltaY / (100 / this.scale) * -1);
+            });
+        }
     }
 
     zoom(z) {
@@ -125,19 +91,24 @@ class Canvas {
     }
 
     draw() {
-
         let matrix = M3.projection(this.gl.canvas.clientWidth, this.gl.canvas.clientHeight);
         matrix = M3.translate(matrix, this.translation[0], this.translation[1]);
         matrix = M3.scale(matrix, this.scale, this.scale);
-        this.gl.uniformMatrix3fv(this.matrixLocation, false, matrix);
-
+        this.gl.uniformMatrix3fv(this.context.matrixLocation, false, matrix);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-        this.gl.uniform4fv(this.colorLocation, [0, 0.7, 0, 1]);
-        this.gl.drawArrays(this.gl.TRIANGLES, 0, this.data.length / 2);
+        for(let key of Object.keys(this.bufferByColor)) {
+            let color = this.bufferByColor[key];
+            this.gl.uniform4fv(this.context.colorLocation, color.vec4);
+            this.gl.drawArrays(this.gl.TRIANGLES, color.offset, color.length);
+        }
     }
 
     setMarker(point) {
         this.markerPoint = point;
+    }
+
+    isCanvasEvent(e) {
+        return e.target && e.target.id === this.id;
     }
 }
     

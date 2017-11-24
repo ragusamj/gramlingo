@@ -8,7 +8,7 @@ const style = {
     },
     label: {
         background: "#343a40",
-        color: "#fff",
+        color: "#ffffff",
         font: {
             family: "'Montserrat', sans-serif",
             size: 75
@@ -17,7 +17,7 @@ const style = {
     marker: {
         background: Color.scheme().orange,
         border: {
-            color: "#fff",
+            color: "#ffffff",
             width: 4
         }
     }
@@ -36,7 +36,7 @@ class WorldMap {
         this.geometries = geometries;
         for(let geometry of this.geometries) {
             if(geometry.id === disputed) {
-                geometry.color = "#333";
+                geometry.color = "#333333";
                 geometry.label = "";
             }
             else {

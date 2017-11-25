@@ -40,11 +40,12 @@ class Canvas {
         this.gl.canvas.style.width = width + "px";
         this.gl.canvas.style.height = height + "px";
         this.gl.canvas.parentElement.style.height = height + "px";
-        this.scale = this.gl.canvas.clientWidth / (this.gl.canvas.width);
-        this.viewportScale = this.scale;
-        this.translation = [0, 0];
-        this.h = 2;
-        this.v = 2;
+
+        this.scale = 1;
+        this.rotation = 0 * Math.PI / 180;
+        this.translation =       [this.gl.canvas.width / 2,   this.gl.canvas.height / 2];
+        this.centerTranslation = [-this.gl.canvas.width / 2, -this.gl.canvas.height / 2];
+
         this.draw();
     }
 
@@ -60,8 +61,8 @@ class Canvas {
             requestAnimationFrame(() => {
                 let mousePoint = this.toCanvasPoint(e.clientX, e.clientY);
                 if(this.dragStartPoint) {
-                    this.translation[0] -= (this.dragStartPoint[0] - mousePoint[0]) * this.viewportScale;
-                    this.translation[1] -= (this.dragStartPoint[1] - mousePoint[1]) * this.viewportScale;
+                    this.translation[0] -= (this.dragStartPoint[0] - mousePoint[0]);
+                    this.translation[1] -= (this.dragStartPoint[1] - mousePoint[1]);
                     this.dragStartPoint = mousePoint;
                     this.draw();
                 }
@@ -85,16 +86,18 @@ class Canvas {
 
     zoom(z) {
         this.scale += z;
-        this.translation[0] -= z * (this.gl.canvas.width / this.h);
-        this.translation[1] -= z * (this.gl.canvas.height / this.v);
         this.draw();
     }
 
     draw() {
-        let matrix = M3.projection(this.gl.canvas.clientWidth, this.gl.canvas.clientHeight);
+
+        let matrix = M3.projection(this.gl.canvas.width, this.gl.canvas.height);
         matrix = M3.translate(matrix, this.translation[0], this.translation[1]);
+        matrix = M3.rotate(matrix, this.rotation);
         matrix = M3.scale(matrix, this.scale, this.scale);
+        matrix = M3.translate(matrix, this.centerTranslation[0], this.centerTranslation[1]);
         this.gl.uniformMatrix3fv(this.context.matrixLocation, false, matrix);
+
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
         for(let key of Object.keys(this.bufferByColor)) {
             let color = this.bufferByColor[key];

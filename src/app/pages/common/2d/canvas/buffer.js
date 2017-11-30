@@ -1,6 +1,8 @@
 import earcut from "earcut";
 import Color from "../../color";
 
+const pointSize = 2;
+
 class Buffer {
 
     static create(geometries) {
@@ -23,8 +25,8 @@ class Buffer {
             }
             buffer.byColor[color] = buffer.byColor[color] || {
                 vec4: Color.vec4(color),
-                length: (buffer.data.length - offset) / 2,
-                offset: offset / 2
+                length: (buffer.data.length - offset) / pointSize,
+                offset: offset / pointSize
             };
         }
 
@@ -44,7 +46,7 @@ class Buffer {
         let points = earcut.flatten(polygons);
         let triangles = earcut(points.vertices, points.holes, points.dimensions);
         for(let t of triangles) {
-            let i = t * 2;
+            let i = t * pointSize;
             data.push(points.vertices[i], points.vertices[i + 1]);
         }
     }

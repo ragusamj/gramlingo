@@ -1,5 +1,5 @@
 import Buffer from "./buffer";
-import M3 from "./m3";
+import M4 from "./m4";
 import Shape from "../shape";
 
 const mouseButtons = {
@@ -19,23 +19,18 @@ class Canvas {
 
         const buffer = Buffer.create(geometries);
         this.bufferByColor = buffer.byColor;
-        this.context.initialize(this.id, buffer.data);
-        this.gl = this.context.gl;
-        
+        this.gl = this.context.initialize(this.id, buffer.data);
+
         this.onResize();
     }
 
     select(e) {
         if(!this.dragging && this.isCanvasEvent(e)) {
-            let point = this.toCanvasPoint(e.clientX, e.clientY);
+            const point = this.toCanvasPoint(e.clientX, e.clientY);
+            const matrix = M4.multiply(this.inverseProjection, this.matrix);
 
-            let matrix = M3.translation(this.translation[0], this.translation[1]);
-            matrix = M3.rotate(matrix, this.rotation);
-            matrix = M3.scale(matrix, this.scale, this.scale);
-            matrix = M3.translate(matrix, this.centerTranslation[0], this.centerTranslation[1]);
-
-            point[0] = (point[0] - matrix[6]) / matrix[0];
-            point[1] = (point[1] - matrix[7]) / matrix[4];
+            point[0] = (point[0] - matrix[12]) / this.scale;
+            point[1] = (point[1] - matrix[13]) / this.scale;
 
             for(let geometry of this.geometries) {
                 if(geometry.type === "Polygon") {
@@ -74,10 +69,12 @@ class Canvas {
         this.gl.canvas.style.height = height + "px";
         this.gl.canvas.parentElement.style.height = height + "px";
 
+        this.projection = M4.projection(this.gl.canvas.width, this.gl.canvas.height, this.gl.canvas.width);
+        this.inverseProjection = M4.inverse(this.projection);
         this.scale = 1;
-        this.rotation = 0 * Math.PI / 180;
-        this.translation = [this.gl.canvas.width / 2, this.gl.canvas.height / 2];
-        this.centerTranslation = [this.gl.canvas.width / -2, this.gl.canvas.height / -2];
+        this.rotation = [this.degreesToRadians(0), this.degreesToRadians(0), this.degreesToRadians(0)];
+        this.translation = [this.gl.canvas.width / 2, this.gl.canvas.height / 2, 0];
+        this.centerTranslation = [this.gl.canvas.width / -2, this.gl.canvas.height / -2, 0];
 
         this.draw();
     }
@@ -125,14 +122,16 @@ class Canvas {
 
     draw() {
 
-        let matrix = M3.projection(this.gl.canvas.width, this.gl.canvas.height);
-        matrix = M3.translate(matrix, this.translation[0], this.translation[1]);
-        matrix = M3.rotate(matrix, this.rotation);
-        matrix = M3.scale(matrix, this.scale, this.scale);
-        matrix = M3.translate(matrix, this.centerTranslation[0], this.centerTranslation[1]);
-        this.gl.uniformMatrix3fv(this.context.matrixLocation, false, matrix);
+        this.matrix = M4.translate(this.projection, this.translation[0], this.translation[1], this.translation[2]);
+        this.matrix = M4.xRotate(this.matrix, this.rotation[0]);
+        this.matrix = M4.yRotate(this.matrix, this.rotation[1]);
+        this.matrix = M4.zRotate(this.matrix, this.rotation[2]);
+        this.matrix = M4.scale(this.matrix, this.scale, this.scale, this.scale);
+        this.matrix = M4.translate(this.matrix, this.centerTranslation[0], this.centerTranslation[1], this.centerTranslation[2]);
 
+        this.gl.uniformMatrix4fv(this.context.matrixLocation, false, this.matrix);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+
         for(let key of Object.keys(this.bufferByColor)) {
             let color = this.bufferByColor[key];
             this.gl.uniform4fv(this.context.colorLocation, color.vec4);
@@ -142,6 +141,10 @@ class Canvas {
 
     setMarker(point) {
         this.markerPoint = point;
+    }
+
+    degreesToRadians(d) {
+        return d * Math.PI / 180;
     }
 
     isCanvasEvent(e) {

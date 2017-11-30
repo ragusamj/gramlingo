@@ -1,8 +1,8 @@
 const vertexShaderSource = `
-attribute vec2 a_position;
-uniform mat3 u_matrix;
+attribute vec4 a_position;
+uniform mat4 u_matrix;
 void main() {
-  gl_Position = vec4((u_matrix * vec3(a_position, 1)).xy, 0, 1);
+  gl_Position = u_matrix * a_position;
 }
 `;
 
@@ -13,6 +13,8 @@ void main() {
    gl_FragColor = u_color;
 }
 `;
+
+const pointSize = 2;
 
 class WebglContext {
 
@@ -26,15 +28,17 @@ class WebglContext {
         const fragmentShader = this.createShader(this.gl, this.gl.FRAGMENT_SHADER, fragmentShaderSource);
         const program = this.createProgram(this.gl, vertexShader, fragmentShader);
 
-        const positionAttributeLocation = this.gl.getAttribLocation(program, "a_position");
+        const positionLocation = this.gl.getAttribLocation(program, "a_position");
         this.colorLocation = this.gl.getUniformLocation(program, "u_color");
         this.matrixLocation = this.gl.getUniformLocation(program, "u_matrix");
 
         this.gl.useProgram(program);
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.gl.createBuffer());
         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(data), this.gl.STATIC_DRAW);
-        this.gl.enableVertexAttribArray(positionAttributeLocation);
-        this.gl.vertexAttribPointer(positionAttributeLocation, 2, this.gl.FLOAT, false, 0, 0);
+        this.gl.enableVertexAttribArray(positionLocation);
+        this.gl.vertexAttribPointer(positionLocation, pointSize, this.gl.FLOAT, false, 0, 0);
+
+        return this.gl; 
     }
 
     createShader(gl, type, source) {

@@ -1,5 +1,6 @@
 import Buffer from "./buffer";
 import M3 from "./m3";
+import Shape from "../shape";
 
 const mouseButtons = {
     main: 0
@@ -7,7 +8,8 @@ const mouseButtons = {
 
 class Canvas {
 
-    constructor(id, context) {
+    constructor(browserEvent, id, context) {
+        this.browserEvent = browserEvent;
         this.id = id;
         this.context = context;
     }
@@ -21,6 +23,37 @@ class Canvas {
         this.gl = this.context.gl;
         
         this.onResize();
+    }
+
+    select(e) {
+        if(!this.dragging && this.isCanvasEvent(e)) {
+            let point = this.toCanvasPoint(e.clientX, e.clientY);
+
+            let matrix = M3.translation(this.translation[0], this.translation[1]);
+            matrix = M3.rotate(matrix, this.rotation);
+            matrix = M3.scale(matrix, this.scale, this.scale);
+            matrix = M3.translate(matrix, this.centerTranslation[0], this.centerTranslation[1]);
+
+            point[0] = (point[0] - matrix[6]) / matrix[0];
+            point[1] = (point[1] - matrix[7]) / matrix[4];
+
+            for(let geometry of this.geometries) {
+                if(geometry.type === "Polygon") {
+                    if(Shape.inside(point, geometry.polygons[0])) {
+                        this.browserEvent.emit("canvas-geometry-clicked", { canvas: this.id, id: geometry.id });
+                        return;
+                    }
+                }
+                if(geometry.type === "MultiPolygon") {
+                    for(let polygons of geometry.polygons) {
+                        if(Shape.inside(point, polygons[0])) {
+                            this.browserEvent.emit("canvas-geometry-clicked", { canvas: this.id, id: geometry.id }); 
+                            return;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     toCanvasPoint(x, y) {
@@ -43,8 +76,8 @@ class Canvas {
 
         this.scale = 1;
         this.rotation = 0 * Math.PI / 180;
-        this.translation =       [this.gl.canvas.width / 2,   this.gl.canvas.height / 2];
-        this.centerTranslation = [-this.gl.canvas.width / 2, -this.gl.canvas.height / 2];
+        this.translation = [this.gl.canvas.width / 2, this.gl.canvas.height / 2];
+        this.centerTranslation = [this.gl.canvas.width / -2, this.gl.canvas.height / -2];
 
         this.draw();
     }
@@ -70,7 +103,8 @@ class Canvas {
         }
     }
 
-    onMouseup() {
+    onMouseup(e) {
+        this.select(e);
         this.dragStartPoint = undefined;
         this.dragging = false;
     }

@@ -62,7 +62,7 @@ const searchEngine = new SearchEngine();
 const numeralsSearchEngine = new NumeralsSearchEngine();
 
 const webglContext = new WebglContext();
-const canvas = new Canvas("world-map", webglContext);
+const canvas = new Canvas(browserEvent, "world-map", webglContext);
 const canvasListener = new CanvasListener(browserEvent, canvas);
 const worldMap = new WorldMap(browserEvent, canvas, canvasListener);
 

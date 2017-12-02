@@ -153,6 +153,17 @@ class M4 {
             0,  0,  0,  1,
         ];
     }
+
+    static transformVector(m, v, dst) {
+        dst = dst || new Float32Array(4);
+        for (let i = 0; i < 4; ++i) {
+            dst[i] = 0.0;
+            for (let j = 0; j < 4; ++j) {
+                dst[i] += v[j] * m[j * 4 + i];
+            }
+        }
+        return dst;
+    }
     
     static translate(m, tx, ty, tz) {
         return this.multiply(m, this.translation(tx, ty, tz));

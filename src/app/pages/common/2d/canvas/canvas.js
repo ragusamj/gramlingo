@@ -21,27 +21,35 @@ class Canvas {
         this.bufferByColor = buffer.byColor;
         this.gl = this.context.initialize(this.id, buffer.data);
 
+        this.projection = M4.projection(this.gl.canvas.width, this.gl.canvas.height, this.gl.canvas.width);
+
         this.onResize();
     }
 
     select(e) {
         if(!this.dragging && this.isCanvasEvent(e)) {
-            const point = this.toCanvasPoint(e.clientX, e.clientY);
-            const matrix = M4.multiply(this.inverseProjection, this.matrix);
+            let vector = this.toCanvasVector(e.clientX, e.clientY);
 
-            point[0] = (point[0] - matrix[12]) / this.scale;
-            point[1] = (point[1] - matrix[13]) / this.scale;
+            let t = M4.inverse(M4.translation(this.translation[0], this.translation[1], this.translation[2]));
+            let rz = M4.inverse(M4.zRotation(this.rotation[2]));
+            let s = M4.inverse(M4.scaling(this.scale, this.scale, this.scale));
+            let tc = M4.inverse(M4.translation(this.centerTranslation[0], this.centerTranslation[1], this.centerTranslation[2]));
+
+            vector = M4.transformVector(t, vector);
+            vector = M4.transformVector(rz, vector);
+            vector = M4.transformVector(s, vector);
+            vector = M4.transformVector(tc, vector);
 
             for(let geometry of this.geometries) {
                 if(geometry.type === "Polygon") {
-                    if(Shape.inside(point, geometry.polygons[0])) {
+                    if(Shape.inside(vector, geometry.polygons[0])) {
                         this.browserEvent.emit("canvas-geometry-clicked", { canvas: this.id, id: geometry.id });
                         return;
                     }
                 }
                 if(geometry.type === "MultiPolygon") {
                     for(let polygons of geometry.polygons) {
-                        if(Shape.inside(point, polygons[0])) {
+                        if(Shape.inside(vector, polygons[0])) {
                             this.browserEvent.emit("canvas-geometry-clicked", { canvas: this.id, id: geometry.id }); 
                             return;
                         }
@@ -51,13 +59,15 @@ class Canvas {
         }
     }
 
-    toCanvasPoint(x, y) {
+    toCanvasVector(x, y) {
         let rect = this.gl.canvas.getBoundingClientRect();
         let scaleX = (this.gl.canvas.width / rect.width);
         let scaleY = (this.gl.canvas.height / rect.height);
         return [
             ((x - rect.left) * scaleX),
-            ((y - rect.top) * scaleY)
+            ((y - rect.top) * scaleY),
+            0,
+            1
         ];
     }
 
@@ -69,10 +79,8 @@ class Canvas {
         this.gl.canvas.style.height = height + "px";
         this.gl.canvas.parentElement.style.height = height + "px";
 
-        this.projection = M4.projection(this.gl.canvas.width, this.gl.canvas.height, this.gl.canvas.width);
-        this.inverseProjection = M4.inverse(this.projection);
         this.scale = 1;
-        this.rotation = [this.degreesToRadians(0), this.degreesToRadians(0), this.degreesToRadians(0)];
+        this.rotation = [this.degreesToRadians(35), this.degreesToRadians(25), this.degreesToRadians(325)];
         this.translation = [this.gl.canvas.width / 2, this.gl.canvas.height / 2, 0];
         this.centerTranslation = [this.gl.canvas.width / -2, this.gl.canvas.height / -2, 0];
 
@@ -81,19 +89,19 @@ class Canvas {
 
     onMousedown(e) {
         if(this.isCanvasEvent(e) && e.button === mouseButtons.main) {
-            this.dragStartPoint = this.toCanvasPoint(e.clientX, e.clientY);
+            this.dragStartVector = this.toCanvasVector(e.clientX, e.clientY);
         }
     }
 
     onMousemove(e) {
-        if(this.dragStartPoint && this.isCanvasEvent(e)) {
+        if(this.dragStartVector && this.isCanvasEvent(e)) {
             this.dragging = true;
             requestAnimationFrame(() => {
-                let mousePoint = this.toCanvasPoint(e.clientX, e.clientY);
-                if(this.dragStartPoint) {
-                    this.translation[0] -= (this.dragStartPoint[0] - mousePoint[0]);
-                    this.translation[1] -= (this.dragStartPoint[1] - mousePoint[1]);
-                    this.dragStartPoint = mousePoint;
+                let mouseVector = this.toCanvasVector(e.clientX, e.clientY);
+                if(this.dragStartVector) {
+                    this.translation[0] -= (this.dragStartVector[0] - mouseVector[0]);
+                    this.translation[1] -= (this.dragStartVector[1] - mouseVector[1]);
+                    this.dragStartVector = mouseVector;
                     this.draw();
                 }
             });
@@ -102,7 +110,7 @@ class Canvas {
 
     onMouseup(e) {
         this.select(e);
-        this.dragStartPoint = undefined;
+        this.dragStartVector = undefined;
         this.dragging = false;
     }
 
@@ -123,8 +131,6 @@ class Canvas {
     draw() {
 
         this.matrix = M4.translate(this.projection, this.translation[0], this.translation[1], this.translation[2]);
-        this.matrix = M4.xRotate(this.matrix, this.rotation[0]);
-        this.matrix = M4.yRotate(this.matrix, this.rotation[1]);
         this.matrix = M4.zRotate(this.matrix, this.rotation[2]);
         this.matrix = M4.scale(this.matrix, this.scale, this.scale, this.scale);
         this.matrix = M4.translate(this.matrix, this.centerTranslation[0], this.centerTranslation[1], this.centerTranslation[2]);

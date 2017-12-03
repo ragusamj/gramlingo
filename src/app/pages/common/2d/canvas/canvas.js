@@ -21,7 +21,15 @@ class Canvas {
         this.bufferByColor = buffer.byColor;
         this.gl = this.context.initialize(this.id, buffer.data);
 
-        this.projection = M4.projection(this.gl.canvas.width, this.gl.canvas.height, this.gl.canvas.width);
+        this.matrices = [
+            new Float32Array(16), // Projection
+            new Float32Array(16), // Translate
+            new Float32Array(16), // Z rotation
+            new Float32Array(16), // Scale
+            new Float32Array(16), // Centering ranslate
+        ];
+
+        M4.orthographic(0, this.gl.canvas.width, this.gl.canvas.height, 0, -1, 1, this.matrices[0]);
 
         this.onResize();
     }
@@ -30,15 +38,15 @@ class Canvas {
         if(!this.dragging && this.isCanvasEvent(e)) {
             let vector = this.toCanvasVector(e.clientX, e.clientY);
 
-            let t = M4.inverse(M4.translation(this.translation[0], this.translation[1], this.translation[2]));
-            let rz = M4.inverse(M4.zRotation(this.rotation[2]));
-            let s = M4.inverse(M4.scaling(this.scale, this.scale, this.scale));
-            let tc = M4.inverse(M4.translation(this.centerTranslation[0], this.centerTranslation[1], this.centerTranslation[2]));
+            const inversed = new Float32Array(16);
+            const matrix = new Float32Array(16);
 
-            vector = M4.transformVector(t, vector);
-            vector = M4.transformVector(rz, vector);
-            vector = M4.transformVector(s, vector);
-            vector = M4.transformVector(tc, vector);
+            for(let i = 0; i < this.matrices.length - 1; i++) {
+                M4.inverse(this.matrices[i], inversed);
+                M4.multiply(inversed, this.matrices[i + 1], matrix);
+                M4.inverse(matrix, inversed);
+                vector = M4.transformVector(inversed, vector);
+            }
 
             for(let geometry of this.geometries) {
                 if(geometry.type === "Polygon") {
@@ -80,7 +88,7 @@ class Canvas {
         this.gl.canvas.parentElement.style.height = height + "px";
 
         this.scale = 1;
-        this.rotation = [this.degreesToRadians(35), this.degreesToRadians(25), this.degreesToRadians(325)];
+        this.rotation = [this.degreesToRadians(0), this.degreesToRadians(0), this.degreesToRadians(325)];
         this.translation = [this.gl.canvas.width / 2, this.gl.canvas.height / 2, 0];
         this.centerTranslation = [this.gl.canvas.width / -2, this.gl.canvas.height / -2, 0];
 
@@ -130,12 +138,12 @@ class Canvas {
 
     draw() {
 
-        this.matrix = M4.translate(this.projection, this.translation[0], this.translation[1], this.translation[2]);
-        this.matrix = M4.zRotate(this.matrix, this.rotation[2]);
-        this.matrix = M4.scale(this.matrix, this.scale, this.scale, this.scale);
-        this.matrix = M4.translate(this.matrix, this.centerTranslation[0], this.centerTranslation[1], this.centerTranslation[2]);
+        M4.translate(this.matrices[0], this.translation[0], this.translation[1], this.translation[2], this.matrices[1]);
+        M4.zRotate(this.matrices[1], this.rotation[2], this.matrices[2]);
+        M4.scale(this.matrices[2], this.scale, this.scale, this.scale, this.matrices[3]);
+        M4.translate(this.matrices[3], this.centerTranslation[0], this.centerTranslation[1], this.centerTranslation[2], this.matrices[4]);
 
-        this.gl.uniformMatrix4fv(this.context.matrixLocation, false, this.matrix);
+        this.gl.uniformMatrix4fv(this.context.matrixLocation, false, this.matrices[this.matrices.length - 1]);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
         for(let key of Object.keys(this.bufferByColor)) {

@@ -1,6 +1,5 @@
 import Buffer from "./buffer";
 import M4 from "./m4";
-import Shape from "../shape";
 
 const mouseButtons = {
     main: 0
@@ -8,10 +7,10 @@ const mouseButtons = {
 
 class Canvas {
 
-    constructor(browserEvent, id, context) {
-        this.browserEvent = browserEvent;
+    constructor(id, selector, webglContext) {
         this.id = id;
-        this.context = context;
+        this.context = webglContext;
+        this.selector = selector;
     }
 
     initialize(geometries) {
@@ -22,49 +21,16 @@ class Canvas {
         this.gl = this.context.initialize(this.id, buffer.data);
 
         this.matrices = [
-            new Float32Array(16), // Projection
+            M4.orthographic(0, this.gl.canvas.width, this.gl.canvas.height, 0, -1, 1),
             new Float32Array(16), // Translate
+            new Float32Array(16), // X rotation
+            new Float32Array(16), // Y rotation
             new Float32Array(16), // Z rotation
             new Float32Array(16), // Scale
-            new Float32Array(16), // Centering ranslate
+            new Float32Array(16), // Centering translate
         ];
 
-        M4.orthographic(0, this.gl.canvas.width, this.gl.canvas.height, 0, -1, 1, this.matrices[0]);
-
         this.onResize();
-    }
-
-    select(e) {
-        if(!this.dragging && this.isCanvasEvent(e)) {
-            let vector = this.toCanvasVector(e.clientX, e.clientY);
-
-            const inversed = new Float32Array(16);
-            const matrix = new Float32Array(16);
-
-            for(let i = 0; i < this.matrices.length - 1; i++) {
-                M4.inverse(this.matrices[i], inversed);
-                M4.multiply(inversed, this.matrices[i + 1], matrix);
-                M4.inverse(matrix, inversed);
-                vector = M4.transformVector(inversed, vector);
-            }
-
-            for(let geometry of this.geometries) {
-                if(geometry.type === "Polygon") {
-                    if(Shape.inside(vector, geometry.polygons[0])) {
-                        this.browserEvent.emit("canvas-geometry-clicked", { canvas: this.id, id: geometry.id });
-                        return;
-                    }
-                }
-                if(geometry.type === "MultiPolygon") {
-                    for(let polygons of geometry.polygons) {
-                        if(Shape.inside(vector, polygons[0])) {
-                            this.browserEvent.emit("canvas-geometry-clicked", { canvas: this.id, id: geometry.id }); 
-                            return;
-                        }
-                    }
-                }
-            }
-        }
     }
 
     toCanvasVector(x, y) {
@@ -88,7 +54,7 @@ class Canvas {
         this.gl.canvas.parentElement.style.height = height + "px";
 
         this.scale = 1;
-        this.rotation = [this.degreesToRadians(0), this.degreesToRadians(0), this.degreesToRadians(325)];
+        this.rotation = [this.degreesToRadians(0), this.degreesToRadians(0), this.degreesToRadians(0)];
         this.translation = [this.gl.canvas.width / 2, this.gl.canvas.height / 2, 0];
         this.centerTranslation = [this.gl.canvas.width / -2, this.gl.canvas.height / -2, 0];
 
@@ -117,7 +83,10 @@ class Canvas {
     }
 
     onMouseup(e) {
-        this.select(e);
+        if(!this.dragging && this.isCanvasEvent(e)) {
+            const clickedLocation = this.toCanvasVector(e.clientX, e.clientY);
+            this.selector.select(clickedLocation, this.gl.canvas, this.geometries, this.matrices);
+        }
         this.dragStartVector = undefined;
         this.dragging = false;
     }
@@ -139,9 +108,11 @@ class Canvas {
     draw() {
 
         M4.translate(this.matrices[0], this.translation[0], this.translation[1], this.translation[2], this.matrices[1]);
-        M4.zRotate(this.matrices[1], this.rotation[2], this.matrices[2]);
-        M4.scale(this.matrices[2], this.scale, this.scale, this.scale, this.matrices[3]);
-        M4.translate(this.matrices[3], this.centerTranslation[0], this.centerTranslation[1], this.centerTranslation[2], this.matrices[4]);
+        M4.xRotate(this.matrices[1], this.rotation[0], this.matrices[2]);
+        M4.yRotate(this.matrices[2], this.rotation[1], this.matrices[3]);
+        M4.zRotate(this.matrices[3], this.rotation[2], this.matrices[4]);
+        M4.scale(this.matrices[4], this.scale, this.scale, this.scale, this.matrices[5]);
+        M4.translate(this.matrices[5], this.centerTranslation[0], this.centerTranslation[1], this.centerTranslation[2], this.matrices[6]);
 
         this.gl.uniformMatrix4fv(this.context.matrixLocation, false, this.matrices[this.matrices.length - 1]);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);

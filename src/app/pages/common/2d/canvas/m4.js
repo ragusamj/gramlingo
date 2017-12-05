@@ -170,30 +170,7 @@ class M4 {
     
         return dst;
     }
-    
-    static translation(tx, ty, tz, dst) {
-        dst = dst || new Float32Array(16);
-        
-        dst[ 0] = 1;
-        dst[ 1] = 0;
-        dst[ 2] = 0;
-        dst[ 3] = 0;
-        dst[ 4] = 0;
-        dst[ 5] = 1;
-        dst[ 6] = 0;
-        dst[ 7] = 0;
-        dst[ 8] = 0;
-        dst[ 9] = 0;
-        dst[10] = 1;
-        dst[11] = 0;
-        dst[12] = tx;
-        dst[13] = ty;
-        dst[14] = tz;
-        dst[15] = 1;
-        
-        return dst;
-    }
-    
+
     static xRotation(angleInRadians, dst) {
         dst = dst || new Float32Array(16);
         let c = Math.cos(angleInRadians);
@@ -317,7 +294,7 @@ class M4 {
         
         return dst;
     }
-    
+
     static zRotation(angleInRadians, dst) {
         dst = dst || new Float32Array(16);
         let c = Math.cos(angleInRadians);
@@ -379,7 +356,7 @@ class M4 {
         
         return dst;
     }
-    
+
     static scaling(sx, sy, sz, dst) {
         dst = dst || new Float32Array(16);
         
@@ -429,14 +406,26 @@ class M4 {
         return dst;
     }
 
-    static transformVector(m, v, dst) {
-        dst = dst || new Float32Array(4);
-        for (let i = 0; i < 4; ++i) {
-            dst[i] = 0.0;
-            for (let j = 0; j < 4; ++j) {
-                dst[i] += v[j] * m[j * 4 + i];
-            }
-        }
+    static translation(tx, ty, tz, dst) {
+        dst = dst || new Float32Array(16);
+        
+        dst[ 0] = 1;
+        dst[ 1] = 0;
+        dst[ 2] = 0;
+        dst[ 3] = 0;
+        dst[ 4] = 0;
+        dst[ 5] = 1;
+        dst[ 6] = 0;
+        dst[ 7] = 0;
+        dst[ 8] = 0;
+        dst[ 9] = 0;
+        dst[10] = 1;
+        dst[11] = 0;
+        dst[12] = tx;
+        dst[13] = ty;
+        dst[14] = tz;
+        dst[15] = 1;
+        
         return dst;
     }
     
@@ -480,6 +469,17 @@ class M4 {
         dst[14] = m02 * tx + m12 * ty + m22 * tz + m32;
         dst[15] = m03 * tx + m13 * ty + m23 * tz + m33;
         
+        return dst;
+    }
+
+    static transformVector(m, v, dst) {
+        dst = dst || new Float32Array(4);
+        for (let i = 0; i < 4; ++i) {
+            dst[i] = 0.0;
+            for (let j = 0; j < 4; ++j) {
+                dst[i] += v[j] * m[j * 4 + i];
+            }
+        }
         return dst;
     }
 }

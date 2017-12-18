@@ -4,7 +4,7 @@
   "literals":      true,
   "color":         true,
   "minInstances":  2,
-  "ignore":        "spec|generators|animator|m4",
+  "ignore":        "spec|generators|animator|m4|earcut",
   "reporter":      "default",
   "truncate":      100
 }

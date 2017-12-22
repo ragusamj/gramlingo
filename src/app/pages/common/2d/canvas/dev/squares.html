@@ -7,6 +7,7 @@
             body {
                 background-color: #222;
                 font-family: sans-serif;
+                color: #fff;
                 text-align: center;
             }
             .canvas-container {
@@ -31,60 +32,69 @@
                 width: 1px;
                 height: 363.5px;
             }
-            #degree-slider {
-                width: 50%;
-                margin-top: 2rem;
-            }
-            #degree-display {
-                color: #fff;
+            .degree-slider {
+                margin-top: 1.5rem;
             }
         </style>
     </head>
 <body>
 
-    <script id="vertex-shader" type="notjs">  
-  
-        attribute vec4 a_position;
-        uniform mat4 u_model;
-
-        void main() {
-            gl_Position = u_model * a_position;
-        }
-
-    </script>
-    
-    <script id="fragment-shader" type="notjs">
-    
-        precision mediump float;
-        uniform vec4 u_color;
-
-        void main() {
-            gl_FragColor = u_color;
-        }
-
-    </script>
-
     <div class="canvas-container">
-
         <div class="grid-line horizontal" style="top: 181.75px;"></div>
-
         <div class="grid-line vertical" style="left: 179.5px;"></div>
         <div class="grid-line vertical" style="left: 359px;"></div>
         <div class="grid-line vertical" style="left: 538.5px;"></div>
-
         <canvas width="1600" height="810"></canvas>
-        <input id="degree-slider" type="range" min="0" max="360" value="0">
-        <div id="degree-display">0</div>
-
-        <script src="./m4.js"></script>
     </div>
+
+    <div>
+        X <input id="x-degree-slider" class="degree-slider" type="range" min="0" max="360" value="0">
+        <div>
+            <span id="x-degree-display">0</span>
+        </div>
+        Y <input id="y-degree-slider" class="degree-slider" type="range" min="0" max="360" value="0">
+        <div>
+            <span id="y-degree-display">0</span>
+        </div>
+        Z <input id="z-degree-slider" class="degree-slider" type="range" min="0" max="360" value="0">
+        <div>
+            <span id="z-degree-display">0</span>
+        </div>
+    </div>
+
+    <script id="vertex-shader" type="notjs">  
+  
+            attribute vec4 a_position;
+            uniform mat4 u_model;
+    
+            void main() {
+                gl_Position = u_model * a_position;
+            }
+    
+        </script>
+        
+        <script id="fragment-shader" type="notjs">
+        
+            precision mediump float;
+            uniform vec4 u_color;
+    
+            void main() {
+                gl_FragColor = u_color;
+            }
+    
+        </script>
+
     <script>
 
-        var pointSize = 2;
+        var xDegreeSlider = document.querySelector("#x-degree-slider");
+        var xDegreeDisplay = document.querySelector("#x-degree-display");
+        var yDegreeSlider = document.querySelector("#y-degree-slider");
+        var yDegreeDisplay = document.querySelector("#y-degree-display");
+        var zDegreeSlider = document.querySelector("#z-degree-slider");
+        var zDegreeDisplay = document.querySelector("#z-degree-display");
 
+        var pointSize = 2;
         var canvas = document.querySelector("canvas");
-        var degreeSlider = document.querySelector("#degree-slider");
-        var degreeDisplay = document.querySelector("#degree-display");
         var gl = canvas.getContext("webgl");
         var vertexShader = createShader(gl.VERTEX_SHADER, document.getElementById("vertex-shader").text);
         var fragmentShader = createShader(gl.FRAGMENT_SHADER, document.getElementById("fragment-shader").text);
@@ -95,15 +105,28 @@
         var colorLocation = gl.getUniformLocation(program, "u_color");
 
         var scale = 1;
-        var rotation = 0;
+        var oldScale = new M4();
+
+        var xRotation = 0;
+        var oldXRotation = new M4();
+
+        var yRotation = 0;
+        var oldYRotation = new M4();
+
+        var zRotation = 0;
+        var oldZRotation = new M4();
+
         var min = 0.5;
         var max = 5;
         var tx = gl.canvas.width / 2;
         var ty = gl.canvas.height / 2;
         var mouse = [tx, ty];
         var model = new M4();
-        var oldRotation = new M4();
-        var oldScale = new M4();
+
+        // Color scheme by Alexander, 3
+        var red = [1, 0, 0.7, 1];
+        var blue = [0, 0.5, 1, 1];
+        var green = [0.4, 1, 0, 1];
 
         var geometries = new Float32Array([
             300, 305,
@@ -144,10 +167,28 @@
             });
         });
 
-        degreeSlider.addEventListener("input", function(e) {
-            rotation = e.target.valueAsNumber;
-            degreeDisplay.innerHTML = rotation;
-            draw();
+        xDegreeSlider.addEventListener("input", function(e) {
+            requestAnimationFrame(function() {
+                xRotation = e.target.valueAsNumber;
+                xDegreeDisplay.innerHTML = xRotation;
+                draw();
+            });
+        });
+
+        yDegreeSlider.addEventListener("input", function(e) {
+            requestAnimationFrame(function() {
+                yRotation = e.target.valueAsNumber;
+                yDegreeDisplay.innerHTML = yRotation;
+                draw();
+            });
+        });
+
+        zDegreeSlider.addEventListener("input", function(e) {
+            requestAnimationFrame(function() {
+                zRotation = e.target.valueAsNumber;
+                zDegreeDisplay.innerHTML = zRotation;
+                draw();
+            });
         });
 
         onResize();
@@ -171,33 +212,47 @@
 
         function draw() {
 
-            var projection = new M4().orthographic(0, gl.canvas.width, gl.canvas.height, 0, -1, 1);
-            var newRotation = new M4().zRotate(rotation);
+            var projection = new M4().orthographic(0, gl.canvas.width, gl.canvas.height, 0, gl.canvas.height * -4, gl.canvas.height * 4);
+
+            var newXRotation = new M4().xRotate(xRotation);
+            var newYRotation = new M4().yRotate(yRotation);
+            var newZRotation = new M4().zRotate(zRotation);
             var newScale = new M4().scale(scale, scale, 1);
             
             model = new M4()
                 .translate(tx, ty, 0)
+
                 .multiply(newScale)
                 .multiply(oldScale.inverse())
-                .multiply(newRotation)
-                .multiply(oldRotation.inverse())
+
+                .multiply(newXRotation)
+                .multiply(oldXRotation.inverse())
+
+                .multiply(newYRotation)
+                .multiply(oldYRotation.inverse())
+
+                .multiply(newZRotation)
+                .multiply(oldZRotation.inverse())
+
                 .translate(-tx, -ty, 0)
                 .multiply(model);
 
-            oldRotation = newRotation;
+            oldXRotation = newXRotation;
+            oldYRotation = newYRotation;
+            oldZRotation = newZRotation;
             oldScale = newScale;
     
             gl.uniformMatrix4fv(modelLocation, false, projection.multiply(model).matrix);
 
             gl.clear(gl.COLOR_BUFFER_BIT);
 
-            gl.uniform4fv(colorLocation, [0, 0.5, 1, 1]);
+            gl.uniform4fv(colorLocation, red);
             gl.drawArrays(gl.TRIANGLES, 0, 6);
 
-            gl.uniform4fv(colorLocation, [0.4, 1, 0, 1]);
+            gl.uniform4fv(colorLocation, green);
             gl.drawArrays(gl.TRIANGLES, 6, 6);
 
-            gl.uniform4fv(colorLocation, [1, 0, 0.7, 1]);
+            gl.uniform4fv(colorLocation, blue);
             gl.drawArrays(gl.TRIANGLES, 12, 6);
         }
 
@@ -475,6 +530,60 @@
                 return this;
             }
 
+            function xRotate(angle) {
+
+                angle *=  Math.PI / 180
+
+                var m10 = matrix[4];
+                var m11 = matrix[5];
+                var m12 = matrix[6];
+                var m13 = matrix[7];
+                var m20 = matrix[8];
+                var m21 = matrix[9];
+                var m22 = matrix[10];
+                var m23 = matrix[11];
+                var c = Math.cos(angle);
+                var s = Math.sin(angle);
+
+                matrix[4]  = c * m10 + s * m20;
+                matrix[5]  = c * m11 + s * m21;
+                matrix[6]  = c * m12 + s * m22;
+                matrix[7]  = c * m13 + s * m23;
+                matrix[8]  = c * m20 - s * m10;
+                matrix[9]  = c * m21 - s * m11;
+                matrix[10] = c * m22 - s * m12;
+                matrix[11] = c * m23 - s * m13;
+
+                return this;
+            }
+
+            function yRotate(angle) {
+
+                angle *=  Math.PI / 180
+
+                var m00 = matrix[0 * 4 + 0];
+                var m01 = matrix[0 * 4 + 1];
+                var m02 = matrix[0 * 4 + 2];
+                var m03 = matrix[0 * 4 + 3];
+                var m20 = matrix[2 * 4 + 0];
+                var m21 = matrix[2 * 4 + 1];
+                var m22 = matrix[2 * 4 + 2];
+                var m23 = matrix[2 * 4 + 3];
+                var c = Math.cos(angle);
+                var s = Math.sin(angle);
+
+                matrix[ 0] = c * m00 - s * m20;
+                matrix[ 1] = c * m01 - s * m21;
+                matrix[ 2] = c * m02 - s * m22;
+                matrix[ 3] = c * m03 - s * m23;
+                matrix[ 8] = c * m20 + s * m00;
+                matrix[ 9] = c * m21 + s * m01;
+                matrix[10] = c * m22 + s * m02;
+                matrix[11] = c * m23 + s * m03;
+
+                return this;
+            }
+
             function zRotate(angle) {
 
                 angle *=  Math.PI / 180
@@ -510,6 +619,8 @@
                 inverse: inverse,
                 translate: translate,
                 scale: scale,
+                xRotate: xRotate,
+                yRotate: yRotate,
                 zRotate: zRotate
             };
         }

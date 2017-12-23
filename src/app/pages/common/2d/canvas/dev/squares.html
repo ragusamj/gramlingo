@@ -67,10 +67,10 @@
     <script id="vertex-shader" type="notjs">  
   
             attribute vec4 a_position;
-            uniform mat4 u_model;
+            uniform mat4 u_viewMatrix;
     
             void main() {
-                gl_Position = u_model * a_position;
+                gl_Position = u_viewMatrix * a_position;
             }
     
         </script>
@@ -103,27 +103,25 @@
         var program = createProgram(vertexShader, fragmentShader);
 
         var positionLocation = gl.getAttribLocation(program, "a_position");
-        var modelLocation = gl.getUniformLocation(program, "u_model");
+        var viewMatrixLocation = gl.getUniformLocation(program, "u_viewMatrix");
         var colorLocation = gl.getUniformLocation(program, "u_color");
-
-        var scale = 1;
-        var oldScale = new M4();
+        
+        var xRotationMatrix = new M4();
+        var yRotationMatrix = new M4();
+        var zRotationMatrix = new M4();
+        var scaleMatrix = new M4();
 
         var xRotation = 0;
-        var oldXRotation = new M4();
-
         var yRotation = 0;
-        var oldYRotation = new M4();
-
         var zRotation = 0;
-        var oldZRotation = new M4();
+        var scale = 1;
 
         var min = 0.5;
         var max = 5;
         var tx = gl.canvas.width / 2;
         var ty = gl.canvas.height / 2;
         var mouse = [tx, ty];
-        var model = new M4();
+        var viewMatrix = new M4();
 
         // Color scheme by Alexander, 3
         var red = [1, 0, 0.7, 1];
@@ -171,8 +169,8 @@
 
         canvas.addEventListener("click", function(e) {
             toCanvasVector(e.clientX, e.clientY, mouse);
-            var originLocation = transformVector(model.inverse().matrix, mouse);
-            model.inverse();
+            var originLocation = transformVector(viewMatrix.inverse().matrix, mouse);
+            viewMatrix.inverse();
             console.log(originLocation);
         });
 
@@ -232,37 +230,27 @@
 
         function draw() {
 
-            var projection = new M4().orthographic(0, gl.canvas.width, gl.canvas.height, 0, gl.canvas.height * -4, gl.canvas.height * 4);
+            var projectionMatrix = new M4().orthographic(0, gl.canvas.width, gl.canvas.height, 0, gl.canvas.height * -4, gl.canvas.height * 4);
 
-            var newXRotation = new M4().xRotate(xRotation);
-            var newYRotation = new M4().yRotate(yRotation);
-            var newZRotation = new M4().zRotate(zRotation);
-            var newScale = new M4().scale(scale, scale, 1);
-            
-            model = new M4()
+            viewMatrix = new M4()
                 .translate(tx, ty, 0)
 
-                .multiply(newXRotation)
-                .multiply(oldXRotation.inverse())
+                .multiply(xRotationMatrix.inverse())
+                .multiply(xRotationMatrix.identity().xRotate(xRotation))
 
-                .multiply(newYRotation)
-                .multiply(oldYRotation.inverse())
+                .multiply(yRotationMatrix.inverse())
+                .multiply(yRotationMatrix.identity().yRotate(yRotation))
 
-                .multiply(newZRotation)
-                .multiply(oldZRotation.inverse())
+                .multiply(zRotationMatrix.inverse())
+                .multiply(zRotationMatrix.identity().zRotate(zRotation))
 
-                .multiply(newScale)
-                .multiply(oldScale.inverse())
+                .multiply(scaleMatrix.inverse())
+                .multiply(scaleMatrix.identity().scale(scale, scale, 1))
 
                 .translate(-tx, -ty, 0)
-                .multiply(model);
-
-            oldXRotation = newXRotation;
-            oldYRotation = newYRotation;
-            oldZRotation = newZRotation;
-            oldScale = newScale;
+                .multiply(viewMatrix);
     
-            gl.uniformMatrix4fv(modelLocation, false, projection.multiply(model).matrix);
+            gl.uniformMatrix4fv(viewMatrixLocation, false, projectionMatrix.multiply(viewMatrix).matrix);
 
             gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -552,10 +540,9 @@
                 return this;
             }
 
-            function xRotate(angle) {
+            function xRotate(degrees) {
 
-                angle *=  Math.PI / 180
-
+                var angle = degreesToRadians(degrees);
                 var m10 = matrix[4];
                 var m11 = matrix[5];
                 var m12 = matrix[6];
@@ -579,10 +566,9 @@
                 return this;
             }
 
-            function yRotate(angle) {
+            function yRotate(degrees) {
 
-                angle *=  Math.PI / 180
-
+                var angle = degreesToRadians(degrees);
                 var m00 = matrix[0 * 4 + 0];
                 var m01 = matrix[0 * 4 + 1];
                 var m02 = matrix[0 * 4 + 2];
@@ -606,10 +592,9 @@
                 return this;
             }
 
-            function zRotate(angle) {
+            function zRotate(degrees) {
 
-                angle *=  Math.PI / 180
-
+                var angle = degreesToRadians(degrees);
                 var m00 = matrix[0 * 4 + 0];
                 var m01 = matrix[0 * 4 + 1];
                 var m02 = matrix[0 * 4 + 2];
@@ -631,6 +616,10 @@
                 matrix[ 7] = c * m13 - s * m03;
 
                 return this;
+            }
+
+            function degreesToRadians(degrees) {
+                return degrees * Math.PI / 180;
             }
 
             return {

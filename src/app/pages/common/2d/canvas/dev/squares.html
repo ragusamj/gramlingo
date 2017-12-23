@@ -6,7 +6,7 @@
         <style>
             body {
                 background-color: #222;
-                font-family: sans-serif;
+                font-family: Arial, Helvetica, sans-serif;
                 color: #fff;
                 text-align: center;
             }
@@ -24,16 +24,22 @@
             }
             .grid-line.horizontal {
                 left: 0;
-                width: 718px;
+                width: 100%;
                 height: 1px;
             }
             .grid-line.vertical {
                 top: 0;
                 width: 1px;
-                height: 363.5px;
+                height: 100%;
             }
             .degree-slider {
                 margin-top: 1.5rem;
+            }
+            .display {
+                position: absolute;
+                bottom: 0.5rem;
+                right: 0.5rem;
+                text-align: right;
             }
         </style>
     </head>
@@ -42,25 +48,32 @@
     <h1>Flying sticky notes</h1>
 
     <div class="canvas-container">
-        <div class="grid-line horizontal" style="top: 181.75px;"></div>
-        <div class="grid-line vertical" style="left: 179.5px;"></div>
-        <div class="grid-line vertical" style="left: 359px;"></div>
-        <div class="grid-line vertical" style="left: 538.5px;"></div>
+        <div class="display">
+            <div>
+                <span id="x-degree-display">0</span>&deg; X
+            </div>
+            <div>
+                <span id="y-degree-display">0</span>&deg; Y
+            </div>
+            <div>
+                <span id="z-degree-display">0</span>&deg; Z
+            </div>
+            <div>
+                <span id="scale-display">1.00</span> S
+            </div>
+        </div>
+        <div class="grid-line horizontal" style="top: 50%"></div>
+        <div class="grid-line vertical" style="left: 25%;"></div>
+        <div class="grid-line vertical" style="left: 50%;"></div>
+        <div class="grid-line vertical" style="left: 75%;"></div>
         <canvas width="1600" height="810"></canvas>
     </div>
 
     <div>
-        X <input id="x-degree-slider" class="degree-slider" type="range" min="0" max="360" value="0">
         <div>
-            <span id="x-degree-display">0</span>
-        </div>
-        Y <input id="y-degree-slider" class="degree-slider" type="range" min="0" max="360" value="0">
-        <div>
-            <span id="y-degree-display">0</span>
-        </div>
-        Z <input id="z-degree-slider" class="degree-slider" type="range" min="0" max="360" value="0">
-        <div>
-            <span id="z-degree-display">0</span>
+            X <input id="x-degree-slider" class="degree-slider" type="range" min="0" max="360" value="0">
+            Y <input id="y-degree-slider" class="degree-slider" type="range" min="0" max="360" value="0">
+            Z <input id="z-degree-slider" class="degree-slider" type="range" min="0" max="360" value="0">
         </div>
     </div>
 
@@ -88,6 +101,7 @@
 
     <script>
 
+        var scaleDisplay = document.querySelector("#scale-display");
         var xDegreeSlider = document.querySelector("#x-degree-slider");
         var xDegreeDisplay = document.querySelector("#x-degree-display");
         var yDegreeSlider = document.querySelector("#y-degree-slider");
@@ -213,6 +227,7 @@
 
         function zoom(delta) {
             scale = Math.max(min, Math.min(max, scale * Math.pow(2, delta)));
+            scaleDisplay.innerHTML = scale.toFixed(2);
             draw();
         }
 

@@ -167,6 +167,24 @@
             });
         });
 
+        canvas.addEventListener("click", function(e) {
+            toCanvasVector(e.clientX, e.clientY, mouse);
+            var originLocation = transformVector(model.inverse().matrix, mouse);
+            model.inverse();
+            console.log(originLocation);
+        });
+
+        function transformVector(m, v) {
+            var dst = new Float32Array(4);
+            for (var i = 0; i < 4; ++i) {
+                dst[i] = 0.0;
+                for (var j = 0; j < 4; ++j) {
+                    dst[i] += v[j] * m[j * 4 + i];
+                }
+            }
+            return dst;
+        }
+
         xDegreeSlider.addEventListener("input", function(e) {
             requestAnimationFrame(function() {
                 xRotation = e.target.valueAsNumber;
@@ -222,9 +240,6 @@
             model = new M4()
                 .translate(tx, ty, 0)
 
-                .multiply(newScale)
-                .multiply(oldScale.inverse())
-
                 .multiply(newXRotation)
                 .multiply(oldXRotation.inverse())
 
@@ -233,6 +248,9 @@
 
                 .multiply(newZRotation)
                 .multiply(oldZRotation.inverse())
+
+                .multiply(newScale)
+                .multiply(oldScale.inverse())
 
                 .translate(-tx, -ty, 0)
                 .multiply(model);
@@ -289,6 +307,8 @@
             var scaleY = (gl.canvas.height / rect.height);
             v[0] = ((x - rect.left) * scaleX);
             v[1] = ((y - rect.top) * scaleY);
+            v[2] = 0;
+            v[3] = 1;
         }
 
         function M4() {

@@ -310,7 +310,7 @@
 
                 .multiply(viewMatrix);
     
-            projectionMatrix.orthographic(0, gl.canvas.width, gl.canvas.height, 0, -gl.canvas.height, gl.canvas.height);
+            projectionMatrix.orthographic(0, gl.canvas.width, gl.canvas.height, 0, gl.canvas.height * -2, gl.canvas.height * 2);
             gl.uniformMatrix4fv(viewMatrixLocation, false, projectionMatrix.multiply(viewMatrix).matrix);
 
             gl.clear(gl.COLOR_BUFFER_BIT);

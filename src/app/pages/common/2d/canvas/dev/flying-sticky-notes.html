@@ -149,11 +149,6 @@
 
         var min = 0.5;
         var max = 5;
-        var tx = gl.canvas.width / 2;
-        var ty = gl.canvas.height / 2;
-
-        var mouse = [tx, ty];
-        var mouseIsPressed = false;
 
         // Color scheme by Alexander, 3
         var red = [1, 0, 0.7, 1];
@@ -185,6 +180,12 @@
                 1100, 505,
             ])
         };
+
+        var tx;
+        var ty;
+
+        var mouse = [];
+        var mouseIsPressed = false;
 
         gl.useProgram(program);
         gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
@@ -276,9 +277,12 @@
             var height = (width * aspectRatio);
             gl.canvas.width = width;
             gl.canvas.height = height;
-            gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+            gl.viewport(0, 0, width, height);
 
             resizeScale = gl.canvas.width / geometries.bbox.width;
+
+            tx = width / 2;
+            ty = height / 2;
 
             document.querySelector("#height-display").innerHTML = height;
             document.querySelector("#width-display").innerHTML = width;

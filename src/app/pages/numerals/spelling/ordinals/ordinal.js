@@ -23,25 +23,25 @@ class Ordinal {
     static walk(number, units) {
         let numberString = number.toString();
         let unit = this.calculateStartingUnit(numberString);
-
         for (let i = 0; i < numberString.length - 1; i++) {
-
             let part = parseInt(numberString.substr(i, unit === 10 ? 2 : 1), 10);
-
-            if (unit === 10 && part > 0 && number < 10000) {
-                units.push(this.getTen(part));
-            }
-            else if (unit === 100 && part > 0) {
-                units.push(this.getHundred(part));
-            }
-            else if (unit === 1000 && number < 10000) {
-                units.push(this.getThousands(part));
-            }
-            else if (number === 10000 && i === 0) {
-                units.push([IntegerDictionary[10] + OrdinalDictionary[1000]]); // 'diezmilésimo' ...
-            }
-
+            this.getUnit(unit, part, number, i, units);
             unit = (unit === 10 ? 1000 : unit / 10);
+        }
+    }
+
+    static getUnit(unit, part, number, index, units) {
+        if (unit === 10 && part > 0 && number < 10000) {
+            units.push(this.getTen(part));
+        }
+        else if (unit === 100 && part > 0) {
+            units.push(this.getHundred(part));
+        }
+        else if (unit === 1000 && number < 10000) {
+            units.push(this.getThousands(part));
+        }
+        else if (number === 10000 && index === 0) {
+            units.push([IntegerDictionary[10] + OrdinalDictionary[1000]]); // 'diezmilésimo' ...
         }
     }
 

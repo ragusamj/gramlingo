@@ -69,7 +69,7 @@ class WorldPage {
 
     setFlagWidget() {
         let flag = document.getElementById("flag-widget-flag");
-        flag.src = "/images/flags/" + this.context.iso + ".png";
+        flag.src = "/images/flags/" + this.context.iso + ".svg";
     
         let iso = document.getElementById("flag-widget-iso");
         iso.innerHTML = this.context.iso;

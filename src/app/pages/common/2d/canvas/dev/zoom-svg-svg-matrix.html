@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zooming an SVG with matrix magic</title>
+</head>
+<body style="text-align: center;">
+    <svg width="600" height="600" style="background-color:#222;">
+        <g>
+            <circle cx="100" cy="300" r="50" style="fill: #FB00A3;"/>
+            <circle cx="300" cy="300" r="50" style="fill: #5BFF05;"/>
+            <circle cx="500" cy="300" r="50" style="fill: #0B66FF;"/>
+        </g>
+    </svg>
+    <script>
+        const svg = document.querySelector('svg');
+        const g = document.querySelector('svg g');
+        const minScale = 0.5;
+        const maxScale = 5;
+        let scale = 1;
+        let previousScale = 1;
+
+        let transform = svg.createSVGTransform();
+        g.transform.baseVal.initialize(transform);
+
+        svg.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            requestAnimationFrame(() => {
+                
+                const delta = -e.deltaY * (e.deltaMode ? 120 : 1) / 500;
+                scale = Math.max(minScale, Math.min(maxScale, scale * Math.pow(2, delta)));
+
+                const viewMatrix = svg.createSVGMatrix()
+                    .translate(e.offsetX, e.offsetY)
+                    .scale(scale)
+                    .scale(1 / previousScale)
+                    .translate(-e.offsetX, -e.offsetY)
+                    .multiply(g.getCTM());
+
+                transform.setMatrix(viewMatrix);
+
+                previousScale = scale;
+            });
+        });
+    </script>
+</body>
+</html>

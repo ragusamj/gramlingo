@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zooming a 2D Canvas with matrix magic</title>
+</head>
+<body style="text-align: center;">
+    <canvas width="600" height="600" style="background-color:#222;"></canvas>
+    <script>
+
+        const canvas = document.querySelector("canvas");
+        const context = canvas.getContext("2d");
+        const minScale = 0.5;
+        const maxScale = 5;
+        let scale = 1;
+        let previousScale = 1;
+        let viewMatrix = new DOMMatrix();
+
+        const draw = () => {
+
+            context.save();
+            context.setTransform(1, 0, 0, 1, 0, 0);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.restore();
+
+            context.fillStyle = "#FB00A3";
+            context.fillRect(50, 250, 100, 100);
+
+            context.fillStyle = "#5BFF05";
+            context.fillRect(250, 250, 100, 100);
+
+            context.fillStyle = "#0B66FF";
+            context.fillRect(450, 250, 100, 100);
+        }
+
+        canvas.addEventListener('wheel', (e) => {
+            e.preventDefault();
+
+            requestAnimationFrame(() => {
+                
+                const delta = -e.deltaY * (e.deltaMode ? 120 : 1) / 500;
+                scale = Math.max(minScale, Math.min(maxScale, scale * Math.pow(2, delta)));
+
+                viewMatrix = new DOMMatrix()
+                    .translateSelf(e.offsetX, e.offsetY)
+                    .scaleSelf(scale)
+                    .scaleSelf(1 / previousScale)
+                    .translateSelf(-e.offsetX, -e.offsetY)
+                    .multiplySelf(viewMatrix);
+
+                context.setTransform(viewMatrix.a, viewMatrix.b, viewMatrix.c, viewMatrix.d, viewMatrix.e, viewMatrix.f);
+
+                draw();
+
+                previousScale = scale;
+            });
+        });
+
+        draw();
+    </script>
+</body>
+</html>

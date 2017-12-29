@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zooming a webgl canvas with matrix magic</title>
+</head>
+<body style="text-align: center;">
+    <canvas width="600" height="600" style="background-color:#222;"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.4.0/gl-matrix-min.js"></script>
+    <script>
+
+        const vertexShaderSource = `
+attribute vec2 a_position;
+uniform mat3 u_matrix;
+        
+void main() {
+    gl_Position = vec4((u_matrix * vec3(a_position, 1)).xy, 0, 1);
+}
+        `;
+
+        const fragmentShaderSource = `
+precision mediump float;
+uniform vec4 u_color;
+
+void main() {
+    gl_FragColor = u_color;
+}
+        `;
+
+        const createShader = (type, source) => {
+            var shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+            var success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+            if (!success) {
+                gl.deleteShader(shader);
+                throw new Error(gl.getShaderInfoLog(shader));
+            }
+            return shader;
+        }
+
+        const createProgram = (vertexShader, fragmentShader) => {
+            var program = gl.createProgram();
+            gl.attachShader(program, vertexShader);
+            gl.attachShader(program, fragmentShader);
+            gl.linkProgram(program);
+            gl.getProgramParameter(program, gl.LINK_STATUS);
+            var success = gl.getProgramParameter(program, gl.LINK_STATUS);
+            if (!success) {
+                gl.deleteProgram(program);
+                throw new Error(gl.getProgramInfoLog(program));
+            }
+            return program;
+        }
+
+        const gl = document.querySelector("canvas").getContext("webgl");
+        const vertexShader = createShader(gl.VERTEX_SHADER, vertexShaderSource);
+        const fragmentShader = createShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
+        const program = createProgram(vertexShader, fragmentShader);
+
+        const positionLocation = gl.getAttribLocation(program, "a_position");
+        const matrixLocation = gl.getUniformLocation(program, "u_matrix");
+        const colorLocation = gl.getUniformLocation(program, "u_color");
+        
+        // Color scheme by Alexander, 3 :)
+        const red = [1, 0, 0.7, 1];
+        const blue = [0, 0.5, 1, 1];
+        const green = [0.4, 1, 0, 1];
+
+        const shapes = new Float32Array([
+            50, 350,
+            100, 250,
+            150, 350,
+
+            250, 350,
+            300, 250,
+            350, 350,
+
+            450, 350,
+            500, 250,
+            550, 350
+        ]);
+
+        const minScale = 0.5;
+        const maxScale = 5;
+
+        let scale = 1;
+        let previousScale = scale;
+
+        let projectionMatrix = mat3.create();
+        let viewMatrix = mat3.create();
+        let previousMatrix = mat3.create();
+
+        let tx = 0;
+        let ty = 0;
+
+        gl.useProgram(program);
+        gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+        gl.bufferData(gl.ARRAY_BUFFER, shapes, gl.STATIC_DRAW);
+        gl.enableVertexAttribArray(positionLocation);
+        gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+        gl.canvas.addEventListener("wheel", (e) => {
+            e.preventDefault();
+
+            const delta = -e.deltaY * (e.deltaMode ? 120 : 1) / 500;
+            scale = Math.max(minScale, Math.min(maxScale, scale * Math.pow(2, delta)));
+
+            tx = e.offsetX;
+            ty = e.offsetY;
+
+            render();
+        });
+
+        const render = () => {
+
+            mat3.identity(viewMatrix);
+            mat3.translate(viewMatrix, viewMatrix, [tx, ty]);
+            mat3.scale(viewMatrix, viewMatrix, [scale, scale]);
+            mat3.scale(viewMatrix, viewMatrix, [1 / previousScale, 1 / previousScale]);
+            mat3.translate(viewMatrix, viewMatrix, [-tx, -ty]);
+            mat3.multiply(viewMatrix, viewMatrix, previousMatrix);
+
+            mat3.copy(previousMatrix, viewMatrix);
+            previousScale = scale;
+
+            mat3.projection(projectionMatrix, gl.canvas.width, gl.canvas.height);
+            mat3.multiply(projectionMatrix, projectionMatrix, viewMatrix);
+
+            gl.uniformMatrix3fv(matrixLocation, false, projectionMatrix);
+
+            gl.clear(gl.COLOR_BUFFER_BIT);
+
+            gl.uniform4fv(colorLocation, red);
+            gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+            gl.uniform4fv(colorLocation, green);
+            gl.drawArrays(gl.TRIANGLES, 3, 3);
+
+            gl.uniform4fv(colorLocation, blue);
+            gl.drawArrays(gl.TRIANGLES, 6, 3);
+        }
+
+        render();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zooming and rotating an SVG with matrix magic</title>
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif; text-align: center;">
+    <svg width="600" height="600" style="background-color:#222;">
+        <g>
+            <circle cx="100" cy="300" r="50" style="fill: #FB00A3;"/>
+            <circle cx="300" cy="300" r="50" style="fill: #5BFF05;"/>
+            <circle cx="500" cy="300" r="50" style="fill: #0B66FF;"/>
+        </g>
+    </svg>
+    <div>
+       0&deg; <input id="slider" class="degree-slider" type="range" min="0" max="360" value="0"> 360&deg;
+    </div>
+    <script>
+        const svg = document.querySelector('svg');
+        const g = document.querySelector('svg g');
+        const slider = document.querySelector('input');
+        const minScale = 0.5;
+        const maxScale = 5;
+
+        let rotation = 0;
+        let previousRotation = rotation;
+
+        let scale = 1;
+        let previousScale = scale;
+
+        let tx = svg.width.baseVal.value / 2;
+        let ty = svg.height.baseVal.value / 2;
+
+        let transform = svg.createSVGTransform();
+        g.transform.baseVal.initialize(transform);
+
+        slider.addEventListener('input', (e) => {
+            rotation = e.target.valueAsNumber;
+            render();
+        });
+
+        svg.addEventListener('wheel', (e) => {
+
+            e.preventDefault();
+
+            const delta = -e.deltaY * (e.deltaMode ? 120 : 1) / 500;
+            scale = Math.max(minScale, Math.min(maxScale, scale * Math.pow(2, delta)));
+
+            tx = e.offsetX;
+            ty = e.offsetY;
+
+            render();
+        });
+
+        const render = () => {
+
+            requestAnimationFrame(() => {
+
+                const viewMatrix = svg.createSVGMatrix()
+                    .translate(tx, ty)
+                    .rotate(rotation)
+                    .rotate(-previousRotation)
+                    .scale(scale)
+                    .scale(1 / previousScale)
+                    .translate(-tx, -ty)
+                    .multiply(g.getCTM());
+
+                transform.setMatrix(viewMatrix);
+
+                previousRotation = rotation;
+                previousScale = scale;
+            });
+        }
+
+    </script>
+</body>
+</html>

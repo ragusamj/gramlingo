@@ -1,5 +1,6 @@
 import Buffer from "./buffer";
 import M4 from "./m4";
+//import { create, identity, multiply, ortho, rotate, translate } from "gl-matrix/src/gl-matrix/mat4";
 
 const mouseButtons = {
     main: 0
@@ -11,6 +12,8 @@ class Canvas {
         this.id = id;
         this.context = webglContext;
         this.selector = selector;
+
+        //console.log(create, identity, multiply, ortho, rotate, translate);
     }
 
     initialize(geometries) {

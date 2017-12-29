@@ -3,7 +3,7 @@ export default (callback, delay) => {
     return (...args) => {
         let later = () => {
             timeout = undefined;
-            callback.apply(this, args);
+            callback.apply(undefined, args);
         };
         clearTimeout(timeout);
         timeout = setTimeout(later, delay);

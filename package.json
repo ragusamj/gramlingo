@@ -50,7 +50,7 @@
     "concurrently": "^3.5.0",
     "core-js": "^2.5.1",
     "d3-geo-projection": "^2.3.1",
-    "eslint": "^4.4.0",
+    "eslint": "^4.14.0",
     "flag-icon-css": "git+https://github.com/lipis/flag-icon-css.git",
     "gl-matrix": "^2.4.0",
     "glob": "^7.1.1",

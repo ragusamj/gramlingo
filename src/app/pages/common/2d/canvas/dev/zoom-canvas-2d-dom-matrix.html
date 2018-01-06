@@ -15,12 +15,12 @@
         let previousScale = 1;
         let viewMatrix = new DOMMatrix();
 
-        const draw = () => {
+        const render = () => {
 
             context.save();
-            context.setTransform(1, 0, 0, 1, 0, 0);
+
             context.clearRect(0, 0, canvas.width, canvas.height);
-            context.restore();
+            context.setTransform(viewMatrix.a, viewMatrix.b, viewMatrix.c, viewMatrix.d, viewMatrix.e, viewMatrix.f);
 
             context.fillStyle = "#FB00A3";
             context.fillRect(50, 250, 100, 100);
@@ -30,6 +30,8 @@
 
             context.fillStyle = "#0B66FF";
             context.fillRect(450, 250, 100, 100);
+
+            context.restore();
         }
 
         canvas.addEventListener('wheel', (e) => {
@@ -47,15 +49,13 @@
                     .translateSelf(-e.offsetX, -e.offsetY)
                     .multiplySelf(viewMatrix);
 
-                context.setTransform(viewMatrix.a, viewMatrix.b, viewMatrix.c, viewMatrix.d, viewMatrix.e, viewMatrix.f);
-
-                draw();
-
                 previousScale = scale;
+
+                render();
             });
         });
 
-        draw();
+        render();
     </script>
 </body>
 </html>

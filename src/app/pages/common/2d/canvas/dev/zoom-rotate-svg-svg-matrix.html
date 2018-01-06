@@ -21,11 +21,8 @@
         const minScale = 0.5;
         const maxScale = 5;
 
-        let rotation = 0;
-        let previousRotation = rotation;
-
-        let scale = 1;
-        let previousScale = scale;
+        let current = { scale: 1, rotation: 0 };
+        let previous = current;
 
         let tx = svg.width.baseVal.value / 2;
         let ty = svg.height.baseVal.value / 2;
@@ -34,7 +31,7 @@
         g.transform.baseVal.initialize(transform);
 
         slider.addEventListener('input', (e) => {
-            rotation = e.target.valueAsNumber;
+            current.rotation = e.target.valueAsNumber;
             render();
         });
 
@@ -43,7 +40,7 @@
             e.preventDefault();
 
             const delta = -e.deltaY * (e.deltaMode ? 120 : 1) / 500;
-            scale = Math.max(minScale, Math.min(maxScale, scale * Math.pow(2, delta)));
+            current.scale = Math.max(minScale, Math.min(maxScale, current.scale * Math.pow(2, delta)));
 
             tx = e.offsetX;
             ty = e.offsetY;
@@ -57,17 +54,16 @@
 
                 const viewMatrix = svg.createSVGMatrix()
                     .translate(tx, ty)
-                    .rotate(rotation)
-                    .rotate(-previousRotation)
-                    .scale(scale)
-                    .scale(1 / previousScale)
+                    .rotate(current.rotation)
+                    .rotate(-previous.rotation)
+                    .scale(current.scale)
+                    .scale(1 / previous.scale)
                     .translate(-tx, -ty)
                     .multiply(g.getCTM());
 
                 transform.setMatrix(viewMatrix);
 
-                previousRotation = rotation;
-                previousScale = scale;
+                previous = Object.assign({}, current);
             });
         }
 

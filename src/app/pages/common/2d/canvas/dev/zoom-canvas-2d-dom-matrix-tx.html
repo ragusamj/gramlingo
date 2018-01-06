@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zooming a 2D Canvas with matrix magic</title>
+    <style>
+        .canvas-container {
+            display: inline-block;
+            position: relative;
+            margin-top: 2rem;
+            border: 1px solid #fff;
+            padding: 0;
+        }
+        .grid-line {
+            position: absolute;
+            background-color: #eee;
+            pointer-events: none;
+        }
+        .grid-line.horizontal {
+            left: 0;
+            width: 600px;
+            height: 1px;
+        }
+        .grid-line.vertical, .grid-line.offset-x, .grid-line.translation-x, .grid-line.center-x {
+            top: 0;
+            width: 1px;
+            height: 600px;
+        }
+        .grid-line.vertical:nth-child(even), .grid-line.horizontal:nth-child(even) {
+            background: #aaa;
+        }
+        .grid-line.grid-line.horizontal.center, .grid-line.grid-line.vertical.center {
+            background-color: #fa0;
+        }
+        .grid-line.offset-x {
+            background-color: #f00;
+        }
+        .grid-line.translation-x {
+            background-color: #0f0;
+        }
+        .grid-line.center-x {
+            background-color: #f0f;
+        }
+        .grid-line.offset-x, .grid-line.translation-x, .grid-line.center-x {
+            z-index: 1000;
+            width: 3px;
+        }
+    </style>
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif; text-align: center;">
+    <div class="canvas-container">
+        <div class="grid-line offset-x"></div>
+        <div class="grid-line translation-x"></div>
+        <div class="grid-line center-x"></div>
+        <canvas width="600" height="600" style="background-color:#222;"></canvas>
+    </div>
+    <div>
+        0&deg; <input id="slider" class="degree-slider" type="range" min="0" max="360" value="0"> 360&deg;
+    </div>
+    <script>
+
+        const canvas = document.querySelector('canvas');
+        const context = canvas.getContext('2d');
+        const gridLineOffsetX = document.querySelector('.grid-line.offset-x');
+        const gridLineTranslationX = document.querySelector('.grid-line.translation-x');
+        const gridLineCenterX = document.querySelector('.grid-line.center-x');
+        const slider = document.querySelector('input');
+        const minScale = 0.5;
+        const maxScale = 5;
+        let scale = 1;
+        let rotation = 0;
+        let tx = canvas.width / 2;
+        let ty = canvas.height / 2;
+        
+        let ox = 0;
+        let oy = 0;
+
+        let viewMatrix = new DOMMatrix();
+
+        const addGridLines = (lines, direction, size, origin) => {
+            const container = document.querySelector('.canvas-container');
+            for(let i = 0; i < lines; i++) {
+                let gridline = document.createElement('div');
+                gridline.classList.add('grid-line');
+                gridline.classList.add(direction);
+                if(i === lines / 2) {
+                    gridline.classList.add('center');
+                }
+                gridline.style[origin] = (size / lines * i) + 'px';
+                container.appendChild(gridline);
+            }
+        }
+
+        addGridLines(16, 'horizontal', canvas.height, 'top');
+        addGridLines(16, 'vertical', canvas.width, 'left');
+
+        const render = () => {
+
+            viewMatrix = new DOMMatrix()
+                
+                .translateSelf(tx, ty)
+                .rotateSelf(rotation)
+                .scaleSelf(scale)
+                .translateSelf(ox, oy)
+                .translateSelf(-tx, -ty);
+
+            context.save();
+
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.setTransform(viewMatrix.a, viewMatrix.b, viewMatrix.c, viewMatrix.d, viewMatrix.e, viewMatrix.f);
+
+            context.fillStyle = '#6699ff';
+            context.fillRect(200, 275, 50, 50);
+
+            context.fillStyle = '#6699ff';
+            context.fillRect(275, 275, 50, 50);
+
+            context.fillStyle = '#6699ff';
+            context.fillRect(350, 275, 50, 50);
+
+            context.restore();
+
+            gridLineOffsetX.style.left = (ox - 1.5) + 'px';
+            gridLineTranslationX.style.left = (viewMatrix.e - 1.5) + 'px';
+            gridLineCenterX.style.left = (tx - 1.5) + 'px';
+            console.log(scale, ox, "tx", tx, viewMatrix.e);
+        }
+
+        canvas.addEventListener('click', (e) => {
+            e.preventDefault();
+            requestAnimationFrame(() => {
+
+                scale = Math.max(minScale, Math.min(maxScale, scale + 0.25));
+
+                //tx = e.offsetX;
+
+                console.log(e.offsetX);
+
+                if(scale === 1.25) {
+                    tx = 225;
+                    ox = 0;
+                }
+
+                if(scale === 1.75) {
+                    tx = 300;
+                    ox = 25;
+                }
+
+                if(scale === 2.25) {
+                    tx = 150;
+                    ox = -50;
+                }
+
+                if(scale === 3.25) {
+                    tx = 375;
+                    ox = 100;
+                }
+
+                render();
+            });
+        });
+
+        slider.addEventListener('input', (e) => {
+            rotation = e.target.valueAsNumber;
+            render();
+        });
+
+        canvas.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            requestAnimationFrame(() => {
+                const delta = -e.deltaY * (e.deltaMode ? 120 : 1) / 500;
+                scale = Math.max(minScale, Math.min(maxScale, scale * Math.pow(2, delta)));
+                tx = e.offsetX;
+                ty = e.offsetY;
+                offsetX = tx;
+                render();
+            });
+        });
+
+        render();
+
+
+    </script>
+</body>
+</html>

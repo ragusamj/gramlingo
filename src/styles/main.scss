@@ -211,6 +211,8 @@ input[type="number"] {
         display: inline-block;
         padding: 0.5rem;
         #flag-widget-flag {
+            pointer-events: auto;
+            cursor: zoom-in;
             width: 50px;
         }
     }

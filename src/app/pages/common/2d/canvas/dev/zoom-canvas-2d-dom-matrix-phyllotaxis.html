@@ -1,48 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Zooming a 2D Canvas with matrix magic</title>
+    <title>Phyllotaxis: Zooming a 2D Canvas with matrix magic</title>
 </head>
-<body style="font-family: Arial, Helvetica, sans-serif; text-align: center;">
-    <canvas width="600" height="600" style="background-color:#222;"></canvas>
-    <div>
-        0&deg; <input id="slider" class="degree-slider" type="range" min="0" max="360" value="0"> 360&deg;
-    </div>
+<body style="text-align: center;">
+    <canvas width="600" height="600"></canvas>
     <script>
 
         const canvas = document.querySelector('canvas');
         const context = canvas.getContext('2d');
-        const slider = document.querySelector('input');
-        const colors = ['#FB00A3', '#5BFF05', '#0B66FF'];
         const radius = 2.5;
         const minScale = 1/2;
         const maxScale = 4;
 
-        let current = { scale: 1, rotation: 0 };
+        let current = { scale: 1, tx: 0, ty: 0, dx: 0, dy: 0 };
         let previous = current;
-
-        let tx = canvas.width / 2;
-        let ty = canvas.height / 2;
-
         let viewMatrix = new DOMMatrix();
-
-        canvas.addEventListener('click', (e) => {
-            requestAnimationFrame(() => {
-                current.scale += 0.5
-                current.scale = Math.max(minScale, Math.min(maxScale, current.scale));
-                render();
-            });
-        });
 
         const render = () => {
 
             viewMatrix = new DOMMatrix()
-                .translateSelf(tx, ty)
-                .rotateSelf(current.rotation)
-                .rotateSelf(-previous.rotation)
+                .translateSelf(current.tx, current.ty)
                 .scaleSelf(current.scale)
                 .scaleSelf(1 / previous.scale)
-                .translateSelf(-tx, -ty)
+                .translateSelf(current.dx, current.dy)
+                .translateSelf(-previous.dx, -previous.dy)
+                .translateSelf(-current.tx, -current.ty)
                 .multiplySelf(viewMatrix);
 
             previous = Object.assign({}, current);
@@ -50,21 +33,20 @@
             context.save();
             context.clearRect(0, 0, canvas.width, canvas.height);
             context.setTransform(viewMatrix.a, viewMatrix.b, viewMatrix.c, viewMatrix.d, viewMatrix.e, viewMatrix.f);
+            context.beginPath();
             points.forEach(drawPoint);
+            context.fill();
             context.restore();
         }
 
         const drawPoint = (point, index) => {
-            context.beginPath();
             context.moveTo(point[0] + radius, point[1]);
             context.arc(point[0], point[1], radius, 0, 2 * Math.PI);
-            context.fillStyle = colors[index%3];
-            context.fill();
         }
 
-        const phyllotaxis = (radius) => {
+        const phyllotaxis = radius => {
             const theta = Math.PI * (3 - Math.sqrt(5));
-            return function(i) {
+            return i => {
                 const r = radius * Math.sqrt(i), a = theta * i;
                 return [
                     canvas.width / 2 + r * Math.cos(a),
@@ -78,20 +60,44 @@
             .map((v, i) => { return i + 1; })
             .map(phyllotaxis(10));
 
-        slider.addEventListener('input', (e) => {
-            current.rotation = e.target.valueAsNumber;
-            render();
-        });
-
-        canvas.addEventListener('wheel', (e) => {
+        const noevent = e => {
             e.preventDefault();
+            e.stopImmediatePropagation();
+        }
+
+        canvas.addEventListener('wheel', e => {
+            noevent(e);
             requestAnimationFrame(() => {
                 const delta = -e.deltaY * (e.deltaMode ? 120 : 1) / 500;
                 current.scale = Math.max(minScale, Math.min(maxScale, current.scale * Math.pow(2, delta)));
-                tx = e.offsetX;
-                ty = e.offsetY;
+                current.tx = e.offsetX;
+                current.ty = e.offsetY;
                 render();
             });
+        });
+
+        canvas.addEventListener('mousedown', e => {
+            if(e.button !== 0) { return; }
+            noevent(e);
+
+            const dx = e.offsetX - current.dx;
+            const dy = e.offsetY - current.dy;
+
+            const mousemove = e => {
+                noevent(e);
+                current.dx = e.offsetX - dx;
+                current.dy = e.offsetY - dy;
+                render();
+            }
+
+            const mouseup = e => {
+                noevent(e);
+                canvas.removeEventListener('mousemove', mousemove);
+                canvas.removeEventListener('mouseup', mouseup);
+            }
+
+            canvas.addEventListener('mousemove', mousemove);
+            canvas.addEventListener('mouseup', mouseup);
         });
 
         render();

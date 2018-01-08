@@ -141,6 +141,8 @@
 
         var translation = vec3.create();
         var negativeTranslation = vec3.create();
+        var drag = vec3.create();
+        var previousDrag = vec3.create();
 
         var xRotation = 0;
         var previousXRotation = xRotation;
@@ -199,7 +201,7 @@
             requestAnimationFrame(function() {
                 xRotation = e.target.valueAsNumber;
                 xDegreeDisplay.innerHTML = xRotation;
-                draw();
+                render();
             });
         });
 
@@ -207,7 +209,7 @@
             requestAnimationFrame(function() {
                 yRotation = e.target.valueAsNumber;
                 yDegreeDisplay.innerHTML = yRotation;
-                draw();
+                render();
             });
         });
 
@@ -215,18 +217,50 @@
             requestAnimationFrame(function() {
                 zRotation = e.target.valueAsNumber;
                 zDegreeDisplay.innerHTML = zRotation;
-                draw();
+                render();
             });
         });
 
+        function noevent(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+        }
+
         canvas.addEventListener("mousedown", function(e) {
+            if(e.button !== 0) {
+                return;
+            }
+            canvas.addEventListener("mousemove", mousemove);
+            canvas.addEventListener("mouseup", mouseup);
+            canvas.addEventListener("dragstart", noevent);
+            noevent(e);
+
+            var mouse = mousePoint(e, vec2.create());
+            mouse[0] -= drag[0];
+            mouse[1] -= drag[1];
+
+            function mousemove(e) {
+                noevent(e);
+                requestAnimationFrame(function() {
+                    var delta = mousePoint(e, vec2.create());
+                    drag[0] = delta[0] - mouse[0];
+                    drag[1] = delta[1] - mouse[1];
+                    render();
+                });
+            }
+
+            function mouseup(e) {
+                canvas.removeEventListener("mousemove", mousemove);
+                canvas.removeEventListener("mouseup", mouseup);
+                canvas.removeEventListener("dragstart", noevent);
+                noevent(e);
+            }
         });
 
-        canvas.addEventListener("mousemove", function(e) {
-        });
-
-        canvas.addEventListener("mouseup", function(e) {
-            var mouse = [];
+        canvas.addEventListener("click", function(e) {
+            var mouse = vec4.create();
+            mouse[2] = 0;
+            mouse[3] = 1;
             mousePoint(e, mouse);
             vec4.transformMat4(mouse, mouse, mat4.invert([], viewMatrix));
             console.log(mouse);
@@ -247,7 +281,7 @@
         function zoom(delta) {
             scale[0] = scale[1] = Math.max(minScale, Math.min(maxScale, scale[0] * Math.pow(2, delta)));
             scaleDisplay.innerHTML = scale[0].toFixed(2);
-            draw();
+            render();
         }
 
         function resize() {
@@ -264,11 +298,10 @@
             document.querySelector("#height-display").innerHTML = height;
             document.querySelector("#width-display").innerHTML = width;
 
-            draw();
+            render();
         }
 
-        function draw() {
-
+        function calculateMatrix() {
             mat4.identity(viewMatrix);
             mat4.translate(viewMatrix, viewMatrix, translation);
 
@@ -284,22 +317,37 @@
             mat4.scale(viewMatrix, viewMatrix, scale);
             mat4.scale(viewMatrix, viewMatrix, previousScale);
 
+            mat4.translate(viewMatrix, viewMatrix, drag);
+            mat4.translate(viewMatrix, viewMatrix, previousDrag);
+
             mat4.translate(viewMatrix, viewMatrix, vec3.negate(negativeTranslation, translation));
 
             mat4.scale(viewMatrix, viewMatrix, resizeScale);
             mat4.scale(viewMatrix, viewMatrix, previousResizeScale);
 
             mat4.multiply(viewMatrix, viewMatrix, previousMatrix);
+        }
 
+        function save() {
             mat4.copy(previousMatrix, viewMatrix);
             vec3.inverse(previousScale, scale);
             vec3.inverse(previousResizeScale, resizeScale);
+            vec2.negate(previousDrag, drag);
             previousXRotation = xRotation;
             previousYRotation = yRotation;
             previousZRotation = zRotation;
-    
+        }
+
+        function project() {
             mat4.ortho(projectionMatrix, 0, gl.canvas.width, gl.canvas.height, 0, gl.canvas.height * -2, gl.canvas.height * 2);
             mat4.multiply(projectionMatrix, projectionMatrix, viewMatrix);
+        }
+
+        function render() {
+    
+            calculateMatrix();
+            project();
+            save();
 
             gl.uniformMatrix4fv(viewMatrixLocation, false, projectionMatrix);
 
@@ -346,8 +394,7 @@
             var rect = gl.canvas.getBoundingClientRect();
             mouse[0] = (event.clientX - rect.left) * (gl.canvas.width / rect.width);
             mouse[1] = (event.clientY - rect.top) * (gl.canvas.height / rect.height);
-            mouse[2] = 0;
-            mouse[3] = 1;
+            return mouse;
         }
 
     </script>

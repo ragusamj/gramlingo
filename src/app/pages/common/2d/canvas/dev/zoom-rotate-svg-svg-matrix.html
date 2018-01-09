@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Zooming and rotating an SVG with matrix magic</title>
+    <title>SVG: zooming and rotating with matrix magic</title>
 </head>
 <body style="font-family: Arial, Helvetica, sans-serif; text-align: center;">
     <svg width="600" height="600" style="background-color:#222;">
@@ -21,11 +21,16 @@
         const minScale = 0.5;
         const maxScale = 5;
 
-        let current = { scale: 1, rotation: 0 };
-        let previous = current;
+        let current = {
+            scale: 1,
+            rotation: 0,
+            tx: svg.width.baseVal.value / 2,
+            ty: svg.height.baseVal.value / 2,
+            dx: 0,
+            dy: 0
+        };
 
-        let tx = svg.width.baseVal.value / 2;
-        let ty = svg.height.baseVal.value / 2;
+        let previous = current;
 
         let transform = svg.createSVGTransform();
         g.transform.baseVal.initialize(transform);
@@ -36,29 +41,58 @@
         });
 
         svg.addEventListener('wheel', (e) => {
-
             e.preventDefault();
 
             const delta = -e.deltaY * (e.deltaMode ? 120 : 1) / 500;
             current.scale = Math.max(minScale, Math.min(maxScale, current.scale * Math.pow(2, delta)));
-
-            tx = e.offsetX;
-            ty = e.offsetY;
+            current.tx = e.offsetX;
+            current.ty = e.offsetY;
 
             render();
         });
+
+        svg.addEventListener('mousedown', e => {
+            if(e.button !== 0) { return; }
+            noevent(e);
+
+            const dx = e.offsetX - current.dx;
+            const dy = e.offsetY - current.dy;
+
+            const mousemove = e => {
+                noevent(e);
+                current.dx = e.offsetX - dx;
+                current.dy = e.offsetY - dy;
+                render();
+            }
+
+            const mouseup = e => {
+                noevent(e);
+                svg.removeEventListener('mousemove', mousemove);
+                svg.removeEventListener('mouseup', mouseup);
+            }
+
+            svg.addEventListener('mousemove', mousemove);
+            svg.addEventListener('mouseup', mouseup);
+        });
+
+        const noevent = e => {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+        }
 
         const render = () => {
 
             requestAnimationFrame(() => {
 
                 const viewMatrix = svg.createSVGMatrix()
-                    .translate(tx, ty)
+                    .translate(current.tx, current.ty)
                     .rotate(current.rotation)
                     .rotate(-previous.rotation)
                     .scale(current.scale)
                     .scale(1 / previous.scale)
-                    .translate(-tx, -ty)
+                    .translate(current.dx, current.dy)
+                    .translate(-previous.dx, -previous.dy)
+                    .translate(-current.tx, -current.ty)
                     .multiply(g.getCTM());
 
                 transform.setMatrix(viewMatrix);

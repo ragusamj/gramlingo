@@ -154,8 +154,8 @@
         var scale = vec3.fromValues(1, 1, 1);
         var previousScale = vec3.clone(scale);
 
-        var resizeScale = vec3.fromValues(1, 1, 1);
-        var previousResizeScale = vec3.clone(resizeScale);
+        var viewScale = vec3.fromValues(1, 1, 1);
+        var previousViewScale = vec3.clone(viewScale);
 
         var minScale = 0.5;
         var maxScale = 5;
@@ -292,7 +292,7 @@
             gl.canvas.height = height;
             gl.viewport(0, 0, width, height);
 
-            resizeScale[0] = resizeScale[1] = gl.canvas.width / geometries.bbox.width;
+            viewScale[0] = viewScale[1] = gl.canvas.width / geometries.bbox.width;
             translation = vec3.fromValues(gl.canvas.width / 2, gl.canvas.height / 2, 0);
 
             document.querySelector("#height-display").innerHTML = height;
@@ -322,8 +322,8 @@
 
             mat4.translate(viewMatrix, viewMatrix, vec3.negate(negativeTranslation, translation));
 
-            mat4.scale(viewMatrix, viewMatrix, resizeScale);
-            mat4.scale(viewMatrix, viewMatrix, previousResizeScale);
+            mat4.scale(viewMatrix, viewMatrix, viewScale);
+            mat4.scale(viewMatrix, viewMatrix, previousViewScale);
 
             mat4.multiply(viewMatrix, viewMatrix, previousMatrix);
         }
@@ -331,7 +331,7 @@
         function save() {
             mat4.copy(previousMatrix, viewMatrix);
             vec3.inverse(previousScale, scale);
-            vec3.inverse(previousResizeScale, resizeScale);
+            vec3.inverse(previousViewScale, viewScale);
             vec2.negate(previousDrag, drag);
             previousXRotation = xRotation;
             previousYRotation = yRotation;

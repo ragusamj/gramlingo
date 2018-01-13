@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <style>
+            body {
+                background-color: #222;
+                font-family: Arial, Helvetica, sans-serif;
+                color: #fff;
+                text-align: center;
+            }
+            canvas {
+                width: 100%;
+                height: 100%;
+                user-select: none;
+            }
+            .canvas-container {
+                display: inline-block;
+                position: relative;
+                margin-top: 2rem;
+                width: 90%;
+                border: 1px solid #fff;
+            }
+            .grid-line {
+                position: absolute;
+                background-color: #fff;
+                pointer-events: none;
+            }
+            .grid-line.horizontal {
+                left: 0;
+                width: 100%;
+                height: 1px;
+            }
+            .grid-line.vertical {
+                top: 0;
+                width: 1px;
+                height: 100%;
+            }
+            .degree-slider {
+                margin-top: 1.5rem;
+            }
+            .display {
+                position: absolute;
+                bottom: 0.5rem;
+                right: 0.5rem;
+                font-size: 14px;
+                text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+                text-align: right;
+                pointer-events: none;
+            }
+        </style>
+    </head>
+<body>
+
+    <h1>World map</h1>
+
+    <div class="canvas-container">
+        <div class="display">
+            <div>
+                <span id="height-display">0</span> H
+            </div>
+            <div>
+                <span id="width-display">0</span> W
+            </div>
+            <div>
+                <span id="x-degree-display">0</span>&deg; X
+            </div>
+            <div>
+                <span id="y-degree-display">0</span>&deg; Y
+            </div>
+            <div>
+                <span id="z-degree-display">0</span>&deg; Z
+            </div>
+            <div>
+                <span id="scale-display">1.00</span> S
+            </div>
+        </div>
+        <div class="grid-line horizontal" style="top: 50%"></div>
+        <div class="grid-line vertical" style="left: 25%;"></div>
+        <div class="grid-line vertical" style="left: 50%;"></div>
+        <div class="grid-line vertical" style="left: 75%;"></div>
+        <canvas></canvas>
+    </div>
+
+    <div>
+        <div>
+            X <input id="x-degree-slider" class="degree-slider" type="range" min="0" max="360" value="0">
+            Y <input id="y-degree-slider" class="degree-slider" type="range" min="0" max="360" value="0">
+            Z <input id="z-degree-slider" class="degree-slider" type="range" min="0" max="360" value="0">
+        </div>
+    </div>
+
+    <script id="vertex-shader" type="notjs">  
+  
+        attribute vec4 a_position;
+        uniform mat4 u_matrix;
+
+        void main() {
+            gl_Position = u_matrix * a_position;
+        }
+
+    </script>
+    
+    <script id="fragment-shader" type="notjs">
+    
+        precision mediump float;
+        uniform vec4 u_color;
+
+        void main() {
+            gl_FragColor = u_color;
+        }
+
+    </script>
+
+    <script src="./data.js"></script>
+    <script src="./earcut.min.js"></script>
+    <script src="./gl-matrix.js"></script>
+    <script>
+
+        var scaleDisplay = document.querySelector("#scale-display");
+        var xDegreeSlider = document.querySelector("#x-degree-slider");
+        var xDegreeDisplay = document.querySelector("#x-degree-display");
+        var yDegreeSlider = document.querySelector("#y-degree-slider");
+        var yDegreeDisplay = document.querySelector("#y-degree-display");
+        var zDegreeSlider = document.querySelector("#z-degree-slider");
+        var zDegreeDisplay = document.querySelector("#z-degree-display");
+
+        var pointSize = 2;
+        var geometries = inflate(data);
+        var buffer = createBuffer(geometries);
+
+        var canvas = document.querySelector("canvas");
+        var gl = canvas.getContext("webgl");
+        var vertexShader = createShader(gl.VERTEX_SHADER, document.getElementById("vertex-shader").text);
+        var fragmentShader = createShader(gl.FRAGMENT_SHADER, document.getElementById("fragment-shader").text);
+        var program = createProgram(vertexShader, fragmentShader);
+
+        var positionLocation = gl.getAttribLocation(program, "a_position");
+        var matrixLocation = gl.getUniformLocation(program, "u_matrix");
+        var colorLocation = gl.getUniformLocation(program, "u_color");
+        
+        var projectionMatrix = mat4.create();
+        var viewMatrix = mat4.create();
+        var previousMatrix = mat4.create();
+
+        var translation = vec3.create();
+        var negativeTranslation = vec3.create();
+        var drag = vec3.create();
+        var previousDrag = vec3.create();
+
+        var xRotation = 0;
+        var previousXRotation = xRotation;
+        var yRotation = 0;
+        var previousYRotation = yRotation;
+        var zRotation = 0;
+        var previousZRotation = zRotation;
+    
+        var scale = vec3.fromValues(1, 1, 1);
+        var previousScale = vec3.clone(scale);
+
+        var viewScale = vec3.fromValues(1, 1, 1);
+        var previousViewScale = vec3.clone(viewScale);
+
+        var minScale = 0.5;
+        var maxScale = 10;
+
+        var colors = [
+            [0, 1, 0, 1],
+            [0, 0.85, 0, 1],
+            [0, 0.7, 0, 1],
+            [0, 0.55, 0, 1]
+        ];
+
+        gl.useProgram(program);
+        gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(buffer.data), gl.STATIC_DRAW);
+        gl.enableVertexAttribArray(positionLocation);
+        gl.vertexAttribPointer(positionLocation, pointSize, gl.FLOAT, false, 0, 0);
+
+        xDegreeSlider.addEventListener("input", function(e) {
+            requestAnimationFrame(function() {
+                xRotation = e.target.valueAsNumber;
+                xDegreeDisplay.innerHTML = xRotation;
+                render();
+            });
+        });
+
+        yDegreeSlider.addEventListener("input", function(e) {
+            requestAnimationFrame(function() {
+                yRotation = e.target.valueAsNumber;
+                yDegreeDisplay.innerHTML = yRotation;
+                render();
+            });
+        });
+
+        zDegreeSlider.addEventListener("input", function(e) {
+            requestAnimationFrame(function() {
+                zRotation = e.target.valueAsNumber;
+                zDegreeDisplay.innerHTML = zRotation;
+                render();
+            });
+        });
+
+        function noevent(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+        }
+
+        canvas.addEventListener("mousedown", function(e) {
+            if(e.button !== 0) {
+                return;
+            }
+            canvas.addEventListener("mousemove", mousemove);
+            canvas.addEventListener("mouseup", mouseup);
+            canvas.addEventListener("dragstart", noevent);
+            noevent(e);
+
+            var mouse = mousePoint(e, vec2.create());
+            mouse[0] -= drag[0];
+            mouse[1] -= drag[1];
+
+            function mousemove(e) {
+                noevent(e);
+                requestAnimationFrame(function() {
+                    var delta = mousePoint(e, vec2.create());
+                    drag[0] = delta[0] - mouse[0];
+                    drag[1] = delta[1] - mouse[1];
+                    render();
+                });
+            }
+
+            function mouseup(e) {
+                canvas.removeEventListener("mousemove", mousemove);
+                canvas.removeEventListener("mouseup", mouseup);
+                canvas.removeEventListener("dragstart", noevent);
+                noevent(e);
+            }
+        });
+
+        canvas.addEventListener("click", function(e) {
+            var mouse = vec4.create();
+            mouse[2] = 0;
+            mouse[3] = 1;
+            mousePoint(e, mouse);
+            vec4.transformMat4(mouse, mouse, mat4.invert([], viewMatrix));
+            console.log(mouse);
+        });
+
+        canvas.addEventListener("wheel", function(e) {
+            noevent(e);
+            requestAnimationFrame(function() {
+                mousePoint(e, translation);
+                zoom(-e.deltaY * (e.deltaMode ? 120 : 1) / 500);
+            });
+        });
+
+        window.addEventListener("resize", resize);
+
+        resize();
+
+        function zoom(delta) {
+            scale[0] = scale[1] = Math.max(minScale, Math.min(maxScale, scale[0] * Math.pow(2, delta)));
+            scaleDisplay.innerHTML = scale[0].toFixed(2);
+            render();
+        }
+
+        function resize() {
+            var aspectRatio = gl.canvas.height / gl.canvas.width;
+            var width = gl.canvas.parentElement.clientWidth * window.devicePixelRatio;
+            var height = (width * aspectRatio);
+            gl.canvas.width = width;
+            gl.canvas.height = height;
+            gl.viewport(0, 0, width, height);
+
+            viewScale[0] = viewScale[1] = gl.canvas.width / data.bbox[2];
+            translation = vec3.fromValues(gl.canvas.width / 2, gl.canvas.height / 2, 0);
+
+            document.querySelector("#height-display").innerHTML = height;
+            document.querySelector("#width-display").innerHTML = width;
+
+            render();
+        }
+
+        function calculateMatrix() {
+            mat4.identity(viewMatrix);
+            
+            mat4.translate(viewMatrix, viewMatrix, translation);
+
+            mat4.rotateX(viewMatrix, viewMatrix, glMatrix.toRadian(xRotation));
+            mat4.rotateX(viewMatrix, viewMatrix, glMatrix.toRadian(-previousXRotation));
+
+            mat4.rotateY(viewMatrix, viewMatrix, glMatrix.toRadian(yRotation));
+            mat4.rotateY(viewMatrix, viewMatrix, glMatrix.toRadian(-previousYRotation));
+
+            mat4.rotateZ(viewMatrix, viewMatrix, glMatrix.toRadian(zRotation));
+            mat4.rotateZ(viewMatrix, viewMatrix, glMatrix.toRadian(-previousZRotation));
+
+            mat4.scale(viewMatrix, viewMatrix, scale);
+            mat4.scale(viewMatrix, viewMatrix, previousScale);
+
+            mat4.translate(viewMatrix, viewMatrix, drag);
+            mat4.translate(viewMatrix, viewMatrix, previousDrag);
+
+            mat4.translate(viewMatrix, viewMatrix, vec3.negate(negativeTranslation, translation));
+
+            mat4.scale(viewMatrix, viewMatrix, viewScale);
+            mat4.scale(viewMatrix, viewMatrix, previousViewScale);
+
+            mat4.multiply(viewMatrix, viewMatrix, previousMatrix);
+        }
+
+        function save() {
+            mat4.copy(previousMatrix, viewMatrix);
+            vec3.inverse(previousScale, scale);
+            vec3.inverse(previousViewScale, viewScale);
+            vec2.negate(previousDrag, drag);
+            previousXRotation = xRotation;
+            previousYRotation = yRotation;
+            previousZRotation = zRotation;
+        }
+
+        function project() {
+            mat4.ortho(projectionMatrix, 0, gl.canvas.width, gl.canvas.height, 0, gl.canvas.height * -2, gl.canvas.height * 2);
+            mat4.multiply(projectionMatrix, projectionMatrix, viewMatrix);
+        }
+
+        function render() {
+    
+            calculateMatrix();
+            project();
+            save();
+
+            gl.uniformMatrix4fv(matrixLocation, false, projectionMatrix);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+
+            var offset = 0;
+            for(var i = 0; i < buffer.offsets.length; i++) {
+                gl.uniform4fv(colorLocation, colors[i % 4]);
+                gl.drawArrays(gl.TRIANGLES, offset, buffer.offsets[i] / pointSize);
+                offset += buffer.offsets[i] / pointSize;
+            }
+        }
+
+        function createShader(type, source) {
+            var shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+            var success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+            if (!success) {
+                gl.deleteShader(shader);
+                throw new Error(gl.getShaderInfoLog(shader));
+            }
+            return shader;
+        }
+
+        function createProgram(vertexShader, fragmentShader) {
+            var program = gl.createProgram();
+            gl.attachShader(program, vertexShader);
+            gl.attachShader(program, fragmentShader);
+            gl.linkProgram(program);
+            gl.getProgramParameter(program, gl.LINK_STATUS);
+            var success = gl.getProgramParameter(program, gl.LINK_STATUS);
+            if (!success) {
+                gl.deleteProgram(program);
+                throw new Error(gl.getProgramInfoLog(program));
+            }
+            return program;
+        }
+
+        function mousePoint(event, mouse) {
+            var rect = gl.canvas.getBoundingClientRect();
+            mouse[0] = (event.clientX - rect.left) * (gl.canvas.width / rect.width);
+            mouse[1] = (event.clientY - rect.top) * (gl.canvas.height / rect.height);
+            return mouse;
+        }
+
+        function inflate(topology) {
+
+            var geometries = [];
+
+            Object.keys(topology.objects).forEach(function(key) {
+                for(var i = 0; i < topology.objects[key].geometries.length; i++) {
+                    var geometry = topology.objects[key].geometries[i];
+                    var inflated = inflateGeometry(topology, geometry);
+                    inflated.type = geometry.type;
+                    geometries.push(inflated);
+                }
+            });
+
+            return geometries;
+        }
+
+        function inflateGeometry(topology, geometry) {
+            var inflated = { polygons: [] };
+            geometry.arcs.forEach(function(arc) {
+                if(geometry.type === "Polygon") {
+                    inflated.polygons.push(stitch(topology, arc));
+                }
+                if(geometry.type === "MultiPolygon") {
+                    var polygons = [];
+                    for(var multi of arc) {
+                        polygons.push(stitch(topology, multi));
+                    }
+                    inflated.polygons.push(polygons);
+                }
+            });
+            return inflated;
+        }
+
+        function stitch(topology, arc) {
+            const polygon = [];
+            arc.forEach(function(index) {
+                var coordinates = resolve(topology, index);
+                polygon.push(...coordinates);
+            });
+            return polygon;
+        }
+
+        function resolve(topology, index) {
+            var coordinates;
+            if(index < 0) {
+                coordinates = decodeArc(topology, topology.arcs[~index]);
+                coordinates.reverse();
+            }
+            else {
+                coordinates = decodeArc(topology, topology.arcs[index]);
+            }
+            return coordinates;
+        }
+
+        function decodeArc(topology, arc) {
+            var x = 0, y = 0;
+            return arc.map((point) => {
+                return [
+                    (x += point[0]) * topology.transform.scale[0] + topology.transform.translate[0],
+                    (y += point[1]) * topology.transform.scale[1] + topology.transform.translate[1]
+                ];
+            });
+        }
+
+        function createBuffer(geometries) {
+            var buffer = { data: [], offsets: [] };
+            var offset = 0;
+
+            geometries.forEach(function(geometry) {
+                if(geometry.type === "Polygon") {
+                    triangulate(geometry.polygons, buffer.data);
+                }
+                if(geometry.type === "MultiPolygon") {
+                    for(let polygons of geometry.polygons) {
+                        triangulate(polygons, buffer.data);
+                    }
+                }
+                buffer.offsets.push(buffer.data.length - offset);
+                offset = buffer.data.length;
+            });
+
+            return buffer;
+        }
+
+        function triangulate(polygons, data) {
+            var points = earcut.flatten(polygons);
+            var triangles = earcut(points.vertices, points.holes, points.dimensions);
+            triangles.forEach(function(t) {
+                var i = t * pointSize;
+                data.push(points.vertices[i], points.vertices[i + 1]);
+            });
+        }
+
+    </script>
+</body>
+</html>

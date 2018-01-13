@@ -103,13 +103,16 @@ void main() {
         gl.canvas.addEventListener("wheel", (e) => {
             e.preventDefault();
 
-            const delta = -e.deltaY * (e.deltaMode ? 120 : 1) / 500;
-            scale = Math.max(minScale, Math.min(maxScale, scale * Math.pow(2, delta)));
+            requestAnimationFrame(() => {
+            
+                const delta = -e.deltaY * (e.deltaMode ? 120 : 1) / 500;
+                scale = Math.max(minScale, Math.min(maxScale, scale * Math.pow(2, delta)));
 
-            tx = e.offsetX;
-            ty = e.offsetY;
+                tx = e.offsetX;
+                ty = e.offsetY;
 
-            render();
+                render();
+            });
         });
 
         const render = () => {

@@ -3,8 +3,9 @@
 <head>
     <title>Phyllotaxis: Zooming a 2D Canvas with math</title>
 </head>
-<body style="text-align: center;">
+<body style="font-family: Arial, Helvetica, sans-serif; text-align: center;">
     <canvas width="600" height="600"></canvas>
+    <div id="debugger"></div>
     <script>
 
         class Transform {
@@ -13,42 +14,16 @@
                 this.x = x;
                 this.y = y;
             }
-            translate(x, y) {
-                return x === 0 & y === 0 ? this : new Transform(this.k, this.x + this.k * x, this.y + this.k * y);
+            invert(point) {
+                return [(point[0] - this.x) / this.k, (point[1] - this.y) / this.k];
             }
-            invert(location) {
-                // why repeat the logic of invertX, invertY?
-                return [this.invertX(location[0]), this.invertY(location[1])];
+            scale(k) {
+                this.k = Math.max(scaleExtent[0], Math.min(scaleExtent[1], k));
             }
-            invertX(x) {
-                return (x - this.x) / this.k;
+            translate(p0, p1) {
+                this.x = p0[0] - p1[0] * this.k;
+                this.y = p0[1] - p1[1] * this.k;
             }
-            invertY(y) {
-                return (y - this.y) / this.k;
-            }
-        }
-
-        //constrain = (transform, extent, translateExtent) { // why pass globals?
-        const constrain = (transform) => {
-            var dx0 = transform.invertX(extent[0][0]) - translateExtent[0][0],
-                dx1 = transform.invertX(extent[1][0]) - translateExtent[1][0],
-                dy0 = transform.invertY(extent[0][1]) - translateExtent[0][1],
-                dy1 = transform.invertY(extent[1][1]) - translateExtent[1][1];
-            return transform.translate(
-                dx1 > dx0 ? (dx0 + dx1) / 2 : Math.min(0, dx0) || Math.max(0, dx1),
-                dy1 > dy0 ? (dy0 + dy1) / 2 : Math.min(0, dy0) || Math.max(0, dy1)
-            );
-        }
-
-        const scale = (transform, k) => {
-            //k = Math.max(scaleExtent[0], Math.min(scaleExtent[1], k)); // why do this again?
-            return k === transform.k ? transform : new Transform(k, transform.x, transform.y);
-        }
-
-        const translate = (transform, p0, p1) => {
-            var x = p0[0] - p1[0] * transform.k;
-            var y = p0[1] - p1[1] * transform.k;
-            return x === transform.x && y === transform.y ? transform : new Transform(transform.k, x, y);
         }
 
         const mouse = (node, event) =>{
@@ -58,13 +33,11 @@
 
         const canvas = document.querySelector('canvas');
         const context = canvas.getContext('2d');
+        const slider = document.querySelector('input');
         const radius = 2.5;
 
-        const extent = [[0, 0], [canvas.width, canvas.height]];
         const scaleExtent = [1/2, 4];
-        const translateExtent = [[-Infinity, -Infinity], [Infinity, Infinity]];
-
-        let t = new Transform(1, 0, 0);
+        let t = new Transform(1, 0, 0, 0);
 
         const render = () => {
 
@@ -109,11 +82,10 @@
             requestAnimationFrame(() => {
 
                 const delta = -e.deltaY * (e.deltaMode ? 120 : 1) / 500;
-                const k = Math.max(scaleExtent[0], Math.min(scaleExtent[1], t.k * Math.pow(2, delta)));
                 const p = mouse(canvas, e);
-
-                t = constrain(translate(scale(t, k), p, t.invert(p)));
-                // if (this.mouse && key !== "mouse") this.mouse[1] = transform.invert(this.mouse[0]); // why?
+                const i = t.invert(p);
+                t.scale(t.k * Math.pow(2, delta));
+                t.translate(p, i);
                 
                 render();
             });
@@ -124,11 +96,11 @@
             noevent(e);
 
             const p = mouse(canvas, e);
-            const pi = t.invert(p);
+            const i = t.invert(p);
 
             const mousemove = e => {
                 noevent(e);
-                t = constrain(translate(t, mouse(canvas, e), pi));
+                t.translate(mouse(canvas, e), i);
                 render();
             }
 
@@ -140,6 +112,43 @@
 
             canvas.addEventListener('mousemove', mousemove);
             canvas.addEventListener('mouseup', mouseup);
+        });
+
+        canvas.addEventListener("touchstart", function(e) {
+            canvas.addEventListener("touchmove", touchmove);
+            canvas.addEventListener("touchend", touchend);
+            noevent(e);
+
+            const l0 = t.invert(mouse(canvas, e.touches[0]));
+            const l1 = t.invert(mouse(canvas, e.touches[1]));
+
+            function touchmove(e) {
+
+                var p0 = mouse(canvas, e.touches[0]),
+                    p1 = mouse(canvas, e.touches[1]),
+
+                    dp = (dp = p1[0] - p0[0]) * dp + (dp = p1[1] - p0[1]) * dp,
+                    dl = (dl = l1[0] - l0[0]) * dl + (dl = l1[1] - l0[1]) * dl,
+
+                    p = [(p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2],
+                    l = [(l0[0] + l1[0]) / 2, (l0[1] + l1[1]) / 2];
+
+                t.scale(Math.sqrt(dp / dl));
+                t.translate(p, l);
+
+                document.querySelector("#debugger").innerHTML = t.k;
+
+                noevent(e);
+                requestAnimationFrame(function() {
+                    render();
+                });
+            }
+
+            function touchend(e) {
+                canvas.removeEventListener("touchmove", touchmove);
+                canvas.removeEventListener("touchend", touchend);
+                noevent(e);
+            }
         });
 
         render();

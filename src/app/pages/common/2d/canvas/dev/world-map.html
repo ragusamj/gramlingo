@@ -238,6 +238,77 @@
             }
         });
 
+        function distance(p0, p1) {
+            var x = Math.pow(p0[0] - p1[0], 2);
+            var y = Math.pow(p0[1] - p1[1], 2);
+            return Math.sqrt(x + y);
+        }
+
+        canvas.addEventListener("touchstart", function(e) {
+
+            noevent(e);
+
+            if(e.touches.length !== 2) { return; };
+
+            canvas.addEventListener("touchmove", touchmove);
+            canvas.addEventListener("touchend", touchend);
+
+            var l0 = mousePoint(e.touches[0], vec2.create());
+            var l1 = mousePoint(e.touches[1], vec2.create());
+            var dl = distance(l0, l1);
+
+            function touchmove(e) {
+
+                noevent(e);
+
+                var p0 = mousePoint(e.changedTouches[0], vec2.create()),
+                    p1 = mousePoint(e.changedTouches[1], vec2.create()),
+                    dp = distance(p0, p1);
+
+                translation[0] = (l0[0] + l1[0]) / 2;
+                translation[1] = (l0[1] + l1[1]) / 2;
+
+                var delta = dp - dl;
+                dl = dp;
+
+                zoom(delta / 500);
+            }
+
+            function touchend(e) {
+                canvas.removeEventListener("touchmove", touchmove);
+                canvas.removeEventListener("touchend", touchend);
+                noevent(e);
+            }
+        });
+
+        /*
+        canvas.addEventListener("touchstart", function(e) {
+            canvas.addEventListener("touchmove", touchmove);
+            canvas.addEventListener("touchend", touchend);
+            noevent(e);
+
+            var mouse = mousePoint(e.touches[0], vec2.create());
+            mouse[0] -= drag[0];
+            mouse[1] -= drag[1];
+
+            function touchmove(e) {
+                noevent(e);
+                requestAnimationFrame(function() {
+                    var delta = mousePoint(e.touches[0], vec2.create());
+                    drag[0] = delta[0] - mouse[0];
+                    drag[1] = delta[1] - mouse[1];
+                    render();
+                });
+            }
+
+            function touchend(e) {
+                canvas.removeEventListener("touchmove", touchmove);
+                canvas.removeEventListener("touchend", touchend);
+                noevent(e);
+            }
+        });
+        */
+
         canvas.addEventListener("click", function(e) {
             var mouse = vec4.create();
             mouse[2] = 0;
@@ -383,9 +454,11 @@
             Object.keys(topology.objects).forEach(function(key) {
                 for(var i = 0; i < topology.objects[key].geometries.length; i++) {
                     var geometry = topology.objects[key].geometries[i];
-                    var inflated = inflateGeometry(topology, geometry);
-                    inflated.type = geometry.type;
-                    geometries.push(inflated);
+                    if(geometry && geometry.arcs) {
+                        var inflated = inflateGeometry(topology, geometry);
+                        inflated.type = geometry.type;
+                        geometries.push(inflated);
+                    }
                 }
             });
 

@@ -91,6 +91,8 @@
         </div>
     </div>
 
+    <pre id="log" style="text-align: left;"></pre>
+
     <script id="vertex-shader" type="notjs">  
   
         attribute vec4 a_position;
@@ -126,6 +128,8 @@
         var zDegreeSlider = document.querySelector("#z-degree-slider");
         var zDegreeDisplay = document.querySelector("#z-degree-display");
 
+        var logDisplay = document.querySelector("#log");
+
         var pointSize = 2;
         var geometries = inflate(data);
         var buffer = createBuffer(geometries);
@@ -143,24 +147,24 @@
         var projectionMatrix = mat4.create();
         var viewMatrix = mat4.create();
         var previousMatrix = mat4.create();
+        var xRotationMatrix = mat4.create();
+        var yRotationMatrix = mat4.create();
+        var zRotationMatrix = mat4.create();
+        var scaleMatrix = mat4.create();
+        var dragMatrix = mat4.create();
+        var viewScaleMatrix = mat4.create();
 
         var translation = vec3.create();
         var negativeTranslation = vec3.create();
-        var drag = vec3.create();
-        var previousDrag = vec3.create();
 
         var xRotation = 0;
-        var previousXRotation = xRotation;
         var yRotation = 0;
-        var previousYRotation = yRotation;
         var zRotation = 0;
-        var previousZRotation = zRotation;
-    
         var scale = vec3.fromValues(1, 1, 1);
-        var previousScale = vec3.clone(scale);
-
+        var drag = vec3.create();
         var viewScale = vec3.fromValues(1, 1, 1);
-        var previousViewScale = vec3.clone(viewScale);
+
+        var gesture;
 
         var minScale = 0.5;
         var maxScale = 10;
@@ -202,9 +206,23 @@
             });
         });
 
+        function mousePoint(event, mouse) {
+            var rect = gl.canvas.getBoundingClientRect();
+            mouse[0] = (event.clientX - rect.left) * (gl.canvas.width / rect.width);
+            mouse[1] = (event.clientY - rect.top) * (gl.canvas.height / rect.height);
+            return mouse;
+        }
+
         function noevent(e) {
             e.preventDefault();
             e.stopImmediatePropagation();
+        }
+
+        // The good ol' pythagoras theorem, replace with Math.hypot(x2-x1, y2-y1) + polyfill?
+        function hypotenuse(a, b) {
+            var x = a[0] - b[0];
+            var y = a[1] - b[1];
+            return Math.sqrt(x * x + y * y);
         }
 
         canvas.addEventListener("mousedown", function(e) {
@@ -238,81 +256,95 @@
             }
         });
 
-        function distance(p0, p1) {
-            var x = Math.pow(p0[0] - p1[0], 2);
-            var y = Math.pow(p0[1] - p1[1], 2);
-            return Math.sqrt(x + y);
+        /*
+        var logItems = [];
+        function log(obj) {
+
+            logItems.unshift( { obj: obj, date: new Date() });
+
+            if(logItems.length > 10) {
+                logItems.length = 10;
+            }
+
+            var out = "";
+            for (var i = logItems.length - 1; i >= 0; --i) {
+                var item = logItems[i];
+                out += item.date.getHours().toString().padStart(2, "0") + ":"
+                + item.date.getMinutes() .toString().padStart(2, "0")+ ":"
+                + item.date.getSeconds().toString().padStart(2, "0") + ":"
+                + item.date.getMilliseconds().toString().padStart(3, "00")
+                    + " " + JSON.stringify(item.obj, null, 2) + "\n";
+            }
+
+            logDisplay.innerHTML = out;
         }
+        */
 
         canvas.addEventListener("touchstart", function(e) {
 
             noevent(e);
 
-            if(e.touches.length !== 2) { return; };
+            gesture = {};
+            
+            for(let t of e.touches) {
+                if(!gesture.finger1) {
+                    gesture.finger1 = {
+                        origin: mousePoint(t, vec2.create()),
+                        id: t.identifier
+                    }
+                }
+                else if(!gesture.finger2) {
+                    gesture.finger2 = {
+                        origin: mousePoint(t, vec2.create()),
+                        id: t.identifier
+                    }
+                    gesture.distance = hypotenuse(gesture.finger1.origin, gesture.finger2.origin);
+                }
+            }
 
-            canvas.addEventListener("touchmove", touchmove);
-            canvas.addEventListener("touchend", touchend);
+            if(gesture.finger1 && !gesture.finger2) {
+                gesture.finger1.origin[0] -= drag[0];
+                gesture.finger1.origin[1] -= drag[1];
+            }
+        });
 
-            var l0 = mousePoint(e.touches[0], vec2.create());
-            var l1 = mousePoint(e.touches[1], vec2.create());
-            var dl = distance(l0, l1);
+        canvas.addEventListener("touchmove", function(e) {
 
-            function touchmove(e) {
+            noevent(e);
 
-                noevent(e);
+            for(let t of e.touches) {
+                if(gesture.finger1.id === t.identifier) {
+                    gesture.finger1.current = mousePoint(t, vec2.create());
+                }
+                else if(gesture.finger2.id === t.identifier) {
+                    gesture.finger2.current = mousePoint(t, vec2.create());
+                }
+            }
 
-                var p0 = mousePoint(e.changedTouches[0], vec2.create()),
-                    p1 = mousePoint(e.changedTouches[1], vec2.create()),
-                    dp = distance(p0, p1);
+            if(gesture.finger2) {
+                const distance = hypotenuse(gesture.finger1.current, gesture.finger2.current);
+                const delta = distance - gesture.distance
+                gesture.distance = distance
 
-                translation[0] = (l0[0] + l1[0]) / 2;
-                translation[1] = (l0[1] + l1[1]) / 2;
-
-                var delta = dp - dl;
-                dl = dp;
+                translation[0] = (gesture.finger1.origin[0] + gesture.finger2.origin[0]) / 2;
+                translation[1] = (gesture.finger1.origin[1] + gesture.finger2.origin[1]) / 2;
 
                 zoom(delta / 500);
             }
-
-            function touchend(e) {
-                canvas.removeEventListener("touchmove", touchmove);
-                canvas.removeEventListener("touchend", touchend);
-                noevent(e);
+            else if(gesture.finger1) {
+                drag[0] = gesture.finger1.current[0] - gesture.finger1.origin[0];
+                drag[1] = gesture.finger1.current[1] - gesture.finger1.origin[1];
+                render();
             }
         });
 
-        /*
-        canvas.addEventListener("touchstart", function(e) {
-            canvas.addEventListener("touchmove", touchmove);
-            canvas.addEventListener("touchend", touchend);
+        canvas.addEventListener("touchend", function(e) {
+            gesture = {};
             noevent(e);
-
-            var mouse = mousePoint(e.touches[0], vec2.create());
-            mouse[0] -= drag[0];
-            mouse[1] -= drag[1];
-
-            function touchmove(e) {
-                noevent(e);
-                requestAnimationFrame(function() {
-                    var delta = mousePoint(e.touches[0], vec2.create());
-                    drag[0] = delta[0] - mouse[0];
-                    drag[1] = delta[1] - mouse[1];
-                    render();
-                });
-            }
-
-            function touchend(e) {
-                canvas.removeEventListener("touchmove", touchmove);
-                canvas.removeEventListener("touchend", touchend);
-                noevent(e);
-            }
         });
-        */
 
         canvas.addEventListener("click", function(e) {
-            var mouse = vec4.create();
-            mouse[2] = 0;
-            mouse[3] = 1;
+            var mouse = vec4.fromValues(0, 0, 0, 1);
             mousePoint(e, mouse);
             vec4.transformMat4(mouse, mouse, mat4.invert([], viewMatrix));
             console.log(mouse);
@@ -332,7 +364,7 @@
 
         function zoom(delta) {
             scale[0] = scale[1] = Math.max(minScale, Math.min(maxScale, scale[0] * Math.pow(2, delta)));
-            scaleDisplay.innerHTML = scale[0].toFixed(2);
+            //scaleDisplay.innerHTML = scale[0].toFixed(2);
             render();
         }
 
@@ -354,41 +386,32 @@
         }
 
         function calculateMatrix() {
+            mat4.copy(previousMatrix, viewMatrix);
             mat4.identity(viewMatrix);
             
             mat4.translate(viewMatrix, viewMatrix, translation);
 
-            mat4.rotateX(viewMatrix, viewMatrix, glMatrix.toRadian(xRotation));
-            mat4.rotateX(viewMatrix, viewMatrix, glMatrix.toRadian(-previousXRotation));
+            mat4.multiply(viewMatrix, viewMatrix, mat4.invert(xRotationMatrix, xRotationMatrix));
+            mat4.multiply(viewMatrix, viewMatrix, mat4.fromXRotation(xRotationMatrix, glMatrix.toRadian(xRotation)));
 
-            mat4.rotateY(viewMatrix, viewMatrix, glMatrix.toRadian(yRotation));
-            mat4.rotateY(viewMatrix, viewMatrix, glMatrix.toRadian(-previousYRotation));
+            mat4.multiply(viewMatrix, viewMatrix, mat4.invert(yRotationMatrix, yRotationMatrix));
+            mat4.multiply(viewMatrix, viewMatrix, mat4.fromYRotation(yRotationMatrix, glMatrix.toRadian(yRotation)));
 
-            mat4.rotateZ(viewMatrix, viewMatrix, glMatrix.toRadian(zRotation));
-            mat4.rotateZ(viewMatrix, viewMatrix, glMatrix.toRadian(-previousZRotation));
+            mat4.multiply(viewMatrix, viewMatrix, mat4.invert(zRotationMatrix, zRotationMatrix));
+            mat4.multiply(viewMatrix, viewMatrix, mat4.fromZRotation(zRotationMatrix, glMatrix.toRadian(zRotation)));
 
-            mat4.scale(viewMatrix, viewMatrix, scale);
-            mat4.scale(viewMatrix, viewMatrix, previousScale);
+            mat4.multiply(viewMatrix, viewMatrix, mat4.invert(scaleMatrix, scaleMatrix));
+            mat4.multiply(viewMatrix, viewMatrix, mat4.fromScaling(scaleMatrix, scale));
 
-            mat4.translate(viewMatrix, viewMatrix, drag);
-            mat4.translate(viewMatrix, viewMatrix, previousDrag);
+            mat4.multiply(viewMatrix, viewMatrix, mat4.invert(dragMatrix, dragMatrix));
+            mat4.multiply(viewMatrix, viewMatrix, mat4.fromTranslation(dragMatrix, drag));
 
             mat4.translate(viewMatrix, viewMatrix, vec3.negate(negativeTranslation, translation));
 
-            mat4.scale(viewMatrix, viewMatrix, viewScale);
-            mat4.scale(viewMatrix, viewMatrix, previousViewScale);
+            mat4.multiply(viewMatrix, viewMatrix, mat4.invert(viewScaleMatrix, viewScaleMatrix));
+            mat4.multiply(viewMatrix, viewMatrix, mat4.fromScaling(viewScaleMatrix, viewScale));
 
             mat4.multiply(viewMatrix, viewMatrix, previousMatrix);
-        }
-
-        function save() {
-            mat4.copy(previousMatrix, viewMatrix);
-            vec3.inverse(previousScale, scale);
-            vec3.inverse(previousViewScale, viewScale);
-            vec2.negate(previousDrag, drag);
-            previousXRotation = xRotation;
-            previousYRotation = yRotation;
-            previousZRotation = zRotation;
         }
 
         function project() {
@@ -400,7 +423,6 @@
     
             calculateMatrix();
             project();
-            save();
 
             gl.uniformMatrix4fv(matrixLocation, false, projectionMatrix);
             gl.clear(gl.COLOR_BUFFER_BIT);
@@ -438,13 +460,6 @@
                 throw new Error(gl.getProgramInfoLog(program));
             }
             return program;
-        }
-
-        function mousePoint(event, mouse) {
-            var rect = gl.canvas.getBoundingClientRect();
-            mouse[0] = (event.clientX - rect.left) * (gl.canvas.width / rect.width);
-            mouse[1] = (event.clientY - rect.top) * (gl.canvas.height / rect.height);
-            return mouse;
         }
 
         function inflate(topology) {

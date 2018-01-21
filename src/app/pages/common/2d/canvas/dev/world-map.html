@@ -364,7 +364,7 @@
 
         function zoom(delta) {
             scale[0] = scale[1] = Math.max(minScale, Math.min(maxScale, scale[0] * Math.pow(2, delta)));
-            //scaleDisplay.innerHTML = scale[0].toFixed(2);
+            scaleDisplay.innerHTML = scale[0].toFixed(2);
             render();
         }
 

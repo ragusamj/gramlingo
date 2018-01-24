@@ -5,21 +5,21 @@ const pointSize = 2;
 
 class Buffer {
 
-    static create(geometries) {
+    static create(features) {
         const buffer = { data: [], byColor: {} };
-        const geometriesByColor = this.sortByColor(geometries);
+        const featuresByColor = this.sortByColor(features);
 
         this.bufferByColor = {};
         
-        for(let color of Object.keys(geometriesByColor)) {
+        for(let color of Object.keys(featuresByColor)) {
             const offset = buffer.data.length;
-            for(let geometry of geometriesByColor[color]) {
-                if(geometry.type === "Polygon") {
-                    this.triangulate(geometry.polygons, buffer.data);
+            for(let feature of featuresByColor[color]) {
+                if(feature.geometry.type === "Polygon") {
+                    this.triangulate(feature.geometry.coordinates, buffer.data);
                 }
-                if(geometry.type === "MultiPolygon") {
-                    for(let polygons of geometry.polygons) {
-                        this.triangulate(polygons, buffer.data);
+                if(feature.geometry.type === "MultiPolygon") {
+                    for(let coordinates of feature.geometry.coordinates) {
+                        this.triangulate(coordinates, buffer.data);
                     }
                 }
             }
@@ -33,11 +33,11 @@ class Buffer {
         return buffer;
     }
 
-    static sortByColor(geometries) {
+    static sortByColor(features) {
         const sorted = {};
-        for(let geometry of geometries) {
-            sorted[geometry.color] = sorted[geometry.color] || [];
-            sorted[geometry.color].push(geometry);
+        for(let feature of features) {
+            sorted[feature.properties.color] = sorted[feature.properties.color] || [];
+            sorted[feature.properties.color].push(feature);
         }
         return sorted;
     }

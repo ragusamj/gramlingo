@@ -31,27 +31,27 @@ class WorldMap {
         this.canvasListener = canvasListener;
     }
 
-    initialize(geometries, countries, selected) {
+    initialize(features, countries, selected) {
 
-        this.geometries = geometries;
-        for(let geometry of this.geometries) {
-            if(geometry.id === disputed) {
-                geometry.color = "#333333";
-                geometry.label = "";
+        this.features = features;
+        for(let feature of this.features) {
+            if(feature.properties.id === disputed) {
+                feature.properties.color = "#333333";
+                feature.properties.label = "";
             }
             else {
                 let shade;
-                switch(geometry.color) {
+                switch(feature.properties.color) {
                     case 0: shade = Color.shade(style.country.background, -0.4); break;
                     case 1: shade = Color.shade(style.country.background, -0.1); break;
                     case 2: shade = Color.shade(style.country.background, 0.2); break;
                     default: shade = Color.shade(style.country.background, 0.6);
                 }
-                geometry.color = shade;
-                geometry.label = countries[geometry.id].name[0];
+                feature.properties.color = shade;
+                feature.properties.label = countries[feature.properties.id].name[0];
             }
         }
-        this.canvas.initialize(this.geometries, style, selected);
+        this.canvas.initialize(this.features, style, selected);
     }
 
     attach() {

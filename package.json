@@ -20,7 +20,7 @@
     "dev": "node server.js & concurrently -p \"{time} {name}\" --names \"HTML,SCSS,JS,JSON,SERVER\" -c \"magenta.bgBlack,green.bgBlack,yellow.bgBlack,cyan.bgBlack\" \"npm run build:html:watch\" \"npm run build:scss:watch\" \"npm run build:js:watch\" \"npm run build:json:watch\"",
     "inspect": "jsinspect ./src",
     "lint": "eslint ./src",
-    "test": "tape -r babel-register 'src/**/*.spec.js' | tap-nyan",
+    "test": "tape -r ./babel-register 'src/**/*.spec.js' | tap-nyan",
     "test:coverage": "nyc --reporter=lcov npm test"
   },
   "nyc": {

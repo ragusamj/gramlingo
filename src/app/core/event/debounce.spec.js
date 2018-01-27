@@ -29,6 +29,8 @@ test("Debounce should debounce and wait for n ms and then run once", function(t)
     clock.tick(300);
   
     t.equal(counter, 1);
+
+    clock.restore();
     t.end();
 });
 
@@ -38,6 +40,7 @@ test("Debounce should debounce and execute the callback with arguments", (t) => 
     let clock = sinon.useFakeTimers();
     let debounced = debounce((n) => {
         t.equal(n, 1);
+        clock.restore();
     }, 10);
 
     debounced(1);

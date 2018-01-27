@@ -31,6 +31,8 @@ test("Throttle should throttle", (t) => {
     clock.tick(70);
 
     t.equal(counter, 1);
+
+    clock.restore();
     t.end();
 });
 
@@ -40,6 +42,7 @@ test("Throttle should throttle and execute the callback with arguments", (t) => 
     let clock = sinon.useFakeTimers();
     let throttled = throttle((n) => {
         t.equal(n, 1);
+        clock.restore();
     }, 100);
 
     throttled(1);

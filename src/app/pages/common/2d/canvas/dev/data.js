@@ -33,8 +33,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "AF",
-                        "color": 3
+                        "id": "AF"
                     }
                 },
                 {
@@ -58,8 +57,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "AO",
-                        "color": 2
+                        "id": "AO"
                     }
                 },
                 {
@@ -74,8 +72,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "AL",
-                        "color": 0
+                        "id": "AL"
                     }
                 },
                 {
@@ -92,8 +89,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "AE",
-                        "color": 1
+                        "id": "AE"
                     }
                 },
                 {
@@ -117,8 +113,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "AR",
-                        "color": 0
+                        "id": "AR"
                     }
                 },
                 {
@@ -133,8 +128,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "AM",
-                        "color": 3
+                        "id": "AM"
                     }
                 },
                 {
@@ -182,8 +176,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "AQ",
-                        "color": 3
+                        "id": "AQ"
                     }
                 },
                 {
@@ -194,8 +187,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "TF",
-                        "color": 2
+                        "id": "TF"
                     }
                 },
                 {
@@ -213,8 +205,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "AU",
-                        "color": 2
+                        "id": "AU"
                     }
                 },
                 {
@@ -231,8 +222,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "AT",
-                        "color": 0
+                        "id": "AT"
                     }
                 },
                 {
@@ -255,8 +245,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "AZ",
-                        "color": 1
+                        "id": "AZ"
                     }
                 },
                 {
@@ -269,8 +258,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "BI",
-                        "color": 3
+                        "id": "BI"
                     }
                 },
                 {
@@ -285,8 +273,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "BE",
-                        "color": 1
+                        "id": "BE"
                     }
                 },
                 {
@@ -301,8 +288,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "BJ",
-                        "color": 1
+                        "id": "BJ"
                     }
                 },
                 {
@@ -318,8 +304,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "BF",
-                        "color": 3
+                        "id": "BF"
                     }
                 },
                 {
@@ -332,8 +317,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "BD",
-                        "color": 1
+                        "id": "BD"
                     }
                 },
                 {
@@ -349,8 +333,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "BG",
-                        "color": 0
+                        "id": "BG"
                     }
                 },
                 {
@@ -373,8 +356,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "BS",
-                        "color": 1
+                        "id": "BS"
                     }
                 },
                 {
@@ -387,8 +369,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "BA",
-                        "color": 3
+                        "id": "BA"
                     }
                 },
                 {
@@ -403,8 +384,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "BY",
-                        "color": 3
+                        "id": "BY"
                     }
                 },
                 {
@@ -417,8 +397,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "BZ",
-                        "color": 1
+                        "id": "BZ"
                     }
                 },
                 {
@@ -433,8 +412,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "BO",
-                        "color": 3
+                        "id": "BO"
                     }
                 },
                 {
@@ -455,8 +433,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "BR",
-                        "color": 2
+                        "id": "BR"
                     }
                 },
                 {
@@ -468,8 +445,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "BN",
-                        "color": 0
+                        "id": "BN"
                     }
                 },
                 {
@@ -481,8 +457,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "BT",
-                        "color": 3
+                        "id": "BT"
                     }
                 },
                 {
@@ -496,8 +471,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "BW",
-                        "color": 0
+                        "id": "BW"
                     }
                 },
                 {
@@ -513,8 +487,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "CF",
-                        "color": 2
+                        "id": "CF"
                     }
                 },
                 {
@@ -675,8 +648,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "CA",
-                        "color": 1
+                        "id": "CA"
                     }
                 },
                 {
@@ -690,8 +662,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "CH",
-                        "color": 1
+                        "id": "CH"
                     }
                 },
                 {
@@ -713,8 +684,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "CL",
-                        "color": 2
+                        "id": "CL"
                     }
                 },
                 {
@@ -749,8 +719,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "CN",
-                        "color": 1
+                        "id": "CN"
                     }
                 },
                 {
@@ -766,8 +735,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "CI",
-                        "color": 2
+                        "id": "CI"
                     }
                 },
                 {
@@ -785,8 +753,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "CM",
-                        "color": 0
+                        "id": "CM"
                     }
                 },
                 {
@@ -808,8 +775,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "CD",
-                        "color": 0
+                        "id": "CD"
                     }
                 },
                 {
@@ -825,8 +791,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "CG",
-                        "color": 1
+                        "id": "CG"
                     }
                 },
                 {
@@ -843,8 +808,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "CO",
-                        "color": 0
+                        "id": "CO"
                     }
                 },
                 {
@@ -858,8 +822,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "CR",
-                        "color": 2
+                        "id": "CR"
                     }
                 },
                 {
@@ -870,8 +833,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "CU",
-                        "color": 2
+                        "id": "CU"
                     }
                 },
                 {
@@ -902,8 +864,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "CY",
-                        "color": 2
+                        "id": "CY"
                     }
                 },
                 {
@@ -917,8 +878,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "CZ",
-                        "color": 3
+                        "id": "CZ"
                     }
                 },
                 {
@@ -939,8 +899,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "DE",
-                        "color": 2
+                        "id": "DE"
                     }
                 },
                 {
@@ -954,8 +913,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "DJ",
-                        "color": 0
+                        "id": "DJ"
                     }
                 },
                 {
@@ -974,8 +932,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "DK",
-                        "color": 1
+                        "id": "DK"
                     }
                 },
                 {
@@ -987,8 +944,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "DO",
-                        "color": 2
+                        "id": "DO"
                     }
                 },
                 {
@@ -1006,8 +962,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "DZ",
-                        "color": 2
+                        "id": "DZ"
                     }
                 },
                 {
@@ -1020,8 +975,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "EC",
-                        "color": 2
+                        "id": "EC"
                     }
                 },
                 {
@@ -1036,8 +990,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "EG",
-                        "color": 2
+                        "id": "EG"
                     }
                 },
                 {
@@ -1051,8 +1004,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "ER",
-                        "color": 1
+                        "id": "ER"
                     }
                 },
                 {
@@ -1066,8 +1018,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "ES",
-                        "color": 2
+                        "id": "ES"
                     }
                 },
                 {
@@ -1080,8 +1031,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "EE",
-                        "color": 1
+                        "id": "EE"
                     }
                 },
                 {
@@ -1099,8 +1049,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "ET",
-                        "color": 2
+                        "id": "ET"
                     }
                 },
                 {
@@ -1114,8 +1063,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "FI",
-                        "color": 1
+                        "id": "FI"
                     }
                 },
                 {
@@ -1146,8 +1094,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "FJ",
-                        "color": 2
+                        "id": "FJ"
                     }
                 },
                 {
@@ -1158,8 +1105,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "FK",
-                        "color": 1
+                        "id": "FK"
                     }
                 },
                 {
@@ -1191,8 +1137,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "FR",
-                        "color": 0
+                        "id": "FR"
                     }
                 },
                 {
@@ -1206,8 +1151,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "GA",
-                        "color": 2
+                        "id": "GA"
                     }
                 },
                 {
@@ -1226,8 +1170,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "GB",
-                        "color": 2
+                        "id": "GB"
                     }
                 },
                 {
@@ -1242,8 +1185,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "GE",
-                        "color": 0
+                        "id": "GE"
                     }
                 },
                 {
@@ -1257,8 +1199,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "GH",
-                        "color": 1
+                        "id": "GH"
                     }
                 },
                 {
@@ -1275,8 +1216,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "GN",
-                        "color": 0
+                        "id": "GN"
                     }
                 },
                 {
@@ -1288,8 +1228,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "GM",
-                        "color": 0
+                        "id": "GM"
                     }
                 },
                 {
@@ -1302,8 +1241,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "GW",
-                        "color": 1
+                        "id": "GW"
                     }
                 },
                 {
@@ -1316,8 +1254,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "GQ",
-                        "color": 1
+                        "id": "GQ"
                     }
                 },
                 {
@@ -1339,8 +1276,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "GR",
-                        "color": 2
+                        "id": "GR"
                     }
                 },
                 {
@@ -1351,8 +1287,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "GL",
-                        "color": 2
+                        "id": "GL"
                     }
                 },
                 {
@@ -1368,8 +1303,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "GT",
-                        "color": 0
+                        "id": "GT"
                     }
                 },
                 {
@@ -1383,8 +1317,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "GY",
-                        "color": 0
+                        "id": "GY"
                     }
                 },
                 {
@@ -1399,8 +1332,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "HN",
-                        "color": 2
+                        "id": "HN"
                     }
                 },
                 {
@@ -1416,8 +1348,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "HR",
-                        "color": 0
+                        "id": "HR"
                     }
                 },
                 {
@@ -1429,8 +1360,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "HT",
-                        "color": 0
+                        "id": "HT"
                     }
                 },
                 {
@@ -1447,8 +1377,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "HU",
-                        "color": 3
+                        "id": "HU"
                     }
                 },
                 {
@@ -1524,8 +1453,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "ID",
-                        "color": 1
+                        "id": "ID"
                     }
                 },
                 {
@@ -1544,8 +1472,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "IN",
-                        "color": 0
+                        "id": "IN"
                     }
                 },
                 {
@@ -1557,8 +1484,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "IE",
-                        "color": 1
+                        "id": "IE"
                     }
                 },
                 {
@@ -1578,8 +1504,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "IR",
-                        "color": 0
+                        "id": "IR"
                     }
                 },
                 {
@@ -1596,8 +1521,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "IQ",
-                        "color": 3
+                        "id": "IQ"
                     }
                 },
                 {
@@ -1608,8 +1532,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "IS",
-                        "color": 1
+                        "id": "IS"
                     }
                 },
                 {
@@ -1626,8 +1549,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "IL",
-                        "color": 0
+                        "id": "IL"
                     }
                 },
                 {
@@ -1654,8 +1576,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "IT",
-                        "color": 2
+                        "id": "IT"
                     }
                 },
                 {
@@ -1666,8 +1587,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "JM",
-                        "color": 1
+                        "id": "JM"
                     }
                 },
                 {
@@ -1684,8 +1604,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "JO",
-                        "color": 1
+                        "id": "JO"
                     }
                 },
                 {
@@ -1708,8 +1627,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "JP",
-                        "color": 1
+                        "id": "JP"
                     }
                 },
                 {
@@ -1725,8 +1643,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "KZ",
-                        "color": 0
+                        "id": "KZ"
                     }
                 },
                 {
@@ -1742,8 +1659,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "KE",
-                        "color": 0
+                        "id": "KE"
                     }
                 },
                 {
@@ -1757,8 +1673,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "KG",
-                        "color": 3
+                        "id": "KG"
                     }
                 },
                 {
@@ -1772,8 +1687,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "KH",
-                        "color": 1
+                        "id": "KH"
                     }
                 },
                 {
@@ -1785,8 +1699,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "KR",
-                        "color": 2
+                        "id": "KR"
                     }
                 },
                 {
@@ -1813,8 +1726,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "KW",
-                        "color": 1
+                        "id": "KW"
                     }
                 },
                 {
@@ -1829,8 +1741,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "LA",
-                        "color": 3
+                        "id": "LA"
                     }
                 },
                 {
@@ -1843,8 +1754,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "LB",
-                        "color": 1
+                        "id": "LB"
                     }
                 },
                 {
@@ -1858,8 +1768,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "LR",
-                        "color": 1
+                        "id": "LR"
                     }
                 },
                 {
@@ -1876,8 +1785,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "LY",
-                        "color": 1
+                        "id": "LY"
                     }
                 },
                 {
@@ -1888,8 +1796,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "LK",
-                        "color": 1
+                        "id": "LK"
                     }
                 },
                 {
@@ -1900,8 +1807,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "LS",
-                        "color": 0
+                        "id": "LS"
                     }
                 },
                 {
@@ -1916,8 +1822,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "LT",
-                        "color": 1
+                        "id": "LT"
                     }
                 },
                 {
@@ -1930,8 +1835,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "LU",
-                        "color": 3
+                        "id": "LU"
                     }
                 },
                 {
@@ -1946,8 +1850,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "LV",
-                        "color": 0
+                        "id": "LV"
                     }
                 },
                 {
@@ -1960,8 +1863,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "MA",
-                        "color": 1
+                        "id": "MA"
                     }
                 },
                 {
@@ -1975,8 +1877,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "MD",
-                        "color": 3
+                        "id": "MD"
                     }
                 },
                 {
@@ -1987,8 +1888,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "MG",
-                        "color": 2
+                        "id": "MG"
                     }
                 },
                 {
@@ -2003,8 +1903,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "MX",
-                        "color": 2
+                        "id": "MX"
                     }
                 },
                 {
@@ -2019,8 +1918,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "MK",
-                        "color": 3
+                        "id": "MK"
                     }
                 },
                 {
@@ -2037,8 +1935,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "ML",
-                        "color": 1
+                        "id": "ML"
                     }
                 },
                 {
@@ -2054,8 +1951,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "MM",
-                        "color": 2
+                        "id": "MM"
                     }
                 },
                 {
@@ -2071,8 +1967,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "ME",
-                        "color": 2
+                        "id": "ME"
                     }
                 },
                 {
@@ -2084,8 +1979,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "MN",
-                        "color": 3
+                        "id": "MN"
                     }
                 },
                 {
@@ -2103,8 +1997,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "MZ",
-                        "color": 0
+                        "id": "MZ"
                     }
                 },
                 {
@@ -2119,8 +2012,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "MR",
-                        "color": 0
+                        "id": "MR"
                     }
                 },
                 {
@@ -2133,8 +2025,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "MW",
-                        "color": 3
+                        "id": "MW"
                     }
                 },
                 {
@@ -2156,8 +2047,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "MY",
-                        "color": 2
+                        "id": "MY"
                     }
                 },
                 {
@@ -2172,8 +2062,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "NA",
-                        "color": 1
+                        "id": "NA"
                     }
                 },
                 {
@@ -2184,8 +2073,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "NC",
-                        "color": 0
+                        "id": "NC"
                     }
                 },
                 {
@@ -2203,8 +2091,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "NE",
-                        "color": 0
+                        "id": "NE"
                     }
                 },
                 {
@@ -2218,8 +2105,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "NG",
-                        "color": 2
+                        "id": "NG"
                     }
                 },
                 {
@@ -2234,8 +2120,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "NI",
-                        "color": 1
+                        "id": "NI"
                     }
                 },
                 {
@@ -2248,8 +2133,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "NL",
-                        "color": 0
+                        "id": "NL"
                     }
                 },
                 {
@@ -2280,8 +2164,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "NO",
-                        "color": 0
+                        "id": "NO"
                     }
                 },
                 {
@@ -2293,8 +2176,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "NP",
-                        "color": 3
+                        "id": "NP"
                     }
                 },
                 {
@@ -2312,8 +2194,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "NZ",
-                        "color": 1
+                        "id": "NZ"
                     }
                 },
                 {
@@ -2335,8 +2216,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "OM",
-                        "color": 0
+                        "id": "OM"
                     }
                 },
                 {
@@ -2351,8 +2231,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "PK",
-                        "color": 2
+                        "id": "PK"
                     }
                 },
                 {
@@ -2366,8 +2245,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "PA",
-                        "color": 1
+                        "id": "PA"
                     }
                 },
                 {
@@ -2383,8 +2261,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "PE",
-                        "color": 1
+                        "id": "PE"
                     }
                 },
                 {
@@ -2427,8 +2304,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "PH",
-                        "color": 0
+                        "id": "PH"
                     }
                 },
                 {
@@ -2457,8 +2333,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "PG",
-                        "color": 0
+                        "id": "PG"
                     }
                 },
                 {
@@ -2476,8 +2351,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "PL",
-                        "color": 0
+                        "id": "PL"
                     }
                 },
                 {
@@ -2488,8 +2362,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "PR",
-                        "color": 1
+                        "id": "PR"
                     }
                 },
                 {
@@ -2504,8 +2377,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "KP",
-                        "color": 0
+                        "id": "KP"
                     }
                 },
                 {
@@ -2517,8 +2389,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "PT",
-                        "color": 1
+                        "id": "PT"
                     }
                 },
                 {
@@ -2531,8 +2402,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "PY",
-                        "color": 1
+                        "id": "PY"
                     }
                 },
                 {
@@ -2544,8 +2414,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "PS",
-                        "color": 2
+                        "id": "PS"
                     }
                 },
                 {
@@ -2557,8 +2426,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "QA",
-                        "color": 0
+                        "id": "QA"
                     }
                 },
                 {
@@ -2575,8 +2443,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "RO",
-                        "color": 2
+                        "id": "RO"
                     }
                 },
                 {
@@ -2683,8 +2550,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "RU",
-                        "color": 2
+                        "id": "RU"
                     }
                 },
                 {
@@ -2698,8 +2564,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "RW",
-                        "color": 1
+                        "id": "RW"
                     }
                 },
                 {
@@ -2713,8 +2578,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "EH",
-                        "color": 3
+                        "id": "EH"
                     }
                 },
                 {
@@ -2735,8 +2599,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "SA",
-                        "color": 2
+                        "id": "SA"
                     }
                 },
                 {
@@ -2756,8 +2619,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "SD",
-                        "color": 0
+                        "id": "SD"
                     }
                 },
                 {
@@ -2775,8 +2637,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "SS",
-                        "color": 1
+                        "id": "SS"
                     }
                 },
                 {
@@ -2793,8 +2654,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "SN",
-                        "color": 2
+                        "id": "SN"
                     }
                 },
                 {
@@ -2827,8 +2687,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "SB",
-                        "color": 2
+                        "id": "SB"
                     }
                 },
                 {
@@ -2841,8 +2700,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "SL",
-                        "color": 2
+                        "id": "SL"
                     }
                 },
                 {
@@ -2855,8 +2713,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "SV",
-                        "color": 1
+                        "id": "SV"
                     }
                 },
                 {
@@ -2884,8 +2741,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "SO",
-                        "color": 1
+                        "id": "SO"
                     }
                 },
                 {
@@ -2903,8 +2759,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "RS",
-                        "color": 1
+                        "id": "RS"
                     }
                 },
                 {
@@ -2918,8 +2773,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "SR",
-                        "color": 1
+                        "id": "SR"
                     }
                 },
                 {
@@ -2934,8 +2788,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "SK",
-                        "color": 2
+                        "id": "SK"
                     }
                 },
                 {
@@ -2949,8 +2802,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "SI",
-                        "color": 1
+                        "id": "SI"
                     }
                 },
                 {
@@ -2963,8 +2815,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "SE",
-                        "color": 2
+                        "id": "SE"
                     }
                 },
                 {
@@ -2976,8 +2827,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "SZ",
-                        "color": 3
+                        "id": "SZ"
                     }
                 },
                 {
@@ -2993,8 +2843,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "SY",
-                        "color": 2
+                        "id": "SY"
                     }
                 },
                 {
@@ -3009,8 +2858,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "TD",
-                        "color": 3
+                        "id": "TD"
                     }
                 },
                 {
@@ -3024,8 +2872,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "TG",
-                        "color": 0
+                        "id": "TG"
                     }
                 },
                 {
@@ -3041,8 +2888,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "TH",
-                        "color": 0
+                        "id": "TH"
                     }
                 },
                 {
@@ -3056,8 +2902,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "TJ",
-                        "color": 0
+                        "id": "TJ"
                     }
                 },
                 {
@@ -3072,8 +2917,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "TM",
-                        "color": 1
+                        "id": "TM"
                     }
                 },
                 {
@@ -3085,8 +2929,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "TL",
-                        "color": 2
+                        "id": "TL"
                     }
                 },
                 {
@@ -3097,8 +2940,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "TT",
-                        "color": 1
+                        "id": "TT"
                     }
                 },
                 {
@@ -3111,8 +2953,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "TN",
-                        "color": 0
+                        "id": "TN"
                     }
                 },
                 {
@@ -3137,8 +2978,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "TR",
-                        "color": 1
+                        "id": "TR"
                     }
                 },
                 {
@@ -3149,8 +2989,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "TW",
-                        "color": 2
+                        "id": "TW"
                     }
                 },
                 {
@@ -3169,8 +3008,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "TZ",
-                        "color": 2
+                        "id": "TZ"
                     }
                 },
                 {
@@ -3185,8 +3023,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "UG",
-                        "color": 3
+                        "id": "UG"
                     }
                 },
                 {
@@ -3207,8 +3044,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "UA",
-                        "color": 1
+                        "id": "UA"
                     }
                 },
                 {
@@ -3221,8 +3057,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "UY",
-                        "color": 1
+                        "id": "UY"
                     }
                 },
                 {
@@ -3284,8 +3119,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "US",
-                        "color": 0
+                        "id": "US"
                     }
                 },
                 {
@@ -3300,8 +3134,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "UZ",
-                        "color": 2
+                        "id": "UZ"
                     }
                 },
                 {
@@ -3315,8 +3148,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "VE",
-                        "color": 1
+                        "id": "VE"
                     }
                 },
                 {
@@ -3330,8 +3162,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "VN",
-                        "color": 2
+                        "id": "VN"
                     }
                 },
                 {
@@ -3349,8 +3180,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "VU",
-                        "color": 1
+                        "id": "VU"
                     }
                 },
                 {
@@ -3363,8 +3193,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "YE",
-                        "color": 1
+                        "id": "YE"
                     }
                 },
                 {
@@ -3384,8 +3213,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "ZA",
-                        "color": 2
+                        "id": "ZA"
                     }
                 },
                 {
@@ -3405,8 +3233,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "ZM",
-                        "color": 1
+                        "id": "ZM"
                     }
                 },
                 {
@@ -3420,8 +3247,7 @@ window.data = {
                         ]
                     ],
                     "properties": {
-                        "id": "ZW",
-                        "color": 3
+                        "id": "ZW"
                     }
                 }
             ]

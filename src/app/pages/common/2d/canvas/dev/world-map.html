@@ -76,10 +76,12 @@
                 <span id="scale-display">1.00</span> S
             </div>
         </div>
+        <!--
         <div class="grid-line horizontal" style="top: 50%"></div>
         <div class="grid-line vertical" style="left: 25%;"></div>
         <div class="grid-line vertical" style="left: 50%;"></div>
         <div class="grid-line vertical" style="left: 75%;"></div>
+        -->
         <canvas></canvas>
     </div>
 
@@ -118,7 +120,103 @@
     <script src="./data.js"></script>
     <script src="./earcut.min.js"></script>
     <script src="./gl-matrix.js"></script>
+    <script src="./topojson-client.js"></script>
     <script>
+
+        /*
+        class BoundingBox {
+
+            constructor(points) {
+
+                this.x1 = this.y1 = Infinity;
+                this.x2 = this.y2 = -Infinity;
+
+                for(let point of points) {
+                    this.x1 = Math.min(this.x1, point[0]);
+                    this.y1 = Math.min(this.y1, point[1]);
+                    this.x2 = Math.max(this.x2, point[0]);
+                    this.y2 = Math.max(this.y2, point[1]);
+                }
+            }
+
+            intersects(other) {
+                return this.x1 < other.x2 &&
+                       this.x2 > other.x1 &&
+                       this.y1 < other.y2 &&
+                       this.y2 > other.y1;
+            }
+        }
+
+        let bbox =  new BoundingBox([[0,     0], [1, 0], [0, 2], [0, 0]]);
+        let bbox2 = new BoundingBox([[3, 3], [4, 3], [4, 4], [3, 3]]);
+        console.log(bbox.x1, bbox.y1, bbox.x2, bbox.y2);  // {x1: 0,   y1: 0,   x2: 1, y2: 2}
+        console.log(bbox.intersects(bbox));
+        console.log(bbox.intersects(bbox2));
+        */
+
+        class BoundingBox {
+
+            constructor(object) {
+
+                this.x1 = this.y1 = Infinity;
+                this.x2 = this.y2 = -Infinity;
+
+                if(this.isGeoJsonArray(object)) {
+                    for(let points of object) {
+                        this.reduce(points);
+                    }
+                }
+                else if (Array.isArray(object)) {
+                    this.reduce(object);
+                }
+            }
+
+            reduce(points) {
+                for(let point of points) {
+                    this.x1 = Math.min(this.x1, point[0]);
+                    this.y1 = Math.min(this.y1, point[1]);
+                    this.x2 = Math.max(this.x2, point[0]);
+                    this.y2 = Math.max(this.y2, point[1]);
+                }
+            }
+
+            intersects(other) {
+                return this.x1 < other.x2 &&
+                       this.x2 > other.x1 &&
+                       this.y1 < other.y2 &&
+                       this.y2 > other.y1;
+            }
+
+            isGeoJsonArray(object) {
+                return Array.isArray(object) &&
+                       Array.isArray(object[0]) &&
+                       Array.isArray(object[0][0]);
+            }
+        }
+
+        class GeoJson {
+
+            constructor(featureCollection) {
+
+                for(let feature of featureCollection.features) {
+                    feature.properties.bboxes = [];
+                    if(feature.geometry.type === "Polygon") {
+                        feature.properties.bboxes.push(new BoundingBox(feature.geometry.coordinates));
+                    }
+                    if(feature.geometry.type === "MultiPolygon") {
+                        for(let coordinates of feature.geometry.coordinates) {
+                            feature.properties.bboxes.push(new BoundingBox(coordinates));
+                        }
+                    }
+                }
+            }
+        }
+
+        let bbox = new BoundingBox([[0,0], [1,0], [0,2], [0,0]]);
+        let bbox2 = new BoundingBox([[3,3], [4,3], [4,4], [3,3]]);
+        console.log(bbox.x1, bbox.y1, bbox.x2, bbox.y2);  // {x1: 0,   y1: 0,   x2: 1, y2: 2}
+        console.log(bbox.intersects(bbox));
+        console.log(bbox.intersects(bbox2));
 
         var scaleDisplay = document.querySelector("#scale-display");
         var xDegreeSlider = document.querySelector("#x-degree-slider");
@@ -131,8 +229,8 @@
         var logDisplay = document.querySelector("#log");
 
         var pointSize = 2;
-        var geometries = inflate(data);
-        var buffer = createBuffer(geometries);
+        var featureCollection = topojson.feature(data, data.objects.world);
+        var buffer = createBuffer(featureCollection.features);
 
         var canvas = document.querySelector("canvas");
         var gl = canvas.getContext("webgl");
@@ -176,9 +274,32 @@
             [0, 0.55, 0, 1]
         ];
 
+        /*
+        var colors = [
+            [0.9, 0.9, 0.9, 1],
+            [0.7, 0.7, 0.7, 1],
+            [0.5, 0.5, 0.5, 1],
+            [0.3, 0.3, 0.3, 1]
+        ];
+        */
+
+        var bboxes = [];
+        new GeoJson(featureCollection);
+
+        for(let feature of featureCollection.features) {
+            for(let bbox of feature.properties.bboxes) {
+                bboxes.push(
+                    bbox.x1, bbox.y1, bbox.x2, bbox.y1,
+                    bbox.x2, bbox.y1, bbox.x2, bbox.y2,
+                    bbox.x2, bbox.y2, bbox.x1, bbox.y2,
+                    bbox.x1, bbox.y2, bbox.x1, bbox.y1
+                );
+            }
+        }
+
         gl.useProgram(program);
         gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(buffer.data), gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(buffer.data.concat(bboxes)), gl.STATIC_DRAW);
         gl.enableVertexAttribArray(positionLocation);
         gl.vertexAttribPointer(positionLocation, pointSize, gl.FLOAT, false, 0, 0);
 
@@ -433,6 +554,14 @@
                 gl.drawArrays(gl.TRIANGLES, offset, buffer.offsets[i] / pointSize);
                 offset += buffer.offsets[i] / pointSize;
             }
+
+            gl.lineWidth(6);
+
+            for(var i = 0; i < bboxes.length / 16; i++) {
+                gl.uniform4fv(colorLocation, [1, 1, 1, 1]);
+                gl.drawArrays(gl.LINES, offset, 8);
+                offset += 8;
+            }
         }
 
         function createShader(type, source) {
@@ -462,83 +591,18 @@
             return program;
         }
 
-        function inflate(topology) {
+        function createBuffer(features) {
 
-            var geometries = [];
-
-            Object.keys(topology.objects).forEach(function(key) {
-                for(var i = 0; i < topology.objects[key].geometries.length; i++) {
-                    var geometry = topology.objects[key].geometries[i];
-                    if(geometry && geometry.arcs) {
-                        var inflated = inflateGeometry(topology, geometry);
-                        inflated.type = geometry.type;
-                        geometries.push(inflated);
-                    }
-                }
-            });
-
-            return geometries;
-        }
-
-        function inflateGeometry(topology, geometry) {
-            var inflated = { polygons: [] };
-            geometry.arcs.forEach(function(arc) {
-                if(geometry.type === "Polygon") {
-                    inflated.polygons.push(stitch(topology, arc));
-                }
-                if(geometry.type === "MultiPolygon") {
-                    var polygons = [];
-                    for(var multi of arc) {
-                        polygons.push(stitch(topology, multi));
-                    }
-                    inflated.polygons.push(polygons);
-                }
-            });
-            return inflated;
-        }
-
-        function stitch(topology, arc) {
-            const polygon = [];
-            arc.forEach(function(index) {
-                var coordinates = resolve(topology, index);
-                polygon.push(...coordinates);
-            });
-            return polygon;
-        }
-
-        function resolve(topology, index) {
-            var coordinates;
-            if(index < 0) {
-                coordinates = decodeArc(topology, topology.arcs[~index]);
-                coordinates.reverse();
-            }
-            else {
-                coordinates = decodeArc(topology, topology.arcs[index]);
-            }
-            return coordinates;
-        }
-
-        function decodeArc(topology, arc) {
-            var x = 0, y = 0;
-            return arc.map((point) => {
-                return [
-                    (x += point[0]) * topology.transform.scale[0] + topology.transform.translate[0],
-                    (y += point[1]) * topology.transform.scale[1] + topology.transform.translate[1]
-                ];
-            });
-        }
-
-        function createBuffer(geometries) {
             var buffer = { data: [], offsets: [] };
             var offset = 0;
 
-            geometries.forEach(function(geometry) {
-                if(geometry.type === "Polygon") {
-                    triangulate(geometry.polygons, buffer.data);
+            features.forEach(function(feature) {
+                if(feature.geometry.type === "Polygon") {                    
+                    triangulate(feature.geometry.coordinates, buffer.data);
                 }
-                if(geometry.type === "MultiPolygon") {
-                    for(let polygons of geometry.polygons) {
-                        triangulate(polygons, buffer.data);
+                if(feature.geometry.type === "MultiPolygon") {
+                    for(let coordinates of feature.geometry.coordinates) {
+                        triangulate(coordinates, buffer.data);
                     }
                 }
                 buffer.offsets.push(buffer.data.length - offset);

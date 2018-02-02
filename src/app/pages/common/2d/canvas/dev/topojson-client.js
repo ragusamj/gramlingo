@@ -1,3 +1,4 @@
+/* eslint-disable */
 // https://github.com/topojson/topojson-client Version 3.0.0. Copyright 2017 Mike Bostock.
 (function (global, factory) {
     typeof exports === "object" && typeof module !== "undefined" ? factory(exports) :

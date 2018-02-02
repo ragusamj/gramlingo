@@ -4,7 +4,7 @@
   "literals":      true,
   "color":         true,
   "minInstances":  2,
-  "ignore":        "earcut|generators|gl-matrix|m4|spec",
+  "ignore":        "earcut|generators|gl-matrix|m4|spec|topojson-client",
   "reporter":      "default",
   "truncate":      100
 }

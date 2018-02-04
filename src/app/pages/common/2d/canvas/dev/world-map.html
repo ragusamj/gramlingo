@@ -76,12 +76,10 @@
                 <span id="scale-display">1.00</span> S
             </div>
         </div>
-        <!--
         <div class="grid-line horizontal" style="top: 50%"></div>
         <div class="grid-line vertical" style="left: 25%;"></div>
         <div class="grid-line vertical" style="left: 50%;"></div>
         <div class="grid-line vertical" style="left: 75%;"></div>
-        -->
         <canvas></canvas>
     </div>
 
@@ -123,41 +121,31 @@
     <script src="./topojson-client.js"></script>
     <script>
 
-        /*
-        class BoundingBox {
-
-            constructor(points) {
-
-                this.x1 = this.y1 = Infinity;
-                this.x2 = this.y2 = -Infinity;
-
-                for(let point of points) {
-                    this.x1 = Math.min(this.x1, point[0]);
-                    this.y1 = Math.min(this.y1, point[1]);
-                    this.x2 = Math.max(this.x2, point[0]);
-                    this.y2 = Math.max(this.y2, point[1]);
-                }
-            }
-
-            intersects(other) {
-                return this.x1 < other.x2 &&
-                       this.x2 > other.x1 &&
-                       this.y1 < other.y2 &&
-                       this.y2 > other.y1;
+        class Neighbors {
+            constructor(features) {
+                this.neighbors = features.map((feature, featureIndex) => {
+                    let neighbors = [];
+                    for(let bbox of feature) {
+                        let neighborIndex = 0;
+                        for(let neighborFeature of features) {
+                            for(let neighborBbox of neighborFeature) {
+                                if(neighborIndex !== featureIndex && neighbors.indexOf(neighborIndex) === -1 && neighborBbox.intersects(bbox)) {
+                                    neighbors.push(neighborIndex);
+                                }
+                            }
+                            neighborIndex++;
+                        }
+                    }
+                    return neighbors;
+                });
             }
         }
 
-        let bbox =  new BoundingBox([[0,     0], [1, 0], [0, 2], [0, 0]]);
-        let bbox2 = new BoundingBox([[3, 3], [4, 3], [4, 4], [3, 3]]);
-        console.log(bbox.x1, bbox.y1, bbox.x2, bbox.y2);  // {x1: 0,   y1: 0,   x2: 1, y2: 2}
-        console.log(bbox.intersects(bbox));
-        console.log(bbox.intersects(bbox2));
-        */
-
         class BoundingBox {
 
-            constructor(object) {
+            constructor(object, id) {
 
+                this.id = id;
                 this.x1 = this.y1 = Infinity;
                 this.x2 = this.y2 = -Infinity;
 
@@ -198,25 +186,61 @@
 
             constructor(featureCollection) {
 
-                for(let feature of featureCollection.features) {
-                    feature.properties.bboxes = [];
+                this.features = featureCollection.features.map((feature) => {
+                    let bboxes = [];
                     if(feature.geometry.type === "Polygon") {
-                        feature.properties.bboxes.push(new BoundingBox(feature.geometry.coordinates));
+                        bboxes.push(new BoundingBox(feature.geometry.coordinates, feature.properties.id));
                     }
                     if(feature.geometry.type === "MultiPolygon") {
                         for(let coordinates of feature.geometry.coordinates) {
-                            feature.properties.bboxes.push(new BoundingBox(coordinates));
+                            bboxes.push(new BoundingBox(coordinates, feature.properties.id));
                         }
                     }
-                }
+                    return bboxes;
+                });
             }
         }
 
+        class Color {
+
+            static shade(color, percent) {   
+                let t = percent < 0 ? 0 : 255;
+                let p = percent < 0 ? percent * -1 : percent;
+                let rgb = this.rgb(color);
+                return "#" + (0x1000000 +
+                    (Math.round((t - rgb.r) * p) + rgb.r) * 0x10000 +
+                    (Math.round((t - rgb.g) * p) + rgb.g) * 0x100 +
+                    (Math.round((t - rgb.b) * p) + rgb.b)
+                ).toString(16).slice(1);
+            }
+
+            static rgb(color) {
+                let i = parseInt(color.slice(1), 16);
+                return {
+                    r: i >> 16,
+                    g: i >> 8 & 0x00FF,
+                    b: i & 0x0000FF
+                };
+            }
+
+            static vec4(color, a) {
+                let rgb = this.rgb(color);
+                return [
+                    rgb.r / 255,
+                    rgb.g / 255,
+                    rgb.b / 255,
+                    a || 1
+                ];
+            }
+        }
+
+        /*
         let bbox = new BoundingBox([[0,0], [1,0], [0,2], [0,0]]);
         let bbox2 = new BoundingBox([[3,3], [4,3], [4,4], [3,3]]);
         console.log(bbox.x1, bbox.y1, bbox.x2, bbox.y2);  // {x1: 0,   y1: 0,   x2: 1, y2: 2}
         console.log(bbox.intersects(bbox));
         console.log(bbox.intersects(bbox2));
+        */
 
         var scaleDisplay = document.querySelector("#scale-display");
         var xDegreeSlider = document.querySelector("#x-degree-slider");
@@ -267,39 +291,35 @@
         var minScale = 0.5;
         var maxScale = 10;
 
-        var colors = [
-            [0, 1, 0, 1],
-            [0, 0.85, 0, 1],
-            [0, 0.7, 0, 1],
-            [0, 0.55, 0, 1]
-        ];
+        var palette = [];
 
-        /*
-        var colors = [
-            [0.9, 0.9, 0.9, 1],
-            [0.7, 0.7, 0.7, 1],
-            [0.5, 0.5, 0.5, 1],
-            [0.3, 0.3, 0.3, 1]
-        ];
-        */
-
-        var bboxes = [];
-        new GeoJson(featureCollection);
-
-        for(let feature of featureCollection.features) {
-            for(let bbox of feature.properties.bboxes) {
-                bboxes.push(
-                    bbox.x1, bbox.y1, bbox.x2, bbox.y1,
-                    bbox.x2, bbox.y1, bbox.x2, bbox.y2,
-                    bbox.x2, bbox.y2, bbox.x1, bbox.y2,
-                    bbox.x1, bbox.y2, bbox.x1, bbox.y1
-                );
-            }
+        let color = "#00ff00";
+        let shade = -0.5;
+        for(let i = 0; i < 10; i++) {
+            palette.push(Color.shade(color, shade));
+            shade += 0.1;
         }
+
+        let g = new GeoJson(featureCollection);
+        let neighbors = new Neighbors(g.features);
+
+        featureCollection.features.forEach((feature, featureIndex) => {
+            feature.color = 0;
+            for(let n of neighbors.neighbors[featureIndex]) {
+                let neighbor = featureCollection.features[n];
+                if(neighbor.color !== undefined) {
+                    feature.color = Math.max(feature.color, neighbor.color + 1);
+                }
+            }
+        });
+
+        var colors = featureCollection.features.map((feature, i) => {
+            return Color.vec4(palette[feature.color]);
+        });
 
         gl.useProgram(program);
         gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(buffer.data.concat(bboxes)), gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(buffer.data), gl.STATIC_DRAW);
         gl.enableVertexAttribArray(positionLocation);
         gl.vertexAttribPointer(positionLocation, pointSize, gl.FLOAT, false, 0, 0);
 
@@ -550,17 +570,9 @@
 
             var offset = 0;
             for(var i = 0; i < buffer.offsets.length; i++) {
-                gl.uniform4fv(colorLocation, colors[i % 4]);
+                gl.uniform4fv(colorLocation, colors[i]);
                 gl.drawArrays(gl.TRIANGLES, offset, buffer.offsets[i] / pointSize);
                 offset += buffer.offsets[i] / pointSize;
-            }
-
-            gl.lineWidth(6);
-
-            for(var i = 0; i < bboxes.length / 16; i++) {
-                gl.uniform4fv(colorLocation, [1, 1, 1, 1]);
-                gl.drawArrays(gl.LINES, offset, 8);
-                offset += 8;
             }
         }
 

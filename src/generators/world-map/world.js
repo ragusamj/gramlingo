@@ -5,8 +5,6 @@ const topojsonServer = require("topojson-server");
 const topojsonSimplify = require("topojson-simplify");
 
 const shp = __dirname + "/naturalearth/ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp";
-const height = 810;
-const width = 1600;
 const quantization = 1e3; // powers of ten, 1e4, 1e5, 1e6...
 const simplificationMinWeight = 0.00000001;
 
@@ -14,7 +12,7 @@ shapefile
     .read(shp)
     .then((geojson) => {
 
-        let projection = d3GeoProjection.geoRobinson().fitSize([width, height], geojson);
+        let projection = d3GeoProjection.geoRobinson();
         let projected = d3GeoProjection.geoProject(geojson, projection);
         let topology = topojsonServer.topology({ world: projected }, quantization);
         let transform = topology.transform;

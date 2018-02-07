@@ -121,15 +121,23 @@
     <script src="./topojson-client.js"></script>
     <script>
 
+        class GeoJson {
+            static isArray(object) {
+                return Array.isArray(object) &&
+                       Array.isArray(object[0]) &&
+                       Array.isArray(object[0][0]);
+            }
+        }
+
         class Neighbors {
             constructor(features) {
                 this.neighbors = features.map((feature, featureIndex) => {
                     let neighbors = [];
-                    for(let bbox of feature) {
+                    for(let shape of feature) {
                         let neighborIndex = 0;
                         for(let neighborFeature of features) {
-                            for(let neighborBbox of neighborFeature) {
-                                if(neighborIndex !== featureIndex && neighbors.indexOf(neighborIndex) === -1 && neighborBbox.intersects(bbox)) {
+                            for(let neighborShape of neighborFeature) {
+                                if(neighborIndex !== featureIndex && neighbors.indexOf(neighborIndex) === -1 && neighborShape.intersects(shape)) {
                                     neighbors.push(neighborIndex);
                                 }
                             }
@@ -143,13 +151,12 @@
 
         class BoundingBox {
 
-            constructor(object, id) {
+            constructor(object) {
 
-                this.id = id;
                 this.x1 = this.y1 = Infinity;
                 this.x2 = this.y2 = -Infinity;
 
-                if(this.isGeoJsonArray(object)) {
+                if(GeoJson.isArray(object)) {
                     for(let points of object) {
                         this.reduce(points);
                     }
@@ -174,30 +181,59 @@
                        this.y1 < other.y2 &&
                        this.y2 > other.y1;
             }
+        }
 
-            isGeoJsonArray(object) {
-                return Array.isArray(object) &&
-                       Array.isArray(object[0]) &&
-                       Array.isArray(object[0][0]);
+        class Ring {
+
+            constructor(object) {
+
+                this.points = [];
+
+                if(GeoJson.isArray(object)) {
+                    for(let points of object) {
+                        this.quantize(points);
+                    }
+                }
+                else if (Array.isArray(object)) {
+                    this.quantize(object);
+                }
+            }
+
+            quantize(points) {
+                for(let point of points) {
+                    this.points.push([
+                        Math.floor(point[0]),
+                        Math.floor(point[1])
+                    ]);
+                }
+            }
+
+            intersects(other) {
+                for(let t of this.points) {
+                    for(let o of other.points) {
+                        if(t[0] === o[0] && t[1] === o[1]) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
             }
         }
 
-        class GeoJson {
-
-            constructor(featureCollection) {
-
-                this.features = featureCollection.features.map((feature) => {
-                    let bboxes = [];
-                    if(feature.geometry.type === "Polygon") {
-                        bboxes.push(new BoundingBox(feature.geometry.coordinates, feature.properties.id));
-                    }
-                    if(feature.geometry.type === "MultiPolygon") {
-                        for(let coordinates of feature.geometry.coordinates) {
-                            bboxes.push(new BoundingBox(coordinates, feature.properties.id));
+        class Greedy {
+            constructor(featureCollection, neighbors) {
+                this.colorCount = 0;
+                featureCollection.features.forEach((feature, featureIndex) => {
+                    feature.color = 0;
+                    for(let n of neighbors[featureIndex]) {
+                        let neighbor = featureCollection.features[n];
+                        if(neighbor.color !== undefined) {
+                            feature.color = Math.max(feature.color, neighbor.color + 1);
                         }
                     }
-                    return bboxes;
+                    this.colorCount = Math.max(feature.color, this.colorCount);
                 });
+                this.colorCount++;
             }
         }
 
@@ -291,31 +327,42 @@
         var minScale = 0.5;
         var maxScale = 10;
 
+        let t0 = performance.now();
+        //let Strategy = BoundingBox;
+        let Strategy = Ring;
+
+        let features = featureCollection.features.map((feature) => {
+            let shapes = [];
+            if(feature.geometry.type === "Polygon") {
+                shapes.push(new Strategy(feature.geometry.coordinates));
+            }
+            if(feature.geometry.type === "MultiPolygon") {
+                for(let coordinates of feature.geometry.coordinates) {
+                    shapes.push(new Strategy(coordinates));
+                }
+            }
+            return shapes;
+        });
+
+        let neighbors = new Neighbors(features);
+
+        let colorCount = new Greedy(featureCollection, neighbors.neighbors).colorCount;
+
         var palette = [];
 
         let color = "#00ff00";
         let shade = -0.5;
-        for(let i = 0; i < 10; i++) {
+        for(let i = 0; i < colorCount; i++) {
             palette.push(Color.shade(color, shade));
-            shade += 0.1;
+            shade += 0.2;
         }
-
-        let g = new GeoJson(featureCollection);
-        let neighbors = new Neighbors(g.features);
-
-        featureCollection.features.forEach((feature, featureIndex) => {
-            feature.color = 0;
-            for(let n of neighbors.neighbors[featureIndex]) {
-                let neighbor = featureCollection.features[n];
-                if(neighbor.color !== undefined) {
-                    feature.color = Math.max(feature.color, neighbor.color + 1);
-                }
-            }
-        });
 
         var colors = featureCollection.features.map((feature, i) => {
             return Color.vec4(palette[feature.color]);
         });
+
+        let t1 = performance.now();
+        console.log("Coloring with strategy '" + Strategy.name + "' took " + (t1 - t0) + " milliseconds and needed " + colorCount + " coöors");
 
         gl.useProgram(program);
         gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());

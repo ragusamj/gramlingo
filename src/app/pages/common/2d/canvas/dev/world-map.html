@@ -131,17 +131,15 @@
 
         class Neighbors {
             constructor(features) {
-                this.neighbors = features.map((feature, featureIndex) => {
+                this.neighbors = features.map((feature) => {
                     let neighbors = [];
-                    for(let shape of feature) {
-                        let neighborIndex = 0;
-                        for(let neighborFeature of features) {
-                            for(let neighborShape of neighborFeature) {
-                                if(neighborIndex !== featureIndex && neighbors.indexOf(neighborIndex) === -1 && neighborShape.intersects(shape)) {
-                                    neighbors.push(neighborIndex);
+                    for(let shape of feature.shapes) {
+                        for(let neighborFeature of feature.neighbors) {
+                            for(let neighborShape of neighborFeature.shapes) {
+                                if(neighborFeature.index !== feature.index && neighbors.indexOf(neighborFeature.index) === -1 && neighborShape.intersects(shape)) {
+                                    neighbors.push(neighborFeature.index);
                                 }
                             }
-                            neighborIndex++;
                         }
                     }
                     return neighbors;
@@ -328,41 +326,74 @@
         var maxScale = 10;
 
         let t0 = performance.now();
-        //let Strategy = BoundingBox;
-        let Strategy = Ring;
 
-        let features = featureCollection.features.map((feature) => {
-            let shapes = [];
-            if(feature.geometry.type === "Polygon") {
-                shapes.push(new Strategy(feature.geometry.coordinates));
+        let bboxFeatures = featureCollection.features.map((f, i) => {
+            let feature = {
+                index: i,
+                shapes: []
+            };
+            if(f.geometry.type === "Polygon") {
+                feature.shapes.push(new BoundingBox(f.geometry.coordinates));
             }
-            if(feature.geometry.type === "MultiPolygon") {
-                for(let coordinates of feature.geometry.coordinates) {
-                    shapes.push(new Strategy(coordinates));
+            if(f.geometry.type === "MultiPolygon") {
+                for(let coordinates of f.geometry.coordinates) {
+                    feature.shapes.push(new BoundingBox(coordinates));
                 }
             }
-            return shapes;
+            return feature;
         });
 
-        let neighbors = new Neighbors(features);
+        for(let feature of bboxFeatures) {
+            feature.neighbors = bboxFeatures;
+        }
 
-        let colorCount = new Greedy(featureCollection, neighbors.neighbors).colorCount;
+        let bboxes = new Neighbors(bboxFeatures);
+
+        let ringFeatures = featureCollection.features.map((f, i) => {
+            let feature = {
+                index: i,
+                shapes: []
+            };
+            if(f.geometry.type === "Polygon") {
+                feature.shapes.push(new Ring(f.geometry.coordinates));
+            }
+            if(f.geometry.type === "MultiPolygon") {
+                for(let coordinates of f.geometry.coordinates) {
+                    feature.shapes.push(new Ring(coordinates));
+                }
+            }
+            return feature;
+        });
+
+        let i = 0;
+        for(let feature of ringFeatures) {
+            feature.neighbors = bboxes.neighbors[i].map((n) => {
+                return ringFeatures[n];
+            });
+            i++;
+        }
+
+        let rings = new Neighbors(ringFeatures);
+
+        let colorCount = new Greedy(featureCollection, rings.neighbors).colorCount;
 
         var palette = [];
 
-        let color = "#00ff00";
+        let color = "#ff00ff";
         let shade = -0.5;
         for(let i = 0; i < colorCount; i++) {
             palette.push(Color.shade(color, shade));
+            //palette.push([Math.random(), Math.random(), Math.random(), 1]);
             shade += 0.2;
         }
 
         var colors = featureCollection.features.map((feature, i) => {
             return Color.vec4(palette[feature.color]);
+            //return palette[feature.color];
         });
 
         let t1 = performance.now();
-        console.log("Coloring with strategy '" + Strategy.name + "' took " + (t1 - t0) + " milliseconds and needed " + colorCount + " coöors");
+        console.log("Coloring took " + (t1 - t0) + " milliseconds and needed " + colorCount + " colors");
 
         gl.useProgram(program);
         gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());

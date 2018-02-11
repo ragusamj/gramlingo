@@ -130,14 +130,19 @@
         }
 
         class Neighbors {
+
             constructor(features) {
-                this.neighbors = features.map((feature) => {
-                    let neighbors = [];
-                    for(let shape of feature.shapes) {
-                        for(let neighborFeature of feature.neighbors) {
-                            for(let neighborShape of neighborFeature.shapes) {
-                                if(neighborFeature.index !== feature.index && neighbors.indexOf(neighborFeature.index) === -1 && neighborShape.intersects(shape)) {
-                                    neighbors.push(neighborFeature.index);
+                this.values = this.intersect(features);
+            }
+
+            intersect(features) {
+                return features.map((feature) => {
+                    const neighbors = [];
+                    for(const shape of feature.shapes) {
+                        for(const nfeature of feature.possibleNeighbors) {
+                            for(const nshape of nfeature.shapes) {
+                                if(nfeature.index !== feature.index && neighbors.indexOf(nfeature.index) === -1 && nshape.intersects(shape)) {
+                                    neighbors.push(nfeature.index);
                                 }
                             }
                         }
@@ -165,7 +170,7 @@
             }
 
             reduce(points) {
-                for(let point of points) {
+                for(const point of points) {
                     this.x1 = Math.min(this.x1, point[0]);
                     this.y1 = Math.min(this.y1, point[1]);
                     this.x2 = Math.max(this.x2, point[0]);
@@ -188,7 +193,7 @@
                 this.points = [];
 
                 if(GeoJson.isArray(object)) {
-                    for(let points of object) {
+                    for(const points of object) {
                         this.quantize(points);
                     }
                 }
@@ -198,7 +203,7 @@
             }
 
             quantize(points) {
-                for(let point of points) {
+                for(const point of points) {
                     this.points.push([
                         Math.floor(point[0]),
                         Math.floor(point[1])
@@ -207,8 +212,8 @@
             }
 
             intersects(other) {
-                for(let t of this.points) {
-                    for(let o of other.points) {
+                for(const t of this.points) {
+                    for(const o of other.points) {
                         if(t[0] === o[0] && t[1] === o[1]) {
                             return true;
                         }
@@ -218,29 +223,81 @@
             }
         }
 
-        class Greedy {
-            constructor(featureCollection, neighbors) {
-                this.colorCount = 0;
-                featureCollection.features.forEach((feature, featureIndex) => {
-                    feature.color = 0;
-                    for(let n of neighbors[featureIndex]) {
-                        let neighbor = featureCollection.features[n];
-                        if(neighbor.color !== undefined) {
-                            feature.color = Math.max(feature.color, neighbor.color + 1);
+        class Features {
+
+            constructor(values, strategy) {
+                this.values = this.map(values.features, strategy);
+            }
+
+            map(features, strategy) {
+                return features.map((f, i) => {
+                    const feature = {
+                        index: i,
+                        shapes: []
+                    };
+                    if(f.geometry.type === "Polygon") {
+                        feature.shapes.push(new strategy(f.geometry.coordinates));
+                    }
+                    if(f.geometry.type === "MultiPolygon") {
+                        for(const coordinates of f.geometry.coordinates) {
+                            feature.shapes.push(new strategy(coordinates));
                         }
                     }
-                    this.colorCount = Math.max(feature.color, this.colorCount);
+                    return feature;
                 });
+            }
+        }
+
+        class BoundingBoxes {
+            constructor(featureCollection) {
+                const bboxes = new Features(featureCollection, BoundingBox);
+                for(const feature of bboxes.values) {
+                    feature.possibleNeighbors = bboxes.values;
+                }
+                this.neighbors = new Neighbors(bboxes.values);
+            }
+        }
+
+        class Rings {
+            constructor(featureCollection) {
+                const bboxes = new BoundingBoxes(featureCollection);
+                const rings = new Features(featureCollection, Ring);
+                let i = 0;
+                for(const feature of rings.values) {
+                    feature.possibleNeighbors = bboxes.neighbors.values[i].map((n) => {
+                        return rings.values[n];
+                    });
+                    i++;
+                }
+                this.neighbors = new Neighbors(rings.values);
+            }
+        }
+
+        class Greedy {
+            constructor(neighbors) {
+                const colors = [...Array(neighbors.length)];
+                this.colorCount = 0;
+                for(let feature = 0; feature < neighbors.length; feature++) {
+                    colors[feature] = 0;
+                    for(let n = 0; n < neighbors[feature].length; n++) {
+                        const neighbor = neighbors[feature][n];
+                        if(colors[neighbor] !== undefined) {
+                            colors[feature] = Math.max(colors[feature], colors[neighbor] + 1);
+                        }
+                    }
+                    this.colorCount = Math.max(colors[feature], this.colorCount);
+                }
                 this.colorCount++;
+                this.colors = colors;
             }
         }
 
         class Color {
 
             static shade(color, percent) {   
-                let t = percent < 0 ? 0 : 255;
-                let p = percent < 0 ? percent * -1 : percent;
-                let rgb = this.rgb(color);
+                const t = percent < 0 ? 0 : 255;
+                const p = percent < 0 ? percent * -1 : percent;
+                const rgb = this.rgb(color);
                 return "#" + (0x1000000 +
                     (Math.round((t - rgb.r) * p) + rgb.r) * 0x10000 +
                     (Math.round((t - rgb.g) * p) + rgb.g) * 0x100 +
@@ -249,7 +306,7 @@
             }
 
             static rgb(color) {
-                let i = parseInt(color.slice(1), 16);
+                const i = parseInt(color.slice(1), 16);
                 return {
                     r: i >> 16,
                     g: i >> 8 & 0x00FF,
@@ -258,7 +315,7 @@
             }
 
             static vec4(color, a) {
-                let rgb = this.rgb(color);
+                const rgb = this.rgb(color);
                 return [
                     rgb.r / 255,
                     rgb.g / 255,
@@ -327,73 +384,24 @@
 
         let t0 = performance.now();
 
-        let bboxFeatures = featureCollection.features.map((f, i) => {
-            let feature = {
-                index: i,
-                shapes: []
-            };
-            if(f.geometry.type === "Polygon") {
-                feature.shapes.push(new BoundingBox(f.geometry.coordinates));
-            }
-            if(f.geometry.type === "MultiPolygon") {
-                for(let coordinates of f.geometry.coordinates) {
-                    feature.shapes.push(new BoundingBox(coordinates));
-                }
-            }
-            return feature;
-        });
-
-        for(let feature of bboxFeatures) {
-            feature.neighbors = bboxFeatures;
-        }
-
-        let bboxes = new Neighbors(bboxFeatures);
-
-        let ringFeatures = featureCollection.features.map((f, i) => {
-            let feature = {
-                index: i,
-                shapes: []
-            };
-            if(f.geometry.type === "Polygon") {
-                feature.shapes.push(new Ring(f.geometry.coordinates));
-            }
-            if(f.geometry.type === "MultiPolygon") {
-                for(let coordinates of f.geometry.coordinates) {
-                    feature.shapes.push(new Ring(coordinates));
-                }
-            }
-            return feature;
-        });
-
-        let i = 0;
-        for(let feature of ringFeatures) {
-            feature.neighbors = bboxes.neighbors[i].map((n) => {
-                return ringFeatures[n];
-            });
-            i++;
-        }
-
-        let rings = new Neighbors(ringFeatures);
-
-        let colorCount = new Greedy(featureCollection, rings.neighbors).colorCount;
+        let rings = new Rings(featureCollection);
+        let greedy = new Greedy(rings.neighbors.values);
 
         var palette = [];
 
-        let color = "#ff00ff";
+        let color = "#aa00ff";
         let shade = -0.5;
-        for(let i = 0; i < colorCount; i++) {
+        for(let i = 0; i < greedy.colorCount; i++) {
             palette.push(Color.shade(color, shade));
-            //palette.push([Math.random(), Math.random(), Math.random(), 1]);
             shade += 0.2;
         }
 
-        var colors = featureCollection.features.map((feature, i) => {
-            return Color.vec4(palette[feature.color]);
-            //return palette[feature.color];
+        var colors = greedy.colors.map((color) => {
+            return Color.vec4(palette[color]);
         });
 
         let t1 = performance.now();
-        console.log("Coloring took " + (t1 - t0) + " milliseconds and needed " + colorCount + " colors");
+        console.log("Greedy coloring took " + (t1 - t0) + " milliseconds and needed " + greedy.colorCount + " colors");
 
         gl.useProgram(program);
         gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());

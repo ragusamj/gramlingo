@@ -273,7 +273,8 @@
             }
         }
 
-        class Greedy {
+        // TODO: use a precalculated path here too?
+        class GreedyColorizer {
             constructor(neighbors) {
                 const colors = [...Array(neighbors.length)];
                 this.colorCount = 0;
@@ -289,6 +290,77 @@
                 }
                 this.colorCount++;
                 this.colors = colors;
+            }
+        }
+
+        // TODO: loop to assign a new color to features without neighbors instead of always assigning color 0
+        // TODO: barf if no solution is found for a given number of colors?
+        class BacktrackingColorizer {
+
+            constructor(neighbors, numberOfColors) {
+                this.numberOfColors = numberOfColors;
+                this.colors = [...Array(neighbors.length)];
+                this.map(this.createPath(neighbors), neighbors, 0);
+                this.colorCount = this.countColors();
+            }
+
+            map(path, neighbors, index, indent) {
+                if(path[index] === undefined) {
+                    return true;
+                }
+                for(let color = 0; color < this.numberOfColors; color++) {
+                    if(this.isFree(color, neighbors[path[index]])) {
+                        this.colors[path[index]] = color;
+                        if(this.map(path, neighbors, index + 1)) {
+                            return true;
+                        }
+                        this.colors[path[index]] = undefined;
+                    }
+                }
+                return false;
+            }
+
+            isFree(color, neighbors) {
+                for(let neighbor of neighbors) {
+                    if(this.colors[neighbor] === color) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            createPath(neighbors) {
+                const path = [];
+                const cache = {};
+                this.addNeighborsToPath(neighbors, 0, cache, path);
+                this.addWithoutNeighborsToPath(neighbors, cache, path);
+                return path;
+            }
+
+            addNeighborsToPath(neighbors, index, cache, path) {
+                for(let neighbor of neighbors[index]) {
+                    if(!cache[neighbor]) {
+                        cache[neighbor] = true;
+                        path.push(neighbor);
+                        this.addNeighborsToPath(neighbors, neighbor, cache, path);
+                    }
+                }
+            }
+
+            addWithoutNeighborsToPath(neighbors, cache, path) {
+                for(let i = 0; i < neighbors.length; i++) {
+                    if(!cache[i]) {
+                        path.push(i);
+                    }
+                }
+            }
+
+            countColors() {
+                let colorCount = 0;
+                for(let color of this.colors) {
+                    colorCount = Math.max(colorCount, color);
+                }
+                return colorCount + 1;
             }
         }
 
@@ -384,24 +456,24 @@
 
         let t0 = performance.now();
 
-        let rings = new Rings(featureCollection);
-        let greedy = new Greedy(rings.neighbors.values);
+        let features = new Rings(featureCollection);
+        let colorizer = new BacktrackingColorizer(features.neighbors.values, 4);
 
         var palette = [];
 
-        let color = "#aa00ff";
-        let shade = -0.5;
-        for(let i = 0; i < greedy.colorCount; i++) {
+        let color = "#868e96";
+        let shade = -0.4;
+        for(let i = 0; i < colorizer.colorCount; i++) {
             palette.push(Color.shade(color, shade));
-            shade += 0.2;
+            shade += 0.3;
         }
 
-        var colors = greedy.colors.map((color) => {
-            return Color.vec4(palette[color]);
+        var colors = colorizer.colors.map((color) => {
+            return Color.vec4(palette[color] || "#ff11aa");
         });
 
         let t1 = performance.now();
-        console.log("Greedy coloring took " + (t1 - t0) + " milliseconds and needed " + greedy.colorCount + " colors");
+        console.log("Coloring took " + (t1 - t0) + " milliseconds and needed " + colorizer.colorCount + " colors");
 
         gl.useProgram(program);
         gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());

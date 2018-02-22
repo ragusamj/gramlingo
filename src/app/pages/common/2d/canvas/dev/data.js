@@ -1,5 +1,5 @@
 /* eslint-disable */
-window.data = {
+let data = {
   "type": "Topology",
   "bbox": [
     5.995368959868472,
@@ -34502,4 +34502,11 @@ window.data = {
       ]
     ]
   ]
+}
+
+if (typeof exports === "object") {
+    module.exports = data;
+}
+else {
+    this.data = data;
 }

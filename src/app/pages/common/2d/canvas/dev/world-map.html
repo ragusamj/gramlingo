@@ -293,29 +293,49 @@
             }
         }
 
-        // TODO: loop to assign a new color to features without neighbors instead of always assigning color 0
-        // TODO: barf if no solution is found for a given number of colors?
         class BacktrackingColorizer {
 
-            constructor(neighbors, numberOfColors) {
-                this.numberOfColors = numberOfColors;
+            constructor(neighbors, options) {
+
+                options = options || {};
+                this.numberOfColors = options.numberOfColors || 10;
+                this.startIndexIslands = options.startIndexIslands || 0;
+                this.maxAttempts = options.maxAttempts || neighbors.length * 100;
+                this.attempts = 0;
+
+                
                 this.colors = [...Array(neighbors.length)];
                 this.map(this.createPath(neighbors), neighbors, 0);
                 this.colorCount = this.countColors();
             }
 
             map(path, neighbors, index, indent) {
-                if(path[index] === undefined) {
-                    return true;
+                let feature = path[index];
+                if(neighbors[feature].length === 0) {
+                    this.startIndexIslands = this.startIndexIslands >= this.numberOfColors ? 0 : this.startIndexIslands;
+                    this.colors[feature] = this.startIndexIslands++;
+                    return this.map(path, neighbors, index + 1);
                 }
                 for(let color = 0; color < this.numberOfColors; color++) {
-                    if(this.isFree(color, neighbors[path[index]])) {
-                        this.colors[path[index]] = color;
-                        if(this.map(path, neighbors, index + 1)) {
+                    if(this.isFree(color, neighbors[feature])) {
+                        this.colors[feature] = color;
+                        if(this.done(path, index) || this.map(path, neighbors, index + 1)) {
                             return true;
                         }
-                        this.colors[path[index]] = undefined;
+                        this.colors[feature] = undefined;
                     }
+                }
+                return false;
+            }
+
+            done(path, index) {
+                if(path[index + 1] === undefined) {
+                    this.solved  = true;
+                    return true;
+                }
+                if(++this.attempts >= this.maxAttempts) {
+                    this.solved  = false;
+                    return true;
                 }
                 return false;
             }
@@ -332,7 +352,7 @@
             createPath(neighbors) {
                 const path = [];
                 const cache = {};
-                this.addNeighborsToPath(neighbors, 0, cache, path);
+                this.addNeighborsToPath(neighbors, 3, cache, path);
                 this.addWithoutNeighborsToPath(neighbors, cache, path);
                 return path;
             }
@@ -350,7 +370,7 @@
             addWithoutNeighborsToPath(neighbors, cache, path) {
                 for(let i = 0; i < neighbors.length; i++) {
                     if(!cache[i]) {
-                        path.push(i);
+                        path.unshift(i);
                     }
                 }
             }
@@ -358,7 +378,7 @@
             countColors() {
                 let colorCount = 0;
                 for(let color of this.colors) {
-                    colorCount = Math.max(colorCount, color);
+                    colorCount = Math.max(colorCount, color || 0);
                 }
                 return colorCount + 1;
             }
@@ -457,7 +477,7 @@
         let t0 = performance.now();
 
         let features = new Rings(featureCollection);
-        let colorizer = new BacktrackingColorizer(features.neighbors.values, 4);
+        let colorizer = new BacktrackingColorizer(features.neighbors.values, { numberOfColors: 4, startIndexIslands: 3, maxAttempts: 5000 });
 
         var palette = [];
 
@@ -473,7 +493,7 @@
         });
 
         let t1 = performance.now();
-        console.log("Coloring took " + (t1 - t0) + " milliseconds and needed " + colorizer.colorCount + " colors");
+        console.log("Coloring took " + (t1 - t0) + " milliseconds and used " + colorizer.colorCount + " colors, problem solved: " + colorizer.solved + ", attempts: " + colorizer.attempts);
 
         gl.useProgram(program);
         gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());

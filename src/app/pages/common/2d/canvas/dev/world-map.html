@@ -116,6 +116,7 @@
     </script>
 
     <script src="./data.js"></script>
+    <script src="./geojson.js"></script>
     <script src="./earcut.min.js"></script>
     <script src="./gl-matrix.js"></script>
     <script src="./topojson-client.js"></script>
@@ -235,6 +236,7 @@
                         index: i,
                         shapes: []
                     };
+                    // TODO: geometry.type === "Point", https://github.com/codeforamerica/click_that_hood/blob/master/public/data/airports.geojson
                     if(f.geometry.type === "Polygon") {
                         feature.shapes.push(new strategy(f.geometry.coordinates));
                     }
@@ -345,6 +347,14 @@
 
             map(path, neighbors, index, indent) {
                 let feature = path[index];
+                if(feature === undefined || neighbors[feature] === undefined) {
+                    this.solved  = true;
+                    return true;
+                }
+                if(++this.attempts >= this.maxAttempts) {
+                    this.solved  = false;
+                    return true;
+                }
                 if(neighbors[feature].length === 0) {
                     this.startIndexIslands = this.startIndexIslands >= this.numberOfColors ? 0 : this.startIndexIslands;
                     this.colors[feature] = this.startIndexIslands++;
@@ -353,23 +363,11 @@
                 for(let color = 0; color < this.numberOfColors; color++) {
                     if(this.isFree(color, neighbors[feature])) {
                         this.colors[feature] = color;
-                        if(this.done(path, index) || this.map(path, neighbors, index + 1)) {
+                        if(this.map(path, neighbors, index + 1)) {
                             return true;
                         }
                         this.colors[feature] = undefined;
                     }
-                }
-                return false;
-            }
-
-            done(path, index) {
-                if(path[index + 1] === undefined) {
-                    this.solved  = true;
-                    return true;
-                }
-                if(++this.attempts >= this.maxAttempts) {
-                    this.solved  = false;
-                    return true;
                 }
                 return false;
             }
@@ -444,7 +442,8 @@
         var logDisplay = document.querySelector("#log");
 
         var pointSize = 2;
-        var featureCollection = topojson.feature(data, data.objects.world);
+        //var featureCollection = topojson.feature(data, data.objects.world);
+        var featureCollection = topojson.feature(geojson, geojson.objects.items);
         var buffer = createBuffer(featureCollection.features);
 
         var canvas = document.querySelector("canvas");
@@ -480,23 +479,25 @@
         var gesture;
 
         var minScale = 0.5;
-        var maxScale = 10;
+        var maxScale = 100;
 
         let t0 = performance.now();
 
         let features = new Rings(featureCollection);
         let neighbors = features.neighbors.values;
         //let neighbors = topojson.neighbors(data.objects.world.geometries);
+        //let neighbors = topojson.neighbors(geojson.objects.items.geometries);
+
         let colorizer = new BacktrackingColorizer(neighbors, {
             numberOfColors: 4,
-            startIndexIslands: 3,
+            startIndexIslands: 0,
             maxAttempts: 5000,
             path: new Path(neighbors, 3)
         });
 
         var palette = [];
 
-        let color = "#868e96";
+        let color = "#00ff00";
         let shade = -0.4;
         for(let i = 0; i < colorizer.colorCount; i++) {
             palette.push(Color.shade(color, shade));

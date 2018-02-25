@@ -273,6 +273,39 @@
             }
         }
 
+        class Path {
+
+            constructor(neighbors, startIndex) {
+                this.values = this.plot(neighbors, startIndex || 0);
+            }
+
+            plot(neighbors, startIndex) {
+                const path = [];
+                const cache = {};
+                this.addNeighborsToPath(neighbors, startIndex, cache, path);
+                this.addWithoutNeighborsToPath(neighbors, cache, path);
+                return path;
+            }
+
+            addNeighborsToPath(neighbors, index, cache, path) {
+                for(let neighbor of neighbors[index]) {
+                    if(!cache[neighbor]) {
+                        cache[neighbor] = true;
+                        path.push(neighbor);
+                        this.addNeighborsToPath(neighbors, neighbor, cache, path);
+                    }
+                }
+            }
+
+            addWithoutNeighborsToPath(neighbors, cache, path) {
+                for(let i = 0; i < neighbors.length; i++) {
+                    if(!cache[i]) {
+                        path.unshift(i);
+                    }
+                }
+            }
+        }
+
         // TODO: use a precalculated path here too?
         class GreedyColorizer {
             constructor(neighbors) {
@@ -301,11 +334,12 @@
                 this.numberOfColors = options.numberOfColors || 10;
                 this.startIndexIslands = options.startIndexIslands || 0;
                 this.maxAttempts = options.maxAttempts || neighbors.length * 100;
-                this.attempts = 0;
 
-                
+                const path = options.path || new Path(neighbors);
+
+                this.attempts = 0;
                 this.colors = [...Array(neighbors.length)];
-                this.map(this.createPath(neighbors), neighbors, 0);
+                this.map(path.values, neighbors, 0);
                 this.colorCount = this.countColors();
             }
 
@@ -347,32 +381,6 @@
                     }
                 }
                 return true;
-            }
-
-            createPath(neighbors) {
-                const path = [];
-                const cache = {};
-                this.addNeighborsToPath(neighbors, 3, cache, path);
-                this.addWithoutNeighborsToPath(neighbors, cache, path);
-                return path;
-            }
-
-            addNeighborsToPath(neighbors, index, cache, path) {
-                for(let neighbor of neighbors[index]) {
-                    if(!cache[neighbor]) {
-                        cache[neighbor] = true;
-                        path.push(neighbor);
-                        this.addNeighborsToPath(neighbors, neighbor, cache, path);
-                    }
-                }
-            }
-
-            addWithoutNeighborsToPath(neighbors, cache, path) {
-                for(let i = 0; i < neighbors.length; i++) {
-                    if(!cache[i]) {
-                        path.unshift(i);
-                    }
-                }
             }
 
             countColors() {
@@ -477,7 +485,12 @@
         let t0 = performance.now();
 
         let features = new Rings(featureCollection);
-        let colorizer = new BacktrackingColorizer(features.neighbors.values, { numberOfColors: 4, startIndexIslands: 3, maxAttempts: 5000 });
+        let colorizer = new BacktrackingColorizer(features.neighbors.values, {
+            numberOfColors: 4,
+            startIndexIslands: 3,
+            maxAttempts: 5000,
+            path: new Path(features.neighbors.values, 3)
+        });
 
         var palette = [];
 

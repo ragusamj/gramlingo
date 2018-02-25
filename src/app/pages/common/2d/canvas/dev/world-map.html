@@ -53,13 +53,10 @@
     </head>
 <body>
 
-    <h1>Wörld mäp</h1>
+    <h1>World map</h1>
 
     <div class="canvas-container">
         <div class="display">
-            <div>
-                <span id="colorizing-display">0/0</span> C
-            </div>
             <div>
                 <span id="height-display">0</span> H
             </div>
@@ -304,8 +301,8 @@
                 this.numberOfColors = options.numberOfColors || 10;
                 this.startIndexIslands = options.startIndexIslands || 0;
                 this.maxAttempts = options.maxAttempts || neighbors.length * 100;
-                this.history = [];
                 this.attempts = 0;
+
                 
                 this.colors = [...Array(neighbors.length)];
                 this.map(this.createPath(neighbors), neighbors, 0);
@@ -317,18 +314,15 @@
                 if(neighbors[feature].length === 0) {
                     this.startIndexIslands = this.startIndexIslands >= this.numberOfColors ? 0 : this.startIndexIslands;
                     this.colors[feature] = this.startIndexIslands++;
-                    this.history.push( { feature, color: this.colors[feature]});
                     return this.map(path, neighbors, index + 1);
                 }
                 for(let color = 0; color < this.numberOfColors; color++) {
                     if(this.isFree(color, neighbors[feature])) {
                         this.colors[feature] = color;
-                        this.history.push( { feature, color: this.colors[feature]});
                         if(this.done(path, index) || this.map(path, neighbors, index + 1)) {
                             return true;
                         }
                         this.colors[feature] = undefined;
-                        this.history.push({ feature, color: undefined });
                     }
                 }
                 return false;
@@ -358,7 +352,7 @@
             createPath(neighbors) {
                 const path = [];
                 const cache = {};
-                this.addNeighborsToPath(neighbors, 2, cache, path);
+                this.addNeighborsToPath(neighbors, 3, cache, path);
                 this.addWithoutNeighborsToPath(neighbors, cache, path);
                 return path;
             }
@@ -431,7 +425,6 @@
         console.log(bbox.intersects(bbox2));
         */
 
-        var colorizingDisplay = document.querySelector("#colorizing-display");
         var scaleDisplay = document.querySelector("#scale-display");
         var xDegreeSlider = document.querySelector("#x-degree-slider");
         var xDegreeDisplay = document.querySelector("#x-degree-display");
@@ -495,34 +488,12 @@
             shade += 0.3;
         }
 
-        /*
         var colors = colorizer.colors.map((color) => {
             return Color.vec4(palette[color] || "#ff11aa");
         });
-        */
-
-        let colors = colorizer.colors.map(() => {
-            return Color.vec4("#00ff00");
-        });
-
 
         let t1 = performance.now();
         console.log("Coloring took " + (t1 - t0) + " milliseconds and used " + colorizer.colorCount + " colors, problem solved: " + colorizer.solved + ", attempts: " + colorizer.attempts);
-
-        let i = 0;
-        let draw = () => {
-            setTimeout(() => {
-                let feature = colorizer.history[i++];
-                if(feature) {
-                    colorizingDisplay.innerHTML = i + "/" + colorizer.history.length;
-                    colors[feature.feature] = Color.vec4(palette[feature.color] || "#00ff00");
-                    render();
-                    requestAnimationFrame(draw);
-                }
-            }, 10);
-        }
-
-        requestAnimationFrame(draw);
 
         gl.useProgram(program);
         gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());

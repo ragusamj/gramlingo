@@ -485,11 +485,13 @@
         let t0 = performance.now();
 
         let features = new Rings(featureCollection);
-        let colorizer = new BacktrackingColorizer(features.neighbors.values, {
+        let neighbors = features.neighbors.values;
+        //let neighbors = topojson.neighbors(data.objects.world.geometries);
+        let colorizer = new BacktrackingColorizer(neighbors, {
             numberOfColors: 4,
             startIndexIslands: 3,
             maxAttempts: 5000,
-            path: new Path(features.neighbors.values, 3)
+            path: new Path(neighbors, 3)
         });
 
         var palette = [];

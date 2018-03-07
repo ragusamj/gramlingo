@@ -1,10 +1,13 @@
 import Color from "../../common/color/color";
+import BacktrackingColorizer from "../../common/color/map-colorizer/backtracking-colorizer";
+import Path from "../../common/color/map-colorizer/path";
 
 const disputed = "-99";
 
 const style = {
     country: {
         background: "#868e96"
+        //background: Color.scheme().green
     },
     label: {
         background: "#343a40",
@@ -34,23 +37,34 @@ class WorldMap {
     initialize(world, countries, selected) {
 
         this.features = world.features;
-        //console.log(world.neighbors);
+
+        const colorizer = new BacktrackingColorizer(world.neighbors, {
+            numberOfColors: 4,
+            startIndexIslands: 3,
+            maxAttempts: 5000,
+            path: new Path(world.neighbors, 3)
+        });
+
+        let palette = [];
+
+        let color = style.country.background;
+        let shade = -0.4;
+        for(let i = 0; i < colorizer.colorCount; i++) {
+            palette.push(Color.shade(color, shade));
+            shade += 0.35;
+        }
+
+        let index = 0;
         for(let feature of this.features) {
             if(feature.properties.id === disputed) {
                 feature.properties.color = "#333333";
                 feature.properties.label = "";
             }
             else {
-                let shade;
-                switch(feature.properties.color) {
-                    case 0: shade = Color.shade(style.country.background, -0.4); break;
-                    case 1: shade = Color.shade(style.country.background, -0.1); break;
-                    case 2: shade = Color.shade(style.country.background, 0.2); break;
-                    default: shade = Color.shade(style.country.background, 0.6);
-                }
-                feature.properties.color = shade;
+                feature.properties.color = palette[colorizer.colors[index]];
                 feature.properties.label = countries[feature.properties.id].name[0];
             }
+            index++;
         }
         this.canvas.initialize(this.features, style, selected);
     }

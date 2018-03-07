@@ -1,5 +1,5 @@
 import earcut from "earcut";
-import Color from "../../color";
+import Color from "../../color/color";
 
 const pointSize = 2;
 

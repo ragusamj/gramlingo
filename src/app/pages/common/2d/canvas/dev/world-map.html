@@ -120,195 +120,16 @@
     <script src="./earcut.min.js"></script>
     <script src="./gl-matrix.js"></script>
     <script src="./topojson-client.js"></script>
+    <script src="./map-colorizer.js"></script>
     <script>
 
-        class GeoJson {
-            static isArray(object) {
-                return Array.isArray(object) &&
-                       Array.isArray(object[0]) &&
-                       Array.isArray(object[0][0]);
-            }
+        // The good ol' pythagoras theorem, replace with Math.hypot(x2-x1, y2-y1) + polyfill?
+        function hypotenuse(a, b) {
+            var x = a[0] - b[0];
+            var y = a[1] - b[1];
+            return Math.sqrt(x * x + y * y);
         }
 
-        class Neighbors {
-
-            constructor(features) {
-                this.values = this.intersect(features);
-            }
-
-            intersect(features) {
-                return features.map((feature) => {
-                    const neighbors = [];
-                    for(const shape of feature.shapes) {
-                        for(const nfeature of feature.possibleNeighbors) {
-                            for(const nshape of nfeature.shapes) {
-                                if(nfeature.index !== feature.index && neighbors.indexOf(nfeature.index) === -1 && nshape.intersects(shape)) {
-                                    neighbors.push(nfeature.index);
-                                }
-                            }
-                        }
-                    }
-                    return neighbors;
-                });
-            }
-        }
-
-        class BoundingBox {
-
-            constructor(object) {
-
-                this.x1 = this.y1 = Infinity;
-                this.x2 = this.y2 = -Infinity;
-
-                if(GeoJson.isArray(object)) {
-                    for(let points of object) {
-                        this.reduce(points);
-                    }
-                }
-                else if (Array.isArray(object)) {
-                    this.reduce(object);
-                }
-            }
-
-            reduce(points) {
-                for(const point of points) {
-                    this.x1 = Math.min(this.x1, point[0]);
-                    this.y1 = Math.min(this.y1, point[1]);
-                    this.x2 = Math.max(this.x2, point[0]);
-                    this.y2 = Math.max(this.y2, point[1]);
-                }
-            }
-
-            intersects(other) {
-                return this.x1 < other.x2 &&
-                       this.x2 > other.x1 &&
-                       this.y1 < other.y2 &&
-                       this.y2 > other.y1;
-            }
-        }
-
-        class Ring {
-
-            constructor(object) {
-
-                this.points = [];
-
-                if(GeoJson.isArray(object)) {
-                    for(const points of object) {
-                        this.quantize(points);
-                    }
-                }
-                else if (Array.isArray(object)) {
-                    this.quantize(object);
-                }
-            }
-
-            quantize(points) {
-                for(const point of points) {
-                    this.points.push([
-                        Math.floor(point[0]),
-                        Math.floor(point[1])
-                    ]);
-                }
-            }
-
-            intersects(other) {
-                for(const t of this.points) {
-                    for(const o of other.points) {
-                        if(t[0] === o[0] && t[1] === o[1]) {
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            }
-        }
-
-        class Features {
-
-            constructor(values, strategy) {
-                this.values = this.map(values.features, strategy);
-            }
-
-            map(features, strategy) {
-                return features.map((f, i) => {
-                    const feature = {
-                        index: i,
-                        shapes: []
-                    };
-                    // TODO: geometry.type === "Point", https://github.com/codeforamerica/click_that_hood/blob/master/public/data/airports.geojson
-                    if(f.geometry.type === "Polygon") {
-                        feature.shapes.push(new strategy(f.geometry.coordinates));
-                    }
-                    if(f.geometry.type === "MultiPolygon") {
-                        for(const coordinates of f.geometry.coordinates) {
-                            feature.shapes.push(new strategy(coordinates));
-                        }
-                    }
-                    return feature;
-                });
-            }
-        }
-
-        class BoundingBoxes {
-            constructor(featureCollection) {
-                const bboxes = new Features(featureCollection, BoundingBox);
-                for(const feature of bboxes.values) {
-                    feature.possibleNeighbors = bboxes.values;
-                }
-                this.neighbors = new Neighbors(bboxes.values);
-            }
-        }
-
-        class Rings {
-            constructor(featureCollection) {
-                const bboxes = new BoundingBoxes(featureCollection);
-                const rings = new Features(featureCollection, Ring);
-                let i = 0;
-                for(const feature of rings.values) {
-                    feature.possibleNeighbors = bboxes.neighbors.values[i].map((n) => {
-                        return rings.values[n];
-                    });
-                    i++;
-                }
-                this.neighbors = new Neighbors(rings.values);
-            }
-        }
-
-        class Path {
-
-            constructor(neighbors, startIndex) {
-                this.values = this.plot(neighbors, startIndex || 0);
-            }
-
-            plot(neighbors, startIndex) {
-                const path = [];
-                const cache = {};
-                this.addNeighborsToPath(neighbors, startIndex, cache, path);
-                this.addWithoutNeighborsToPath(neighbors, cache, path);
-                return path;
-            }
-
-            addNeighborsToPath(neighbors, index, cache, path) {
-                for(let neighbor of neighbors[index]) {
-                    if(!cache[neighbor]) {
-                        cache[neighbor] = true;
-                        path.push(neighbor);
-                        this.addNeighborsToPath(neighbors, neighbor, cache, path);
-                    }
-                }
-            }
-
-            addWithoutNeighborsToPath(neighbors, cache, path) {
-                for(let i = 0; i < neighbors.length; i++) {
-                    if(!cache[i]) {
-                        path.unshift(i);
-                    }
-                }
-            }
-        }
-
-        // TODO: use a precalculated path here too?
         class GreedyColorizer {
             constructor(neighbors) {
                 const colors = [...Array(neighbors.length)];
@@ -325,68 +146,6 @@
                 }
                 this.colorCount++;
                 this.colors = colors;
-            }
-        }
-
-        class BacktrackingColorizer {
-
-            constructor(neighbors, options) {
-
-                options = options || {};
-                this.numberOfColors = options.numberOfColors || 10;
-                this.startIndexIslands = options.startIndexIslands || 0;
-                this.maxAttempts = options.maxAttempts || neighbors.length * 100;
-
-                const path = options.path || new Path(neighbors);
-
-                this.attempts = 0;
-                this.colors = [...Array(neighbors.length)];
-                this.map(path.values, neighbors, 0);
-                this.colorCount = this.countColors();
-            }
-
-            map(path, neighbors, index, indent) {
-                let feature = path[index];
-                if(feature === undefined || neighbors[feature] === undefined) {
-                    this.solved  = true;
-                    return true;
-                }
-                if(++this.attempts >= this.maxAttempts) {
-                    this.solved  = false;
-                    return true;
-                }
-                if(neighbors[feature].length === 0) {
-                    this.startIndexIslands = this.startIndexIslands >= this.numberOfColors ? 0 : this.startIndexIslands;
-                    this.colors[feature] = this.startIndexIslands++;
-                    return this.map(path, neighbors, index + 1);
-                }
-                for(let color = 0; color < this.numberOfColors; color++) {
-                    if(this.isFree(color, neighbors[feature])) {
-                        this.colors[feature] = color;
-                        if(this.map(path, neighbors, index + 1)) {
-                            return true;
-                        }
-                        this.colors[feature] = undefined;
-                    }
-                }
-                return false;
-            }
-
-            isFree(color, neighbors) {
-                for(let neighbor of neighbors) {
-                    if(this.colors[neighbor] === color) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-
-            countColors() {
-                let colorCount = 0;
-                for(let color of this.colors) {
-                    colorCount = Math.max(colorCount, color || 0);
-                }
-                return colorCount + 1;
             }
         }
 
@@ -423,14 +182,6 @@
             }
         }
 
-        /*
-        let bbox = new BoundingBox([[0,0], [1,0], [0,2], [0,0]]);
-        let bbox2 = new BoundingBox([[3,3], [4,3], [4,4], [3,3]]);
-        console.log(bbox.x1, bbox.y1, bbox.x2, bbox.y2);  // {x1: 0,   y1: 0,   x2: 1, y2: 2}
-        console.log(bbox.intersects(bbox));
-        console.log(bbox.intersects(bbox2));
-        */
-
         var scaleDisplay = document.querySelector("#scale-display");
         var xDegreeSlider = document.querySelector("#x-degree-slider");
         var xDegreeDisplay = document.querySelector("#x-degree-display");
@@ -442,8 +193,8 @@
         var logDisplay = document.querySelector("#log");
 
         var pointSize = 2;
-        //var featureCollection = topojson.feature(data, data.objects.world);
-        var featureCollection = topojson.feature(geojson, geojson.objects.items);
+        var featureCollection = topojson.feature(data, data.objects.world);
+        //var featureCollection = topojson.feature(geojson, geojson.objects.items);
         var buffer = createBuffer(featureCollection.features);
 
         var canvas = document.querySelector("canvas");
@@ -483,16 +234,16 @@
 
         let t0 = performance.now();
 
-        let features = new Rings(featureCollection);
+        let features = new mapcolorizer.Rings(featureCollection);
         let neighbors = features.neighbors.values;
         //let neighbors = topojson.neighbors(data.objects.world.geometries);
         //let neighbors = topojson.neighbors(geojson.objects.items.geometries);
 
-        let colorizer = new BacktrackingColorizer(neighbors, {
+        let colorizer = new mapcolorizer.BacktrackingColorizer(neighbors, {
             numberOfColors: 4,
-            startIndexIslands: 0,
+            startIndexIslands: 1,
             maxAttempts: 5000,
-            path: new Path(neighbors, 3)
+            path: new mapcolorizer.Path(neighbors, 3)
         });
 
         var palette = [];
@@ -551,13 +302,6 @@
         function noevent(e) {
             e.preventDefault();
             e.stopImmediatePropagation();
-        }
-
-        // The good ol' pythagoras theorem, replace with Math.hypot(x2-x1, y2-y1) + polyfill?
-        function hypotenuse(a, b) {
-            var x = a[0] - b[0];
-            var y = a[1] - b[1];
-            return Math.sqrt(x * x + y * y);
         }
 
         canvas.addEventListener("mousedown", function(e) {

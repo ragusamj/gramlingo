@@ -6,6 +6,7 @@ class TopologyInflater {
     static inflate(topology, options) {
         const objects = topology.objects[options.key];
         return {
+            bbox: topology.bbox,
             neighbors: neighbors(objects.geometries),
             features: feature(topology, objects).features
         };

@@ -1,3 +1,4 @@
+/*
 const vertexShaderSource = `
 attribute vec4 a_position;
 uniform mat4 u_matrix;
@@ -15,9 +16,10 @@ void main() {
 `;
 
 const pointSize = 2;
-
+*/
 class WebglContext {
 
+    /*
     initialize(id, data) {
 
         this.gl = document
@@ -66,7 +68,7 @@ class WebglContext {
             throw new Error(gl.getProgramInfoLog(program));
         }
         return program;
-    }
+    }*/
 }
 
 export default WebglContext;

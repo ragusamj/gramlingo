@@ -1,30 +1,42 @@
+import { default as earcut } from "earcut";
+
+import { 
+    create as mat4Create,
+    copy,
+    fromScaling,
+    fromTranslation,
+    identity,
+    invert,
+    multiply,
+    ortho,
+    translate
+} from "gl-matrix/src/gl-matrix/mat4";
+
+import { transformMat4 as vec4TransformMat4, fromValues as vec4FromValues } from "gl-matrix/src/gl-matrix/vec4";
+import { create as vec3Create, fromValues as vec3FromValues, negate as vec3Negate } from "gl-matrix/src/gl-matrix/vec3";
+import { create as vec2Create } from "gl-matrix/src/gl-matrix/vec2";
+
 import Color from "../../common/color/color";
 import BacktrackingColorizer from "../../common/color/map-colorizer/backtracking-colorizer";
 import Path from "../../common/color/map-colorizer/path";
 
-const disputed = "-99";
+const vertexShaderSource = `
+attribute vec4 a_position;
+uniform mat4 u_matrix;
 
-const style = {
-    country: {
-        background: "#868e96"
-        //background: Color.scheme().green
-    },
-    label: {
-        background: "#343a40",
-        color: "#ffffff",
-        font: {
-            family: "'Montserrat', sans-serif",
-            size: 75
-        }
-    },
-    marker: {
-        background: Color.scheme().orange,
-        border: {
-            color: "#ffffff",
-            width: 4
-        }
-    }
-};
+void main() {
+    gl_Position = u_matrix * a_position;
+}
+`;
+
+const fragmentShaderSource = `
+precision mediump float;
+uniform vec4 u_color;
+
+void main() {
+    gl_FragColor = u_color;
+}
+`;
 
 class WorldMap {
 
@@ -34,39 +46,342 @@ class WorldMap {
         this.canvasListener = canvasListener;
     }
 
-    initialize(world, countries, selected) {
+    //initialize(world, countries, selected) {
+    initialize(world) {
 
-        this.features = world.features;
+        // The good ol' pythagoras theorem, replace with Math.hypot(x2-x1, y2-y1) + polyfill?
+        function hypotenuse(a, b) {
+            let x = a[0] - b[0];
+            let y = a[1] - b[1];
+            return Math.sqrt(x * x + y * y);
+        }
 
-        const colorizer = new BacktrackingColorizer(world.neighbors, {
+        //let logDisplay = document.querySelector("#log");
+
+        let pointSize = 2;
+        let buffer = createBuffer(world.features);
+
+        let canvas = document.querySelector("canvas");
+        let gl = canvas.getContext("webgl");
+        let vertexShader = createShader(gl.VERTEX_SHADER, vertexShaderSource);
+        let fragmentShader = createShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
+        let program = createProgram(vertexShader, fragmentShader);
+
+        let positionLocation = gl.getAttribLocation(program, "a_position");
+        let matrixLocation = gl.getUniformLocation(program, "u_matrix");
+        let colorLocation = gl.getUniformLocation(program, "u_color");
+        
+        let projectionMatrix = mat4Create();
+        let viewMatrix = mat4Create();
+        let previousMatrix = mat4Create();
+        let scaleMatrix = mat4Create();
+        let dragMatrix = mat4Create();
+        let viewScaleMatrix = mat4Create();
+
+        let translation = vec3Create();
+        let negativeTranslation = vec3Create();
+
+        let scale = vec3FromValues(1, 1, 1);
+        let drag = vec3Create();
+        let viewScale = vec3FromValues(1, 1, 1);
+
+        let gesture;
+
+        let minScale = 0.5;
+        let maxScale = 100;
+
+        let colorizer = new BacktrackingColorizer(world.neighbors, {
             numberOfColors: 4,
-            startIndexIslands: 3,
+            startIndexIslands: 1,
             maxAttempts: 5000,
             path: new Path(world.neighbors, 3)
         });
 
         let palette = [];
 
-        let color = style.country.background;
+        //let color = Color.scheme().orange;
+        let color = "#868e96";
         let shade = -0.4;
         for(let i = 0; i < colorizer.colorCount; i++) {
             palette.push(Color.shade(color, shade));
-            shade += 0.35;
+            shade += 0.3;
         }
 
-        let index = 0;
-        for(let feature of this.features) {
-            if(feature.properties.id === disputed) {
-                feature.properties.color = "#333333";
-                feature.properties.label = "";
-            }
-            else {
-                feature.properties.color = palette[colorizer.colors[index]];
-                feature.properties.label = countries[feature.properties.id].name[0];
-            }
-            index++;
+        let colors = colorizer.colors.map((color) => {
+            return Color.vec4(palette[color] || "#ff11aa");
+        });
+
+        gl.useProgram(program);
+        gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(buffer.data), gl.STATIC_DRAW);
+        gl.enableVertexAttribArray(positionLocation);
+        gl.vertexAttribPointer(positionLocation, pointSize, gl.FLOAT, false, 0, 0);
+
+        function mousePoint(event, mouse) {
+            let rect = gl.canvas.getBoundingClientRect();
+            mouse[0] = (event.clientX - rect.left) * (gl.canvas.width / rect.width);
+            mouse[1] = (event.clientY - rect.top) * (gl.canvas.height / rect.height);
+            return mouse;
         }
-        this.canvas.initialize(this.features, style, selected);
+
+        function noevent(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+        }
+
+        canvas.addEventListener("mousedown", function(e) {
+            if(e.button !== 0) {
+                return;
+            }
+            canvas.addEventListener("mousemove", mousemove);
+            canvas.addEventListener("mouseup", mouseup);
+            canvas.addEventListener("dragstart", noevent);
+            noevent(e);
+
+            let mouse = mousePoint(e, vec2Create());
+            mouse[0] -= drag[0];
+            mouse[1] -= drag[1];
+
+            function mousemove(e) {
+                noevent(e);
+                requestAnimationFrame(function() {
+                    let delta = mousePoint(e, vec2Create());
+                    drag[0] = delta[0] - mouse[0];
+                    drag[1] = delta[1] - mouse[1];
+                    render();
+                });
+            }
+
+            function mouseup(e) {
+                canvas.removeEventListener("mousemove", mousemove);
+                canvas.removeEventListener("mouseup", mouseup);
+                canvas.removeEventListener("dragstart", noevent);
+                noevent(e);
+            }
+        });
+
+        /*
+        var logItems = [];
+        function log(obj) {
+
+            logItems.unshift( { obj: obj, date: new Date() });
+
+            if(logItems.length > 10) {
+                logItems.length = 10;
+            }
+
+            var out = "";
+            for (var i = logItems.length - 1; i >= 0; --i) {
+                var item = logItems[i];
+                out += item.date.getHours().toString().padStart(2, "0") + ":"
+                + item.date.getMinutes() .toString().padStart(2, "0")+ ":"
+                + item.date.getSeconds().toString().padStart(2, "0") + ":"
+                + item.date.getMilliseconds().toString().padStart(3, "00")
+                    + " " + JSON.stringify(item.obj, null, 2) + "\n";
+            }
+
+            logDisplay.innerHTML = out;
+        }
+        */
+
+        canvas.addEventListener("touchstart", function(e) {
+
+            noevent(e);
+
+            gesture = {};
+            
+            for(let t of e.touches) {
+                if(!gesture.finger1) {
+                    gesture.finger1 = {
+                        origin: mousePoint(t, vec2Create()),
+                        id: t.identifier
+                    };
+                }
+                else if(!gesture.finger2) {
+                    gesture.finger2 = {
+                        origin: mousePoint(t, vec2Create()),
+                        id: t.identifier
+                    };
+                    gesture.distance = hypotenuse(gesture.finger1.origin, gesture.finger2.origin);
+                }
+            }
+
+            if(gesture.finger1 && !gesture.finger2) {
+                gesture.finger1.origin[0] -= drag[0];
+                gesture.finger1.origin[1] -= drag[1];
+            }
+        });
+
+        canvas.addEventListener("touchmove", function(e) {
+
+            noevent(e);
+
+            for(let t of e.touches) {
+                if(gesture.finger1.id === t.identifier) {
+                    gesture.finger1.current = mousePoint(t, vec2Create());
+                }
+                else if(gesture.finger2.id === t.identifier) {
+                    gesture.finger2.current = mousePoint(t, vec2Create());
+                }
+            }
+
+            if(gesture.finger2) {
+                const distance = hypotenuse(gesture.finger1.current, gesture.finger2.current);
+                const delta = distance - gesture.distance;
+                gesture.distance = distance;
+
+                translation[0] = (gesture.finger1.origin[0] + gesture.finger2.origin[0]) / 2;
+                translation[1] = (gesture.finger1.origin[1] + gesture.finger2.origin[1]) / 2;
+
+                zoom(delta / 500);
+            }
+            else if(gesture.finger1) {
+                drag[0] = gesture.finger1.current[0] - gesture.finger1.origin[0];
+                drag[1] = gesture.finger1.current[1] - gesture.finger1.origin[1];
+                render();
+            }
+        });
+
+        canvas.addEventListener("touchend", function(e) {
+            gesture = {};
+            noevent(e);
+        });
+
+        canvas.addEventListener("click", function(e) {
+            let mouse = vec4FromValues(0, 0, 0, 1);
+            mousePoint(e, mouse);
+            vec4TransformMat4(mouse, mouse, invert([], viewMatrix));
+            //console.log(mouse);
+        });
+
+        canvas.addEventListener("wheel", function(e) {
+            noevent(e);
+            requestAnimationFrame(function() {
+                mousePoint(e, translation);
+                zoom(-e.deltaY * (e.deltaMode ? 120 : 1) / 500);
+            });
+        });
+
+        window.addEventListener("resize", resize);
+
+        resize();
+
+        function zoom(delta) {
+            scale[0] = scale[1] = Math.max(minScale, Math.min(maxScale, scale[0] * Math.pow(2, delta)));
+            render();
+        }
+
+        function resize() {
+            let aspectRatio = gl.canvas.height / gl.canvas.width;
+            let width = gl.canvas.parentElement.clientWidth * window.devicePixelRatio;
+            let height = (width * aspectRatio);
+            gl.canvas.width = width;
+            gl.canvas.height = height;
+            gl.viewport(0, 0, width, height);
+
+            viewScale[0] = viewScale[1] = gl.canvas.width / world.bbox[2];
+            translation = vec3FromValues(gl.canvas.width / 2, gl.canvas.height / 2, 0);
+
+            render();
+        }
+
+        function calculateMatrix() {
+            copy(previousMatrix, viewMatrix);
+            identity(viewMatrix);
+            
+            translate(viewMatrix, viewMatrix, translation);
+
+            multiply(viewMatrix, viewMatrix, invert(scaleMatrix, scaleMatrix));
+            multiply(viewMatrix, viewMatrix, fromScaling(scaleMatrix, scale));
+
+            multiply(viewMatrix, viewMatrix, invert(dragMatrix, dragMatrix));
+            multiply(viewMatrix, viewMatrix, fromTranslation(dragMatrix, drag));
+
+            translate(viewMatrix, viewMatrix, vec3Negate(negativeTranslation, translation));
+
+            multiply(viewMatrix, viewMatrix, invert(viewScaleMatrix, viewScaleMatrix));
+            multiply(viewMatrix, viewMatrix, fromScaling(viewScaleMatrix, viewScale));
+
+            multiply(viewMatrix, viewMatrix, previousMatrix);
+        }
+
+        function project() {
+            ortho(projectionMatrix, 0, gl.canvas.width, gl.canvas.height, 0, gl.canvas.height * -2, gl.canvas.height * 2);
+            multiply(projectionMatrix, projectionMatrix, viewMatrix);
+        }
+
+        function render() {
+    
+            calculateMatrix();
+            project();
+
+            gl.uniformMatrix4fv(matrixLocation, false, projectionMatrix);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+
+            let offset = 0;
+            for(let i = 0; i < buffer.offsets.length; i++) {
+                gl.uniform4fv(colorLocation, colors[i]);
+                gl.drawArrays(gl.TRIANGLES, offset, buffer.offsets[i] / pointSize);
+                offset += buffer.offsets[i] / pointSize;
+            }
+        }
+
+        function createShader(type, source) {
+            let shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+            let success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+            if (!success) {
+                gl.deleteShader(shader);
+                throw new Error(gl.getShaderInfoLog(shader));
+            }
+            return shader;
+        }
+
+        function createProgram(vertexShader, fragmentShader) {
+            let program = gl.createProgram();
+            gl.attachShader(program, vertexShader);
+            gl.attachShader(program, fragmentShader);
+            gl.linkProgram(program);
+            gl.getProgramParameter(program, gl.LINK_STATUS);
+            let success = gl.getProgramParameter(program, gl.LINK_STATUS);
+            if (!success) {
+                gl.deleteProgram(program);
+                throw new Error(gl.getProgramInfoLog(program));
+            }
+            return program;
+        }
+
+        function createBuffer(features) {
+
+            let buffer = { data: [], offsets: [] };
+            let offset = 0;
+
+            features.forEach(function(feature) {
+                if(feature.geometry.type === "Polygon") {                    
+                    triangulate(feature.geometry.coordinates, buffer.data);
+                }
+                if(feature.geometry.type === "MultiPolygon") {
+                    for(let coordinates of feature.geometry.coordinates) {
+                        triangulate(coordinates, buffer.data);
+                    }
+                }
+                buffer.offsets.push(buffer.data.length - offset);
+                offset = buffer.data.length;
+            });
+
+            return buffer;
+        }
+
+        function triangulate(polygons, data) {
+            let points = earcut.flatten(polygons);
+            let triangles = earcut(points.vertices, points.holes, points.dimensions);
+            triangles.forEach(function(t) {
+                let i = t * pointSize;
+                data.push(points.vertices[i], points.vertices[i + 1]);
+            });
+        }
     }
 
     attach() {

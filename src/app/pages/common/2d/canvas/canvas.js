@@ -49,6 +49,7 @@ class Canvas {
     }
 
     onResize() {
+        /*
         let aspectRatio = this.gl.canvas.height / this.gl.canvas.width;
         let width = this.gl.canvas.parentElement.clientWidth;
         let height = (width * aspectRatio);
@@ -62,6 +63,7 @@ class Canvas {
         this.centerTranslation = [this.gl.canvas.width / -2, this.gl.canvas.height / -2, 0];
 
         this.draw();
+        */
     }
 
     onMousedown(e) {

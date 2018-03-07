@@ -21,16 +21,7 @@
     "inspect": "jsinspect ./src",
     "lint": "eslint ./src",
     "test": "tape -r ./babel-register 'src/**/*.spec.js' | tap-nyan",
-    "test:coverage": "nyc --reporter=lcov npm test"
-  },
-  "nyc": {
-    "exclude": [
-      "**/*.spec.js"
-    ],
-    "reporter": [
-      "html"
-    ],
-    "temp-directory": "./coverage/.nyc_output"
+    "test:coverage": "nyc --exclude '**/*.spec.js' --reporter=html --temp-directory=./coverage/.nyc_output npm test"
   },
   "keywords": [
     "español",

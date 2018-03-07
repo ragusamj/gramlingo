@@ -14,9 +14,9 @@ class WorldPage {
     }
     
     attach(pageTemplate, onPageChanged, parameters) {
-        this.cachedInflater.get("/data/world-map.json", TopologyInflater, "world-loader-popup-loading-map", (data) => {
-            this.features = data;
-            this.cachedInflater.get("/data/countries.json", CountryInflater, "world-loader-popup-loading-countries", (data) => {
+        this.cachedInflater.get("/data/world-map.json", TopologyInflater, { key: "world" }, "world-loader-popup-loading-map", (data) => {
+            this.world = data;
+            this.cachedInflater.get("/data/countries.json", CountryInflater, {}, "world-loader-popup-loading-countries", (data) => {
                 this.countries = data;
                 this.loadPage(pageTemplate, onPageChanged, parameters);
             });
@@ -43,7 +43,7 @@ class WorldPage {
         this.setHeader();
         this.setFlagWidget();
         this.exerciseArea.updateContext(this.context);
-        this.worldMap.initialize(this.features, this.countries, this.context.iso);
+        this.worldMap.initialize(this.world, this.countries, this.context.iso);
     }
 
     createContext(iso) {

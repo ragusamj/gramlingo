@@ -31,9 +31,10 @@ class WorldMap {
         this.canvasListener = canvasListener;
     }
 
-    initialize(features, countries, selected) {
+    initialize(world, countries, selected) {
 
-        this.features = features;
+        this.features = world.features;
+        //console.log(world.neighbors);
         for(let feature of this.features) {
             if(feature.properties.id === disputed) {
                 feature.properties.color = "#333333";

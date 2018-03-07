@@ -6,7 +6,7 @@ class CachedInflater {
         this.cache = {};
     }
 
-    get(url, inflater, translationKey, callback) {
+    get(url, inflater, options, translationKey, callback) {
         if(this.cache[url]) {
             return callback(this.cache[url]);
         }
@@ -14,7 +14,7 @@ class CachedInflater {
         this.popup.progress(0);
         this.http.getJSON(url,
             (data) => {
-                this.cache[url] = inflater.inflate(data);
+                this.cache[url] = inflater.inflate(data, options);
                 this.popup.hide();
                 callback(this.cache[url]);
             }, 

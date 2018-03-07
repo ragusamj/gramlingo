@@ -1,11 +1,14 @@
 import feature from "topojson-client/src/feature";
-//import neighbors from "topojson-client/src/neighbors";
+import neighbors from "topojson-client/src/neighbors";
 
 class TopologyInflater {
 
-    static inflate(topology) {
-        //console.log(neighbors(topology.objects.world.geometries));
-        return feature(topology, topology.objects.world).features;
+    static inflate(topology, options) {
+        const objects = topology.objects[options.key];
+        return {
+            neighbors: neighbors(objects.geometries),
+            features: feature(topology, objects).features
+        };
     }
 }
     

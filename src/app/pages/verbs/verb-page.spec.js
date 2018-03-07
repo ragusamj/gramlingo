@@ -59,7 +59,7 @@ test("VerbPage should load verb data on page attach", (t) => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
         
         t.deepEqual(cachedInflater.get.firstCall.args[0], "/data/verbs.json");
         t.deepEqual(cachedInflater.get.firstCall.args[1], VerbInflater);
@@ -72,7 +72,7 @@ test("VerbPage should attach the exercise area listener", (t) => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, { type: "" });
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
 
         t.true(exerciseAreaListener.attach.called);
         t.end();
@@ -84,7 +84,7 @@ test("VerbPage should attach the search listener", (t) => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
 
         t.true(searchListener.attach.called);
         t.end();
@@ -97,7 +97,7 @@ test("VerbPage should load the page with the default verb", (t) => {
         searchEngine.initialize.reset();
 
         page.attach(pageTemplate, onPageChanged, {});
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
 
         t.deepEqual(searchEngine.initialize.firstCall.args, [verbs]);
         t.end();
@@ -110,7 +110,7 @@ test("VerbPage should load the page with a verb from the parameters, uppercase",
         searchEngine.initialize.reset();
 
         page.attach(pageTemplate, onPageChanged, { name: "COMER" });
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
 
         t.deepEqual(searchEngine.initialize.firstCall.args, [verbs]);
         t.end();
@@ -123,7 +123,7 @@ test("VerbPage should load the page with a verb from the parameters, lowercase",
         searchEngine.initialize.reset();
 
         page.attach(pageTemplate, onPageChanged, {});
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
 
         t.deepEqual(searchEngine.initialize.firstCall.args, [verbs]);
         t.end();
@@ -135,7 +135,7 @@ test("VerbPage should not emit any events for unknown verbs", (t) => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, { name: "unknownverb" });
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
 
         t.false(browserEvent.emit.called);
         t.end();
@@ -148,7 +148,7 @@ test("VerbPage should execute the callback when the page has loaded", (t) => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
 
         t.true(onPageChanged.called);
         t.end();
@@ -161,7 +161,7 @@ test("VerbPage should execute the callback when the page has loaded with an unkn
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {  name: "unknownverb" });
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
 
         t.true(onPageChanged.called);
         t.end();
@@ -173,7 +173,7 @@ test("VerbPage should set the verb name as header on page load", (t) => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
 
         t.equal(document.getElementById("verb-name").innerHTML, "Ir");
         t.end();
@@ -185,7 +185,7 @@ test("VerbPage should show the verb regularity on page load, regular", (t) => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, { name: "Comer" });
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
 
         t.equal(document.getElementById("verb-mode").getAttribute("data-translate"), "verbs-regular-header");
         t.end();
@@ -197,7 +197,7 @@ test("VerbPage should show the verb regularity on page load, irregular", (t) => 
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
 
         t.equal(document.getElementById("verb-mode").getAttribute("data-translate"), "verbs-irregular-header");
         t.end();
@@ -209,7 +209,7 @@ test("VerbPage should show the verb regularity on page load, irregular", (t) => 
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
 
         t.equal(document.getElementById("verb-mode").getAttribute("data-translate"), "verbs-irregular-header");
         t.end();
@@ -221,7 +221,7 @@ test("VerbPage should translate the verb regularity on page load", (t) => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
 
         t.deepEqual(i18n.translate.firstCall.args, [document.getElementById("verb-mode")]);
         t.end();
@@ -238,7 +238,7 @@ test("VerbPage should listen to the 'search-result-selected' event and emit the 
         });
  
         page.attach(pageTemplate, onPageChanged, {});
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
         browserEvent.emit("search-result-selected", 1);
     });
 });
@@ -250,7 +250,7 @@ test("VerbPage should listen to the 'search-result-selected' event and update th
         let page = setup();
  
         page.attach(pageTemplate, onPageChanged, {});
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
         exerciseArea.updateContext.resetHistory();
         browserEvent.emit("search-result-selected", 1);
 
@@ -264,7 +264,7 @@ test("VerbPage should listen to the 'search-result-selected' event and update th
         let page = setup();
  
         page.attach(pageTemplate, onPageChanged, {});
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
         browserEvent.emit("search-result-selected", 1);
 
         t.equal(document.getElementById("verb-name").innerHTML, "Comer");
@@ -282,7 +282,7 @@ test("VerbPage should detach and remove the 'search-result-selected' event liste
         });
 
         page.attach(pageTemplate, onPageChanged, {});
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
         page.detach();
         browserEvent.emit("search-result-selected", 0);
 
@@ -295,7 +295,7 @@ test("VerbPage should detach and detach the exercise area listener", (t) => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, { type: "integers" });
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
         page.detach();
 
         t.true(exerciseAreaListener.detach.called);
@@ -308,7 +308,7 @@ test("VerbPage should detach and detach the search listener", (t) => {
         let page = setup();
 
         page.attach(pageTemplate, onPageChanged, {});
-        cachedInflater.get.callArgWith(3, verbs);
+        cachedInflater.get.callArgWith(4, verbs);
         page.detach();
 
         t.true(searchListener.detach.called);

@@ -63,32 +63,35 @@ const topojson = {
 
 test("Topology should inflate a topology into an array of geometries", (t) => {
 
-    t.deepEqual(TopologyInflater.inflate(topojson), [
-        {
-            "type": "Feature",
-            "properties": { "id": "XX" },
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [ [[3,3],[7,7],[13,3],[3,3]], [[13,3],[7,7],[3,3],[13,3]] ]
+    t.deepEqual(TopologyInflater.inflate(topojson, { key: "world" }), {
+        neighbors: [[0, 2], [2], [0, 1]],
+        features: [
+            {
+                "type": "Feature",
+                "properties": { "id": "XX" },
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [ [[3,3],[7,7],[13,3],[3,3]], [[13,3],[7,7],[3,3],[13,3]] ]
+                }
+            },
+            {
+                "type": "Feature",
+                "properties": { "id": "YY" },
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [ [[9,9],[19,19],[31,31],[17,17],[35,35]] ]
+                }
+            },
+            {
+                "type": "Feature",
+                "properties": { "id": "ZZ" },
+                "geometry": {
+                    "type": "MultiPolygon",
+                    "coordinates": [ [ [[3,3],[7,7],[13,3],[3,3]] ], [ [[9,9],[19,19],[31,31],[45,45]] ] ]
+                }
             }
-        },
-        {
-            "type": "Feature",
-            "properties": { "id": "YY" },
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [ [[9,9],[19,19],[31,31],[17,17],[35,35]] ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": { "id": "ZZ" },
-            "geometry": {
-                "type": "MultiPolygon",
-                "coordinates": [ [ [[3,3],[7,7],[13,3],[3,3]] ], [ [[9,9],[19,19],[31,31],[45,45]] ] ]
-            }
-        }
-    ]);
+        ]
+    });
 
     t.end();
 });

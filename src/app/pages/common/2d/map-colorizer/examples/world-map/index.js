@@ -4,7 +4,7 @@
 
     let features = new window.mapcolorizer.Rings(featureCollection);
     let neighbors = features.neighbors.values;
-    let palette = ["#070", "#0a0", "#0c0", "#0f0"];
+    let palette = ["#118b02", "#1de502", "#35ff27", "#71ff6c"];
 
     let colorizer = new window.mapcolorizer.BacktrackingColorizer(neighbors, {
         numberOfColors: 4,

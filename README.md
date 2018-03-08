@@ -4,4 +4,4 @@
 
 This software is licensed with the MIT license.
 
-© 2017 Erik Barke
+© 2013-2018 Erik Barke

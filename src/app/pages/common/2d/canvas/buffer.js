@@ -1,10 +1,13 @@
+/*
 import earcut from "earcut";
 import Color from "../../color/color";
 
 const pointSize = 2;
+*/
 
 class Buffer {
 
+    /*
     static create(features) {
         const buffer = { data: [], byColor: {} };
         const featuresByColor = this.sortByColor(features);
@@ -50,6 +53,7 @@ class Buffer {
             data.push(points.vertices[i], points.vertices[i + 1]);
         }
     }
+    */
 }
 
 export default Buffer;

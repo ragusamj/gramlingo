@@ -1,24 +1,13 @@
 import { default as earcut } from "earcut";
-
-import { 
-    create as mat4Create,
-    copy,
-    fromScaling,
-    fromTranslation,
-    identity,
-    invert,
-    multiply,
-    ortho,
-    translate
-} from "gl-matrix/src/gl-matrix/mat4";
-
-import { transformMat4 as vec4TransformMat4, fromValues as vec4FromValues } from "gl-matrix/src/gl-matrix/vec4";
-import { create as vec3Create, fromValues as vec3FromValues, negate as vec3Negate } from "gl-matrix/src/gl-matrix/vec3";
-import { create as vec2Create } from "gl-matrix/src/gl-matrix/vec2";
-
+import * as mat4 from "gl-matrix/src/gl-matrix/mat4";
+import * as vec2 from "gl-matrix/src/gl-matrix/vec2";
+import * as vec3 from "gl-matrix/src/gl-matrix/vec3";
+import * as vec4 from "gl-matrix/src/gl-matrix/vec4";
 import Color from "../../common/color/color";
 import BacktrackingColorizer from "../../common/color/map-colorizer/backtracking-colorizer";
 import Path from "../../common/color/map-colorizer/path";
+
+const pointSize = 2;
 
 const vertexShaderSource = `
 attribute vec4 a_position;
@@ -56,51 +45,47 @@ class WorldMap {
             return Math.sqrt(x * x + y * y);
         }
 
-        //let logDisplay = document.querySelector("#log");
+        const buffer = this.createBuffer(world.features);
+        const canvas = document.querySelector("canvas");
+        const gl = canvas.getContext("webgl");
+        const vertexShader = this.createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+        const fragmentShader = this.createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+        const program = this.createProgram(gl, vertexShader, fragmentShader);
 
-        let pointSize = 2;
-        let buffer = createBuffer(world.features);
-
-        let canvas = document.querySelector("canvas");
-        let gl = canvas.getContext("webgl");
-        let vertexShader = createShader(gl.VERTEX_SHADER, vertexShaderSource);
-        let fragmentShader = createShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
-        let program = createProgram(vertexShader, fragmentShader);
-
-        let positionLocation = gl.getAttribLocation(program, "a_position");
-        let matrixLocation = gl.getUniformLocation(program, "u_matrix");
-        let colorLocation = gl.getUniformLocation(program, "u_color");
+        const positionLocation = gl.getAttribLocation(program, "a_position");
+        const matrixLocation = gl.getUniformLocation(program, "u_matrix");
+        const colorLocation = gl.getUniformLocation(program, "u_color");
         
-        let projectionMatrix = mat4Create();
-        let viewMatrix = mat4Create();
-        let previousMatrix = mat4Create();
-        let scaleMatrix = mat4Create();
-        let dragMatrix = mat4Create();
-        let viewScaleMatrix = mat4Create();
+        let projectionMatrix = mat4.create();
+        let viewMatrix = mat4.create();
+        let previousMatrix = mat4.create();
+        let scaleMatrix = mat4.create();
+        let dragMatrix = mat4.create();
+        let viewScaleMatrix = mat4.create();
 
-        let translation = vec3Create();
-        let negativeTranslation = vec3Create();
+        let translation = vec3.create();
+        let negativeTranslation = vec3.create();
 
-        let scale = vec3FromValues(1, 1, 1);
-        let drag = vec3Create();
-        let viewScale = vec3FromValues(1, 1, 1);
+        let scale = vec3.fromValues(1, 1, 1);
+        let drag = vec3.create();
+        let viewScale = vec3.fromValues(1, 1, 1);
 
         let gesture;
 
-        let minScale = 0.5;
-        let maxScale = 100;
+        const minScale = 0.5;
+        const maxScale = 100;
 
-        let colorizer = new BacktrackingColorizer(world.neighbors, {
+        const colorizer = new BacktrackingColorizer(world.neighbors, {
             numberOfColors: 4,
             startIndexIslands: 1,
             maxAttempts: 5000,
             path: new Path(world.neighbors, 3)
         });
 
-        let palette = [];
+        const palette = [];
 
-        //let color = Color.scheme().orange;
-        let color = "#868e96";
+        //const color = Color.scheme().blue;
+        const color = "#868e96";
         let shade = -0.4;
         for(let i = 0; i < colorizer.colorCount; i++) {
             palette.push(Color.shade(color, shade));
@@ -138,14 +123,14 @@ class WorldMap {
             canvas.addEventListener("dragstart", noevent);
             noevent(e);
 
-            let mouse = mousePoint(e, vec2Create());
+            let mouse = mousePoint(e, vec2.create());
             mouse[0] -= drag[0];
             mouse[1] -= drag[1];
 
             function mousemove(e) {
                 noevent(e);
                 requestAnimationFrame(function() {
-                    let delta = mousePoint(e, vec2Create());
+                    let delta = mousePoint(e, vec2.create());
                     drag[0] = delta[0] - mouse[0];
                     drag[1] = delta[1] - mouse[1];
                     render();
@@ -161,6 +146,8 @@ class WorldMap {
         });
 
         /*
+        let logDisplay = document.querySelector("#log");
+
         var logItems = [];
         function log(obj) {
 
@@ -193,13 +180,13 @@ class WorldMap {
             for(let t of e.touches) {
                 if(!gesture.finger1) {
                     gesture.finger1 = {
-                        origin: mousePoint(t, vec2Create()),
+                        origin: mousePoint(t, vec2.create()),
                         id: t.identifier
                     };
                 }
                 else if(!gesture.finger2) {
                     gesture.finger2 = {
-                        origin: mousePoint(t, vec2Create()),
+                        origin: mousePoint(t, vec2.create()),
                         id: t.identifier
                     };
                     gesture.distance = hypotenuse(gesture.finger1.origin, gesture.finger2.origin);
@@ -218,10 +205,10 @@ class WorldMap {
 
             for(let t of e.touches) {
                 if(gesture.finger1.id === t.identifier) {
-                    gesture.finger1.current = mousePoint(t, vec2Create());
+                    gesture.finger1.current = mousePoint(t, vec2.create());
                 }
                 else if(gesture.finger2.id === t.identifier) {
-                    gesture.finger2.current = mousePoint(t, vec2Create());
+                    gesture.finger2.current = mousePoint(t, vec2.create());
                 }
             }
 
@@ -248,9 +235,9 @@ class WorldMap {
         });
 
         canvas.addEventListener("click", function(e) {
-            let mouse = vec4FromValues(0, 0, 0, 1);
+            let mouse = vec4.fromValues(0, 0, 0, 1);
             mousePoint(e, mouse);
-            vec4TransformMat4(mouse, mouse, invert([], viewMatrix));
+            vec4.transformMat4(mouse, mouse, mat4.invert([], viewMatrix));
             //console.log(mouse);
         });
 
@@ -272,42 +259,44 @@ class WorldMap {
         }
 
         function resize() {
-            let aspectRatio = gl.canvas.height / gl.canvas.width;
+            let aspectRatio = world.bbox[3] / world.bbox[2];
             let width = gl.canvas.parentElement.clientWidth * window.devicePixelRatio;
             let height = (width * aspectRatio);
             gl.canvas.width = width;
             gl.canvas.height = height;
             gl.viewport(0, 0, width, height);
 
+            gl.canvas.parentElement.style.height = gl.canvas.clientHeight + "px";
+
             viewScale[0] = viewScale[1] = gl.canvas.width / world.bbox[2];
-            translation = vec3FromValues(gl.canvas.width / 2, gl.canvas.height / 2, 0);
+            translation = vec3.fromValues(gl.canvas.width / 2, gl.canvas.height / 2, 0);
 
             render();
         }
 
         function calculateMatrix() {
-            copy(previousMatrix, viewMatrix);
-            identity(viewMatrix);
+            mat4.copy(previousMatrix, viewMatrix);
+            mat4.identity(viewMatrix);
             
-            translate(viewMatrix, viewMatrix, translation);
+            mat4.translate(viewMatrix, viewMatrix, translation);
 
-            multiply(viewMatrix, viewMatrix, invert(scaleMatrix, scaleMatrix));
-            multiply(viewMatrix, viewMatrix, fromScaling(scaleMatrix, scale));
+            mat4.multiply(viewMatrix, viewMatrix, mat4.invert(scaleMatrix, scaleMatrix));
+            mat4.multiply(viewMatrix, viewMatrix, mat4.fromScaling(scaleMatrix, scale));
 
-            multiply(viewMatrix, viewMatrix, invert(dragMatrix, dragMatrix));
-            multiply(viewMatrix, viewMatrix, fromTranslation(dragMatrix, drag));
+            mat4.multiply(viewMatrix, viewMatrix, mat4.invert(dragMatrix, dragMatrix));
+            mat4.multiply(viewMatrix, viewMatrix, mat4.fromTranslation(dragMatrix, drag));
 
-            translate(viewMatrix, viewMatrix, vec3Negate(negativeTranslation, translation));
+            mat4.translate(viewMatrix, viewMatrix, vec3.negate(negativeTranslation, translation));
 
-            multiply(viewMatrix, viewMatrix, invert(viewScaleMatrix, viewScaleMatrix));
-            multiply(viewMatrix, viewMatrix, fromScaling(viewScaleMatrix, viewScale));
+            mat4.multiply(viewMatrix, viewMatrix, mat4.invert(viewScaleMatrix, viewScaleMatrix));
+            mat4.multiply(viewMatrix, viewMatrix, mat4.fromScaling(viewScaleMatrix, viewScale));
 
-            multiply(viewMatrix, viewMatrix, previousMatrix);
+            mat4.multiply(viewMatrix, viewMatrix, previousMatrix);
         }
 
         function project() {
-            ortho(projectionMatrix, 0, gl.canvas.width, gl.canvas.height, 0, gl.canvas.height * -2, gl.canvas.height * 2);
-            multiply(projectionMatrix, projectionMatrix, viewMatrix);
+            mat4.ortho(projectionMatrix, 0, gl.canvas.width, gl.canvas.height, 0, gl.canvas.height * -2, gl.canvas.height * 2);
+            mat4.multiply(projectionMatrix, projectionMatrix, viewMatrix);
         }
 
         function render() {
@@ -325,62 +314,62 @@ class WorldMap {
                 offset += buffer.offsets[i] / pointSize;
             }
         }
+    }
 
-        function createShader(type, source) {
-            let shader = gl.createShader(type);
-            gl.shaderSource(shader, source);
-            gl.compileShader(shader);
-            gl.getShaderParameter(shader, gl.COMPILE_STATUS);
-            let success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
-            if (!success) {
-                gl.deleteShader(shader);
-                throw new Error(gl.getShaderInfoLog(shader));
+    createShader(gl, type, source) {
+        let shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+        let success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+        if (!success) {
+            gl.deleteShader(shader);
+            throw new Error(gl.getShaderInfoLog(shader));
+        }
+        return shader;
+    }
+
+    createProgram(gl, vertexShader, fragmentShader) {
+        let program = gl.createProgram();
+        gl.attachShader(program, vertexShader);
+        gl.attachShader(program, fragmentShader);
+        gl.linkProgram(program);
+        gl.getProgramParameter(program, gl.LINK_STATUS);
+        let success = gl.getProgramParameter(program, gl.LINK_STATUS);
+        if (!success) {
+            gl.deleteProgram(program);
+            throw new Error(gl.getProgramInfoLog(program));
+        }
+        return program;
+    }
+
+    createBuffer(features) {
+
+        let buffer = { data: [], offsets: [] };
+        let offset = 0;
+
+        for(let feature of features) {
+            if(feature.geometry.type === "Polygon") {                    
+                this.triangulate(feature.geometry.coordinates, buffer.data);
             }
-            return shader;
-        }
-
-        function createProgram(vertexShader, fragmentShader) {
-            let program = gl.createProgram();
-            gl.attachShader(program, vertexShader);
-            gl.attachShader(program, fragmentShader);
-            gl.linkProgram(program);
-            gl.getProgramParameter(program, gl.LINK_STATUS);
-            let success = gl.getProgramParameter(program, gl.LINK_STATUS);
-            if (!success) {
-                gl.deleteProgram(program);
-                throw new Error(gl.getProgramInfoLog(program));
+            if(feature.geometry.type === "MultiPolygon") {
+                for(let coordinates of feature.geometry.coordinates) {
+                    this.triangulate(coordinates, buffer.data);
+                }
             }
-            return program;
+            buffer.offsets.push(buffer.data.length - offset);
+            offset = buffer.data.length;
         }
 
-        function createBuffer(features) {
+        return buffer;
+    }
 
-            let buffer = { data: [], offsets: [] };
-            let offset = 0;
-
-            features.forEach(function(feature) {
-                if(feature.geometry.type === "Polygon") {                    
-                    triangulate(feature.geometry.coordinates, buffer.data);
-                }
-                if(feature.geometry.type === "MultiPolygon") {
-                    for(let coordinates of feature.geometry.coordinates) {
-                        triangulate(coordinates, buffer.data);
-                    }
-                }
-                buffer.offsets.push(buffer.data.length - offset);
-                offset = buffer.data.length;
-            });
-
-            return buffer;
-        }
-
-        function triangulate(polygons, data) {
-            let points = earcut.flatten(polygons);
-            let triangles = earcut(points.vertices, points.holes, points.dimensions);
-            triangles.forEach(function(t) {
-                let i = t * pointSize;
-                data.push(points.vertices[i], points.vertices[i + 1]);
-            });
+    triangulate(polygons, data) {
+        let points = earcut.flatten(polygons);
+        let triangles = earcut(points.vertices, points.holes, points.dimensions);
+        for(let t of triangles) {
+            let i = t * pointSize;
+            data.push(points.vertices[i], points.vertices[i + 1]);
         }
     }
 

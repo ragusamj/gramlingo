@@ -1,4 +1,5 @@
 import get from "lodash.get";
+import IsNumeric from "../is-numeric";
 
 class ExerciseArea {
 
@@ -37,7 +38,7 @@ class ExerciseArea {
     updateField(field, solutions, toggleState) {
         let input = document.getElementById(field.inputId);
         input.disabled = !solutions[0];
-        input.type = this.isNumeric(solutions[0]) ? "number" : "text";
+        input.type = IsNumeric(solutions[0]) ? "number" : "text";
         if(input.disabled) {
             input.value = "-";
         }
@@ -95,10 +96,6 @@ class ExerciseArea {
 
     isKnownEvent(e, name, fields) {
         return e.target.nodeName === name && e.target.id && fields && fields[e.target.id];
-    }
-
-    isNumeric(n) {
-        return !isNaN(parseFloat(n)) && isFinite(n);
     }
 }
 

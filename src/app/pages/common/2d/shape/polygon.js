@@ -1,6 +1,4 @@
-const isNumeric = (n) => {
-    return !isNaN(parseFloat(n)) && isFinite(n);
-};
+import IsNumeric from "../../is-numeric";
 
 class Polygon {
 
@@ -27,8 +25,8 @@ class Polygon {
         return Array.isArray(object) &&
                Array.isArray(object[0]) &&
                object[0].length === 2 &&
-               isNumeric(object[0][0]) &&
-               isNumeric(object[0][1]);
+               IsNumeric(object[0][0]) &&
+               IsNumeric(object[0][1]);
     }
 }
 

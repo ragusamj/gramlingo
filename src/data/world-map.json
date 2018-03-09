@@ -33,7 +33,7 @@
             ]
           ],
           "properties": {
-            "id": "AF"
+            "iso": "AF"
           }
         },
         {
@@ -57,7 +57,7 @@
             ]
           ],
           "properties": {
-            "id": "AO"
+            "iso": "AO"
           }
         },
         {
@@ -72,7 +72,7 @@
             ]
           ],
           "properties": {
-            "id": "AL"
+            "iso": "AL"
           }
         },
         {
@@ -89,7 +89,7 @@
             ]
           ],
           "properties": {
-            "id": "AE"
+            "iso": "AE"
           }
         },
         {
@@ -113,7 +113,7 @@
             ]
           ],
           "properties": {
-            "id": "AR"
+            "iso": "AR"
           }
         },
         {
@@ -128,7 +128,7 @@
             ]
           ],
           "properties": {
-            "id": "AM"
+            "iso": "AM"
           }
         },
         {
@@ -176,7 +176,7 @@
             ]
           ],
           "properties": {
-            "id": "AQ"
+            "iso": "AQ"
           }
         },
         {
@@ -187,7 +187,7 @@
             ]
           ],
           "properties": {
-            "id": "TF"
+            "iso": "TF"
           }
         },
         {
@@ -205,7 +205,7 @@
             ]
           ],
           "properties": {
-            "id": "AU"
+            "iso": "AU"
           }
         },
         {
@@ -222,7 +222,7 @@
             ]
           ],
           "properties": {
-            "id": "AT"
+            "iso": "AT"
           }
         },
         {
@@ -245,7 +245,7 @@
             ]
           ],
           "properties": {
-            "id": "AZ"
+            "iso": "AZ"
           }
         },
         {
@@ -258,7 +258,7 @@
             ]
           ],
           "properties": {
-            "id": "BI"
+            "iso": "BI"
           }
         },
         {
@@ -273,7 +273,7 @@
             ]
           ],
           "properties": {
-            "id": "BE"
+            "iso": "BE"
           }
         },
         {
@@ -288,7 +288,7 @@
             ]
           ],
           "properties": {
-            "id": "BJ"
+            "iso": "BJ"
           }
         },
         {
@@ -304,7 +304,7 @@
             ]
           ],
           "properties": {
-            "id": "BF"
+            "iso": "BF"
           }
         },
         {
@@ -317,7 +317,7 @@
             ]
           ],
           "properties": {
-            "id": "BD"
+            "iso": "BD"
           }
         },
         {
@@ -333,7 +333,7 @@
             ]
           ],
           "properties": {
-            "id": "BG"
+            "iso": "BG"
           }
         },
         {
@@ -356,7 +356,7 @@
             ]
           ],
           "properties": {
-            "id": "BS"
+            "iso": "BS"
           }
         },
         {
@@ -369,7 +369,7 @@
             ]
           ],
           "properties": {
-            "id": "BA"
+            "iso": "BA"
           }
         },
         {
@@ -384,7 +384,7 @@
             ]
           ],
           "properties": {
-            "id": "BY"
+            "iso": "BY"
           }
         },
         {
@@ -397,7 +397,7 @@
             ]
           ],
           "properties": {
-            "id": "BZ"
+            "iso": "BZ"
           }
         },
         {
@@ -412,7 +412,7 @@
             ]
           ],
           "properties": {
-            "id": "BO"
+            "iso": "BO"
           }
         },
         {
@@ -433,7 +433,7 @@
             ]
           ],
           "properties": {
-            "id": "BR"
+            "iso": "BR"
           }
         },
         {
@@ -445,7 +445,7 @@
             ]
           ],
           "properties": {
-            "id": "BN"
+            "iso": "BN"
           }
         },
         {
@@ -457,7 +457,7 @@
             ]
           ],
           "properties": {
-            "id": "BT"
+            "iso": "BT"
           }
         },
         {
@@ -471,7 +471,7 @@
             ]
           ],
           "properties": {
-            "id": "BW"
+            "iso": "BW"
           }
         },
         {
@@ -487,7 +487,7 @@
             ]
           ],
           "properties": {
-            "id": "CF"
+            "iso": "CF"
           }
         },
         {
@@ -648,7 +648,7 @@
             ]
           ],
           "properties": {
-            "id": "CA"
+            "iso": "CA"
           }
         },
         {
@@ -662,7 +662,7 @@
             ]
           ],
           "properties": {
-            "id": "CH"
+            "iso": "CH"
           }
         },
         {
@@ -684,7 +684,7 @@
             ]
           ],
           "properties": {
-            "id": "CL"
+            "iso": "CL"
           }
         },
         {
@@ -719,7 +719,7 @@
             ]
           ],
           "properties": {
-            "id": "CN"
+            "iso": "CN"
           }
         },
         {
@@ -735,7 +735,7 @@
             ]
           ],
           "properties": {
-            "id": "CI"
+            "iso": "CI"
           }
         },
         {
@@ -753,7 +753,7 @@
             ]
           ],
           "properties": {
-            "id": "CM"
+            "iso": "CM"
           }
         },
         {
@@ -775,7 +775,7 @@
             ]
           ],
           "properties": {
-            "id": "CD"
+            "iso": "CD"
           }
         },
         {
@@ -791,7 +791,7 @@
             ]
           ],
           "properties": {
-            "id": "CG"
+            "iso": "CG"
           }
         },
         {
@@ -808,7 +808,7 @@
             ]
           ],
           "properties": {
-            "id": "CO"
+            "iso": "CO"
           }
         },
         {
@@ -822,7 +822,7 @@
             ]
           ],
           "properties": {
-            "id": "CR"
+            "iso": "CR"
           }
         },
         {
@@ -833,7 +833,7 @@
             ]
           ],
           "properties": {
-            "id": "CU"
+            "iso": "CU"
           }
         },
         {
@@ -848,7 +848,7 @@
             ]
           ],
           "properties": {
-            "id": "-99"
+            "iso": "-99"
           }
         },
         {
@@ -864,7 +864,7 @@
             ]
           ],
           "properties": {
-            "id": "CY"
+            "iso": "CY"
           }
         },
         {
@@ -878,7 +878,7 @@
             ]
           ],
           "properties": {
-            "id": "CZ"
+            "iso": "CZ"
           }
         },
         {
@@ -899,7 +899,7 @@
             ]
           ],
           "properties": {
-            "id": "DE"
+            "iso": "DE"
           }
         },
         {
@@ -913,7 +913,7 @@
             ]
           ],
           "properties": {
-            "id": "DJ"
+            "iso": "DJ"
           }
         },
         {
@@ -932,7 +932,7 @@
             ]
           ],
           "properties": {
-            "id": "DK"
+            "iso": "DK"
           }
         },
         {
@@ -944,7 +944,7 @@
             ]
           ],
           "properties": {
-            "id": "DO"
+            "iso": "DO"
           }
         },
         {
@@ -962,7 +962,7 @@
             ]
           ],
           "properties": {
-            "id": "DZ"
+            "iso": "DZ"
           }
         },
         {
@@ -975,7 +975,7 @@
             ]
           ],
           "properties": {
-            "id": "EC"
+            "iso": "EC"
           }
         },
         {
@@ -990,7 +990,7 @@
             ]
           ],
           "properties": {
-            "id": "EG"
+            "iso": "EG"
           }
         },
         {
@@ -1004,7 +1004,7 @@
             ]
           ],
           "properties": {
-            "id": "ER"
+            "iso": "ER"
           }
         },
         {
@@ -1018,7 +1018,7 @@
             ]
           ],
           "properties": {
-            "id": "ES"
+            "iso": "ES"
           }
         },
         {
@@ -1031,7 +1031,7 @@
             ]
           ],
           "properties": {
-            "id": "EE"
+            "iso": "EE"
           }
         },
         {
@@ -1049,7 +1049,7 @@
             ]
           ],
           "properties": {
-            "id": "ET"
+            "iso": "ET"
           }
         },
         {
@@ -1063,7 +1063,7 @@
             ]
           ],
           "properties": {
-            "id": "FI"
+            "iso": "FI"
           }
         },
         {
@@ -1094,7 +1094,7 @@
             ]
           ],
           "properties": {
-            "id": "FJ"
+            "iso": "FJ"
           }
         },
         {
@@ -1105,7 +1105,7 @@
             ]
           ],
           "properties": {
-            "id": "FK"
+            "iso": "FK"
           }
         },
         {
@@ -1137,7 +1137,7 @@
             ]
           ],
           "properties": {
-            "id": "FR"
+            "iso": "FR"
           }
         },
         {
@@ -1151,7 +1151,7 @@
             ]
           ],
           "properties": {
-            "id": "GA"
+            "iso": "GA"
           }
         },
         {
@@ -1170,7 +1170,7 @@
             ]
           ],
           "properties": {
-            "id": "GB"
+            "iso": "GB"
           }
         },
         {
@@ -1185,7 +1185,7 @@
             ]
           ],
           "properties": {
-            "id": "GE"
+            "iso": "GE"
           }
         },
         {
@@ -1199,7 +1199,7 @@
             ]
           ],
           "properties": {
-            "id": "GH"
+            "iso": "GH"
           }
         },
         {
@@ -1216,7 +1216,7 @@
             ]
           ],
           "properties": {
-            "id": "GN"
+            "iso": "GN"
           }
         },
         {
@@ -1228,7 +1228,7 @@
             ]
           ],
           "properties": {
-            "id": "GM"
+            "iso": "GM"
           }
         },
         {
@@ -1241,7 +1241,7 @@
             ]
           ],
           "properties": {
-            "id": "GW"
+            "iso": "GW"
           }
         },
         {
@@ -1254,7 +1254,7 @@
             ]
           ],
           "properties": {
-            "id": "GQ"
+            "iso": "GQ"
           }
         },
         {
@@ -1276,7 +1276,7 @@
             ]
           ],
           "properties": {
-            "id": "GR"
+            "iso": "GR"
           }
         },
         {
@@ -1287,7 +1287,7 @@
             ]
           ],
           "properties": {
-            "id": "GL"
+            "iso": "GL"
           }
         },
         {
@@ -1303,7 +1303,7 @@
             ]
           ],
           "properties": {
-            "id": "GT"
+            "iso": "GT"
           }
         },
         {
@@ -1317,7 +1317,7 @@
             ]
           ],
           "properties": {
-            "id": "GY"
+            "iso": "GY"
           }
         },
         {
@@ -1332,7 +1332,7 @@
             ]
           ],
           "properties": {
-            "id": "HN"
+            "iso": "HN"
           }
         },
         {
@@ -1348,7 +1348,7 @@
             ]
           ],
           "properties": {
-            "id": "HR"
+            "iso": "HR"
           }
         },
         {
@@ -1360,7 +1360,7 @@
             ]
           ],
           "properties": {
-            "id": "HT"
+            "iso": "HT"
           }
         },
         {
@@ -1377,7 +1377,7 @@
             ]
           ],
           "properties": {
-            "id": "HU"
+            "iso": "HU"
           }
         },
         {
@@ -1453,7 +1453,7 @@
             ]
           ],
           "properties": {
-            "id": "ID"
+            "iso": "ID"
           }
         },
         {
@@ -1472,7 +1472,7 @@
             ]
           ],
           "properties": {
-            "id": "IN"
+            "iso": "IN"
           }
         },
         {
@@ -1484,7 +1484,7 @@
             ]
           ],
           "properties": {
-            "id": "IE"
+            "iso": "IE"
           }
         },
         {
@@ -1504,7 +1504,7 @@
             ]
           ],
           "properties": {
-            "id": "IR"
+            "iso": "IR"
           }
         },
         {
@@ -1521,7 +1521,7 @@
             ]
           ],
           "properties": {
-            "id": "IQ"
+            "iso": "IQ"
           }
         },
         {
@@ -1532,7 +1532,7 @@
             ]
           ],
           "properties": {
-            "id": "IS"
+            "iso": "IS"
           }
         },
         {
@@ -1549,7 +1549,7 @@
             ]
           ],
           "properties": {
-            "id": "IL"
+            "iso": "IL"
           }
         },
         {
@@ -1576,7 +1576,7 @@
             ]
           ],
           "properties": {
-            "id": "IT"
+            "iso": "IT"
           }
         },
         {
@@ -1587,7 +1587,7 @@
             ]
           ],
           "properties": {
-            "id": "JM"
+            "iso": "JM"
           }
         },
         {
@@ -1604,7 +1604,7 @@
             ]
           ],
           "properties": {
-            "id": "JO"
+            "iso": "JO"
           }
         },
         {
@@ -1627,7 +1627,7 @@
             ]
           ],
           "properties": {
-            "id": "JP"
+            "iso": "JP"
           }
         },
         {
@@ -1643,7 +1643,7 @@
             ]
           ],
           "properties": {
-            "id": "KZ"
+            "iso": "KZ"
           }
         },
         {
@@ -1659,7 +1659,7 @@
             ]
           ],
           "properties": {
-            "id": "KE"
+            "iso": "KE"
           }
         },
         {
@@ -1673,7 +1673,7 @@
             ]
           ],
           "properties": {
-            "id": "KG"
+            "iso": "KG"
           }
         },
         {
@@ -1687,7 +1687,7 @@
             ]
           ],
           "properties": {
-            "id": "KH"
+            "iso": "KH"
           }
         },
         {
@@ -1699,7 +1699,7 @@
             ]
           ],
           "properties": {
-            "id": "KR"
+            "iso": "KR"
           }
         },
         {
@@ -1713,7 +1713,7 @@
             ]
           ],
           "properties": {
-            "id": "-99"
+            "iso": "-99"
           }
         },
         {
@@ -1726,7 +1726,7 @@
             ]
           ],
           "properties": {
-            "id": "KW"
+            "iso": "KW"
           }
         },
         {
@@ -1741,7 +1741,7 @@
             ]
           ],
           "properties": {
-            "id": "LA"
+            "iso": "LA"
           }
         },
         {
@@ -1754,7 +1754,7 @@
             ]
           ],
           "properties": {
-            "id": "LB"
+            "iso": "LB"
           }
         },
         {
@@ -1768,7 +1768,7 @@
             ]
           ],
           "properties": {
-            "id": "LR"
+            "iso": "LR"
           }
         },
         {
@@ -1785,7 +1785,7 @@
             ]
           ],
           "properties": {
-            "id": "LY"
+            "iso": "LY"
           }
         },
         {
@@ -1796,7 +1796,7 @@
             ]
           ],
           "properties": {
-            "id": "LK"
+            "iso": "LK"
           }
         },
         {
@@ -1807,7 +1807,7 @@
             ]
           ],
           "properties": {
-            "id": "LS"
+            "iso": "LS"
           }
         },
         {
@@ -1822,7 +1822,7 @@
             ]
           ],
           "properties": {
-            "id": "LT"
+            "iso": "LT"
           }
         },
         {
@@ -1835,7 +1835,7 @@
             ]
           ],
           "properties": {
-            "id": "LU"
+            "iso": "LU"
           }
         },
         {
@@ -1850,7 +1850,7 @@
             ]
           ],
           "properties": {
-            "id": "LV"
+            "iso": "LV"
           }
         },
         {
@@ -1863,7 +1863,7 @@
             ]
           ],
           "properties": {
-            "id": "MA"
+            "iso": "MA"
           }
         },
         {
@@ -1877,7 +1877,7 @@
             ]
           ],
           "properties": {
-            "id": "MD"
+            "iso": "MD"
           }
         },
         {
@@ -1888,7 +1888,7 @@
             ]
           ],
           "properties": {
-            "id": "MG"
+            "iso": "MG"
           }
         },
         {
@@ -1903,7 +1903,7 @@
             ]
           ],
           "properties": {
-            "id": "MX"
+            "iso": "MX"
           }
         },
         {
@@ -1918,7 +1918,7 @@
             ]
           ],
           "properties": {
-            "id": "MK"
+            "iso": "MK"
           }
         },
         {
@@ -1935,7 +1935,7 @@
             ]
           ],
           "properties": {
-            "id": "ML"
+            "iso": "ML"
           }
         },
         {
@@ -1951,7 +1951,7 @@
             ]
           ],
           "properties": {
-            "id": "MM"
+            "iso": "MM"
           }
         },
         {
@@ -1967,7 +1967,7 @@
             ]
           ],
           "properties": {
-            "id": "ME"
+            "iso": "ME"
           }
         },
         {
@@ -1979,7 +1979,7 @@
             ]
           ],
           "properties": {
-            "id": "MN"
+            "iso": "MN"
           }
         },
         {
@@ -1997,7 +1997,7 @@
             ]
           ],
           "properties": {
-            "id": "MZ"
+            "iso": "MZ"
           }
         },
         {
@@ -2012,7 +2012,7 @@
             ]
           ],
           "properties": {
-            "id": "MR"
+            "iso": "MR"
           }
         },
         {
@@ -2025,7 +2025,7 @@
             ]
           ],
           "properties": {
-            "id": "MW"
+            "iso": "MW"
           }
         },
         {
@@ -2047,7 +2047,7 @@
             ]
           ],
           "properties": {
-            "id": "MY"
+            "iso": "MY"
           }
         },
         {
@@ -2062,7 +2062,7 @@
             ]
           ],
           "properties": {
-            "id": "NA"
+            "iso": "NA"
           }
         },
         {
@@ -2073,7 +2073,7 @@
             ]
           ],
           "properties": {
-            "id": "NC"
+            "iso": "NC"
           }
         },
         {
@@ -2091,7 +2091,7 @@
             ]
           ],
           "properties": {
-            "id": "NE"
+            "iso": "NE"
           }
         },
         {
@@ -2105,7 +2105,7 @@
             ]
           ],
           "properties": {
-            "id": "NG"
+            "iso": "NG"
           }
         },
         {
@@ -2120,7 +2120,7 @@
             ]
           ],
           "properties": {
-            "id": "NI"
+            "iso": "NI"
           }
         },
         {
@@ -2133,7 +2133,7 @@
             ]
           ],
           "properties": {
-            "id": "NL"
+            "iso": "NL"
           }
         },
         {
@@ -2164,7 +2164,7 @@
             ]
           ],
           "properties": {
-            "id": "NO"
+            "iso": "NO"
           }
         },
         {
@@ -2176,7 +2176,7 @@
             ]
           ],
           "properties": {
-            "id": "NP"
+            "iso": "NP"
           }
         },
         {
@@ -2194,7 +2194,7 @@
             ]
           ],
           "properties": {
-            "id": "NZ"
+            "iso": "NZ"
           }
         },
         {
@@ -2216,7 +2216,7 @@
             ]
           ],
           "properties": {
-            "id": "OM"
+            "iso": "OM"
           }
         },
         {
@@ -2231,7 +2231,7 @@
             ]
           ],
           "properties": {
-            "id": "PK"
+            "iso": "PK"
           }
         },
         {
@@ -2245,7 +2245,7 @@
             ]
           ],
           "properties": {
-            "id": "PA"
+            "iso": "PA"
           }
         },
         {
@@ -2261,7 +2261,7 @@
             ]
           ],
           "properties": {
-            "id": "PE"
+            "iso": "PE"
           }
         },
         {
@@ -2304,7 +2304,7 @@
             ]
           ],
           "properties": {
-            "id": "PH"
+            "iso": "PH"
           }
         },
         {
@@ -2333,7 +2333,7 @@
             ]
           ],
           "properties": {
-            "id": "PG"
+            "iso": "PG"
           }
         },
         {
@@ -2351,7 +2351,7 @@
             ]
           ],
           "properties": {
-            "id": "PL"
+            "iso": "PL"
           }
         },
         {
@@ -2362,7 +2362,7 @@
             ]
           ],
           "properties": {
-            "id": "PR"
+            "iso": "PR"
           }
         },
         {
@@ -2377,7 +2377,7 @@
             ]
           ],
           "properties": {
-            "id": "KP"
+            "iso": "KP"
           }
         },
         {
@@ -2389,7 +2389,7 @@
             ]
           ],
           "properties": {
-            "id": "PT"
+            "iso": "PT"
           }
         },
         {
@@ -2402,7 +2402,7 @@
             ]
           ],
           "properties": {
-            "id": "PY"
+            "iso": "PY"
           }
         },
         {
@@ -2414,7 +2414,7 @@
             ]
           ],
           "properties": {
-            "id": "PS"
+            "iso": "PS"
           }
         },
         {
@@ -2426,7 +2426,7 @@
             ]
           ],
           "properties": {
-            "id": "QA"
+            "iso": "QA"
           }
         },
         {
@@ -2443,7 +2443,7 @@
             ]
           ],
           "properties": {
-            "id": "RO"
+            "iso": "RO"
           }
         },
         {
@@ -2550,7 +2550,7 @@
             ]
           ],
           "properties": {
-            "id": "RU"
+            "iso": "RU"
           }
         },
         {
@@ -2564,7 +2564,7 @@
             ]
           ],
           "properties": {
-            "id": "RW"
+            "iso": "RW"
           }
         },
         {
@@ -2578,7 +2578,7 @@
             ]
           ],
           "properties": {
-            "id": "EH"
+            "iso": "EH"
           }
         },
         {
@@ -2599,7 +2599,7 @@
             ]
           ],
           "properties": {
-            "id": "SA"
+            "iso": "SA"
           }
         },
         {
@@ -2619,7 +2619,7 @@
             ]
           ],
           "properties": {
-            "id": "SD"
+            "iso": "SD"
           }
         },
         {
@@ -2637,7 +2637,7 @@
             ]
           ],
           "properties": {
-            "id": "SS"
+            "iso": "SS"
           }
         },
         {
@@ -2654,7 +2654,7 @@
             ]
           ],
           "properties": {
-            "id": "SN"
+            "iso": "SN"
           }
         },
         {
@@ -2687,7 +2687,7 @@
             ]
           ],
           "properties": {
-            "id": "SB"
+            "iso": "SB"
           }
         },
         {
@@ -2700,7 +2700,7 @@
             ]
           ],
           "properties": {
-            "id": "SL"
+            "iso": "SL"
           }
         },
         {
@@ -2713,7 +2713,7 @@
             ]
           ],
           "properties": {
-            "id": "SV"
+            "iso": "SV"
           }
         },
         {
@@ -2727,7 +2727,7 @@
             ]
           ],
           "properties": {
-            "id": "-99"
+            "iso": "-99"
           }
         },
         {
@@ -2741,7 +2741,7 @@
             ]
           ],
           "properties": {
-            "id": "SO"
+            "iso": "SO"
           }
         },
         {
@@ -2759,7 +2759,7 @@
             ]
           ],
           "properties": {
-            "id": "RS"
+            "iso": "RS"
           }
         },
         {
@@ -2773,7 +2773,7 @@
             ]
           ],
           "properties": {
-            "id": "SR"
+            "iso": "SR"
           }
         },
         {
@@ -2788,7 +2788,7 @@
             ]
           ],
           "properties": {
-            "id": "SK"
+            "iso": "SK"
           }
         },
         {
@@ -2802,7 +2802,7 @@
             ]
           ],
           "properties": {
-            "id": "SI"
+            "iso": "SI"
           }
         },
         {
@@ -2815,7 +2815,7 @@
             ]
           ],
           "properties": {
-            "id": "SE"
+            "iso": "SE"
           }
         },
         {
@@ -2827,7 +2827,7 @@
             ]
           ],
           "properties": {
-            "id": "SZ"
+            "iso": "SZ"
           }
         },
         {
@@ -2843,7 +2843,7 @@
             ]
           ],
           "properties": {
-            "id": "SY"
+            "iso": "SY"
           }
         },
         {
@@ -2858,7 +2858,7 @@
             ]
           ],
           "properties": {
-            "id": "TD"
+            "iso": "TD"
           }
         },
         {
@@ -2872,7 +2872,7 @@
             ]
           ],
           "properties": {
-            "id": "TG"
+            "iso": "TG"
           }
         },
         {
@@ -2888,7 +2888,7 @@
             ]
           ],
           "properties": {
-            "id": "TH"
+            "iso": "TH"
           }
         },
         {
@@ -2902,7 +2902,7 @@
             ]
           ],
           "properties": {
-            "id": "TJ"
+            "iso": "TJ"
           }
         },
         {
@@ -2917,7 +2917,7 @@
             ]
           ],
           "properties": {
-            "id": "TM"
+            "iso": "TM"
           }
         },
         {
@@ -2929,7 +2929,7 @@
             ]
           ],
           "properties": {
-            "id": "TL"
+            "iso": "TL"
           }
         },
         {
@@ -2940,7 +2940,7 @@
             ]
           ],
           "properties": {
-            "id": "TT"
+            "iso": "TT"
           }
         },
         {
@@ -2953,7 +2953,7 @@
             ]
           ],
           "properties": {
-            "id": "TN"
+            "iso": "TN"
           }
         },
         {
@@ -2978,7 +2978,7 @@
             ]
           ],
           "properties": {
-            "id": "TR"
+            "iso": "TR"
           }
         },
         {
@@ -2989,7 +2989,7 @@
             ]
           ],
           "properties": {
-            "id": "TW"
+            "iso": "TW"
           }
         },
         {
@@ -3008,7 +3008,7 @@
             ]
           ],
           "properties": {
-            "id": "TZ"
+            "iso": "TZ"
           }
         },
         {
@@ -3023,7 +3023,7 @@
             ]
           ],
           "properties": {
-            "id": "UG"
+            "iso": "UG"
           }
         },
         {
@@ -3044,7 +3044,7 @@
             ]
           ],
           "properties": {
-            "id": "UA"
+            "iso": "UA"
           }
         },
         {
@@ -3057,7 +3057,7 @@
             ]
           ],
           "properties": {
-            "id": "UY"
+            "iso": "UY"
           }
         },
         {
@@ -3119,7 +3119,7 @@
             ]
           ],
           "properties": {
-            "id": "US"
+            "iso": "US"
           }
         },
         {
@@ -3134,7 +3134,7 @@
             ]
           ],
           "properties": {
-            "id": "UZ"
+            "iso": "UZ"
           }
         },
         {
@@ -3148,7 +3148,7 @@
             ]
           ],
           "properties": {
-            "id": "VE"
+            "iso": "VE"
           }
         },
         {
@@ -3162,7 +3162,7 @@
             ]
           ],
           "properties": {
-            "id": "VN"
+            "iso": "VN"
           }
         },
         {
@@ -3180,7 +3180,7 @@
             ]
           ],
           "properties": {
-            "id": "VU"
+            "iso": "VU"
           }
         },
         {
@@ -3193,7 +3193,7 @@
             ]
           ],
           "properties": {
-            "id": "YE"
+            "iso": "YE"
           }
         },
         {
@@ -3213,7 +3213,7 @@
             ]
           ],
           "properties": {
-            "id": "ZA"
+            "iso": "ZA"
           }
         },
         {
@@ -3233,7 +3233,7 @@
             ]
           ],
           "properties": {
-            "id": "ZM"
+            "iso": "ZM"
           }
         },
         {
@@ -3247,7 +3247,7 @@
             ]
           ],
           "properties": {
-            "id": "ZW"
+            "iso": "ZW"
           }
         }
       ]

@@ -21,9 +21,8 @@ shapefile
         let quantized = topojsonClient.quantize(simplified, transform);
 
         for(let geometry of quantized.objects.world.geometries) {
-            let id = geometry.properties.iso_a2;
             geometry.properties = {
-                id: id
+                iso: geometry.properties.iso_a2
             };
         }
 

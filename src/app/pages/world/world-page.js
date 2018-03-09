@@ -55,11 +55,11 @@ class WorldPage {
     }
     
     onMapCountrySelected(e) {
-        this.createContext(e.detail.geometryId);
+        this.createContext(e.detail.iso);
         this.setHeader();
         this.setFlagWidget();
         this.exerciseArea.updateContext(this.context);
-        this.browserEvent.emit("url-change", "/world/" + e.detail.geometryId.toLowerCase());
+        this.browserEvent.emit("url-change", "/world/" + e.detail.iso.toLowerCase());
     }
 
     setHeader() {

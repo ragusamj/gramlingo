@@ -6,6 +6,7 @@ import * as vec4 from "gl-matrix/src/gl-matrix/vec4";
 import Color from "../../common/2d/color/color";
 import BacktrackingColorizer from "../../common/2d/color/backtracking-colorizer";
 import Path from "../../common/2d/shape/path";
+import Polygon from "../../common/2d/shape/polygon";
 
 const pointSize = 2;
 
@@ -232,10 +233,47 @@ class WorldMap {
             noevent(e);
         });
 
+        const inside = (mouse, coordinates, feature) => {
+            for(let polygon of coordinates) {
+                if(Polygon.inside(mouse, polygon)) {
+                    this.browserEvent.emit("canvas-geometry-clicked", { iso: feature.properties.iso });
+                    return true;
+                }
+            }
+            return false;
+        };
+
         canvas.addEventListener("click", function(e) {
             let mouse = vec4.fromValues(0, 0, 0, 1);
             mousePoint(e, mouse);
             vec4.transformMat4(mouse, mouse, mat4.invert([], viewMatrix));
+
+            for(let feature of world.features) {
+                if(feature.geometry.type === "Polygon") {                    
+                    if(inside(mouse, feature.geometry.coordinates, feature)) {
+                        return;
+                    }
+                }
+                if(feature.geometry.type === "MultiPolygon") {
+                    for(let coordinates of feature.geometry.coordinates) {
+                        if(inside(mouse, coordinates, feature)) {
+                            return;
+                        }
+                    }
+                }
+            }
+
+            /*
+            for(let geometry of this.canvas.geometries) {
+                for(let polygon of geometry.polygons) {
+                    if(Shape.inside(point, polygon) && geometry.id) {
+                        
+                        this.canvas.setMarker(geometry.centroid);
+                        this.canvas.draw();
+                    }
+                }
+            }
+            */
             //console.log(mouse);
         });
 

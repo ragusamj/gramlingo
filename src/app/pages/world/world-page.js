@@ -1,5 +1,5 @@
-import CountryInflater from "./country-inflater";
-import TopologyInflater from "../common/2d/topology-inflater";
+import CountryInflater from "./world-map/country-inflater";
+import WorldInflater from "./world-map/world-inflater";
 
 const defaultSelectedCountry = "SE";
 
@@ -14,9 +14,9 @@ class WorldPage {
     }
     
     attach(pageTemplate, onPageChanged, parameters) {
-        this.cachedInflater.get("/data/world-map.json", TopologyInflater, { key: "world" }, "world-loader-popup-loading-map", (data) => {
+        this.cachedInflater.get("/data/world-map.json", WorldInflater, "world-loader-popup-loading-map", (data) => {
             this.world = data;
-            this.cachedInflater.get("/data/countries.json", CountryInflater, {}, "world-loader-popup-loading-countries", (data) => {
+            this.cachedInflater.get("/data/countries.json", CountryInflater, "world-loader-popup-loading-countries", (data) => {
                 this.countries = data;
                 this.loadPage(pageTemplate, onPageChanged, parameters);
             });

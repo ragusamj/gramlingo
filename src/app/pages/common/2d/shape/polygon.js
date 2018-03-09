@@ -1,5 +1,9 @@
-class Shape {
-    
+const isNumeric = (n) => {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+};
+
+class Polygon {
+
     static inside(point, polygon) {
         // Ray casting, http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
         let inside = false;
@@ -15,15 +19,17 @@ class Shape {
         return inside;
     }
 
-    static max(polygons) {
-        let max = polygons[0];
-        for (let i = 0; i < polygons.length; i++) {
-            if (polygons[i].length > max.length) {
-                max = polygons[i];
-            }
-        }
-        return max;
+    static isGeoJSON(object) {
+        return Array.isArray(object) && this.isPlain(object[0]);
+    }
+
+    static isPlain(object) {
+        return Array.isArray(object) &&
+               Array.isArray(object[0]) &&
+               object[0].length === 2 &&
+               isNumeric(object[0][0]) &&
+               isNumeric(object[0][1]);
     }
 }
-    
-export default Shape;
+
+export default Polygon;

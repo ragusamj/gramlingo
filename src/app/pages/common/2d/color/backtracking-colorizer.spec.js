@@ -1,6 +1,6 @@
 import test from "tape";
 import BacktrackingColorizer from "./backtracking-colorizer";
-import Path from "./path";
+import Path from "../shape/path";
 
 test("BacktrackingColorizer should default to 10 without options.numberOfColors", (t) => {
     const neighbors = [[1], [0,2], [1], [4], [3]];

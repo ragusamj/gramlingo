@@ -23,20 +23,8 @@ test("CachedInflater should inflate the data", (t) => {
     t.plan(1);
     let cachedInflater = new CachedInflater(http, popup);
 
-    cachedInflater.get("/data/file.json", inflater, {}, "key", (data) => {
+    cachedInflater.get("/data/file.json", inflater, "key", (data) => {
         t.equal(data, mockInflatedData);
-    });
-
-    t.end();
-});
-
-test("CachedInflater should pass options to the inflater", (t) => {
-    t.plan(1);
-    let cachedInflater = new CachedInflater(http, popup);
-    let options = { option: "foo" };
-
-    cachedInflater.get("/data/file.json", inflater, options, "key", () => {
-        t.true(inflater.inflate.calledWith(mockJSON, options));
     });
 
     t.end();
@@ -46,12 +34,12 @@ test("CachedInflater should cache the inflated data", (t) => {
     t.plan(3);
     let cachedInflater = new CachedInflater(http, popup);
 
-    cachedInflater.get("/data/file.json", inflater, {}, "key", (data) => {
+    cachedInflater.get("/data/file.json", inflater, "key", (data) => {
         t.equal(data, mockInflatedData);
     });
 
     http.getJSON.resetHistory();
-    cachedInflater.get("/data/file.json", inflater, {}, "key", (data) => {
+    cachedInflater.get("/data/file.json", inflater, "key", (data) => {
         t.equal(data, mockInflatedData);
         t.false(http.getJSON.called);
     });
@@ -64,7 +52,7 @@ test("CachedInflater should show the loader popup", (t) => {
     let cachedInflater = new CachedInflater(http, popup);
     popup.show.resetHistory();
 
-    cachedInflater.get("/data/file.json", inflater, {}, "key", (/*data*/) => {
+    cachedInflater.get("/data/file.json", inflater, "key", (/*data*/) => {
         t.true(popup.show.calledWith("key"));
     });
 
@@ -76,7 +64,7 @@ test("CachedInflater should hide the loader popup", (t) => {
     let cachedInflater = new CachedInflater(http, popup);
     popup.hide.resetHistory();
 
-    cachedInflater.get("/data/file.json", inflater, {}, "key", (/*data*/) => {
+    cachedInflater.get("/data/file.json", inflater, "key", (/*data*/) => {
         t.true(popup.hide.called);
     });
 
@@ -88,7 +76,7 @@ test("CachedInflater should start progress at 0%", (t) => {
     let cachedInflater = new CachedInflater(http, popup);
     popup.progress.resetHistory();
 
-    cachedInflater.get("/data/file.json", inflater, {}, "key", (/*data*/) => {
+    cachedInflater.get("/data/file.json", inflater, "key", (/*data*/) => {
         t.true(popup.progress.calledWith(0));
     });
 
@@ -100,7 +88,7 @@ test("CachedInflater should show incremental progress", (t) => {
     let cachedInflater = new CachedInflater(http, popup);
     popup.progress.resetHistory();
     
-    cachedInflater.get("/data/file.json", inflater, {}, "key", (/*data*/) => {
+    cachedInflater.get("/data/file.json", inflater, "key", (/*data*/) => {
         http.getJSON.callArgWith(2, 123, 456);
         t.true(popup.progress.calledWith(0));
     });

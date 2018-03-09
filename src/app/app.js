@@ -18,11 +18,6 @@ import Menu from "./menu";
 
 import CachedInflater from "./pages/common/cached-inflater";
 
-import Canvas from "./pages/common/2d/canvas/canvas";
-import CanvasListener from "./pages/common/2d/canvas/canvas-listener";
-import Selector from "./pages/common/2d/canvas/selector";
-import WebglContext from "./pages/common/2d/canvas/webgl-context";
-
 import Checker from "./pages/common/exercise-area/checker";
 import ExerciseAreaListener from "./pages/common/exercise-area/exercise-area-listener";
 import ExerciseAreaPopup from "./pages/common/exercise-area/exercise-area-popup";
@@ -62,11 +57,7 @@ const exerciseAreaListener = new ExerciseAreaListener(browserEvent, exerciseArea
 const searchEngine = new SearchEngine();
 const numeralsSearchEngine = new NumeralsSearchEngine();
 
-const selector = new Selector(browserEvent);
-const webglContext = new WebglContext();
-const canvas = new Canvas("world-map", selector, webglContext);
-const canvasListener = new CanvasListener(browserEvent, canvas);
-const worldMap = new WorldMap(browserEvent, canvas, canvasListener);
+const worldMap = new WorldMap(browserEvent);
 
 class App {
 

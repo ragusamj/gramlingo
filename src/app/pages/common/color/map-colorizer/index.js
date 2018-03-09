@@ -1,9 +1,0 @@
-export { default as BacktrackingColorizer } from "./backtracking-colorizer";
-export { default as BoundingBox } from "./bounding-box";
-export { default as BoundingBoxes } from "./bounding-boxes";
-export { default as Features } from "./features";
-export { default as Neighbors } from "./neighbors";
-export { default as Path } from "./path";
-export { default as Polygon } from "./polygon";
-export { default as Ring } from "./ring";
-export { default as Rings } from "./rings";

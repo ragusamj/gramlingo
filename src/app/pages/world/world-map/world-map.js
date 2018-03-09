@@ -3,9 +3,9 @@ import * as mat4 from "gl-matrix/src/gl-matrix/mat4";
 import * as vec2 from "gl-matrix/src/gl-matrix/vec2";
 import * as vec3 from "gl-matrix/src/gl-matrix/vec3";
 import * as vec4 from "gl-matrix/src/gl-matrix/vec4";
-import Color from "../../common/color/color";
-import BacktrackingColorizer from "../../common/color/map-colorizer/backtracking-colorizer";
-import Path from "../../common/color/map-colorizer/path";
+import Color from "../../common/2d/color/color";
+import BacktrackingColorizer from "../../common/2d/color/backtracking-colorizer";
+import Path from "../../common/2d/shape/path";
 
 const pointSize = 2;
 
@@ -29,10 +29,8 @@ void main() {
 
 class WorldMap {
 
-    constructor(browserEvent, canvas, canvasListener) {
+    constructor(browserEvent) {
         this.browserEvent = browserEvent;
-        this.canvas = canvas;
-        this.canvasListener = canvasListener;
     }
 
     //initialize(world, countries, selected) {
@@ -374,11 +372,11 @@ class WorldMap {
     }
 
     attach() {
-        this.canvasListener.attach();
+        //
     }
 
     detach() {
-        this.canvasListener.detach();
+        //
     }
 }
     

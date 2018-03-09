@@ -1,5 +1,5 @@
 import test from "tape";
-import TopologyInflater from "./topology-inflater";
+import WorldInflater from "./world-inflater";
 
 const topojson = {
     "bbox": [1,2,3,4],
@@ -62,9 +62,9 @@ const topojson = {
     ]
 };
 
-test("Topology should inflate a topology into an array of geometries", (t) => {
+test("WorldInflater should inflate a topology into an array of geometries", (t) => {
 
-    t.deepEqual(TopologyInflater.inflate(topojson, { key: "world" }), {
+    t.deepEqual(WorldInflater.inflate(topojson), {
         bbox: [1,2,3,4],
         neighbors: [[0, 2], [2], [0, 1]],
         features: [

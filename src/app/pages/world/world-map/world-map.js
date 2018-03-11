@@ -70,6 +70,7 @@ class WorldMap {
         let viewScale = vec3.fromValues(1, 1, 1);
 
         let gesture;
+        let marker = vec4.fromValues(512, 72, 0, 1);
 
         const minScale = 0.5;
         const maxScale = 100;
@@ -97,7 +98,7 @@ class WorldMap {
 
         gl.useProgram(program);
         gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(buffer.data), gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(buffer.data.concat([-20,-80, 20,-80, 0,0])), gl.STATIC_DRAW);
         gl.enableVertexAttribArray(positionLocation);
         gl.vertexAttribPointer(positionLocation, pointSize, gl.FLOAT, false, 0, 0);
 
@@ -248,6 +249,9 @@ class WorldMap {
             mousePoint(e, mouse);
             vec4.transformMat4(mouse, mouse, mat4.invert([], viewMatrix));
 
+            marker = mouse;
+            render();
+
             for(let feature of world.features) {
                 if(feature.geometry.type === "Polygon") {                    
                     if(inside(mouse, feature.geometry.coordinates, feature)) {
@@ -262,19 +266,6 @@ class WorldMap {
                     }
                 }
             }
-
-            /*
-            for(let geometry of this.canvas.geometries) {
-                for(let polygon of geometry.polygons) {
-                    if(Shape.inside(point, polygon) && geometry.id) {
-                        
-                        this.canvas.setMarker(geometry.centroid);
-                        this.canvas.draw();
-                    }
-                }
-            }
-            */
-            //console.log(mouse);
         });
 
         canvas.addEventListener("wheel", function(e) {
@@ -340,8 +331,8 @@ class WorldMap {
             calculateMatrix();
             project();
 
-            gl.uniformMatrix4fv(matrixLocation, false, projectionMatrix);
             gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.uniformMatrix4fv(matrixLocation, false, projectionMatrix);
 
             let offset = 0;
             for(let i = 0; i < buffer.offsets.length; i++) {
@@ -349,6 +340,18 @@ class WorldMap {
                 gl.drawArrays(gl.TRIANGLES, offset, buffer.offsets[i] / pointSize);
                 offset += buffer.offsets[i] / pointSize;
             }
+
+            let x = vec4.create(); 
+            vec4.transformMat4(x, marker, viewMatrix);
+
+            let markerMatrix = mat4.create();
+            mat4.translate(markerMatrix, markerMatrix, x);
+            mat4.ortho(projectionMatrix, 0, gl.canvas.width, gl.canvas.height, 0, gl.canvas.height * -2, gl.canvas.height * 2);
+            mat4.multiply(projectionMatrix, projectionMatrix, markerMatrix);
+
+            gl.uniformMatrix4fv(matrixLocation, false, projectionMatrix);
+            gl.uniform4fv(colorLocation, Color.vec4(Color.scheme().orange));
+            gl.drawArrays(gl.TRIANGLES, offset, 6 / pointSize);
         }
     }
 
